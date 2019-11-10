@@ -6,7 +6,6 @@ package persistence;
 import persistence.interfaces.IProductMapper;
 import logic.Product;
 import exception.CommandException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +22,8 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public void create(Product product) throws CommandException {
+        connection = PersistenceFacade.getConnection();
         try {
-            this.connection = DataSourceFacade.getConnection();
             String selectSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
                     + "(?, ?, ?, ?)";
@@ -43,9 +42,9 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public Product getProduct(String name) throws CommandException {
+        connection = PersistenceFacade.getConnection();
         Product product = null;
         try {
-            this.connection = PersistenceFacade.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + name + '%');
@@ -68,10 +67,10 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public List<Product> getProductsByCategory(List<String> names) throws CommandException {
+        connection = PersistenceFacade.getConnection();
         List<Product> products = new ArrayList();
 
         try {
-            this.connection = DataSourceFacade.getConnection();
             for (String name : names) {
                 String selectSql = "SELECT * FROM products WHERE name LIKE ?";
                 PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -95,10 +94,10 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public List<Product> getAllProducts() throws CommandException {
+        connection = PersistenceFacade.getConnection();
         List<Product> products = new ArrayList();
 
         try {
-            this.connection = PersistenceFacade.getConnection();
             String selectSql = "SELECT * FROM products";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 
