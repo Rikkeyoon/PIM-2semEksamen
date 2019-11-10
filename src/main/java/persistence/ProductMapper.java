@@ -24,7 +24,7 @@ public class ProductMapper implements IProductMapper {
     public Product getProduct(String name) throws CommandException {
         Product product = null;
         try {
-            this.connection = DataSourceFacade.getConnection();
+            this.connection = PersistenceFacade.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(2, '%' + name + '%');
@@ -55,7 +55,7 @@ public class ProductMapper implements IProductMapper {
         List<Product> products = new ArrayList();
 
         try {
-            this.connection = DataSourceFacade.getConnection();
+            this.connection = PersistenceFacade.getConnection();
             String selectSql = "SELECT * FROM products";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 

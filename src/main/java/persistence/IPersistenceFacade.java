@@ -11,7 +11,7 @@ import java.sql.Connection;
  *
  * @author allan
  */
-public interface IDataSourceFacade {
+public interface IPersistenceFacade {
     
     public void getProducts();
     

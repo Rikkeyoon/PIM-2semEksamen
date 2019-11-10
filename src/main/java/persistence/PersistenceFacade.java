@@ -7,17 +7,22 @@ package persistence;
 
 import exception.CommandException;
 import java.sql.Connection;
+import logic.Product;
 
 /**
  *
  * @author allan
  */
-public class DataSourceFacade implements IDataSourceFacade{
+public class PersistenceFacade implements IPersistenceFacade{
 
     private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
+
+    public static void createProduct(Product p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
-    public DataSourceFacade(boolean testMode)
+    public PersistenceFacade(boolean testMode)
     {
         this.testMode = testMode;
     }
