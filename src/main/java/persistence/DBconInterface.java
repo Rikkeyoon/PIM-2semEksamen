@@ -5,6 +5,7 @@
  */
 package persistence;
 
+import exception.CommandException;
 import java.sql.Connection;
 
 /**
@@ -13,5 +14,5 @@ import java.sql.Connection;
  */
 public interface DBconInterface {
     
-    public Connection getConnection(Boolean testmode);
+    public Connection getConnection(Boolean testmode) throws CommandException;
 }

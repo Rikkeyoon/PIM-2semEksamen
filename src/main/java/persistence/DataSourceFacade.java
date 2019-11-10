@@ -5,6 +5,7 @@
  */
 package persistence;
 
+import exception.CommandException;
 import java.sql.Connection;
 
 /**
@@ -21,7 +22,7 @@ public class DataSourceFacade implements DataSourceFacadeInterface{
         this.testMode = testMode;
     }
     
-    public static Connection getConnection(){
+    public static Connection getConnection() throws CommandException{
         return DBcon.getConnection(testMode);
     }
     

@@ -5,6 +5,7 @@
  */
 package persistence;
 
+import exception.CommandException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -20,7 +21,7 @@ public class DBcon implements DBconInterface{
     
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-    public Connection getConnection(Boolean testmode) {
+    public Connection getConnection(Boolean testmode) throws CommandException{
         Connection conn = null;
         try {
             InputStream prob = null;
@@ -44,7 +45,7 @@ public class DBcon implements DBconInterface{
                 conn = DriverManager.getConnection(url, user, password);
             }
         } catch (ClassNotFoundException | SQLException | IOException ex) {
-            System.out.println("DB CONNECTOR:" + ex.getMessage());
+            throw new CommandException("Connection to database failed");
 
         }
         return conn;
