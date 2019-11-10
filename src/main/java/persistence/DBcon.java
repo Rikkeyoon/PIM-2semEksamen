@@ -17,7 +17,7 @@ import java.util.Properties;
  *
  * @author allan
  */
-public class DBcon implements DBconInterface{
+public class DBcon{
     
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
