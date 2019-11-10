@@ -65,8 +65,9 @@ nbdist/
 .nb-gradle/
 nb-configuration.xml
 
-#Database proporties
-db.proporties
+#Database properties
+db.properties
+testdb.properties
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -95,5 +96,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/macos,windows,netbeans
-
-
