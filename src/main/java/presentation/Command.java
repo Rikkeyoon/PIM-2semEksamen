@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation;
 
 import exception.CommandException;
@@ -11,6 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * The purpose of Command is to carry out an action 
+ * It keeps a list of html actions mapped to related commands (Polymorfi)
+ *
+ * Pattern: Command
  *
  * @author carol
  */
