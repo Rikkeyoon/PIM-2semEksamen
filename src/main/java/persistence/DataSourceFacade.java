@@ -14,7 +14,7 @@ import java.sql.Connection;
  */
 public class DataSourceFacade implements DataSourceFacadeInterface{
 
-    private static DBconInterface DBcon = new DBcon();
+    private static DBcon DBcon = new DBcon();
     private static Boolean testMode;
     
     public DataSourceFacade(boolean testMode)
