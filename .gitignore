@@ -66,8 +66,8 @@ nbdist/
 nb-configuration.xml
 
 #Database proporties
-**/db.proporties
-**/testdb.proporties
+src/main/resources/db.proporties
+src/main/resources/testdb.proporties
 
 ### Windows ###
 # Windows thumbnail cache files
