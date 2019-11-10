@@ -20,7 +20,18 @@ import java.util.Properties;
 public class DBcon{
     
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-
+    private static DBcon instance;
+    
+    private DBcon (){
+        
+    }
+    public static DBcon getInstance(){
+        if(instance == null){
+            instance = new DBcon();
+        }
+        return instance;
+    }
+    
     public Connection getConnection(Boolean testmode) throws CommandException{
         Connection conn = null;
         try {

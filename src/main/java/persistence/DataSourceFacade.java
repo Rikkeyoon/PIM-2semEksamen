@@ -12,9 +12,9 @@ import java.sql.Connection;
  *
  * @author allan
  */
-public class DataSourceFacade implements DataSourceFacadeInterface{
+public class DataSourceFacade implements IDataSourceFacade{
 
-    private static DBcon DBcon = new DBcon();
+    private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
     
     public DataSourceFacade(boolean testMode)
@@ -23,7 +23,7 @@ public class DataSourceFacade implements DataSourceFacadeInterface{
     }
     
     public static Connection getConnection() throws CommandException{
-        return DBcon.getConnection(testMode);
+        return dbcon.getConnection(testMode);
     }
     
     
