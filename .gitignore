@@ -63,6 +63,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+nb-configuration.xml
 
 #Database proporties
 db.proporties
