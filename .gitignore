@@ -67,6 +67,7 @@ nb-configuration.xml
 
 #Database proporties
 db.proporties
+testdb.proporties
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -97,4 +98,8 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/macos,windows,netbeans
 
 
+<<<<<<< HEAD
+=======
+/pimsystem/nbproject/
+>>>>>>> 63dabbc0a17657bcdc970111fe8d61727ccdaf2c
 /target/
