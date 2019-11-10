@@ -38,9 +38,6 @@ public class ProductMapper implements IProductMapper {
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
             throw new CommandException("Something went wrong. Try again!");
-            /*} catch (ClassNotFoundException | IOException ex) {
-            throw new CommandException("Could not connect to database");
-             */
         }
     }
 
@@ -65,9 +62,6 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
-            /*} catch (ClassNotFoundException | IOException ex) {
-            throw new CommandException("Could not connect to database");
-             */
         }
         return product;
     }
@@ -95,9 +89,6 @@ public class ProductMapper implements IProductMapper {
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");
-            /*} catch (ClassNotFoundException | IOException ex) {
-            throw new CommandException("Could not connect to database");
-             */
         }
         return products;
     }
@@ -124,9 +115,6 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any products");
-            /*} catch (ClassNotFoundException | IOException ex) {
-            throw new CommandException("Could not connect to database");
-             */
         }
         return products;
     }
