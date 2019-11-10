@@ -19,7 +19,8 @@ public class CreateProductCommand extends Command {
         int id = Integer.parseInt(request.getParameter("product_id"));
         String name = request.getParameter("product_name");
         String description = request.getParameter("product_desc");
-        Product p = LogicFacade.createProduct(id, name, description);
+        String category = request.getParameter("product_category");
+        Product p = LogicFacade.createProduct(id, name, description, category);
         HttpSession session = request.getSession();
         session.setAttribute("product", p);
         return "";
