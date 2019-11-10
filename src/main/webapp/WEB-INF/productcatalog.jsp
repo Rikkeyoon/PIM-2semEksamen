@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index.jsp
-    Created on : 10. nov. 2019, 11.57.38
+    Document   : productcatalog
+    Created on : 10. nov. 2019, 13.10.28
     Author     : Rikke
 --%>
 
@@ -9,14 +9,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Homepage</title>
+        <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     
     <body>
-        <h1>Pim system</h1>
-        <input type="submit" value="Product Catalog" />
-        
+        <h1>Product Catalog</h1>
+        <input type="submit" value="Create product" />
     </body>
 </html>
