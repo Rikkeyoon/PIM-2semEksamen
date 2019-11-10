@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation;
 
 import exception.CommandException;
@@ -14,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * The purpose of FrontController is to handle all request for the web site 
+ * It consists of two parts: Web Handler and Command hierarchy
+ * As a Web Handler it receives post or get requests, delegates to a command 
+ * to carry out the action, and forwards the result to a view 
  *
  * @author carol
  */
@@ -31,14 +30,13 @@ public class FrontController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try {
             Command cmd = Command.from(request);
             String view = cmd.execute(request, response);
             request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
         } catch (CommandException ex) {
             request.setAttribute("error", ex.getMessage());
-            //TODO: Forward to view or perhaps error page instead of index
+            //TODO: Forward to a view or perhaps an error page instead of index
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
