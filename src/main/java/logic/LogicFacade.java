@@ -6,8 +6,9 @@ package logic;
  */
 public class LogicFacade {
 
-    public static Product createProduct(int id, String name, String description) {
-        return Controller.createProduct(id, name, description);
+    public static Product createProduct(int id, String name, String description, 
+            String category) {
+        return Controller.createProduct(id, name, description, category);
     }
     
 }
