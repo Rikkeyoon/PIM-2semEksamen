@@ -65,9 +65,9 @@ nbdist/
 .nb-gradle/
 nb-configuration.xml
 
-#Database proporties
-src/main/resources/db.proporties
-src/main/resources/testdb.proporties
+#Database properties
+db.properties
+testdb.properties
 
 ### Windows ###
 # Windows thumbnail cache files
