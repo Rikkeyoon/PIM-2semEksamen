@@ -118,4 +118,19 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
+    public void update(Product product, String name, String description, String categoryname) throws CommandException {
+        connection = PersistenceFacade.getConnection();
+        try {
+            String updateSql = "UPDATE products SET name = ?, description = ?, categroy_name = ? "
+                    + "WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, description);
+            pstmt.setString(3, categoryname);
+            pstmt.setInt(4, product.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find a product with the given ID");
+        }
+    }
 }
