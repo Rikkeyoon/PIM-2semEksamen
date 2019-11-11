@@ -120,11 +120,7 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
-<<<<<<< HEAD
-    public void update(Product product, String name, String description, String categoryname) throws CommandException {
-=======
     public void update(Product product) throws CommandException {
->>>>>>> feature
         connection = DataSourceController.getConnection();
         try {
             String updateSql = "UPDATE products SET name = ?, description = ?, "
