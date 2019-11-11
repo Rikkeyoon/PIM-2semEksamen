@@ -6,6 +6,7 @@
 package persistence;
 
 import exception.CommandException;
+import java.util.List;
 import logic.Product;
 
 /**
@@ -14,9 +15,9 @@ import logic.Product;
  */
 public interface IDataSourceController {
     
-    public void getProducts() throws CommandException;
+    public List<Product> getProducts() throws CommandException;
     
-    public void getProduct() throws CommandException;                
+    public Product getProduct(String name) throws CommandException;                
 
     public void createProduct(Product p) throws CommandException;
 

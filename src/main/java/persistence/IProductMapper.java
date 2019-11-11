@@ -1,4 +1,4 @@
-package persistence.interfaces;
+package persistence;
 
 import exception.CommandException;
 import java.util.List;
