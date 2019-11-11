@@ -15,13 +15,8 @@
     </head>
     
     <body>
-<<<<<<< HEAD
-        <h1>Product Catalog</h1>
-        <input type="submit" value="Create"/>
-=======
         <h1>Pim system </h1>
         <input type="submit" value="Product Catalog" />
->>>>>>> 0327519a959aaf2b771774ba38a3013fcf0bc940
         
     </body>
 </html>
