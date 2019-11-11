@@ -7,7 +7,7 @@ package PersistenceTest;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import persistence.DataSourceFacade;
+import persistence.PersistenceFacade;
 
 /**
  *
@@ -20,8 +20,8 @@ public class DataSourceFacadeTest {
 
     @Test
     public void getConnectionTest(){
-        DataSourceFacade dsfacade = new DataSourceFacade(true);
-        assertNotNull(DataSourceFacade.getConnection());
+        PersistenceFacade dsfacade = new PersistenceFacade(true);
+        assertNotNull(PersistenceFacade.getConnection());
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

@@ -12,25 +12,32 @@ import java.sql.Connection;
  *
  * @author allan
  */
-public class DataSourceFacade implements IDataSourceFacade{
-
+public class DataSourceController implements IDataSourceController{
+ 
     private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
     
-    public DataSourceFacade(boolean testMode)
+    public DataSourceController (boolean testMode)
     {
         this.testMode = testMode;
     }
-    
+        
     public static Connection getConnection() throws CommandException{
         return dbcon.getConnection(testMode);
     }
     
-    
     @Override
-    public void getProducts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getProducts(){
+        
     }
     
+    @Override
+    public void getProduct(){
+        
+    }
     
+    @Override
+    public void createProduct(){
+        
+    }
 }

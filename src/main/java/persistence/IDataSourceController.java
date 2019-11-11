@@ -5,15 +5,16 @@
  */
 package persistence;
 
-import java.sql.Connection;
-
 /**
  *
  * @author allan
  */
-public interface IDataSourceFacade {
-    
+public interface IDataSourceController {
+
     public void getProducts();
     
-    
-}
+    public void getProduct();                
+
+    public void createProduct();
+
+    }
