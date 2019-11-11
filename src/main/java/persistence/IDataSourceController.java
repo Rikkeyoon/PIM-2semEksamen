@@ -5,16 +5,19 @@
  */
 package persistence;
 
+import exception.CommandException;
+import logic.Product;
+
 /**
  *
  * @author allan
  */
 public interface IDataSourceController {
-
+    
     public void getProducts();
     
     public void getProduct();                
 
-    public void createProduct();
+    public void createProduct(Product p) throws CommandException;
 
     }

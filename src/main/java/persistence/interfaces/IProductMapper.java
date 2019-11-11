@@ -9,9 +9,11 @@ import logic.Product;
  */
 public interface IProductMapper {
     
+    public void create(Product product) throws CommandException;
+    
     public Product getProduct(String name) throws CommandException;
     
-    public List<Product> getProductsByCategory(String name) throws CommandException;
+    public List<Product> getProductsByCategory(List<String> names) throws CommandException;
     
     public List<Product> getAllProducts() throws CommandException;
     

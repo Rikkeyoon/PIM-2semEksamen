@@ -7,37 +7,40 @@ package persistence;
 
 import exception.CommandException;
 import java.sql.Connection;
+import logic.Product;
 
 /**
  *
  * @author allan
  */
-public class DataSourceController implements IDataSourceController{
- 
+public class DataSourceController implements IDataSourceController {
+
     private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
-    
-    public DataSourceController (boolean testMode)
-    {
+    private ProductMapper pm = new ProductMapper();
+
+    public DataSourceController(boolean testMode) {
         this.testMode = testMode;
     }
-        
-    public static Connection getConnection() throws CommandException{
+
+    public static Connection getConnection() throws CommandException {
         return dbcon.getConnection(testMode);
     }
-    
+
     @Override
-    public void getProducts(){
-        
+    public void createProduct(Product p) throws CommandException{
+        pm.create(p);
     }
-    
+
     @Override
-    public void getProduct(){
-        
+    public void getProduct() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
-    
+
     @Override
-    public void createProduct(){
-        
+    public void getProducts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 }

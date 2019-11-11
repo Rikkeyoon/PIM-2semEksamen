@@ -7,11 +7,11 @@ package persistence;
 
 import exception.CommandException;
 import java.sql.Connection;
-
-/**
+import logic.Product;/**
  *
  * @author allan
  */
+
 public class PersistenceFacade {
 
     private static PersistenceFacade instance = new PersistenceFacade();
@@ -33,8 +33,8 @@ public class PersistenceFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void createProduct() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void createProduct(Product p) throws CommandException{
+        DScontroller.createProduct(p);
     }
 
 }
