@@ -44,9 +44,15 @@ public class DataSourceController implements IDataSourceController {
         return pm.getAllProducts();
 
     }
-
+    
     @Override
     public void updateProduct(Product p) throws CommandException {
 //        pm.update(p);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String category) throws CommandException {
+       //return pm.getProductsByCategory(category);
+       throw new UnsupportedOperationException();
     }
 }

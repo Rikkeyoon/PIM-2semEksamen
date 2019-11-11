@@ -49,15 +49,18 @@ public class ProductMapper implements IProductMapper {
             pstmt.setString(1, '%' + name + '%');
 
             ResultSet result = pstmt.executeQuery();
-
+            
             while (result.next()) {
                 int id = result.getInt(1);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
-
+                
                 product = new Product(id, name, description, categoryname);
+                
             }
-
+            
+            if(product == null) throw new SQLException();
+        
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
         }

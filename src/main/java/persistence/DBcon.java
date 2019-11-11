@@ -48,7 +48,6 @@ public class DBcon{
             String url = pros.getProperty("url");
             String user = pros.getProperty("user");
             String password = pros.getProperty("password");
-
             // create a connection to the database
             if (conn == null) {
 
@@ -56,7 +55,7 @@ public class DBcon{
                 conn = DriverManager.getConnection(url, user, password);
             }
         } catch (ClassNotFoundException | SQLException | IOException ex) {
-            throw new CommandException("Connection to database failed");
+            throw new CommandException("Connection to database failed" + ex.getMessage());
 
         }
         return conn;

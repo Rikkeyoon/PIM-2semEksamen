@@ -23,4 +23,5 @@ public interface IDataSourceController {
 
     public void updateProduct(Product p) throws CommandException;
 
+    public List<Product> getProductsByCategory(String category) throws CommandException;
     }
