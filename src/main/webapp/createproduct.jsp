@@ -16,7 +16,7 @@
     <body>
         <div>
             <form name="create" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="create">
+                <input type="hidden" name="cmd" value="create_product">
 
                 <h1>Create product</h1>
                 <br><br>
