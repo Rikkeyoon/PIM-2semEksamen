@@ -36,7 +36,7 @@ public class FrontController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
         } catch (CommandException ex) {
             request.setAttribute("error", ex.getMessage());
-            //TODO: Forward to a view or  perhaps an error page instead of index
+            //TODO: Forward to a view or   perhaps an error page instead of index
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
