@@ -22,8 +22,8 @@ public class PersistenceFacade {
         DSController.createProduct(p);
     }
 
-    public static void updateProduct() throws CommandException {
-        DSController.updateProduct();
+    public static void updateProduct(Product p) throws CommandException {
+        DSController.updateProduct(p);
     }
 
 }
