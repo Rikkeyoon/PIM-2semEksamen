@@ -45,7 +45,7 @@ public class DataSourceController implements IDataSourceController {
     }
 
     @Override
-    public void updateProduct() throws CommandException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateProduct(Product p) throws CommandException {
+        pm.update(p);
     }
 }
