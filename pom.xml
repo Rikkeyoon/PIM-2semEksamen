@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>2sem2019</groupId>
-    <artifactId>PIM-System1</artifactId>
+    <artifactId>PIM-System</artifactId>
     <version>1.0-test</version>
     <packaging>war</packaging>
 
-    <name>PIM-System1</name>
+    <name>PIM-System</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
