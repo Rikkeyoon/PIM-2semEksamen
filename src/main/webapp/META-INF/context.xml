@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<<<<<<< HEAD
 <Context path=""/>
-=======
-<Context path="/PIM-System"/>
->>>>>>> feature
-=======
-<Context path="/pimsystem"/>
->>>>>>> DBcon
