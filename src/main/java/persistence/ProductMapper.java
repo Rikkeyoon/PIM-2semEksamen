@@ -35,7 +35,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Something went wrong. Try again!");
+            throw new CommandException("Could not create product. Try again!" + e);
         }
     }
 
@@ -68,11 +68,10 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(List<String> names) 
+    public List<Product> getProductsByCategory(List<String> names)
             throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
-
         try {
             for (String name : names) {
                 String selectSql = "SELECT * FROM products WHERE name LIKE ?";
@@ -99,9 +98,7 @@ public class ProductMapper implements IProductMapper {
     public List<Product> getAllProducts() throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
-
         try {
-
             String selectSql = "SELECT * FROM products";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 
@@ -122,6 +119,7 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
+    @Override
     public void update(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
@@ -137,4 +135,16 @@ public class ProductMapper implements IProductMapper {
             throw new CommandException("Could not find a product with the given ID");
         }
     }
-}
+
+    @Override
+    public void delete(Product product) throws CommandException {
+        connection = DataSourceController.getConnection();
+        try {
+            String seletSql = "DELETE FROM products WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(seletSql);
+            pstmt.executeUpdate();
+            }catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not finde the product to be deleted");
+        }
+        }
+    }

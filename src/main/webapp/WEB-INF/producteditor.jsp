@@ -1,7 +1,7 @@
 <%-- 
-    Document   : createproduct.jsp
-    Created on : 11. nov. 2019, 11.34.41
-    Author     : Rikke
+    Document   : producteditor
+    Created on : 11 Nov 2019, 11:23:01
+    Author     : zarpy
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,32 +9,30 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Product Editor</title>
     </head>
-
+    
     <body>
         <div>
-            <form name="create" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="create_product">
+            <form name="update" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="update">
 
-                <h1>Create product</h1>
+                <h1>Edit product</h1>
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
                 <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
                 <div id="divValidateId"></div>
                 <br>
-                <label for="product_name"><b>Product Name</b></label>
+                <labe for="product_name"><b>Product Name</b></labe>
                 <input type="text" name="product_name" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
-                <textarea name="product_desc" rows="4" cols="20" required="required">
-                </textarea>
+                <input type="text" name="product_desc" required>
                 <br><br>
-                <label for="product_category"><b>Category</b></label>
-                <input type="text" name="product_category" id="category" 
-                       onkeyup="validateCategory();" required>
+                <labe for="product_category"><b>Category</b></labe>
+                <input type="text" name="product_category" id="category" onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
                 <br>
 
@@ -43,20 +41,19 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
                     
-                <input class="createbtn" id="createbtn" type="submit" value="Create" 
-                       onclick="confirmation()"/>
+                <input class="createbtn" type="submit" value="Update" onclick="confirmation()"/>
 
             </form>
         </div>
-
-        <!-- JavaScript functions -->
+        
+                <!-- JavaScript functions -->
         <script>
             function validateID() {
-                var id = $("#id").val();
+                var id = $("#product_id").val();
                 var idformat = /[0-9]/;
 
                 if (!id.match(idformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#createbtn").attr('disabled', 'diasabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
                 } else {
                     $("#createbtn").removeAttr('disabled');
@@ -65,11 +62,11 @@
             }
             
             function validateCategory() {
-                var category = $("#category").val();
+                var category = $("#product_category").val();
                 var categoryformat = /[a-z]/;
                 
                 if (!category.match(categoryformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#createbtn").attr('disabled', 'diasbled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
                 } else {
                     $("#createbtn").removeAttr('disabled');
@@ -78,10 +75,10 @@
             }
             
             function confirmation() {
-                alert("Product created succesfully!");
+                alert("Product updated succesfully!");
             }
 
         </script>
-            
+        
     </body>
 </html>

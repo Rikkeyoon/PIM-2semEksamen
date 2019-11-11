@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import exception.CommandException;
@@ -19,6 +14,7 @@ public class DataSourceController implements IDataSourceController {
     private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
     private IProductMapper pm = new ProductMapper();
+    private ICategoryMapper cm = new CategoryMapper();
 
     public DataSourceController(boolean testMode) {
         this.testMode = testMode;
@@ -30,6 +26,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public void createProduct(Product p) throws CommandException{
+        cm.create(p);
         pm.create(p);
     }
 
@@ -47,7 +44,12 @@ public class DataSourceController implements IDataSourceController {
     
     @Override
     public void updateProduct(Product p) throws CommandException {
-//        pm.update(p);
+        pm.update(p);
+    }
+
+    @Override
+    public void deleteProduct(Product p) throws CommandException {
+        //pm.delete(p);
     }
 
     @Override

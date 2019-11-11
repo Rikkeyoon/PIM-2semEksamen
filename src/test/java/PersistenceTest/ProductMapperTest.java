@@ -205,7 +205,19 @@ public class ProductMapperTest {
     }
 
 
-    //Deletion test
+    @Test(expected = CommandException.class)
+    public void deleteTest() throws CommandException {
+        Product p = DSC.getProduct("testProdukt");
+        assertEquals(123, p.getId());
+        DSC.deleteProduct(new Product(p.getId(), "Test2produkt", "TestTestTest", "Mobiler"));
+        p = DSC.getProduct("testProdukt");
+    }
+    
+    @Test(expected = CommandException.class)
+    public void deleteTestFail() throws CommandException {
+        DSC.deleteProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
+    }
     
     
 }
+

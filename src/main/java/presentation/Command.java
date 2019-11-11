@@ -21,6 +21,7 @@ public abstract class Command {
         //FIXME: Refactor string 
         commands.put("create_product", new CreateProductCommand());
         commands.put("update_product", new UpdateProductCommand());
+        commands.put("", new DeleteProductCommand());
     }
     
     /**

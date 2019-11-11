@@ -17,6 +17,8 @@ public interface IProductMapper {
     
     public List<Product> getAllProducts() throws CommandException;
     
-
+    public void update(Product product) throws CommandException;
     
+    public void delete(Product product) throws CommandException;
+
 }
