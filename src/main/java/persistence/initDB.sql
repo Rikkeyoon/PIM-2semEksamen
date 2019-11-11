@@ -46,7 +46,7 @@ INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, ti
 INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the would", "Alkohol");
 INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
 INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
-INSERT INTO products VALUES (15, "Bornholmer Honningsyp", " Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere. Ordet syp (etymologisk samme ord som sv. sup) svarer til en snaps, en spids eller en enkelt genstand fra brændevinsflasken.", "Alkohol");
+INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
 
 INSERT INTO products VALUES (16, "Hauwei R5", "Kraftig og stilfuld computer fra Hauwei", "Computer");
 INSERT INTO products VALUES (17, "Apple Pro", "Appples flagship bærbar har alt hvad en bærbar kræver", "Computer");
@@ -104,7 +104,7 @@ INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, ti
 INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the would", "Alkohol");
 INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
 INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
-INSERT INTO products VALUES (15, "Bornholmer Honningsyp", " Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere. Ordet syp (etymologisk samme ord som sv. sup) svarer til en snaps, en spids eller en enkelt genstand fra brændevinsflasken.", "Alkohol");
+INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
 
 INSERT INTO products VALUES (16, "Hauwei R5", "Kraftig og stilfuld computer fra Hauwei", "Computer");
 INSERT INTO products VALUES (17, "Apple Pro", "Appples flagship bærbar har alt hvad en bærbar kræver", "Computer");
