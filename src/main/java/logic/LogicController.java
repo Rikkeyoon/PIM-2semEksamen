@@ -24,5 +24,9 @@ public class LogicController {
         PersistenceFacade.updateProduct(p);
         return p;
     }
+
+    public static void deleteProduct(Product p) throws CommandException{
+        PersistenceFacade.deleteProduct(p);
+    }
     
 }

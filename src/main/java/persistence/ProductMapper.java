@@ -119,6 +119,7 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
+    @Override
     public void update(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
