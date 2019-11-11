@@ -15,8 +15,8 @@
     </head>
     
     <body>
-        <h1>Pim system</h1>
-        <input type="submit" value="Product Catalog" />
+        <h1>Product Catalog</h1>
+        <input type="submit" value="Create"/>
         
     </body>
 </html>
