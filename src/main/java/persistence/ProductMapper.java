@@ -3,7 +3,6 @@ package persistence;
 /**
  * @author Nina Lisakowski
  */
-import persistence.interfaces.IProductMapper;
 import logic.Product;
 import exception.CommandException;
 import java.sql.Connection;
