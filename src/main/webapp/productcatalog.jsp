@@ -41,7 +41,7 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
                     
-                <input class="createbtn" type="submit" value="Create"/>
+                <input class="createbtn" type="submit" value="Create" onclick="confirmation()"/>
 
             </form>
         </div>
@@ -73,6 +73,12 @@
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
             }
+            
+            function confirmation() {
+                alert("Product created succesfully!");
+            }
+
+        </script>
             
     </body>
 </html>
