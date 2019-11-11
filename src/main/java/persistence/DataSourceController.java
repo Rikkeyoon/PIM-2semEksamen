@@ -19,6 +19,7 @@ public class DataSourceController implements IDataSourceController {
     private static DBcon dbcon = DBcon.getInstance();
     private static Boolean testMode;
     private IProductMapper pm = new ProductMapper();
+    private ICategoryMapper cm = new CategoryMapper();
 
     public DataSourceController(boolean testMode) {
         this.testMode = testMode;
@@ -30,6 +31,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public void createProduct(Product p) throws CommandException{
+        cm.create(p);
         pm.create(p);
     }
 

@@ -35,7 +35,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Something went wrong. Try again!");
+            throw new CommandException("Something went wrong. Try again!" + e);
         }
     }
 
