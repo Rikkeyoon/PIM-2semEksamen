@@ -120,7 +120,7 @@ public class ProductMapper implements IProductMapper {
     }
 
     public void update(Product product, String name, String description, String categoryname) throws CommandException {
-        connection = PersistenceFacade.getConnection();
+        connection = DataSourceController.getConnection();
         try {
             String updateSql = "UPDATE products SET name = ?, description = ?, categroy_name = ? "
                     + "WHERE id = ?";
