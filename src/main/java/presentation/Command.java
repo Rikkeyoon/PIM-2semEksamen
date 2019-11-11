@@ -20,6 +20,7 @@ public abstract class Command {
         commands = new HashMap<>();
         //FIXME: Refactor string 
         commands.put("create_product", new CreateProductCommand());
+        commands.put("update_product", new UpdateProductCommand());
     }
     
     /**
