@@ -16,9 +16,12 @@ public class LogicController {
         return p;
     }
     
-    public static Product updateProduct() throws CommandException {
-        Product p = new Product(id, name, description, category);
-        PersistenceFacade.updateProduct();
+    public static Product updateProduct(Product p, String name, String description,
+            String category) throws CommandException {
+        p.setName(name);
+        p.setDescription(description);
+        p.setCategoryname(category);
+        PersistenceFacade.updateProduct(p);
         return p;
     }
     
