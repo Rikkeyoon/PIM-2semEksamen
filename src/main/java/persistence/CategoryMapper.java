@@ -34,6 +34,7 @@ public class CategoryMapper implements ICategoryMapper {
         }
     }
 
+    @Override
     public List<String> getAllCategories() throws CommandException {
         connection = DataSourceController.getConnection();
         List<String> categories = new ArrayList();
