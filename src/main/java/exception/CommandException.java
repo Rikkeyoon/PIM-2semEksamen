@@ -1,5 +1,4 @@
 package exception;
-
 /**
  * The purpose of CommandException is to turn Exceptions from the persistence
  * layer into so-called business exceptions to keep
