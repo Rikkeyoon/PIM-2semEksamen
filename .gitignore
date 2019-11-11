@@ -57,7 +57,7 @@ Temporary Items
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
-*/target/*
+target/*
 build/
 nbbuild/
 dist/

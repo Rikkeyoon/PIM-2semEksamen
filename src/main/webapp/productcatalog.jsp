@@ -25,14 +25,15 @@
                 <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
                 <div id="divValidateId"></div>
                 <br>
-                <labe for="product_name"><b>Product Name</b></labe>
+                <label for="product_name"><b>Product Name</b></label>
                 <input type="text" name="product_name" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <input type="text" name="product_desc" required>
                 <br><br>
-                <labe for="product_category"><b>Category</b></labe>
-                <input type="text" name="product_category" id="category" onkeyup="validateCategory();" required>
+                <label for="product_category"><b>Category</b></label>
+                <input type="text" name="product_category" id="category" 
+                       onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
                 <br>
 
@@ -41,7 +42,8 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
                     
-                <input class="createbtn" type="submit" value="Create" onclick="confirmation()"/>
+                <input class="createbtn" id="createbtn" type="submit" value="Create" 
+                       onclick="confirmation()" disabled=""/>
 
             </form>
         </div>
@@ -49,11 +51,11 @@
         <!-- JavaScript functions -->
         <script>
             function validateID() {
-                var id = $("#product_id").val();
+                var id = $("#id").val();
                 var idformat = /[0-9]/;
 
                 if (!id.match(idformat)) {
-                    $("#createbtn").attr('disabled', 'diasabled');
+                    $("#createbtn").attr('disabled', 'disabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
                 } else {
                     $("#createbtn").removeAttr('disabled');
@@ -62,11 +64,11 @@
             }
             
             function validateCategory() {
-                var category = $("#product_category").val();
+                var category = $("#category").val();
                 var categoryformat = /[a-z]/;
                 
                 if (!category.match(categoryformat)) {
-                    $("#createbtn").attr('disabled', 'diasbled');
+                    $("#createbtn").attr('disabled', 'disabled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
                 } else {
                     $("#createbtn").removeAttr('disabled');
