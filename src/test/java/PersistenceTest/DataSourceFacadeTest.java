@@ -18,7 +18,15 @@ public class DataSourceFacadeTest {
     public DataSourceFacadeTest() {
     }
 
-    @Test
+    public void getConnectionTest(){
+        PersistenceFacade dsfacade = new PersistenceFacade(true);
+        assertNotNull(PersistenceFacade.getConnection());
+    }
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {} @Test
     public void getConnectionTest(){
         //PersistenceFacade dsfacade = new PersistenceFacade(true);
         //assertNotNull(PersistenceFacade.getConnection());
