@@ -22,7 +22,7 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public void create(Product product) throws CommandException {
-        connection = PersistenceFacade.getConnection();
+        connection = DataSourceController.getConnection();
         try {
             String selectSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
@@ -42,7 +42,7 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public Product getProduct(String name) throws CommandException {
-        connection = PersistenceFacade.getConnection();
+        connection = DataSourceController.getConnection();
         Product product = null;
         try {
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
@@ -67,7 +67,7 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public List<Product> getProductsByCategory(List<String> names) throws CommandException {
-        connection = PersistenceFacade.getConnection();
+        connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
 
         try {
@@ -94,10 +94,11 @@ public class ProductMapper implements IProductMapper {
 
     @Override
     public List<Product> getAllProducts() throws CommandException {
-        connection = PersistenceFacade.getConnection();
+        connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
 
         try {
+
             String selectSql = "SELECT * FROM products";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 
