@@ -29,7 +29,8 @@
                 <input type="text" name="product_name" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
-                <input type="text" name="product_desc" required>
+                <textarea name="product_desc" rows="4" cols="20" required="required">
+                </textarea>
                 <br><br>
                 <label for="product_category"><b>Category</b></label>
                 <input type="text" name="product_category" id="category" 
