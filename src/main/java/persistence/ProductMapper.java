@@ -65,7 +65,8 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(List<String> names) throws CommandException {
+    public List<Product> getProductsByCategory(List<String> names) 
+            throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
 
@@ -118,4 +119,19 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
+    public void update(Product product) throws CommandException {
+        connection = DataSourceController.getConnection();
+        try {
+            String updateSql = "UPDATE products SET name = ?, description = ?, "
+                    + "category_name = ? WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            pstmt.setString(1, product.getName());
+            pstmt.setString(2, product.getDescription());
+            pstmt.setString(3, product.getCategoryname());
+            pstmt.setInt(4, product.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find a product with the given ID");
+        }
+    }
 }

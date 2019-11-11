@@ -21,6 +21,6 @@ public interface IDataSourceController {
 
     public void createProduct(Product p) throws CommandException;
 
-    public void updateProduct() throws CommandException;
+    public void updateProduct(Product p) throws CommandException;
 
     }

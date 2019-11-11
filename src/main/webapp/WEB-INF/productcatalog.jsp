@@ -12,9 +12,12 @@
         <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
-    
+
     <body>
-        <h1>Product Catalog</h1>
-        <input type="submit" value="Create product" />
+        
+            
     </body>
 </html>
+
+                           
+                         
