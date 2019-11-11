@@ -26,4 +26,8 @@ public class PersistenceFacade {
         DSController.updateProduct(p);
     }
 
+    public static void deleteProduct(Product p) throws CommandException {
+        DSController.deleteProduct(p);
+    }
+
 }
