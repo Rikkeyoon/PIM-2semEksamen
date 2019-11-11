@@ -44,7 +44,7 @@
                 </c:if>
                     
                 <input class="createbtn" id="createbtn" type="submit" value="Create" 
-                       onclick="confirmation()" disabled='disabled'/>
+                       onclick="confirmation()"/>
 
             </form>
         </div>
