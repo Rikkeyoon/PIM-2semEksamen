@@ -13,8 +13,9 @@ public class LogicFacade {
         return LogicController.createProduct(id, name, description, category);
     }
     
-    public static Product updateProduct() throws CommandException {
-        return LogicController.updateProduct();
+    public static Product updateProduct(Product p, String name, String description,
+            String category) throws CommandException {
+        return LogicController.updateProduct(p, name, description, category);
     }
     
 }
