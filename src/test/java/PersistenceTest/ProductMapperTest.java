@@ -197,16 +197,16 @@ public class ProductMapperTest {
     @Test // createProductTes1t, Creates a product with a preexisting category
     public void createProductTest1() throws CommandException {
         //Arrange
-        Product pSubmit = new Product(123, "testProdukt", "Dette er et TestProdukt", "Cykler");
+        Product pSubmit = new Product(321, "testProdukt321", "Dette er et TestProdukt", "Cykler");
         Product pResult = null;
 
         //Act
         dsc.createProduct(pSubmit);
-        pResult = dsc.getProduct("testProdukt");
+        pResult = dsc.getProduct("testProdukt321");
 
         //Arrange
-        assertEquals(123, pResult.getId());
-        assertEquals("testProdukt", pResult.getName());
+        assertEquals(321, pResult.getId());
+        assertEquals("testProdukt321", pResult.getName());
         assertEquals("Dette er et TestProdukt", pResult.getDescription());
         assertEquals("Cykler", pResult.getCategoryname());
     }
@@ -233,10 +233,13 @@ public class ProductMapperTest {
     public void createProductTestFail() throws CommandException {
 
         //Arrange
-        Product p1 = new Product(123, "testProdukt", "Dette er et TestProdukt", "Test");
-
+        Product p1 = new Product(231, "testProdukt", "Dette er et TestProdukt", "Test");
+        Product p2 = new Product(231, "produktTest", "Test Testen Tester Testing Tests", "Test");
+    
         //Act
         dsc.createProduct(p1);
+        
+        dsc.createProduct(p2);
 
         //Assert
     }
@@ -251,7 +254,7 @@ public class ProductMapperTest {
         //Act
         dsc.createProduct(pSubmit);
         pBeforeUpdate = dsc.getProduct("testProdukt4");
-        dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test"));
+        dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test2"));
         pAfterUpdate = dsc.getProduct("testProdukt5");
         
         //Assert
@@ -263,7 +266,7 @@ public class ProductMapperTest {
         assertEquals(12345, pAfterUpdate.getId());
         assertEquals("testProdukt5", pAfterUpdate.getName());
         assertEquals("TestTestTest", pAfterUpdate.getDescription());
-        assertEquals("Test", pAfterUpdate.getCategoryname());
+        assertEquals("Test2", pAfterUpdate.getCategoryname());
     }
 
     //updateTestFail, Test that we get an CommandException if there was no ID match
@@ -278,15 +281,27 @@ public class ProductMapperTest {
     }
 
     //deleteTest, tests that we can delete a product with ID
-   // @Test(expected = CommandException.class)
+    @Test(expected = CommandException.class)
     public void deleteTest() throws CommandException {
-        Product p = dsc.getProduct("testProdukt");
-        assertEquals(123, p.getId());
-        dsc.deleteProduct(new Product(p.getId(), "Test2produkt", "TestTestTest", "Mobiler"));
-        p = dsc.getProduct("testProdukt");
+        //Arrange
+        Product pSubmit = new Product(123456, "testProdukt6", "TEST TEST TEST, He said me haffi.", "Test");
+        Product pBeforeDelete = null;
+        Product afterDelete = null;
+        
+        //Act
+        pBeforeDelete = dsc.getProduct("testProdukt6");
+        
+        //Assert
+        assertEquals(12345, pBeforeDelete.getId());
+        assertEquals("testProdukt6", pBeforeDelete.getName());
+        assertEquals("TEST TEST TEST, He said me haffi.", pBeforeDelete.getDescription());
+        assertEquals("Test", pBeforeDelete.getCategoryname());
+        dsc.deleteProduct(pBeforeDelete);
+        afterDelete = dsc.getProduct("testProdukt6");        
+        
     }
 
-    //@Test(expected = CommandException.class)
+    @Test(expected = CommandException.class)
     public void deleteTestFail() throws CommandException {
         dsc.deleteProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
     }
