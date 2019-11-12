@@ -18,32 +18,34 @@
     <body>
         <h1>Product Catalog</h1>
         <br>
-        <form name="create" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_product">
-            <table border="1">
-                <thead>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>View Product</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${catalog}" var="product">
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>View Product</th>
+                        <td>${product.getId()}</td>
+                        <td>${product.getName()}</td>
+                        <td>${product.getDescription()}</td>
+                        <td>${product.getCategoryname()}</td>
+                        <td>
+                            <form name="create" action="FrontController" method = "POST">
+                                <input type="hidden" name="cmd" value="view_product">
+                                <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                <input type="submit" value="View product">
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${catalog}" var="product">
-                        <tr>
-                            <td>${product.getId()}</td>
-                            <td>${product.getName()}</td>
-                            <td>${product.getDescription()}</td>
-                            <td>${product.getCategoryname()}</td>
-                            <td><input type="submit" value="${product.getId()}" 
-                                       name="product_id"/></td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </form>
+                </c:forEach>
+            </tbody>
+        </table>
         <br><br>
         <form name="create" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="view_create_page">
