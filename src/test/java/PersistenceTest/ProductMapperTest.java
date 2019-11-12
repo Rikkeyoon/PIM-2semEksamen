@@ -6,6 +6,7 @@
 package PersistenceTest;
 
 import exception.CommandException;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,73 +30,75 @@ public class ProductMapperTest {
         DSC = new DataSourceController(true);
     }
 
-    @Test
+    @Test //Tests that we can get a connection with the database.
     public void getConnectionTest() throws CommandException {
-        assertNotNull(DSC.getConnection());
+        //Arrange
+        Connection con = null;
+
+        //Act
+        con = DataSourceController.getConnection();
+
+        //Assert
+        assertNotNull(con);
     }
 
-    @Test //getProductTest1, tests that we can get all the bikes(cykler) from the testDatabase.
+    @Test //getProductTest1, tests that we can get min, min+1, middle-1, middle, middle+1, max-1 & max ID objects from the the test database.
     public void getProductTest1() throws CommandException {
-        assertEquals(1, DSC.getProduct("Rød Cykel").getId());
-        assertEquals(2, DSC.getProduct("Grøn Cykel").getId());
-        assertEquals(3, DSC.getProduct("Blå Cykel").getId());
-        assertEquals(4, DSC.getProduct("Pink Cykel").getId());
-        assertEquals(5, DSC.getProduct("SORT Cykel").getId());
+        //Arrange
+        Product[] products = new Product[7];
+
+        //Act
+        products[0] = DSC.getProduct("Rød Cykel");
+        products[1] = DSC.getProduct("Grøn Cykel");
+        products[2] = DSC.getProduct("Carlsberg 6 pack");
+        products[3] = DSC.getProduct("Sierra Silver Tequila");
+        products[4] = DSC.getProduct("Smirnoff Vodka 37,5%");
+        products[5] = DSC.getProduct("Carpe Diem Harmano");
+        products[6] = DSC.getProduct("Tempur Fusion");
+
+        //Assert
+        assertEquals(1, products[0].getId());
+        assertEquals(2, products[1].getId());
+        assertEquals(12, products[2].getId());
+        assertEquals(13, products[3].getId());
+        assertEquals(14, products[4].getId());
+        assertEquals(24, products[5].getId());
+        assertEquals(25, products[6].getId());
     }
 
-    @Test //getProductTest2, tests that we can get all the phones(mobiler) from the testDatabase.
+    @Test //getProductTest2, test that we can get a specific product with all fields.
     public void getProductTest2() throws CommandException {
-        assertEquals(6, DSC.getProduct("Samsung Galaxy S10").getId());
-        assertEquals(7, DSC.getProduct("Apple iphone 11").getId());
-        assertEquals(8, DSC.getProduct("Hauwei P30").getId());
-        assertEquals(9, DSC.getProduct("Xiaomi redmi note 5").getId());
-        assertEquals(10, DSC.getProduct("Sony Ericsson Xperia").getId());
-    }
+        //Arrange
+        Product p = null;
 
-    @Test //getProductTest3, tests that we can get all the alcohol(alkohol) from the testDatabase.
-    public void getProductTest3() throws CommandException {
-        assertEquals(11, DSC.getProduct("Tuborg Classic 6 pack").getId());
-        assertEquals(12, DSC.getProduct("Carlsberg 6 pack").getId());
-        assertEquals(13, DSC.getProduct("Sierra Silver Tequila").getId());
-        assertEquals(14, DSC.getProduct("Smirnoff Vodka 37,5%").getId());
-        assertEquals(15, DSC.getProduct("Bornholmer Honningsyp").getId());
-    }
+        //Act
+        p = DSC.getProduct("Rød Cykel");
 
-    @Test //getProductTest4, tests that we can get all the computers(computer) from the testDatabase.
-    public void getProductTest4() throws CommandException {
-        assertEquals(16, DSC.getProduct("Hauwei R5").getId());
-        assertEquals(17, DSC.getProduct("Apple Pro").getId());
-        assertEquals(18, DSC.getProduct("Asus Zenbook").getId());
-        assertEquals(19, DSC.getProduct("Acer Cromebook").getId());
-        assertEquals(20, DSC.getProduct("Lenovo thinkpad L590").getId());
-    }
-
-    @Test //getProductTest5, tests that we can get all the beds(seng) from the testDatabase.
-    public void getProductTest5() throws CommandException {
-        assertEquals(21, DSC.getProduct("Auping Royal").getId());
-        assertEquals(22, DSC.getProduct("Viking Birka").getId());
-        assertEquals(23, DSC.getProduct("Jensen Prestige").getId());
-        assertEquals(24, DSC.getProduct("Carpe Diem Harmano").getId());
-        assertEquals(25, DSC.getProduct("Tempur Fusion").getId());
-    }
-
-    @Test //getProductTest1, tests that we can get all the bikes(cykler) from the testDatabase.
-    public void getProductTest6() throws CommandException {
-        Product p = DSC.getProduct("Rød Cykel");
+        //Assert
         assertEquals(1, p.getId());
         assertEquals("Rød Cykel", p.getName());
         assertEquals("En Cykel der er rød", p.getDescription());
         assertEquals("Cykler", p.getCategoryname());
     }
 
-    //Test that CommandException is thrown when searching for nonexisting product
+    //getProductTestFail, Tests that a CommandException is thrown when searching for nonexisting product
     @Test(expected = CommandException.class)
     public void getProductTestFail() throws CommandException {
-        Product p = DSC.getProduct("Flying Bike");
+        //Arrange
+        //Act
+        DSC.getProduct("Flying Bike");
+        //Assert
     }
 
-    public void getProductsTest1() throws CommandException{
-        List<Product> productList = DSC.getProducts();
+    @Test //GetProductsTest1, test that we can get all products in one list and the fields are not null
+    public void getProductsTest1() throws CommandException {
+        //Arrange
+        List<Product> productList = null;
+
+        //Act
+        productList = DSC.getProducts();
+
+        //Assert
         assertEquals(25, productList.size());
         for (int i = 0; i < productList.size(); i++) {
             Product product = productList.get(i);
@@ -105,41 +108,63 @@ public class ProductMapperTest {
             assertNotNull(product.getCategoryname());
         }
     }
-    public void getProductsTest2() throws CommandException{
-        List<Product> productList = DSC.getProducts();
+
+    @Test //getProductsTest2, Test that we can get all products and assert the field values at min, min+1, middle-1, middle, middle+1, max-1 & max ID objects from the the test database.
+    public void getProductsTest2() throws CommandException {
+        //Arrange
+        List<Product> productList = null;
+        Product[] products = new Product[7];
+
+        //Act
+        productList = DSC.getProducts();
+        products[0] = productList.get(0);
+        products[1] = productList.get(1);
+        products[2] = productList.get(11);
+        products[3] = productList.get(12);
+        products[4] = productList.get(13);
+        products[5] = productList.get(23);
+        products[6] = productList.get(24);
+
+        //Assert
         assertEquals(25, productList.size());
-        Product p = productList.get(0);
-        assertEquals(1, p.getId());
-        assertEquals("Rød Cykel", p.getName());
-        assertEquals("En Cykel der er rød", p.getDescription());
-        assertEquals("Cykler", p.getCategoryname());
-        
-        p = productList.get(5);
-        assertEquals(1, p.getId());
-        assertEquals("Samsung Galaxy S10", p.getName());
-        assertEquals("Samsungs nyeste telefon med kraftig processor", p.getDescription());
-        assertEquals("Mobiler", p.getCategoryname());
-        
-        p = productList.get(10);
-        assertEquals(1, p.getId());
-        assertEquals("Tuborg Classic 6 pack", p.getName());
-        assertEquals("Klassisk god smag, til alle lejligheder", p.getDescription());
-        assertEquals("Alkohol", p.getCategoryname());
-        
-        p = productList.get(15);
-        assertEquals(1, p.getId());
-        assertEquals("Hauwei R5", p.getName());
-        assertEquals("Kraftig og stilfuld computer fra Hauwei", p.getDescription());
-        assertEquals("Computer", p.getCategoryname());
-        
-        p = productList.get(20);
-        assertEquals(21, p.getId());
-        assertEquals("Auping Royal", p.getName());
-        assertEquals("Fantastisk seng fra Auping med 5 motorer i hver bund samt stilfuld sengeramme.", p.getDescription());
-        assertEquals("Seng", p.getCategoryname());
+
+        assertEquals(1, products[0].getId());
+        assertEquals("Rød Cykel", products[0].getName());
+        assertEquals("En Cykel der er rød", products[0].getDescription());
+        assertEquals("Cykler", products[0].getCategoryname());
+
+        assertEquals(2, products[1].getId());
+        assertEquals("Grøn Cykel", products[1].getName());
+        assertEquals("En Cykel der er grøn", products[1].getDescription());
+        assertEquals("Cykler", products[1].getCategoryname());
+
+        assertEquals(12, products[2].getId());
+        assertEquals("Carlsberg 6 pack", products[2].getName());
+        assertEquals("Probably the best beer in the would", products[2].getDescription());
+        assertEquals("Alkohol", products[2].getCategoryname());
+
+        assertEquals(13, products[3].getId());
+        assertEquals("Sierra Silver Tequila", products[3].getName());
+        assertEquals("Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", products[3].getDescription());
+        assertEquals("Alkohol", products[3].getCategoryname());
+
+        assertEquals(14, products[4].getId());
+        assertEquals("Smirnoff Vodka 37,5%", products[4].getName());
+        assertEquals("Den klassiske vodka til alle fester, kan blandes med næsten alt", products[4].getDescription());
+        assertEquals("Alkohol", products[4].getCategoryname());
+
+        assertEquals(24, products[5].getId());
+        assertEquals("Carpe Diem Harmano", products[5].getName());
+        assertEquals("Carpe Diem Harmano leverer det bedste fra Darpe Diem.", products[5].getDescription());
+        assertEquals("Seng ", products[5].getCategoryname());
+
+        assertEquals(25, products[6].getId());
+        assertEquals("Tempur Fusion", products[6].getName());
+        assertEquals("TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", products[6].getDescription());
+        assertEquals("Seng", products[6].getCategoryname());
     }
-    
-    public void getProductsByCategory() throws CommandException{
+
+    public void getProductsByCategory() throws CommandException {
         List<Product> productList = DSC.getProductsByCategory("Cykler");
         assertEquals(5, productList.size());
         for (int i = 0; i < productList.size(); i++) {
@@ -150,8 +175,9 @@ public class ProductMapperTest {
             assertNotNull(product.getCategoryname());
         }
     }
+
     //(expected = CommandException.class)
-    public void getProductsByCategoryFail() throws CommandException{
+    public void getProductsByCategoryFail() throws CommandException {
         List<Product> productList = DSC.getProductsByCategory("Cykler");
         assertEquals(25, productList.size());
         for (int i = 0; i < productList.size(); i++) {
@@ -163,61 +189,100 @@ public class ProductMapperTest {
         }
     }
 
-    @Test
-    public void createProductTest() throws CommandException {
-        Product p1 = new Product(123, "testProdukt", "Dette er et TestProdukt", "Cykler");
-        DSC.createProduct(p1);
-        Product p2 = DSC.getProduct("testProdukt");
-        assertEquals(123, p2.getId());
-        assertEquals("testProdukt", p2.getName());
-        assertEquals("Dette er et TestProdukt", p2.getDescription());
-        assertEquals("Cykler", p2.getCategoryname());
+    @Test // createProductTes1t, Creates a product with a preexisting category
+    public void createProductTest1() throws CommandException {
+        //Arrange
+        Product pSubmit = new Product(123, "testProdukt", "Dette er et TestProdukt", "Cykler");
+        Product pResult = null;
+
+        //Act
+        DSC.createProduct(pSubmit);
+        pResult = DSC.getProduct("testProdukt");
+
+        //Arrange
+        assertEquals(123, pResult.getId());
+        assertEquals("testProdukt", pResult.getName());
+        assertEquals("Dette er et TestProdukt", pResult.getDescription());
+        assertEquals("Cykler", pResult.getCategoryname());
 
     }
-    
-     //createproduct-newcategory TEST
-    
+
+    @Test // createProductTest2, Creates a product with a new category
+    public void createProductTest2() throws CommandException {
+        //Arrange
+        Product pSubmit = new Product(1234, "testProdukt2", "Dette er et TestProdukt", "Test");
+        Product pResult = null;
+
+        //Act
+        DSC.createProduct(pSubmit);
+        pResult = DSC.getProduct("testProdukt2");
+
+        //Arrange
+        assertEquals(1234, pResult.getId());
+        assertEquals("testProdukt2", pResult.getName());
+        assertEquals("Dette er et TestProdukt", pResult.getDescription());
+        assertEquals("Test", pResult.getCategoryname());
+    }
+
+    //createProductTestFail, Tests that a CommandException is thrown when creating a product with preexisting ID
     @Test(expected = CommandException.class)
     public void createProductTestFail() throws CommandException {
-        Product p1 = new Product(123, "testProdukt", "Dette er et TestProdukt", "Cykler");
+        //Arrange
+        Product p1 = new Product(123, "testProdukt", "Dette er et TestProdukt", "Test");
+
+        //Act
         DSC.createProduct(p1);
 
+        //Assert
     }
-    
-    @Test
+
+    //@Test //updateTest, Tests that we can update a product
     public void updateTest() throws CommandException {
-        Product p = DSC.getProduct("testProdukt");
-        assertEquals(123, p.getId());
-        assertEquals("testProdukt", p.getName());
-        assertEquals("Dette er et TestProdukt", p.getDescription());
-        assertEquals("Cykler", p.getCategoryname());
-        DSC.updateProduct(new Product(p.getId(), "Test2produkt", "TestTestTest", "Mobiler"));
-        p = DSC.getProduct("Test2produkt");
-        assertEquals(123, p.getId());
-        assertEquals("Test2produkt", p.getName());
-        assertEquals("TestTestTest", p.getDescription());
-        assertEquals("Mobiler", p.getCategoryname());
+        //Arrange
+        Product pBeforeUpdate = null;
+        Product pAfterUpdate = null;
+        
+        //Act
+        pBeforeUpdate = DSC.getProduct("testProdukt");
+        DSC.updateProduct(new Product(pBeforeUpdate.getId(), "testProdukt", "TestTestTest", "Test"));
+        pAfterUpdate = DSC.getProduct("testProdukt");
+        
+        //Assert
+        assertEquals(123, pBeforeUpdate.getId());
+        assertEquals("testProdukt", pBeforeUpdate.getName());
+        assertEquals("Dette er et TestProdukt", pBeforeUpdate.getDescription());
+        assertEquals("Cykler", pBeforeUpdate.getCategoryname());
+        
+        assertEquals(123, pAfterUpdate.getId());
+        assertEquals("testProdukt", pAfterUpdate.getName());
+        assertEquals("TestTestTest", pAfterUpdate.getDescription());
+        assertEquals("Test", pAfterUpdate.getCategoryname());
     }
-    
-    @Test(expected = CommandException.class)
+
+    //updateTestFail, Test that we get an CommandException if there was no ID match
+    //@Test(expected = CommandException.class)
     public void updateTestFail() throws CommandException {
+        //Arrange
+        
+        //Act
         DSC.updateProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
+        
+        //Assert
     }
 
-
-    @Test(expected = CommandException.class)
+    //deleteTest, tests that we can delete a product with ID
+   // @Test(expected = CommandException.class)
     public void deleteTest() throws CommandException {
+        
         Product p = DSC.getProduct("testProdukt");
         assertEquals(123, p.getId());
         DSC.deleteProduct(new Product(p.getId(), "Test2produkt", "TestTestTest", "Mobiler"));
         p = DSC.getProduct("testProdukt");
     }
-    
-    @Test(expected = CommandException.class)
+
+    //@Test(expected = CommandException.class)
     public void deleteTestFail() throws CommandException {
         DSC.deleteProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
     }
-    
-    
-}
 
+}
