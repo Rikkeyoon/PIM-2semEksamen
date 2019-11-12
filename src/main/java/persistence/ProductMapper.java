@@ -129,7 +129,7 @@ public class ProductMapper implements IProductMapper {
             int rowsUpdated = pstmt.executeUpdate();
             if(rowsUpdated == 0) throw new SQLException("No rows updated");
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
         }
     }
 

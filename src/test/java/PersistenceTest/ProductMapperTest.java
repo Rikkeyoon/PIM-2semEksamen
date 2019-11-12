@@ -254,6 +254,31 @@ public class ProductMapperTest {
         //Act
         dsc.createProduct(pSubmit);
         pBeforeUpdate = dsc.getProduct("testProdukt4");
+        dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test"));
+        pAfterUpdate = dsc.getProduct("testProdukt5");
+        
+        //Assert
+        assertEquals(12345, pBeforeUpdate.getId());
+        assertEquals("testProdukt4", pBeforeUpdate.getName());
+        assertEquals("Gæt hvem der tester?, tester igen, gæt hvem der der tester.", pBeforeUpdate.getDescription());
+        assertEquals("Test", pBeforeUpdate.getCategoryname());
+        
+        assertEquals(12345, pAfterUpdate.getId());
+        assertEquals("testProdukt5", pAfterUpdate.getName());
+        assertEquals("TestTestTest", pAfterUpdate.getDescription());
+        assertEquals("Test", pAfterUpdate.getCategoryname());
+    }
+    
+    //@Test Omitted until method is features is implemented //updateTest2, Tests that we can update a product with a new category
+    public void updateTest2() throws CommandException {
+        //Arrange
+        Product pSubmit = new Product(12345, "testProdukt4", "Gæt hvem der tester?, tester igen, gæt hvem der der tester.", "Test");
+        Product pBeforeUpdate = null;
+        Product pAfterUpdate = null;
+        
+        //Act
+        dsc.createProduct(pSubmit);
+        pBeforeUpdate = dsc.getProduct("testProdukt4");
         dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test2"));
         pAfterUpdate = dsc.getProduct("testProdukt5");
         
