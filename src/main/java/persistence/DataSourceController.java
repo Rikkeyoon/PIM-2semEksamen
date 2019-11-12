@@ -11,17 +11,20 @@ import logic.Product;
  */
 public class DataSourceController implements IDataSourceController {
 
-    private static DBcon dbcon = DBcon.getInstance();
-    private static Boolean testMode;
+    private static Boolean isTestmode;
     private IProductMapper pm = new ProductMapper();
     private ICategoryMapper cm = new CategoryMapper();
 
-    public DataSourceController(boolean testMode) {
-        this.testMode = testMode;
+    public DataSourceController(boolean isTestmode) {
+        this.isTestmode = isTestmode;
     }
 
+    public static Connection getTestConnection() throws CommandException {
+        return DBConnection.setConnection(isTestmode);
+    }
+    
     public static Connection getConnection() throws CommandException {
-        return dbcon.getConnection(testMode);
+        return DBConnection.getConnection(isTestmode);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
-        //pm.delete(p);
+        pm.delete(p);
     }
 
     @Override
