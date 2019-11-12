@@ -18,8 +18,8 @@ public class ViewCatalogCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) 
             throws CommandException {
         List<Product> catalog = LogicFacade.getCatalog();
-        HttpSession session = request.getSession();
-        session.setAttribute("catalog", catalog);
+        //application scope attribute
+        request.getServletContext().setAttribute("catalog", catalog);
         return "productcatalog";
     }
 
