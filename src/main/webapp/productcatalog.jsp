@@ -1,7 +1,7 @@
 <%-- 
     Document   : productcatalog
     Created on : 10. nov. 2019, 13.10.28
-    Author     : Rikke
+    Author     : Rikke, carol
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
