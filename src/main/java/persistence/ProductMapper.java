@@ -122,14 +122,13 @@ public class ProductMapper implements IProductMapper {
             String updateSql = "UPDATE products SET name = ?, description = ?, "
                     + "category_name = ? WHERE id = ?";
             PreparedStatement pstmt = connection.prepareStatement(updateSql);
-            ResultSet result = pstmt.executeQuery(updateSql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategoryname());
-            pstmt.setInt(4, result.getInt(4));
+            pstmt.setInt(4, product.getId());
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
         }
     }
 
