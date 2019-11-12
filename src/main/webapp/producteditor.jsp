@@ -41,7 +41,8 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
                     
-                <input class="updatebtn" type="submit" value="Update" onclick="confirmation()"/>
+                <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
+                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
 
             </form>
         </div>
@@ -76,6 +77,14 @@
             
             function confirmation() {
                 alert("Product updated succesfully!");
+            }
+            
+            function dconfirmation() {
+                if (confirm("You are about to delete a product!")) {
+                txt = "Product has been deleted!";
+                } else {
+                txt = "Return to Product page!";
+                }
             }
 
         </script>
