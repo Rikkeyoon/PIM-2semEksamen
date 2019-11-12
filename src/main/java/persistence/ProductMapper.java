@@ -1,8 +1,5 @@
 package persistence;
 
-/**
- * @author Nina Lisakowski
- */
 import logic.Product;
 import exception.CommandException;
 import java.sql.Connection;
@@ -49,18 +46,20 @@ public class ProductMapper implements IProductMapper {
             pstmt.setString(1, '%' + name + '%');
 
             ResultSet result = pstmt.executeQuery();
-            
+
             while (result.next()) {
                 int id = result.getInt(1);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
-                
+
                 product = new Product(id, name, description, categoryname);
-                
+
             }
-            
-            if(product == null) throw new SQLException();
-        
+
+            if (product == null) {
+                throw new SQLException();
+            }
+
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
         }
@@ -68,25 +67,22 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(List<String> names)
-            throws CommandException {
+    public List<Product> getProductsByCategory(String categorynames) throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
         try {
-            for (String name : names) {
-                String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
-                PreparedStatement pstmt = connection.prepareStatement(selectSql);
-                pstmt.setString(1, '%' + name + '%');
+            String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + categorynames + '%');
 
-                ResultSet result = pstmt.executeQuery();
+            ResultSet result = pstmt.executeQuery();
 
-                while (result.next()) {
-                    int id = result.getInt(1);
-                    String description = result.getString(3);
-                    String categoryname = result.getString(4);
+            while (result.next()) {
+                int id = result.getInt(1);
+                String description = result.getString(3);
+                String categoryname = result.getString(4);
 
-                    products.add(new Product(id, name, description, categoryname));
-                }
+                products.add(new Product(id, categorynames, description, categoryname));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");
