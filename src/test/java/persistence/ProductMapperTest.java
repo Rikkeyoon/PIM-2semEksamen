@@ -31,8 +31,8 @@ public class ProductMapperTest {
         Product product = new Product(2, "Test2", "This is a test object",
                 "Test objects");
         instance.create(product);
-        assertEquals(2, instance.products.size());
-        assertTrue(product.compareTo(instance.products.get(1)));
+        assertEquals(3, instance.products.size());
+        assertTrue(product.compareTo(instance.products.get(2)));
     }
 
     @Test(expected = CommandException.class)
@@ -56,6 +56,23 @@ public class ProductMapperTest {
     }
 
     @Test
+    public void testGetProductsByCategory() throws CommandException {
+        Product product = new Product(3, "Stub", "This is a stub object",
+                "Stub objects");
+        instance.create(product);
+        String category = "Test objects";
+        List<Product> result = instance.getProductsByCategory(category);
+        assertFalse(result.contains(product));
+    }
+    
+    @Test (expected = CommandException.class)
+    public void testGetProductsByCategory_UnknownCategory() 
+            throws CommandException {
+        String category = "Real objects";
+        List<Product> result = instance.getProductsByCategory(category);
+    }
+    
+    @Test
     public void testGetAllProducts() throws CommandException {
         List<Product> result = instance.getAllProducts();
         assertEquals(result, instance.products);
@@ -74,7 +91,7 @@ public class ProductMapperTest {
                 "Test objects");
         instance.update(product);
         assertTrue(product.compareTo(instance.products.get(0)));
-        assertTrue(instance.products.size() == 2);
+        assertTrue(instance.products.size() == 3);
     }
     
     @Test (expected = CommandException.class)
