@@ -30,9 +30,13 @@ public class DataSourceController implements IDataSourceController {
     }
 
     @Override
+    public Product getProduct(int id) throws CommandException {
+        return pm.getProduct(id);
+    }
+    
+    @Override
     public Product getProduct(String name) throws CommandException {
         return pm.getProduct(name);
-
     }
 
     @Override

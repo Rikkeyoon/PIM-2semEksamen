@@ -70,7 +70,7 @@ public class ProductMapper implements IProductMapper {
         connection = DataSourceController.getConnection();
         Product product = null;
         try {
-            String selectSql = "SELECT * FROM products WHERE id IS ?";
+            String selectSql = "SELECT * FROM products WHERE id = ?";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
 
@@ -89,7 +89,7 @@ public class ProductMapper implements IProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any product with that id");
+            throw new CommandException("Could not find any product with that id" + ex);
         }
         return product;
     }

@@ -37,8 +37,8 @@
                             <td>${product.getName()}</td>
                             <td>${product.getDescription()}</td>
                             <td>${product.getCategoryname()}</td>
-                            <td><input type="submit" value="View product" 
-                                       name="${product.getId()}"/></td>
+                            <td><input type="submit" value="${product.getId()}" 
+                                       name="product_id"/></td>
                         </tr>
                     </c:forEach>
                 </tbody>

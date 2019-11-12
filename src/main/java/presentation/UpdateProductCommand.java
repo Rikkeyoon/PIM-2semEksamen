@@ -24,7 +24,7 @@ public class UpdateProductCommand extends Command {
         //TODO: Change to String... (varargs) or ArrayList<String>
         p = LogicFacade.updateProduct(p, name, description, category);
         session.setAttribute("product", p);
-        return "";
+        return "productcatalog";
     }
 
 }

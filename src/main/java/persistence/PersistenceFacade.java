@@ -17,8 +17,8 @@ public class PersistenceFacade {
         return DSController.getProducts();
     }
 
-    public static void getProduct() throws CommandException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Product getProduct(int id) throws CommandException {
+        return DSController.getProduct(id);
     }
 
     public static void createProduct(Product p) throws CommandException{
