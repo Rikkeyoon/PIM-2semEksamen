@@ -1,7 +1,7 @@
 <%-- 
     Document   : producteditor
     Created on : 11 Nov 2019, 11:23:01
-    Author     : zarpy
+    Author     : zarpy, carol
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Product Editor</title>
     </head>
-    
+
     <body>
         <div>
             <form name="update" action="FrontController" method = "POST">
@@ -22,17 +22,25 @@
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
-                <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
+                <input type="text" name="product_id" id="id" onkeyup="validateId();"
+                       value="${product.getId()}" required>
                 <div id="divValidateId"></div>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
-                <input type="text" name="product_name" required>
+                <input type="text" name="product_name" 
+                       value="${product.getName()}" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
-                <input type="text" name="product_desc" required>
+                <br>
+                <textarea name="product_desc" rows="4" cols="20" 
+                          style="resize: none; width: 25%;" required="required">
+                    ${product.getDescription()}
+                </textarea>
                 <br><br>
                 <label for="product_category"><b>Category</b></label>
-                <input type="text" name="product_category" id="category" onkeyup="validateCategory();" required>
+                <input type="text" name="product_category" id="category" 
+                       onkeyup="validateCategory();" 
+                       value="${product.getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
 
@@ -40,14 +48,17 @@
                 <c:if test="${error != null}">
                     <div class="form-alert">${error}</div>
                 </c:if>
-                    
-                <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
-                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
 
+                <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
             </form>
+            <form name="update" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="delete_product">
+                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
+            </form>
+
         </div>
-        
-                <!-- JavaScript functions -->
+
+        <!-- JavaScript functions -->
         <script>
             function validateID() {
                 var id = $("#product_id").val();
@@ -61,11 +72,11 @@
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
             }
-            
+
             function validateCategory() {
                 var category = $("#product_category").val();
                 var categoryformat = /[a-z]/;
-                
+
                 if (!category.match(categoryformat)) {
                     $("#updatebtn").attr('disabled', 'diasbled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
@@ -74,20 +85,20 @@
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
             }
-            
+
             function confirmation() {
                 alert("Product updated succesfully!");
             }
-            
+
             function dconfirmation() {
                 if (confirm("You are about to delete a product!")) {
-                txt = "Product has been deleted!";
+                    txt = "Product has been deleted!";
                 } else {
-                txt = "Return to Product page!";
+                    txt = "Return to Product page!";
                 }
             }
 
         </script>
-        
+
     </body>
 </html>

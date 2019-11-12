@@ -30,9 +30,13 @@ public class DataSourceController implements IDataSourceController {
     }
 
     @Override
+    public Product getProduct(int id) throws CommandException {
+        return pm.getProduct(id);
+    }
+    
+    @Override
     public Product getProduct(String name) throws CommandException {
         return pm.getProduct(name);
-
     }
 
     @Override
@@ -43,12 +47,12 @@ public class DataSourceController implements IDataSourceController {
     
     @Override
     public void updateProduct(Product p) throws CommandException {
+        cm.createCategory(p);
         pm.update(p);
     }
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
-        cm.createCategory(p);
         pm.delete(p);
     }
 

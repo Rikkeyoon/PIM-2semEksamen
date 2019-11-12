@@ -26,5 +26,9 @@ public class LogicFacade {
     public static List<Product> getCatalog() throws CommandException {
         return LogicController.getCatalog();
     }
+
+    public static Product getProduct(int id) throws CommandException {
+        return LogicController.getProduct(id);
+    }
     
 }
