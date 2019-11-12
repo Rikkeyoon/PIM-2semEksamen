@@ -47,12 +47,12 @@ public class DataSourceController implements IDataSourceController {
     
     @Override
     public void updateProduct(Product p) throws CommandException {
+        cm.createCategory(p);
         pm.update(p);
     }
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
-        cm.createCategory(p);
         pm.delete(p);
     }
 

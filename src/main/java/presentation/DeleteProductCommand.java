@@ -19,7 +19,7 @@ public class DeleteProductCommand extends Command {
         HttpSession session = request.getSession();
         Product p = (Product) session.getAttribute("product");
         LogicFacade.deleteProduct(p);
-        return "";
+        return "productcatalog";
     }
     
 }

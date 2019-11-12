@@ -33,7 +33,7 @@
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" 
-                        style="width:30%" required="required">
+                          style="resize: none; width: 25%;" required="required">
                     ${product.getDescription()}
                 </textarea>
                 <br><br>
@@ -50,9 +50,12 @@
                 </c:if>
 
                 <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
-                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
-
             </form>
+            <form name="update" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="delete_product">
+                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
+            </form>
+
         </div>
 
         <!-- JavaScript functions -->
