@@ -74,7 +74,7 @@ public class ProductMapper implements IProductMapper {
         List<Product> products = new ArrayList();
         try {
             for (String name : names) {
-                String selectSql = "SELECT * FROM products WHERE name LIKE ?";
+                String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
                 PreparedStatement pstmt = connection.prepareStatement(selectSql);
                 pstmt.setString(1, '%' + name + '%');
 
@@ -126,10 +126,11 @@ public class ProductMapper implements IProductMapper {
             String updateSql = "UPDATE products SET name = ?, description = ?, "
                     + "category_name = ? WHERE id = ?";
             PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            ResultSet result = pstmt.executeQuery(updateSql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategoryname());
-            pstmt.setInt(4, product.getId());
+            pstmt.setInt(4, result.getInt(4));
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
@@ -140,11 +141,12 @@ public class ProductMapper implements IProductMapper {
     public void delete(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
-            String seletSql = "DELETE FROM products WHERE id = ?";
-            PreparedStatement pstmt = connection.prepareStatement(seletSql);
+            String deleteSql = "DELETE FROM products WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, product.getId());
             pstmt.executeUpdate();
-            }catch (SQLException | NullPointerException ex) {
+        } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not finde the product to be deleted");
         }
-        }
     }
+}
