@@ -140,7 +140,7 @@ public class ProductMapperTest {
 
         assertEquals(12, products[2].getId());
         assertEquals("Carlsberg 6 pack", products[2].getName());
-        assertEquals("Probably the best beer in the would", products[2].getDescription());
+        assertEquals("Probably the best beer in the world", products[2].getDescription());
         assertEquals("Alkohol", products[2].getCategoryname());
 
         assertEquals(13, products[3].getId());
