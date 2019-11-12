@@ -17,7 +17,7 @@
 
     <body>
         <h1>Product Catalog</h1>
-        <br><br>
+        <br>
         <form name="create" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="view_product">
             <table border="1">
@@ -51,6 +51,3 @@
         </form>
     </body>
 </html>
-
-
-
