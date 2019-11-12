@@ -1,8 +1,5 @@
 package persistence;
 
-/**
- * @author Nina Lisakowski
- */
 import logic.Product;
 import exception.CommandException;
 import java.sql.Connection;
@@ -35,7 +32,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Something went wrong. Try again!" + e);
+            throw new CommandException("Could not create product. Try again!" + e);
         }
     }
 
@@ -56,6 +53,11 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
 
                 product = new Product(id, name, description, categoryname);
+
+            }
+
+            if (product == null) {
+                throw new SQLException();
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -65,26 +67,22 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(List<String> names) 
-            throws CommandException {
+    public List<Product> getProductsByCategory(String categorynames) throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
-
         try {
-            for (String name : names) {
-                String selectSql = "SELECT * FROM products WHERE name LIKE ?";
-                PreparedStatement pstmt = connection.prepareStatement(selectSql);
-                pstmt.setString(1, '%' + name + '%');
+            String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + categorynames + '%');
 
-                ResultSet result = pstmt.executeQuery();
+            ResultSet result = pstmt.executeQuery();
 
-                while (result.next()) {
-                    int id = result.getInt(1);
-                    String description = result.getString(3);
-                    String categoryname = result.getString(4);
+            while (result.next()) {
+                int id = result.getInt(1);
+                String description = result.getString(3);
+                String categoryname = result.getString(4);
 
-                    products.add(new Product(id, name, description, categoryname));
-                }
+                products.add(new Product(id, categorynames, description, categoryname));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");
@@ -96,9 +94,7 @@ public class ProductMapper implements IProductMapper {
     public List<Product> getAllProducts() throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
-
         try {
-
             String selectSql = "SELECT * FROM products";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 
@@ -119,19 +115,34 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
+    @Override
     public void update(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
             String updateSql = "UPDATE products SET name = ?, description = ?, "
                     + "category_name = ? WHERE id = ?";
             PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            ResultSet result = pstmt.executeQuery(updateSql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategoryname());
-            pstmt.setInt(4, product.getId());
+            pstmt.setInt(4, result.getInt(4));
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
+        }
+    }
+
+    @Override
+    public void delete(Product product) throws CommandException {
+        connection = DataSourceController.getConnection();
+        try {
+            String deleteSql = "DELETE FROM products WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, product.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not finde the product to be deleted");
         }
     }
 }

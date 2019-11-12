@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import exception.CommandException;
@@ -16,17 +11,20 @@ import logic.Product;
  */
 public class DataSourceController implements IDataSourceController {
 
-    private static DBcon dbcon = DBcon.getInstance();
-    private static Boolean testMode;
+    private static Boolean isTestmode;
     private IProductMapper pm = new ProductMapper();
     private ICategoryMapper cm = new CategoryMapper();
 
-    public DataSourceController(boolean testMode) {
-        this.testMode = testMode;
+    public DataSourceController(boolean isTestmode) {
+        this.isTestmode = isTestmode;
     }
 
+    public static Connection getTestConnection() throws CommandException {
+        return DBConnection.setConnection(isTestmode);
+    }
+    
     public static Connection getConnection() throws CommandException {
-        return dbcon.getConnection(testMode);
+        return DBConnection.getConnection(isTestmode);
     }
 
     @Override
@@ -46,9 +44,20 @@ public class DataSourceController implements IDataSourceController {
         return pm.getAllProducts();
 
     }
-
+    
     @Override
     public void updateProduct(Product p) throws CommandException {
-//        pm.update(p);
+        pm.update(p);
+    }
+
+    @Override
+    public void deleteProduct(Product p) throws CommandException {
+        pm.delete(p);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String category) throws CommandException {
+       //return pm.getProductsByCategory(category);
+       throw new UnsupportedOperationException();
     }
 }

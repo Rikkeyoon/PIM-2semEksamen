@@ -5,7 +5,7 @@ import java.util.List;
 import logic.Product;
 
 /**
- * @author Nina Lisakowski
+ * @author Nina 
  */
 public interface IProductMapper {
     
@@ -13,10 +13,12 @@ public interface IProductMapper {
     
     public Product getProduct(String name) throws CommandException;
     
-    public List<Product> getProductsByCategory(List<String> names) throws CommandException;
+    public List<Product> getProductsByCategory(String categotynames) throws CommandException;
     
     public List<Product> getAllProducts() throws CommandException;
     
-
+    public void update(Product product) throws CommandException;
     
+    public void delete(Product product) throws CommandException;
+
 }
