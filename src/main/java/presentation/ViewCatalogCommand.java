@@ -4,7 +4,6 @@ import exception.CommandException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 import logic.Product;
 
@@ -19,7 +18,8 @@ public class ViewCatalogCommand extends Command {
             throws CommandException {
         List<Product> catalog = LogicFacade.getCatalog();
         //application scope attribute
-        request.getServletContext().setAttribute("catalog", catalog);
+//        request.getServletContext().setAttribute("catalog", catalog);
+        request.getSession().setAttribute("catalog", catalog);
         return "productcatalog";
     }
 

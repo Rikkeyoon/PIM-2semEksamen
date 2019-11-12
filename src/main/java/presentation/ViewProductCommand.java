@@ -3,7 +3,6 @@ package presentation;
 import exception.CommandException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 import logic.Product;
 
@@ -17,9 +16,8 @@ public class ViewProductCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) 
             throws CommandException {
         int id = Integer.parseInt(request.getParameter("product_id"));
-        Product p1 = LogicFacade.getProduct(id);
-        HttpSession session = request.getSession();
-        session.setAttribute("product", p1);
+        Product p = LogicFacade.getProduct(id);
+        request.getSession().setAttribute("product", p);
         return "producteditor";
     }
     
