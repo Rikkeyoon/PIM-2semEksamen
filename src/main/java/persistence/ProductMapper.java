@@ -8,23 +8,48 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Nina Lisakowski
+ * @author Nina Lisakowski, Allan
  */
 public class ProductMapper implements IProductMapper {
 
-    private Connection connection;
-
+//    private void displayEmployee(int id) throws SQLException {
+//
+//        Connection connection = null;
+//        String selectSQL = "Select * from employee where id = ?";
+//        PreparedStatement prepStmt = null;
+//        try {
+//            BasicDataSource basicDS = DataSource.getInstance().getBasicDS();
+//            connection = basicDS.getConnection();
+//            prepStmt = connection.prepareStatement(selectSQL);
+//            prepStmt.setInt(1, id);
+//            ResultSet rs = prepStmt.executeQuery();
+//            while (rs.next()) {
+//                System.out.println("id : " + rs.getInt("id") + " Name : "
+//                        + rs.getString("name") + " Age : " + rs.getInt("age"));
+//            }
+//        } finally {
+//            if (prepStmt != null) {
+//                prepStmt.close();
+//            }
+//            if (connection != null) {
+//                connection.close();
+//            }
+//        }
+//    }
     @Override
     public void create(Product product) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
         try {
+            connection = DataSourceController.getConnection();
             String insertSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
                     + "(?, ?, ?, ?)";
 
-            PreparedStatement pstmt = connection.prepareStatement(insertSql);
+            pstmt = connection.prepareStatement(insertSql);
             pstmt.setInt(1, product.getId());
             pstmt.setString(2, product.getName());
             pstmt.setString(3, product.getDescription());
@@ -33,19 +58,25 @@ public class ProductMapper implements IProductMapper {
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
             throw new CommandException("Could not create product. Try again!" + e);
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
         }
     }
 
     @Override
     public Product getProduct(String name) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
         Product product = null;
         try {
+            connection = DataSourceController.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + name + '%');
 
-            ResultSet result = pstmt.executeQuery();
+            result = pstmt.executeQuery();
 
             while (result.next()) {
                 int id = result.getInt(1);
@@ -61,20 +92,26 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
         }
+
         return product;
     }
-    
+
     @Override
     public Product getProduct(int id) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
         Product product = null;
         try {
+            connection = DataSourceController.getConnection();
             String selectSql = "SELECT * FROM products WHERE id = ?";
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
 
-            ResultSet result = pstmt.executeQuery();
+            result = pstmt.executeQuery();
 
             while (result.next()) {
                 String name = result.getString(2);
@@ -90,20 +127,25 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that id" + ex);
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
         }
         return product;
     }
 
     @Override
     public List<Product> getProductsByCategory(String categoryname) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
         List<Product> products = new ArrayList();
         try {
+            connection = DataSourceController.getConnection();
             String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + categoryname + '%');
 
-            ResultSet result = pstmt.executeQuery();
+            result = pstmt.executeQuery();
 
             while (result.next()) {
                 int id = result.getInt(1);
@@ -114,19 +156,24 @@ public class ProductMapper implements IProductMapper {
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
         }
         return products;
     }
 
     @Override
     public List<Product> getAllProducts() throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
         List<Product> products = new ArrayList();
         try {
+            connection = DataSourceController.getConnection();
             String selectSql = "SELECT * FROM products";
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt = connection.prepareStatement(selectSql);
 
-            ResultSet result = pstmt.executeQuery(selectSql);
+            result = pstmt.executeQuery(selectSql);
 
             while (result.next()) {
                 int id = result.getInt(1);
@@ -139,39 +186,55 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any products");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
         }
         return products;
     }
 
     @Override
     public void update(Product product) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
         try {
+            connection = DataSourceController.getConnection();
             String updateSql = "UPDATE products SET name = ?, description = ?, "
                     + "category_name = ? WHERE id = ?";
-            PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            pstmt = connection.prepareStatement(updateSql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategoryname());
             pstmt.setInt(4, product.getId());
             int rowsUpdated = pstmt.executeUpdate();
-            if(rowsUpdated == 0) throw new SQLException("No rows updated");
+            if (rowsUpdated == 0) {
+                throw new SQLException("No rows updated");
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
         }
     }
 
     @Override
     public void delete(Product product) throws CommandException {
-        connection = DataSourceController.getConnection();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
         try {
+            connection = DataSourceController.getConnection();
             String deleteSql = "DELETE FROM products WHERE id = ?";
-            PreparedStatement pstmt = connection.prepareStatement(deleteSql);
+            pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, product.getId());
             int rowsUpdated = pstmt.executeUpdate();
-            if(rowsUpdated == 0) throw new SQLException("No rows updated");
+            if (rowsUpdated == 0) {
+                throw new SQLException("No rows updated");
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the product to be deleted");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
         }
     }
 }
