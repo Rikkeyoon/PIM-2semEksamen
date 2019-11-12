@@ -117,3 +117,6 @@ INSERT INTO products VALUES (22, "Viking Birka", "Kontinental seng fra Viking, m
 INSERT INTO products VALUES (23, "Jensen Prestige", "Kontinental seng med elevation, 5 zoner madras med softline topmadras", "Seng");
 INSERT INTO products VALUES (24, "Carpe Diem Harmano", "Carpe Diem Harmano leverer det bedste fra Darpe Diem.", "Seng");
 INSERT INTO products VALUES (25, "Tempur Fusion", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng");
+
+
+select * from pimTest.products;
