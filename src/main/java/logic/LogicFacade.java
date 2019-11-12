@@ -1,6 +1,7 @@
 package logic;
 
 import exception.CommandException;
+import java.util.List;
 
 /**
  *
@@ -20,6 +21,10 @@ public class LogicFacade {
 
     public static void deleteProduct(Product p) throws CommandException {
         LogicController.deleteProduct(p);
+    }
+
+    public static List<Product> getCatalog() throws CommandException {
+        return LogicController.getCatalog();
     }
     
 }

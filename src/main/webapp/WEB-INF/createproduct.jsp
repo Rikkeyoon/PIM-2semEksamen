@@ -24,17 +24,21 @@
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
+                <br>
                 <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
                 <div id="divValidateId"></div>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
+                <br>
                 <input type="text" name="product_name" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
+                <br>
                 <textarea name="product_desc" rows="4" cols="20" required="required">
                 </textarea>
                 <br><br>
                 <label for="product_category"><b>Category</b></label>
+                <br>
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>

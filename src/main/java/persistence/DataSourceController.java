@@ -25,7 +25,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public void createProduct(Product p) throws CommandException{
-        cm.create(p);
+        cm.createCategory(p);
         pm.create(p);
     }
 
@@ -48,6 +48,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
+        cm.createCategory(p);
         pm.delete(p);
     }
 

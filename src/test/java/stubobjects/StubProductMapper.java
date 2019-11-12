@@ -37,6 +37,16 @@ public class StubProductMapper implements IProductMapper {
         }
         throw new CommandException("Could not find any product with that name");
     }
+    
+    @Override
+    public Product getProduct(int id) throws CommandException {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        throw new CommandException("Could not find any product with that name");
+    }
 
     @Override
     public List<Product> getProductsByCategory(String categoryname)
