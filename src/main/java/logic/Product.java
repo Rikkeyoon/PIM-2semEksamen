@@ -5,7 +5,7 @@ package logic;
  * @author Nina Lisakowski
  */
 public class Product {
-    
+
     private int id;
     private String name;
     private String description;
@@ -50,9 +50,13 @@ public class Product {
         this.categoryname = categoryname;
     }
 
+    public boolean compareTo(Product product) {
+        return this.id == product.getId();
+    }
+
     @Override
     public String toString() {
         return "Product with id: " + id + ", name: " + name + ", description: " + description + ", categoryname:" + categoryname;
     }
-    
+
 }
