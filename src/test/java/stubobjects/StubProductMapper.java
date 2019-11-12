@@ -39,11 +39,11 @@ public class StubProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String categotynames)
+    public List<Product> getProductsByCategory(String categoryname)
             throws CommandException {
         List<Product> productsByCategory = new ArrayList<>();
         for (Product product : products) {
-            if (product.getCategoryname().equals(categotynames)) {
+            if (product.getCategoryname().equals(categoryname)) {
                 productsByCategory.add(product);
             }
         }

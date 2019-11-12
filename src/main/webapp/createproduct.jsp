@@ -11,6 +11,8 @@
     <head>
         <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
 
     <body>
@@ -42,7 +44,7 @@
                 <c:if test="${error != null}">
                     <div class="form-alert">${error}</div>
                 </c:if>
-                    
+
                 <input class="createbtn" id="createbtn" type="submit" value="Create" 
                        onclick="confirmation()"/>
 
@@ -63,11 +65,11 @@
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
             }
-            
+
             function validateCategory() {
                 var category = $("#category").val();
                 var categoryformat = /[a-z]/;
-                
+
                 if (!category.match(categoryformat)) {
                     $("#createbtn").attr('disabled', 'disabled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
@@ -76,12 +78,12 @@
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
             }
-            
+
             function confirmation() {
                 alert("Product created succesfully!");
             }
 
         </script>
-            
+
     </body>
 </html>
