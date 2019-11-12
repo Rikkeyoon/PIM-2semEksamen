@@ -41,7 +41,7 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
                     
-                <input class="updatebtn" type="submit" value="Update" onclick="confirmation()"/>
+                <input class="createbtn" type="submit" value="Update" onclick="confirmation()"/>
 
             </form>
         </div>
@@ -53,10 +53,10 @@
                 var idformat = /[0-9]/;
 
                 if (!id.match(idformat)) {
-                    $("#updatebtn").attr('disabled', 'diasabled');
+                    $("#createbtn").attr('disabled', 'diasabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
                 } else {
-                    $("#updatebtn").removeAttr('disabled');
+                    $("#createbtn").removeAttr('disabled');
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
             }
@@ -66,10 +66,10 @@
                 var categoryformat = /[a-z]/;
                 
                 if (!category.match(categoryformat)) {
-                    $("#updatebtn").attr('disabled', 'diasbled');
+                    $("#createbtn").attr('disabled', 'diasbled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
                 } else {
-                    $("#updatebtn").removeAttr('disabled');
+                    $("#createbtn").removeAttr('disabled');
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
             }
