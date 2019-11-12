@@ -1,7 +1,9 @@
 package persistence;
 
 import exception.CommandException;
-import logic.Product;/**
+import logic.Product;
+
+/**
  *
  * @author allan
  */
