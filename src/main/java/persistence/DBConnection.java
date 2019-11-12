@@ -16,10 +16,12 @@ public class DBConnection {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static Connection conn;
+    private static Boolean testmode;
 
-    public static Connection setConnection(boolean isTestmode) throws CommandException {
+    private static void setConnection(boolean isTestmode) throws CommandException {
         try {
             InputStream prob = null;
+            testmode = isTestmode;
             if (!isTestmode) {
                 prob = DBConnection.class.getResourceAsStream("/db.properties");
             } else {
@@ -38,11 +40,10 @@ public class DBConnection {
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             throw new CommandException("Connection to database failed" + ex.getMessage());
         }
-        return conn;
     }
 
     public static Connection getConnection(boolean isTestmode) throws CommandException {
-        if (conn == null) {
+        if (conn == null || testmode != isTestmode) {
             setConnection(isTestmode);
         }
         return conn;

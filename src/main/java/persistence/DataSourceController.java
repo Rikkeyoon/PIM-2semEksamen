@@ -19,10 +19,6 @@ public class DataSourceController implements IDataSourceController {
         this.isTestmode = isTestmode;
     }
 
-    public static Connection getTestConnection() throws CommandException {
-        return DBConnection.setConnection(isTestmode);
-    }
-    
     public static Connection getConnection() throws CommandException {
         return DBConnection.getConnection(isTestmode);
     }
