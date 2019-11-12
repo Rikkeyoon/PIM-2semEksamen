@@ -53,7 +53,6 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
 
                 product = new Product(id, name, description, categoryname);
-
             }
 
             if (product == null) {
@@ -62,6 +61,35 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
+        }
+        return product;
+    }
+    
+    @Override
+    public Product getProduct(int id) throws CommandException {
+        connection = DataSourceController.getConnection();
+        Product product = null;
+        try {
+            String selectSql = "SELECT * FROM products WHERE id IS ?";
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, id);
+
+            ResultSet result = pstmt.executeQuery();
+
+            while (result.next()) {
+                String name = result.getString(2);
+                String description = result.getString(3);
+                String categoryname = result.getString(4);
+
+                product = new Product(id, name, description, categoryname);
+            }
+
+            if (product == null) {
+                throw new SQLException();
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any product with that id");
         }
         return product;
     }

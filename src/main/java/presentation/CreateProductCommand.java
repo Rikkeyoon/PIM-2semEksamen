@@ -22,6 +22,7 @@ public class CreateProductCommand extends Command {
         String category = request.getParameter("product_category");
         Product p = LogicFacade.createProduct(id, name, description, category);
         HttpSession session = request.getSession();
+        //FIXME: Skal sættes ind i kataloget somehow?
         session.setAttribute("product", p);
         return "productcatalog";
     }

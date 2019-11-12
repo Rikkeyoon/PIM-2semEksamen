@@ -11,13 +11,44 @@
     <head>
         <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
 
     <body>
-        
-            
+
+        <h1>Product Catalog</h1>
+        <form name="create" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_product">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>View Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${catalog}" var="product">
+                        <tr>
+                            <td>${product.getId()}</td>
+                            <td>${product.getName()}</td>
+                            <td>${product.getDescription()}</td>
+                            <td>${product.getCategoryname()}</td>
+                            <td><input type="submit" value="View product" 
+                                       name="${product.getId()}"/></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </form>
+        <form name="create" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_create_page">
+            <input type="submit" value="Create new product" />
+        </form>
     </body>
 </html>
 
-                           
-                         
+
+
