@@ -21,6 +21,7 @@ public abstract class Command {
         commands.put("create_product", new CreateProductCommand());
         commands.put("update_product", new UpdateProductCommand());
         commands.put("delete_product", new DeleteProductCommand());
+        commands.put("view_catalog", new ViewCatalogCommand());
     }
     
     /**
