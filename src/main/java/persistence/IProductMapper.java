@@ -13,7 +13,7 @@ public interface IProductMapper {
     
     public Product getProduct(String name) throws CommandException;
     
-    public List<Product> getProductsByCategory(String categotynames) throws CommandException;
+    public List<Product> getProductsByCategory(String categoryname) throws CommandException;
     
     public List<Product> getAllProducts() throws CommandException;
     

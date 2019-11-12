@@ -1,6 +1,7 @@
 package stubobjects;
 
 import exception.CommandException;
+import java.util.ArrayList;
 import java.util.List;
 import logic.Product;
 import persistence.IProductMapper;
@@ -38,9 +39,19 @@ public class StubProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(List<String> names)
+    public List<Product> getProductsByCategory(String categotynames)
             throws CommandException {
-        throw new CommandException("Could not find any product with that category");
+        List<Product> productsByCategory = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getCategoryname().equals(categotynames)) {
+                productsByCategory.add(product);
+            }
+        }
+        
+        if (productsByCategory.isEmpty()) {
+            throw new CommandException("Could not find any product with that category");
+        }
+        return productsByCategory;
     }
 
     @Override

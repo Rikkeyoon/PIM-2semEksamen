@@ -67,22 +67,22 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String categorynames) throws CommandException {
+    public List<Product> getProductsByCategory(String categoryname) throws CommandException {
         connection = DataSourceController.getConnection();
         List<Product> products = new ArrayList();
         try {
             String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, '%' + categorynames + '%');
+            pstmt.setString(1, '%' + categoryname + '%');
 
             ResultSet result = pstmt.executeQuery();
 
             while (result.next()) {
                 int id = result.getInt(1);
+                String name = result.getString(2);
                 String description = result.getString(3);
-                String categoryname = result.getString(4);
 
-                products.add(new Product(id, categorynames, description, categoryname));
+                products.add(new Product(id, name, description, categoryname));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");

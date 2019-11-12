@@ -98,4 +98,5 @@ public class ProductMapperTest {
                 "Test objects");
         instance.delete(product);
     }
+    
 }
