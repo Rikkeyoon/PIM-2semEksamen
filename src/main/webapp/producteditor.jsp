@@ -16,7 +16,7 @@
     <body>
         <div>
             <form name="update" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="update">
+                <input type="hidden" name="cmd" value="update_product">
 
                 <h1>Edit product</h1>
                 <br><br>

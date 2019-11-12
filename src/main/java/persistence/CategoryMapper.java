@@ -18,13 +18,13 @@ public class CategoryMapper implements ICategoryMapper {
     private Connection connection;
 
     @Override
-    public void create(Product product) throws CommandException {
+    public void createCategory(Product product) throws CommandException {
         if (!isExistingCategory(product.getCategoryname())) {
             connection = DataSourceController.getConnection();
             try {
-            String selectSql = "INSERT INTO categories VALUE(?)";
+            String insertSql = "INSERT INTO categories VALUE(?)";
 
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
             pstmt.setString(1, product.getCategoryname());
 
             pstmt.executeUpdate();

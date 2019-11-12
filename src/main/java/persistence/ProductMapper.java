@@ -20,11 +20,11 @@ public class ProductMapper implements IProductMapper {
     public void create(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
-            String selectSql = "INSERT INTO products "
+            String insertSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
                     + "(?, ?, ?, ?)";
 
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
             pstmt.setInt(1, product.getId());
             pstmt.setString(2, product.getName());
             pstmt.setString(3, product.getDescription());
