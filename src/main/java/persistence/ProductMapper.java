@@ -142,7 +142,7 @@ public class ProductMapper implements IProductMapper {
             pstmt.setInt(1, product.getId());
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not finde the product to be deleted");
+            throw new CommandException("Could not find the product to be deleted");
         }
     }
 }
