@@ -10,7 +10,7 @@ import logic.Product;
  */
 public interface ICategoryMapper {
 
-    public void create(Product p) throws CommandException;
+    public void createCategory(Product p) throws CommandException;
     
     public List<String> getAllCategories() throws CommandException;
     

@@ -18,8 +18,10 @@
     <body>
 
         <h1>Pim system</h1>
-        <input type="submit" value="Product Catalog" />
-
+        <form name="create" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_catalog">
+            <input type="submit" value="Product Catalog" />
+        </form>
 
         <!-- Exception handling -->
         <c:if test="${error != null}">

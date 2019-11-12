@@ -1,6 +1,7 @@
 package logic;
 
 import exception.CommandException;
+import java.util.List;
 import persistence.PersistenceFacade;
 
 /**
@@ -27,6 +28,10 @@ public class LogicController {
 
     public static void deleteProduct(Product p) throws CommandException{
         PersistenceFacade.deleteProduct(p);
+    }
+
+    public static List<Product> getCatalog() throws CommandException {
+        return PersistenceFacade.getCatalog();
     }
     
 }

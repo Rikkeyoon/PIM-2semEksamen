@@ -20,11 +20,11 @@ public class ProductMapper implements IProductMapper {
     public void create(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
-            String selectSql = "INSERT INTO products "
+            String insertSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
                     + "(?, ?, ?, ?)";
 
-            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
             pstmt.setInt(1, product.getId());
             pstmt.setString(2, product.getName());
             pstmt.setString(3, product.getDescription());
@@ -53,7 +53,6 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
 
                 product = new Product(id, name, description, categoryname);
-
             }
 
             if (product == null) {
@@ -62,6 +61,35 @@ public class ProductMapper implements IProductMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
+        }
+        return product;
+    }
+    
+    @Override
+    public Product getProduct(int id) throws CommandException {
+        connection = DataSourceController.getConnection();
+        Product product = null;
+        try {
+            String selectSql = "SELECT * FROM products WHERE id IS ?";
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, id);
+
+            ResultSet result = pstmt.executeQuery();
+
+            while (result.next()) {
+                String name = result.getString(2);
+                String description = result.getString(3);
+                String categoryname = result.getString(4);
+
+                product = new Product(id, name, description, categoryname);
+            }
+
+            if (product == null) {
+                throw new SQLException();
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any product with that id");
         }
         return product;
     }

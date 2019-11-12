@@ -16,7 +16,7 @@
     <body>
         <div>
             <form name="update" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="update">
+                <input type="hidden" name="cmd" value="update_product">
 
                 <h1>Edit product</h1>
                 <br><br>
@@ -25,13 +25,13 @@
                 <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
                 <div id="divValidateId"></div>
                 <br>
-                <labe for="product_name"><b>Product Name</b></labe>
+                <label for="product_name"><b>Product Name</b></label>
                 <input type="text" name="product_name" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <input type="text" name="product_desc" required>
                 <br><br>
-                <labe for="product_category"><b>Category</b></labe>
+                <label for="product_category"><b>Category</b></label>
                 <input type="text" name="product_category" id="category" onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
                 <br>

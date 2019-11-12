@@ -16,16 +16,41 @@
     </head>
 
     <body>
-        <form name="productcatalog" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="productcatalog">
-
-                <h1>Product Catalog</h1>
-                <br><br>
-      
-                
-            
+        <h1>Product Catalog</h1>
+        <br><br>
+        <form name="create" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_product">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>View Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${catalog}" var="product">
+                        <tr>
+                            <td>${product.getId()}</td>
+                            <td>${product.getName()}</td>
+                            <td>${product.getDescription()}</td>
+                            <td>${product.getCategoryname()}</td>
+                            <td><input type="submit" value="View product" 
+                                       name="${product.getId()}"/></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </form>
+        <br><br>
+        <form name="create" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_create_page">
+            <input type="submit" value="Create new product" />
+        </form>
     </body>
 </html>
 
-                           
-                         
+
+

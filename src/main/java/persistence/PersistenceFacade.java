@@ -1,6 +1,7 @@
 package persistence;
 
 import exception.CommandException;
+import java.util.List;
 import logic.Product;
 
 /**
@@ -12,8 +13,8 @@ public class PersistenceFacade {
 
     private static IDataSourceController DSController = new DataSourceController(false);
 
-    public static void getProducts() throws CommandException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static List<Product> getCatalog() throws CommandException {
+        return DSController.getProducts();
     }
 
     public static void getProduct() throws CommandException {
