@@ -15,7 +15,7 @@
 
 
 ## Domæne model
-![Domæne model]()
+![Domæne model](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Diagrammer/Drawio/PIMDomainModel.jpg)
 Kommer snart
 
 ## Git Branches 
