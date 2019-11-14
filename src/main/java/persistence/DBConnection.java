@@ -15,7 +15,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class DBConnection {
 
-    private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
+    private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
 
     private static DBConnection dbc;
     private BasicDataSource basicDS;
@@ -49,7 +49,7 @@ public class DBConnection {
             basicDS.setMaxIdle(7);
             basicDS.setMinIdle(2);
             basicDS.setInitialSize(2);
-            basicDS.setMaxTotal(10);
+            basicDS.setMaxTotal(15);
 
         } catch (IOException ex) {
             throw new CommandException("Failed to load properties file. " + ex.getMessage());
