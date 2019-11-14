@@ -19,18 +19,19 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public void createCategory(Product product) throws CommandException {
-        if (!isExistingCategory(product.getCategoryname())) {
-            connection = DataSourceController.getConnection();
-            try {
-            String insertSql = "INSERT INTO categories VALUE(?)";
-
+        connection = DataSourceController.getConnection();
+        String insertSql = "INSERT INTO categories VALUE(?)";
+        try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql);
             pstmt.setString(1, product.getCategoryname());
 
-            pstmt.executeUpdate();
-            } catch (SQLException | NullPointerException ex) {
-                throw new CommandException("Could not create new category");
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new NullPointerException();
             }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not create new category");
         }
     }
 
@@ -38,9 +39,8 @@ public class CategoryMapper implements ICategoryMapper {
     public List<String> getAllCategories() throws CommandException {
         connection = DataSourceController.getConnection();
         List<String> categories = new ArrayList();
-
+        String selectSql = "SELECT * FROM categories";
         try {
-            String selectSql = "SELECT * FROM categories";
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
 
             ResultSet result = pstmt.executeQuery(selectSql);
@@ -53,16 +53,6 @@ public class CategoryMapper implements ICategoryMapper {
             throw new CommandException("Could not find any categories");
         }
         return categories;
-    }
-
-    private boolean isExistingCategory(String categoryname) throws CommandException {
-        List<String> categories = getAllCategories();
-        for (String category : categories) {
-            if (category.equals(categoryname)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
