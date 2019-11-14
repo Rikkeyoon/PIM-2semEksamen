@@ -11,7 +11,7 @@
 ![Project Arkitektur setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/Arkitektur.jpg)
 
 ## ER DIAGRAM
-![ER Diagram](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Diagrammer/Illustrationer/ERDIAGRAM.PNG)
+![ER Diagram](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/ERDIAGRAM.PNG)
 
 
 ## Domæne model
