@@ -1,6 +1,7 @@
 /**
  * Author:  Rikke, Allan
  * Created: 10. nov. 2019
+ * Run This a localhost database.
  */
 CREATE SCHEMA IF NOT EXISTS pimTest_template;
 USE pimTest_template;

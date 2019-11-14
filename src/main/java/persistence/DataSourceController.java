@@ -24,8 +24,13 @@ public class DataSourceController implements IDataSourceController {
     }
 
     @Override
-    public void createProduct(Product p) throws CommandException{
-        cm.createCategory(p);
+    public void createProduct(Product p) throws CommandException {
+        try {
+            cm.createCategory(p);
+        } catch (CommandException e) {
+            //If an exception is thrown it means that the category already exits
+            //We don't need to forward the message to the user
+        }
         pm.create(p);
     }
 
@@ -33,7 +38,7 @@ public class DataSourceController implements IDataSourceController {
     public Product getProduct(int id) throws CommandException {
         return pm.getProduct(id);
     }
-    
+
     @Override
     public Product getProduct(String name) throws CommandException {
         return pm.getProduct(name);
@@ -44,10 +49,15 @@ public class DataSourceController implements IDataSourceController {
         return pm.getAllProducts();
 
     }
-    
+
     @Override
     public void updateProduct(Product p) throws CommandException {
-        cm.createCategory(p);
+        try {
+            cm.createCategory(p);
+        } catch (CommandException e) {
+            //If an exception is thrown it means that the category already exits
+            //We don't need to forward the message to the user
+        }
         pm.update(p);
     }
 
@@ -58,7 +68,7 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public List<Product> getProductsByCategory(String category) throws CommandException {
-       //return pm.getProductsByCategory(category);
-       throw new UnsupportedOperationException();
+        //return pm.getProductsByCategory(category);
+        throw new UnsupportedOperationException();
     }
 }
