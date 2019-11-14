@@ -31,7 +31,6 @@ public class ProductMapperTest {
 
     @Before
     public void testSetup() throws CommandException {
-        System.out.println("HELLOOO");
         try {
             Statement stmt = DataSourceController.getConnection().createStatement();
             stmt.execute("drop schema if exists pimTest");
