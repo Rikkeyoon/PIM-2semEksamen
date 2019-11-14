@@ -8,10 +8,19 @@
 - Rikke Yoon, Rikkeyoon, cph-ry6@cphbusiness.dk
 
 ## Software Arkitektur
-![Git Arkitektur setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/GitBranches.jpg)
+![Project Arkitektur setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/GitBranches.jpg)
+
+## ER DIAGRAM
+![ER Diagram](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/ERDIAGRAM.jpg)
+
+
+## Domæne model
+![Domæne model]()
+
 
 ## Git Branches 
 ![Git Branch setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Arkitektur.jpg)
 
 ## Generisk produkt
-![Git generiskprodukt setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/generiskprodukt.jpg)
+![generiskprodukt setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/generiskprodukt.jpg)
+
