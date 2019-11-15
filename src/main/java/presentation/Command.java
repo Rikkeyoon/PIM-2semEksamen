@@ -24,6 +24,7 @@ public abstract class Command {
         commands.put("view_catalog", new ViewCatalogCommand());
         commands.put("view_product", new ViewProductCommand());
         commands.put("view_create_page", new ViewCreatePageCommand());
+        commands.put("view_edit_page", new ViewEditPageCommand());
     }
     
     /**
