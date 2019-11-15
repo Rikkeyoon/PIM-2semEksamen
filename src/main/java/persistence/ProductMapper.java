@@ -112,6 +112,10 @@ public class ProductMapper implements IProductMapper {
 
                 products.add(new Product(id, name, description, categoryname));
             }
+            
+            if (products.size() < 1) {
+                throw new SQLException();
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen name");
         }

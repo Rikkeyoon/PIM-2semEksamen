@@ -60,34 +60,30 @@ public class ProductMapperTest {
 
     }
 
-    @Test //getProductTest1, tests that we can get min, min+1, middle-1, middle, middle+1, max-1 & max ID objects from the the test database.
-    public void getProductTest1() throws CommandException {
+    @Test //getProductTest, Tests that we can get a product from each category with the correct ID when using name search
+    public void getProductWithNameTest_GetOneProductFromEachCategory() throws CommandException {
         //Arrange
-        Product[] products = new Product[7];
+        Product[] products = new Product[5];
 
         //Act
         products[0] = dsc.getProduct("Rød Cykel");
-        products[1] = dsc.getProduct("Grøn Cykel");
-        products[2] = dsc.getProduct("Carlsberg 6 pack");
-        products[3] = dsc.getProduct("Sierra Silver Tequila");
-        products[4] = dsc.getProduct("Smirnoff Vodka 37,5%");
-        products[5] = dsc.getProduct("Carpe Diem Harmano");
-        products[6] = dsc.getProduct("Tempur Fusion");
+        products[1] = dsc.getProduct("Samsung Galaxy S10");
+        products[2] = dsc.getProduct("Tuborg Classic 6 pack");
+        products[3] = dsc.getProduct("Hauwei R5");
+        products[4] = dsc.getProduct("Auping Royal");
 
         //Assert
         assertEquals(1, products[0].getId());
-        assertEquals(2, products[1].getId());
-        assertEquals(12, products[2].getId());
-        assertEquals(13, products[3].getId());
-        assertEquals(14, products[4].getId());
-        assertEquals(24, products[5].getId());
-        assertEquals(25, products[6].getId());
+        assertEquals(6, products[1].getId());
+        assertEquals(11, products[2].getId());
+        assertEquals(16, products[3].getId());
+        assertEquals(21, products[4].getId());
+
 
     }
 
-    @Test //getProductTest2, test that we can get a specific product with all fields.
-    public void getProductTest2() throws CommandException {
-
+    @Test //getProductTest, test that we can get a specific product with all fields using name search.
+    public void getProductWithNameTest_AssertFieldsInOneProduct() throws CommandException {
         //Arrange
         Product p = null;
 
@@ -101,9 +97,9 @@ public class ProductMapperTest {
         assertEquals("Cykler", p.getCategoryname());
     }
 
-    //getProductTestFail, Tests that a CommandException is thrown when searching for nonexisting product
+    //getProductTest, Tests that a CommandException is thrown when searching for nonexisting product using name
     @Test(expected = CommandException.class)
-    public void getProductTestFail() throws CommandException {
+    public void getProductWithNameTest_Fail() throws CommandException {
 
         //Arrange
         //Act
@@ -111,8 +107,55 @@ public class ProductMapperTest {
         //Assert
     }
 
-    @Test //GetProductsTest1, test that we can get all products in one list and the fields are not null
-    public void getProductsTest1() throws CommandException {
+
+    @Test //getProductTest, Tests that we can get a product from each category with the correct name using Id to search
+    public void getProductWithIDTest_GetOneProductFromEachCategory() throws CommandException {
+        //Arrange
+        Product[] products = new Product[5];
+
+        //Act
+        products[0] = dsc.getProduct(1);
+        products[1] = dsc.getProduct(6);
+        products[2] = dsc.getProduct(11);
+        products[3] = dsc.getProduct(16);
+        products[4] = dsc.getProduct(21);
+
+        //Assert
+        assertEquals("Rød Cykel", products[0].getName());
+        assertEquals("Samsung Galaxy S10", products[1].getName());
+        assertEquals("Tuborg Classic 6 pack", products[2].getName());
+        assertEquals("Hauwei R5", products[3].getName());
+        assertEquals("Auping Royal", products[4].getName());
+
+
+    }
+
+    @Test //getProductTest, test that we can get a specific product from id, with all fields.
+    public void getProductWithIDTest_AssertFieldsInOneProduct() throws CommandException {
+        //Arrange
+        Product p = null;
+
+        //Act
+        p = dsc.getProduct(1);
+
+        //Assert
+        assertEquals(1, p.getId());
+        assertEquals("Rød Cykel", p.getName());
+        assertEquals("En Cykel der er rød", p.getDescription());
+        assertEquals("Cykler", p.getCategoryname());
+    }
+
+    //getProductTest, Tests that a CommandException is thrown when searching for nonexisting product with id
+    @Test(expected = CommandException.class)
+    public void getProductWithIDTest_Fail() throws CommandException {
+
+        //Arrange
+        //Act
+        dsc.getProduct(-1);
+        //Assert
+    }
+    @Test //GetProductsTest, test that we can get all products in one list and the fields are not null
+    public void getProductsTest_getAllProductsFieldsNotEmpty() throws CommandException {
         //Arrange
         List<Product> productList = null;
 
@@ -131,7 +174,7 @@ public class ProductMapperTest {
     }
 
     @Test //getProductsTest2, Test that we can get all products and assert the field values at min, min+1, middle-1, middle, middle+1, max-1 & max ID objects from the the test database.
-    public void getProductsTest2() throws CommandException {
+    public void getProductsTest_assertFieldsInProducts() throws CommandException {
         //Arrange
         List<Product> productList = null;
         Product[] products = new Product[7];
@@ -184,8 +227,15 @@ public class ProductMapperTest {
         assertEquals("Seng", products[6].getCategoryname());
     }
 
-    public void getProductsByCategory() throws CommandException {
-        List<Product> productList = dsc.getProductsByCategory("Cykler");
+    @Test //GetProductsByCategory, Test that we get all products from at category and the fields are not null
+    public void getProductsByCategory_AssertFieldsNotNull() throws CommandException {
+        //arrange
+        List<Product> productList = null;
+        
+        //act
+        productList = dsc.getProductsByCategory("Cykler");
+        
+        //Assert
         assertEquals(5, productList.size());
         for (int i = 0; i < productList.size(); i++) {
             Product product = productList.get(i);
@@ -196,49 +246,47 @@ public class ProductMapperTest {
         }
     }
 
-    //(expected = CommandException.class)
-    public void getProductsByCategoryFail() throws CommandException {
-        List<Product> productList = dsc.getProductsByCategory("Cykler");
-        assertEquals(25, productList.size());
-        for (int i = 0; i < productList.size(); i++) {
-            Product product = productList.get(i);
-            assertEquals(i + 1, product.getId());
-            assertNotNull(product.getName());
-            assertNotNull(product.getDescription());
-            assertNotNull(product.getCategoryname());
-        }
+    @Test(expected = CommandException.class) //getproductsByCategory, test that we get a command exception with nonexistent category
+    public void getProductsByCategory_Fail() throws CommandException {
+        //Arrange
+        List<Product> productList = null;
+                
+        //Act
+        productList = dsc.getProductsByCategory("pneumonia");
+        
+        //Assert
     }
 
     @Test // createProductTes1t, Creates a product with a preexisting category
-    public void createProductTest1() throws CommandException {
+    public void createProductTest_WithPrexistingCategory() throws CommandException {
         //Arrange
-        Product pSubmit = new Product(321, "testProdukt321", "Dette er et TestProdukt", "Cykler");
+        Product pSubmit = new Product(123, "test123", "Dette er et TestProdukt", "Cykler");
         Product pResult = null;
 
         //Act
         dsc.createProduct(pSubmit);
-        pResult = dsc.getProduct("testProdukt321");
+        pResult = dsc.getProduct("test123");
 
         //Arrange
-        assertEquals(321, pResult.getId());
-        assertEquals("testProdukt321", pResult.getName());
+        assertEquals(123, pResult.getId());
+        assertEquals("test123", pResult.getName());
         assertEquals("Dette er et TestProdukt", pResult.getDescription());
         assertEquals("Cykler", pResult.getCategoryname());
     }
 
-    @Test // createProductTest2, Creates a product with a new category
-    public void createProductTest2() throws CommandException {
+    @Test // createProductTest2, Creates a product with a new category(also creates the new category)
+    public void createProductTest_WithNewcategory() throws CommandException {
         //Arrange
-        Product pSubmit = new Product(1234, "testProdukt2", "Dette er et TestProdukt", "Test");
+        Product pSubmit = new Product(123, "test123", "Dette er et TestProdukt", "Test");
         Product pResult = null;
 
         //Act
         dsc.createProduct(pSubmit);
-        pResult = dsc.getProduct("testProdukt2");
+        pResult = dsc.getProduct("test123");
 
         //Arrange
-        assertEquals(1234, pResult.getId());
-        assertEquals("testProdukt2", pResult.getName());
+        assertEquals(123, pResult.getId());
+        assertEquals("test123", pResult.getName());
         assertEquals("Dette er et TestProdukt", pResult.getDescription());
         assertEquals("Test", pResult.getCategoryname());
     }
@@ -248,8 +296,8 @@ public class ProductMapperTest {
     public void createProductTestFail() throws CommandException {
 
         //Arrange
-        Product p1 = new Product(231, "testProdukt", "Dette er et TestProdukt", "Test");
-        Product p2 = new Product(231, "produktTest", "Test Testen Tester Testing Tests", "Test");
+        Product p1 = new Product(123, "testProdukt", "Dette er et TestProdukt", "Test");
+        Product p2 = new Product(123, "produktTest", "Test Testen Tester Testing Tests", "Test");
 
         //Act
         dsc.createProduct(p1);
@@ -259,8 +307,8 @@ public class ProductMapperTest {
         //Assert
     }
 
-    @Test //updateTest, Tests that we can update a product
-    public void updateTest() throws CommandException {
+    @Test //updateTest, Tests that we can update a product with new name and description
+    public void updateTest_NewNameAndDescription() throws CommandException {
         //Arrange
         Product pSubmit = new Product(12345, "testProdukt4", "Gæt hvem der tester?, tester igen, gæt hvem der der tester.", "Test");
         Product pBeforeUpdate = null;
@@ -284,8 +332,8 @@ public class ProductMapperTest {
         assertEquals("Test", pAfterUpdate.getCategoryname());
     }
 
-    //@Test Omitted until method is features is implemented //updateTest2, Tests that we can update a product with a new category
-    public void updateTest2() throws CommandException {
+    @Test //updateTest2, Tests that we can update a product with a new category
+    public void updateTest_NewNameDescriptionCategory() throws CommandException {
         //Arrange
         Product pSubmit = new Product(12345, "testProdukt4", "Gæt hvem der tester?, tester igen, gæt hvem der der tester.", "Test");
         Product pBeforeUpdate = null;

@@ -68,7 +68,6 @@ public class DataSourceController implements IDataSourceController {
 
     @Override
     public List<Product> getProductsByCategory(String category) throws CommandException {
-        //return pm.getProductsByCategory(category);
-        throw new UnsupportedOperationException();
+        return pm.getProductsByCategory(category);
     }
 }
