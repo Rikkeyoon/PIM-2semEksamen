@@ -19,7 +19,7 @@
 
 
 ## Git Branches 
-![Git Branch setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/Arkitektur.jpg)
+![Git Branch setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/GitBranches.jpg)
 
 ## Generisk produkt
 ![generiskprodukt setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/generiskprodukt.jpg)
