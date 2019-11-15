@@ -1,6 +1,7 @@
 package persistence;
 
 import exception.CommandException;
+import java.sql.Connection;
 import java.util.List;
 import logic.Product;
 
@@ -9,28 +10,47 @@ import logic.Product;
  * @author allan
  */
 
-public class PersistenceFacade {
+public class PersistenceFacade implements IPersistenceFacade{
 
-    private static IDataSourceController DSController = new DataSourceController(false);
-
-    public static List<Product> getCatalog() throws CommandException {
-        return DSController.getProducts();
+    private IDatabaseConnection DBC;
+    private IProductMapper pm = new ProductMapper();
+    private ICategoryMapper cm = new CategoryMapper();
+    
+    public PersistenceFacade(Boolean testmode){
+        if(testmode){
+            
+        }else{
+            
+        }
+    }
+    
+    public Connection getConnection() throws CommandException{
+        return DBC.getConnection();
     }
 
-    public static Product getProduct(int id) throws CommandException {
-        return DSController.getProduct(id);
+    @Override
+    public List<Product> getCatalog() throws CommandException {
+        return pm.getAllProducts();
     }
 
-    public static void createProduct(Product p) throws CommandException{
-        DSController.createProduct(p);
+    @Override
+    public Product getProduct(int id) throws CommandException {
+        return pm.getProduct(id);
     }
 
-    public static void updateProduct(Product p) throws CommandException {
-        DSController.updateProduct(p);
+    @Override
+    public void createProduct(Product p) throws CommandException{
+        pm.create(p);
     }
 
-    public static void deleteProduct(Product p) throws CommandException {
-        DSController.deleteProduct(p);
+    @Override
+    public void updateProduct(Product p) throws CommandException {
+        pm.update(p);
+    }
+
+    @Override
+    public void deleteProduct(Product p) throws CommandException {
+        pm.delete(p);
     }
 
 }
