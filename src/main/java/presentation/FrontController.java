@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The purpose of FrontController is to handle all request for the web site 
- * It consists of two parts: Web Handler and Command hierarchy
- * As a Web Handler it receives post or get requests, delegates to a command 
- * to carry out the action, and forwards the result to a view 
+ * The purpose of FrontController is to handle all request for the web site It
+ * consists of two parts: Web Handler and Command hierarchy As a Web Handler it
+ * receives post or get requests, delegates to a command to carry out the
+ * action, and forwards the result to a view
  *
  * @author carol
  */
@@ -33,7 +33,11 @@ public class FrontController extends HttpServlet {
         try {
             Command cmd = Command.from(request);
             String view = cmd.execute(request, response);
-            request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+            if (view.equals("index")) {
+                request.getRequestDispatcher(view + ".jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+            }
         } catch (CommandException ex) {
             request.setAttribute("error", ex.getMessage());
             //TODO: Forward to a view or   perhaps an error page instead of index

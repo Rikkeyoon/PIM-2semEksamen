@@ -18,7 +18,7 @@ public class ViewProductCommand extends Command {
         int id = Integer.parseInt(request.getParameter("product_id"));
         Product p = LogicFacade.getProduct(id);
         request.getSession().setAttribute("product", p);
-        return "producteditor";
+        return "viewproduct";
     }
     
 }

@@ -17,7 +17,8 @@ public class DeleteProductCommand extends Command {
             throws CommandException {
         Product p = (Product) request.getSession().getAttribute("product");
         LogicFacade.deleteProduct(p);
-        return "productcatalog";
+//        return "productcatalog";
+        return "index";
     }
     
 }
