@@ -32,7 +32,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!" + e);
+            throw new CommandException("Could not create product. Try again!");
         }
     }
 
@@ -89,7 +89,7 @@ public class ProductMapper implements IProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any product with that id" + ex);
+            throw new CommandException("Could not find any product with that id");
         }
         return product;
     }
@@ -157,7 +157,7 @@ public class ProductMapper implements IProductMapper {
             int rowsUpdated = pstmt.executeUpdate();
             if(rowsUpdated == 0) throw new SQLException("No rows updated");
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
+            throw new CommandException("Could not find a product with the given ID");
         }
     }
 
