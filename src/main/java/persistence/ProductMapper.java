@@ -20,7 +20,7 @@ public class ProductMapper implements IProductMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String insertSql = "INSERT INTO products "
                     + "(id, name, description, category_name) VALUES"
                     + "(?, ?, ?, ?)";
@@ -48,7 +48,7 @@ public class ProductMapper implements IProductMapper {
         ResultSet result = null;
         Product product = null;
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + name + '%');
@@ -68,7 +68,7 @@ public class ProductMapper implements IProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any product with that name");
+            throw new CommandException("Could not find any product with that name" );
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -83,7 +83,7 @@ public class ProductMapper implements IProductMapper {
         ResultSet result = null;
         Product product = null;
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE id = ?";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
@@ -117,7 +117,7 @@ public class ProductMapper implements IProductMapper {
         ResultSet result = null;
         List<Product> products = new ArrayList();
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + categoryname + '%');
@@ -150,7 +150,7 @@ public class ProductMapper implements IProductMapper {
         ResultSet result = null;
         List<Product> products = new ArrayList();
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products";
             pstmt = connection.prepareStatement(selectSql);
 
@@ -178,7 +178,7 @@ public class ProductMapper implements IProductMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String updateSql = "UPDATE products SET name = ?, description = ?, "
                     + "category_name = ? WHERE id = ?";
             pstmt = connection.prepareStatement(updateSql);
@@ -203,7 +203,7 @@ public class ProductMapper implements IProductMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
-            connection = DataSourceController.getConnection();
+            connection = PersistenceFacadeDB.getConnection();
             String deleteSql = "DELETE FROM products WHERE id = ?";
             pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, product.getId());

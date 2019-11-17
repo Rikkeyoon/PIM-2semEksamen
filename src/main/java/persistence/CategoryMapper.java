@@ -19,7 +19,7 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public void createCategory(Product product) throws CommandException {
-        connection = DataSourceController.getConnection();
+        connection = PersistenceFacadeDB.getConnection();
         String insertSql = "INSERT INTO categories VALUE(?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql);
@@ -37,7 +37,7 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public List<String> getAllCategories() throws CommandException {
-        connection = DataSourceController.getConnection();
+        connection = PersistenceFacadeDB.getConnection();
         List<String> categories = new ArrayList();
         String selectSql = "SELECT * FROM categories";
         try {

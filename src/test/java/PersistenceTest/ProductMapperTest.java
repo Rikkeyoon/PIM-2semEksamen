@@ -14,7 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import persistence.DataSourceController;
+import persistence.PersistenceFacadeDB;
 
 /**
  *
@@ -22,24 +22,24 @@ import persistence.DataSourceController;
  */
 public class ProductMapperTest {
 
-    private static DataSourceController dsc;
+    private static PersistenceFacadeDB pf;
 
     @BeforeClass
     public static void clasSetup() {
-        dsc = new DataSourceController(true);
+        pf = new PersistenceFacadeDB(true);
     }
 
     @Before
     public void testSetup() throws CommandException {
         try {
-            Statement stmt = DataSourceController.getConnection().createStatement();
-            stmt.execute("drop schema if exists pimTest");
-            stmt.execute("create schema pimTest");
-            stmt.execute("create table pimTest.categories like pimTest_template.categories");
-            stmt.execute("create table pimTest.products like pimTest_template.products");
-            stmt.execute("insert into pimTest.categories select * from pimTest_template.categories");
-            stmt.execute("insert into pimTest.products select * from pimTest_template.products");
-            stmt.execute("USE pimTest");
+            Statement stmt = PersistenceFacadeDB.getConnection().createStatement();
+            stmt.execute("drop schema if exists pimTest;");
+            stmt.execute("create schema pimTest;");
+            stmt.execute("create table pimTest.categories like pimTest_template.categories;");
+            stmt.execute("create table pimTest.products like pimTest_template.products;");
+            stmt.execute("insert into pimTest.categories select * from pimTest_template.categories;");
+            stmt.execute("insert into pimTest.products select * from pimTest_template.products;");
+            stmt.execute("USE pimtest;");
         } catch (SQLException ex) {
             System.out.println("Test setup Failed: " + ex.getMessage());
         }
@@ -54,7 +54,7 @@ public class ProductMapperTest {
         Connection con = null;
 
         //Act
-        con = DataSourceController.getConnection();
+        con = PersistenceFacadeDB.getConnection();
 
         //Assert
         assertNotNull(con);
@@ -67,11 +67,11 @@ public class ProductMapperTest {
         Product[] products = new Product[5];
 
         //Act
-        products[0] = dsc.getProduct("Rød Cykel");
-        products[1] = dsc.getProduct("Samsung Galaxy S10");
-        products[2] = dsc.getProduct("Tuborg Classic 6 pack");
-        products[3] = dsc.getProduct("Hauwei R5");
-        products[4] = dsc.getProduct("Auping Royal");
+        products[0] = pf.getProduct("Rød Cykel");
+        products[1] = pf.getProduct("Samsung Galaxy S10");
+        products[2] = pf.getProduct("Tuborg Classic 6 pack");
+        products[3] = pf.getProduct("Hauwei R5");
+        products[4] = pf.getProduct("Auping Royal");
 
         //Assert
         assertEquals(1, products[0].getId());
@@ -89,7 +89,7 @@ public class ProductMapperTest {
         Product p = null;
 
         //Act
-        p = dsc.getProduct("Rød Cykel");
+        p = pf.getProduct("Rød Cykel");
 
         //Assert
         assertEquals(1, p.getId());
@@ -104,7 +104,7 @@ public class ProductMapperTest {
     public void getProductTestFail() throws CommandException {
         //Arrange
         //Act
-        dsc.getProduct("Flying Bike");
+        pf.getProduct("Flying Bike");
         //Assert
     }
 
@@ -114,11 +114,11 @@ public class ProductMapperTest {
         Product[] products = new Product[5];
 
         //Act
-        products[0] = dsc.getProduct(1);
-        products[1] = dsc.getProduct(6);
-        products[2] = dsc.getProduct(11);
-        products[3] = dsc.getProduct(16);
-        products[4] = dsc.getProduct(21);
+        products[0] = pf.getProduct(1);
+        products[1] = pf.getProduct(6);
+        products[2] = pf.getProduct(11);
+        products[3] = pf.getProduct(16);
+        products[4] = pf.getProduct(21);
 
         //Assert
         assertEquals("Rød Cykel", products[0].getName());
@@ -136,7 +136,7 @@ public class ProductMapperTest {
         Product p = null;
 
         //Act
-        p = dsc.getProduct(1);
+        p = pf.getProduct(1);
 
         //Assert
         assertEquals(1, p.getId());
@@ -151,17 +151,17 @@ public class ProductMapperTest {
 
         //Arrange
         //Act
-        dsc.getProduct(-1);
+        pf.getProduct(-1);
         //Assert
     }
     @Test //GetProductsTest, test that we can get all products in one list and the fields are not null
-    public void getProductsTest_getAllProductsFieldsNotEmpty() throws CommandException {
+    public void getCatalogTest_getAllProductsFieldsNotEmpty() throws CommandException {
 
         //Arrange
         List<Product> productList = null;
 
         //Act
-        productList = dsc.getProducts();
+        productList = pf.getCatalog();
 
         //Assert
         //assertEquals(25, productList.size());
@@ -175,13 +175,13 @@ public class ProductMapperTest {
     }
 
     @Test //getProductsTest2, Test that we can get all products and assert the field values at min, min+1, middle-1, middle, middle+1, max-1 & max ID objects from the the test database.
-    public void getProductsTest_assertFieldsInProducts() throws CommandException {
+    public void getCatalogTest_assertFieldsInProducts() throws CommandException {
         //Arrange
         List<Product> productList = null;
         Product[] products = new Product[7];
 
         //Act
-        productList = dsc.getProducts();
+        productList = pf.getCatalog();
         products[0] = productList.get(0);
         products[1] = productList.get(1);
         products[2] = productList.get(11);
@@ -235,7 +235,7 @@ public class ProductMapperTest {
         List<Product> productList = null;
         
         //act
-        productList = dsc.getProductsByCategory("Cykler");
+        productList = pf.getProductsByCategory("Cykler");
         
         //Assert
         assertEquals(5, productList.size());
@@ -254,7 +254,7 @@ public class ProductMapperTest {
         List<Product> productList = null;
                 
         //Act
-        productList = dsc.getProductsByCategory("pneumonia");
+        productList = pf.getProductsByCategory("pneumonia");
         
         //Assert
     }
@@ -267,8 +267,8 @@ public class ProductMapperTest {
         Product pResult = null;
 
         //Act
-        dsc.createProduct(pSubmit);
-        pResult = dsc.getProduct("test123");
+        pf.createProduct(pSubmit);
+        pResult = pf.getProduct("test123");
 
         //Arrange
         assertEquals(123, pResult.getId());
@@ -284,8 +284,8 @@ public class ProductMapperTest {
         Product pResult = null;
 
         //Act
-        dsc.createProduct(pSubmit);
-        pResult = dsc.getProduct("test123");
+        pf.createProduct(pSubmit);
+        pResult = pf.getProduct("test123");
 
         //Arrange
         assertEquals(123, pResult.getId());
@@ -304,8 +304,8 @@ public class ProductMapperTest {
         Product p2 = new Product(123, "produktTest", "Test Testen Tester Testing Tests", "Test");
 
         //Act
-        dsc.createProduct(p1);
-        dsc.createProduct(p2);
+        pf.createProduct(p1);
+        pf.createProduct(p2);
 
         //Assert
     }
@@ -319,10 +319,10 @@ public class ProductMapperTest {
         Product pAfterUpdate = null;
 
         //Act
-        dsc.createProduct(pSubmit);
-        pBeforeUpdate = dsc.getProduct("testProdukt4");
-        dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test"));
-        pAfterUpdate = dsc.getProduct("testProdukt5");
+        pf.createProduct(pSubmit);
+        pBeforeUpdate = pf.getProduct("testProdukt4");
+        pf.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test"));
+        pAfterUpdate = pf.getProduct("testProdukt5");
 
         //Assert
         assertEquals(12345, pBeforeUpdate.getId());
@@ -346,10 +346,10 @@ public class ProductMapperTest {
         Product pAfterUpdate = null;
 
         //Act
-        dsc.createProduct(pSubmit);
-        pBeforeUpdate = dsc.getProduct("testProdukt4");
-        dsc.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test2"));
-        pAfterUpdate = dsc.getProduct("testProdukt5");
+        pf.createProduct(pSubmit);
+        pBeforeUpdate = pf.getProduct("testProdukt4");
+        pf.updateProduct(new Product(12345, "testProdukt5", "TestTestTest", "Test2"));
+        pAfterUpdate = pf.getProduct("testProdukt5");
 
         //Assert
         assertEquals(12345, pBeforeUpdate.getId());
@@ -369,7 +369,7 @@ public class ProductMapperTest {
         //Arrange
 
         //Act
-        dsc.updateProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
+        pf.updateProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
 
         //Assert
     }
@@ -383,21 +383,21 @@ public class ProductMapperTest {
         Product afterDelete = null;
 
         //Act
-        pBeforeDelete = dsc.getProduct("testProdukt6");
+        pBeforeDelete = pf.getProduct("testProdukt6");
 
         //Assert
         assertEquals(12345, pBeforeDelete.getId());
         assertEquals("testProdukt6", pBeforeDelete.getName());
         assertEquals("TEST TEST TEST, He said me haffi.", pBeforeDelete.getDescription());
         assertEquals("Test", pBeforeDelete.getCategoryname());
-        dsc.deleteProduct(pBeforeDelete);
-        afterDelete = dsc.getProduct("testProdukt6");
+        pf.deleteProduct(pBeforeDelete);
+        afterDelete = pf.getProduct("testProdukt6");
 
     }
 
     @Test(expected = CommandException.class)
     public void deleteTestFail() throws CommandException {
-        dsc.deleteProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
+        pf.deleteProduct(new Product(-1, "Test2produkt", "TestTestTest", "Mobiler"));
     }
 
 }

@@ -20,12 +20,15 @@ public interface IPersistenceFacade {
     
     public Product getProduct(int id) throws CommandException;
     
+    public Product getProduct(String name) throws CommandException;
+    
     public void createProduct(Product p) throws CommandException;
     
     public void updateProduct(Product p) throws CommandException;
     
     public void deleteProduct(Product p) throws CommandException;
     
+    public List<Product> getProductsByCategory(String category) throws CommandException;
 
 
 }
