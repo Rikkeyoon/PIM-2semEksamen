@@ -21,7 +21,6 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         try {
             DBC = new DatabaseConnection(testmode);
         } catch (CommandException ex) {
-            System.out.println(ex.getMessage());
         }
     }
 
