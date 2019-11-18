@@ -1,13 +1,16 @@
 /**
- * Author:  Rikke, Allan
+ * Author:  Rikke, Allan, carol
  * Created: 10. nov. 2019
  */
 CREATE SCHEMA IF NOT EXISTS pim;
 USE pim;
 
+DROP TABLE IF EXISTS category_attributes;
+DROP TABLE IF EXISTS attribute_values;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS mobil_category;
+DROP TABLE IF EXISTS attributes;
+
 
 CREATE TABLE categories (
     category_name VARCHAR(45) NOT NULL,
@@ -15,7 +18,7 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE products (
-    id INT NOT NULL,
+    id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(45) NOT NULL,
     description VARCHAR(200) NOT NULL,
     category_name VARCHAR(45) NOT NULL,
@@ -23,12 +26,33 @@ CREATE TABLE products (
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
 );
 
+CREATE TABLE attributes (
+    id INT AUTO_INCREMENT NOT NULL,
+    attribute_name VARCHAR(45) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE attribute_values(
+	attribute_id INT NOT NULL,
+	product_id INT NOT NULL,
+	attribute_value VARCHAR(200) NOT NULL,
+    PRIMARY KEY(attribute_id, product_id),
+    FOREIGN KEY(attribute_id) REFERENCES attributes(id),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+CREATE TABLE category_attributes (
+	category_name VARCHAR(45) NOT NULL,
+    attribute_id INT NOT NULL,
+    FOREIGN KEY(category_name) REFERENCES categories(category_name),
+    FOREIGN KEY(attribute_id) REFERENCES attributes(id)
+);
+
 INSERT INTO categories VALUES ("Cykler");
 INSERT INTO categories VALUES ("Mobiler");
 INSERT INTO categories VALUES ("Alkohol");
 INSERT INTO categories VALUES ("Computer");
 INSERT INTO categories VALUES ("Seng");
-
 
 INSERT INTO products VALUES (1, "Rød Cykel", "En Cykel der er rød", "Cykler");
 INSERT INTO products VALUES (2, "Grøn Cykel", "En Cykel der er grøn", "Cykler");
@@ -43,7 +67,7 @@ INSERT INTO products VALUES (9, "Xiaomi redmi note 5", "Middel performance telef
 INSERT INTO products VALUES (10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler");
 
 INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol");
-INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol");
+INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the would", "Alkohol");
 INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
 INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
 INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
@@ -60,64 +84,25 @@ INSERT INTO products VALUES (23, "Jensen Prestige", "Kontinental seng med elevat
 INSERT INTO products VALUES (24, "Carpe Diem Harmano", "Carpe Diem Harmano leverer det bedste fra Darpe Diem.", "Seng");
 INSERT INTO products VALUES (25, "Tempur Fusion", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng");
 
-CREATE SCHEMA IF NOT EXISTS pimTest;
-USE pimTest;
+CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
+SELECT p.id, p.name, p.description, p.category_name, a.attribute_name, av.attribute_value
+FROM products p JOIN category_attributes c 
+ON p.category_name = c.category_name 
+JOIN attributes a ON c.attribute_id = a.id 
+LEFT JOIN attribute_values av ON p.id = av.product_id AND av.attribute_id = a.id
+ORDER BY p.id ASC;
 
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS mobil_category;
+INSERT INTO attributes(attribute_name) VALUE ("Alkohol Procent");
+INSERT INTO attributes(attribute_name) VALUE ("Kamera");
+INSERT INTO attributes(attribute_name) VALUE ("Processor");
 
-CREATE TABLE categories (
-    category_name VARCHAR(45) NOT NULL,
-    PRIMARY KEY(category_name)
-);
+INSERT INTO category_attributes VALUES ("Alkohol", 1);
+INSERT INTO category_attributes VALUES ("Mobiler", 2);
+INSERT INTO category_attributes VALUES ("Mobiler", 3);
 
-CREATE TABLE products (
-    id INT NOT NULL,
-    name VARCHAR(45) NOT NULL,
-    description VARCHAR(200) NOT NULL,
-    category_name VARCHAR(45) NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY(category_name) REFERENCES categories(category_name)
-);
+INSERT INTO attribute_values VALUES (1, 13, "37,5 %");
+INSERT INTO attribute_values VALUES (1, 11, "4,5 %");
+INSERT INTO attribute_values VALUES (2, 6, "12 MP kamera med Dual Pixel teknologi");
+INSERT INTO attribute_values VALUES (3, 6, "High-end octa-core processor");
+INSERT INTO attribute_values VALUES (2, 9, "10 MP kamera");
 
-INSERT INTO categories VALUES ("Cykler");
-INSERT INTO categories VALUES ("Mobiler");
-INSERT INTO categories VALUES ("Alkohol");
-INSERT INTO categories VALUES ("Computer");
-INSERT INTO categories VALUES ("Seng");
-
-
-INSERT INTO products VALUES (1, "Rød Cykel", "En Cykel der er rød", "Cykler");
-INSERT INTO products VALUES (2, "Grøn Cykel", "En Cykel der er grøn", "Cykler");
-INSERT INTO products VALUES (3, "Blå Cykel", "En Cykel der er blå", "Cykler");
-INSERT INTO products VALUES (4, "Pink Cykel", "En Cykel der er pink", "Cykler");
-INSERT INTO products VALUES (5, "SORT Cykel", "En Cykel der er SORT", "Cykler");
-
-INSERT INTO products VALUES (6, "Samsung Galaxy S10", "Samsungs nyeste telefon med kraftig processor", "Mobiler");
-INSERT INTO products VALUES (7, "Apple iphone 11", "Apples nyeste telefon med fantastisk kamera.", "Mobiler");
-INSERT INTO products VALUES (8, "Hauwei P30", "Kragtig og billig telefon med mange smarte features", "Mobiler");
-INSERT INTO products VALUES (9, "Xiaomi redmi note 5", "Middel performance telefon fra Xiaomi", "Mobiler");
-INSERT INTO products VALUES (10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler");
-
-INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol");
-INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol");
-INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
-INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
-INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
-
-INSERT INTO products VALUES (16, "Hauwei R5", "Kraftig og stilfuld computer fra Hauwei", "Computer");
-INSERT INTO products VALUES (17, "Apple Pro", "Appples flagship bærbar har alt hvad en bærbar kræver", "Computer");
-INSERT INTO products VALUES (18, "Asus Zenbook", "Kraftig arbejds computer med mange smarte features fra Asus", "Computer");
-INSERT INTO products VALUES (19, "Acer Cromebook", "Acer' cromebook med lang batteri levetid og sikker anti virus", "Computer");
-INSERT INTO products VALUES (20, "Lenovo thinkpad L590", "Lenovo's thinkpad serie levere pålidelig ydelse til en god pris", "Computer");
-
-INSERT INTO products VALUES (21, "Auping Royal", "Fantastisk seng fra Auping med 5 motorer i hver bund samt stilfuld sengeramme.", "Seng");
-INSERT INTO products VALUES (22, "Viking Birka", "Kontinental seng fra Viking, med 7 zoner og 2 pocketfjedre madras", "Seng");
-INSERT INTO products VALUES (23, "Jensen Prestige", "Kontinental seng med elevation, 5 zoner madras med softline topmadras", "Seng");
-INSERT INTO products VALUES (24, "Carpe Diem Harmano", "Carpe Diem Harmano leverer det bedste fra Darpe Diem.", "Seng");
-INSERT INTO products VALUES (25, "Tempur Fusion", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng");
-
-
-select * from pimTest.products;
-select * from pim.products;

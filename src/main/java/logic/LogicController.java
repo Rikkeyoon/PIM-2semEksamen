@@ -3,18 +3,21 @@ package logic;
 import exception.CommandException;
 import java.util.List;
 import java.util.Map;
-import persistence.PersistenceFacade;
+import persistence.IPersistenceFacade;
+import persistence.PersistenceFacadeDB;
 
 /**
  *
  * @author carol
  */
 public class LogicController {
+    
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, String name, String description,
             String category) throws CommandException {
         Product p = new Product(id, name, description, category);
-        PersistenceFacade.createProduct(p);
+        pf.createProduct(p);
         return p;
     }
 
@@ -23,22 +26,22 @@ public class LogicController {
         p.setName(name);
         p.setDescription(description);
         p.setCategoryname(category);
-        PersistenceFacade.updateProduct(p);
+        pf.updateProduct(p);
         return p;
     }
 
-    public static void deleteProduct(Product p) throws CommandException {
-        PersistenceFacade.deleteProduct(p);
+    public static void deleteProduct(Product p) throws CommandException{
+        pf.deleteProduct(p);
     }
 
     public static List<Product> getCatalog() throws CommandException {
-        return PersistenceFacade.getCatalog();
+        return pf.getCatalog();
     }
 
     public static List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
         //FIXME! Create a better solution somehow!!
         //get allProductsWithCategoryAttributes List
-        List<Product> products = PersistenceFacade.getAllProductsWithCategoryAttributes();
+        List<Product> products = pf.getAllProductsWithCategoryAttributes();
         //iterate through the list
         for (int i = 0; i < products.size(); i++) {
             //make sure we don't get an IndexOutOfBoundsException
@@ -64,7 +67,11 @@ public class LogicController {
     }
 
     public static Product getProduct(int id) throws CommandException {
-        return PersistenceFacade.getProduct(id);
+        return pf.getProduct(id);
+    }
+
+    public static Category getCategory(String categoryname) throws CommandException {
+        return pf.getCategory(categoryname);
     }
 
 }

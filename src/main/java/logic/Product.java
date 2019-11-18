@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  *
- * @author Nina Lisakowski
+ * @author Nina
  */
 public class Product {
 

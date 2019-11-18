@@ -4,16 +4,19 @@ import exception.CommandException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- *
- * @author carol
+ * @author Nina
  */
-public class ViewEditPageCommand extends Command {
+public class CreateCategoryAttributesCommand extends Command {
 
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) 
             throws CommandException {
-        return "producteditor";
+        String category = request.getParameter("category_name");
+        
+        return "productcatalog";
     }
 
+   
 }

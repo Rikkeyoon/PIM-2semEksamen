@@ -18,9 +18,11 @@
 ![Domæne model](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/Drawio/PIMDomainModel.jpg)
 
 
+## Persistence package 
+![Persistence Package](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/persistencepackage.jpg)
+
+
 ## Git Branches 
 ![Git Branch setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/Gitbranches.jpg)
 
-## Generisk produkt
-![generiskprodukt setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/generiskprodukt.jpg)
 
