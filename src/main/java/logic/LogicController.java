@@ -37,5 +37,9 @@ public class LogicController {
     public static Product getProduct(int id) throws CommandException {
         return PersistenceFacade.getProduct(id);
     }
+
+    public static Category getCategory(String categoryname) throws CommandException {
+        return PersistenceFacade.getCategoty(categoryname);
+    }
     
 }

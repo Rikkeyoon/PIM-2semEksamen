@@ -2,7 +2,7 @@ package logic;
 
 /**
  *
- * @author Nina Lisakowski
+ * @author Nina
  */
 public class Product {
 
