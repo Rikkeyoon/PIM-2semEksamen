@@ -4,6 +4,7 @@ import exception.CommandException;
 import java.sql.Connection;
 import java.util.List;
 import logic.Product;
+import logic.Category;
 
 /**
  *
@@ -70,5 +71,10 @@ public class DataSourceController implements IDataSourceController {
     public List<Product> getProductsByCategory(String category) throws CommandException {
         //return pm.getProductsByCategory(category);
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Category getCategory(String categoryname) throws CommandException {
+        return cm.getCategory(categoryname);
     }
 }

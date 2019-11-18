@@ -2,6 +2,7 @@ package persistence;
 
 import exception.CommandException;
 import java.util.List;
+import logic.Category;
 import logic.Product;
 
 /**
@@ -32,5 +33,10 @@ public class PersistenceFacade {
     public static void deleteProduct(Product p) throws CommandException {
         DSController.deleteProduct(p);
     }
+
+    public static Category getCategoty(String categoryname) throws CommandException {
+        return DSController.getCategory(categoryname);
+    }
+
 
 }
