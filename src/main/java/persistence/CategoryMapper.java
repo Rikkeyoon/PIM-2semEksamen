@@ -54,6 +54,7 @@ public class CategoryMapper implements ICategoryMapper {
             throw new CommandException("Could not find any categories");
         }
         return categories;
+        
     }
 
     @Override
