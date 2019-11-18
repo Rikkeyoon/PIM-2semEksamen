@@ -14,7 +14,8 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     public static Product createProduct(int id, String name, String description,
             String categoryname) throws CommandException {
@@ -37,7 +38,8 @@ public class LogicController {
     }
 
     public static List<Product> getCatalog() throws CommandException {
-        return convertTemporaryProductListToProductList(pf.getCatalog());
+        List<TemporaryProduct> catalog = pf.getCatalog();
+        return convertTemporaryProductListToProductList(catalog);
     }
 
     public static Product getProduct(int id) throws CommandException {
@@ -63,15 +65,15 @@ public class LogicController {
         Category category = pf.getCategory(temp.getCategoryname());
         Map<String, String> categoryAttributes;
 
-        if (temp.getCategoryAtrributes().isEmpty()) {
+        if (temp.getCategoryAtrributes() != null) {
+            categoryAttributes = temp.getCategoryAtrributes();
+        } else {
             categoryAttributes = new HashMap<>();
             List<String> attributes = category.getAttributes();
 
             for (String attribute : attributes) {
                 categoryAttributes.putIfAbsent(attribute, "");
             }
-        } else {
-            categoryAttributes = temp.getCategoryAtrributes();
         }
 
         Product product = new Product(temp.getId(), temp.getName(),
@@ -86,15 +88,15 @@ public class LogicController {
             Category category = pf.getCategory(temp.getCategoryname());
             Map<String, String> categoryAttributes;
 
-            if (temp.getCategoryAtrributes().isEmpty()) {
+            if (temp.getCategoryAtrributes() != null) {
+                categoryAttributes = temp.getCategoryAtrributes();
+            } else {
                 categoryAttributes = new HashMap<>();
                 List<String> attributes = category.getAttributes();
 
                 for (String attribute : attributes) {
                     categoryAttributes.putIfAbsent(attribute, "");
                 }
-            } else {
-                categoryAttributes = temp.getCategoryAtrributes();
             }
 
             products.add(new Product(temp.getId(), temp.getName(),

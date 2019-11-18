@@ -30,7 +30,7 @@
             </p>
             <br><br>
             <label for="product_category"><b>Category</b></label>
-            <p>${product.getCategoryname()}</p>
+            <p>${product.getCategory().getCategoryname()}</p>
             <br>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 
