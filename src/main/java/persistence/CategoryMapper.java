@@ -20,7 +20,7 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public void createCategory(Product product) throws CommandException {
-        connection = DataSourceController.getConnection();
+        connection = PersistenceFacadeDB.getConnection();
         String insertSql = "INSERT INTO categories VALUE(?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql);
@@ -38,7 +38,7 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public List<String> getAllCategories() throws CommandException {
-        connection = DataSourceController.getConnection();
+        connection = PersistenceFacadeDB.getConnection();
         List<String> categories = new ArrayList();
         String selectSql = "SELECT * FROM categories";
         try {
@@ -58,7 +58,7 @@ public class CategoryMapper implements ICategoryMapper {
 
     @Override
     public Category getCategory(String categoryname) throws CommandException {
-        connection = DataSourceController.getConnection();
+        connection = PersistenceFacadeDB.getConnection();
         Category category = null;
         try {
             String selectSql = "SELECT * FROM category WHERE category_name LIKE ?";

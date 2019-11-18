@@ -5,10 +5,14 @@
  */
 package persistence;
 
+import exception.CommandException;
+import java.sql.Connection;
+
 /**
  *
  * @author allan
  */
-public interface IDataSource {
+public interface IDatabaseConnection {
     
+    public Connection getConnection()throws CommandException;
 }
