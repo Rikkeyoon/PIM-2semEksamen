@@ -39,37 +39,7 @@
                 
       %>
       
-      <h2>Standard template</h2>
-            <form>
-                <label for="product_id"><b>ID</b></label>
-                <br>
-                <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
-                <div id="divValidateId"></div>
-                <br>
-                <label for="product_name"><b>Product Name</b></label>
-                <br>
-                <input type="text" name="product_name" required>
-                <br><br>
-                <label for="product_desc"><b>Description</b></label>
-                <br>
-                <textarea name="product_desc" rows="4" cols="20" required="required">
-                </textarea>
-                <br><br>
-                <label for="product_category"><b>Category</b></label>
-                <br>
-                <input type="text" name="product_category" id="category" 
-                       onkeyup="validateCategory();" required>
-                <div id="divValidateCategory"></div>
-                <br>
-
-                <!-- Exception handling -->
-                <c:if test="${error != null}">
-                    <div class="form-alert">${error}</div>
-                </c:if>
-
-                <input class="createbtn" id="createbtn" type="submit" value="Create" 
-                       onclick="confirmation()"/>
-            </form>
+      <
                 
         <h3>Choose attributes for template</h3>
         <form>
@@ -103,57 +73,6 @@
 
             <button type="submit" class="btn">Add</button>
         </form>
-      
-      
-    
-      
-
-      
-      
-      
-      
-      
-      
-
-        <!-- JavaScript functions -->
-        <script>
-            function validateID() {
-                var id = $("#id").val();
-                var idformat = /[0-9]/;
-
-                if (!id.match(idformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
-                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
-                } else {
-                    $("#createbtn").removeAttr('disabled');
-                    $("#divValidateId").html("").removeClass('form-alert');
-                }
-            }
-
-            function validateCategory() {
-                var category = $("#category").val();
-                var categoryformat = /[a-z]/;
-
-                if (!category.match(categoryformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
-                    $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-                } else {
-                    $("#createbtn").removeAttr('disabled');
-                    $("#divValidateCategory").html("").removeClass('form-alert');
-                }
-            }
-
-            function confirmation() {
-                alert("Product created succesfully!");
-            }
-
-        </script>
-      
-      
-            
-
-
-        
         
     </body>
 </html>
