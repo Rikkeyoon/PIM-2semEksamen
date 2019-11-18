@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Nina Lisakowski
@@ -64,7 +66,7 @@ public class ProductMapper implements IProductMapper {
         }
         return product;
     }
-    
+
     @Override
     public Product getProduct(int id) throws CommandException {
         connection = DataSourceController.getConnection();
@@ -144,6 +146,37 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
+    public List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
+        connection = DataSourceController.getConnection();
+        List<Product> products = new ArrayList();
+        try {
+            String selectSql = "SELECT * FROM products_with_categories_and_attributes";
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+
+            ResultSet result = pstmt.executeQuery(selectSql);
+
+            while (result.next()) {
+                Map<String, String> categoryAttributes = new HashMap<>();
+                int id = result.getInt(1);
+                String name = result.getString(2);
+                String description = result.getString(3);
+                String categoryname = result.getString(4);
+                String attribute = result.getString(5);
+                String attrValue = result.getString(6);
+
+                categoryAttributes.putIfAbsent(attribute, attrValue);
+
+                products.add(new Product(id, name, description, categoryname,
+                        categoryAttributes));
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any products");
+        }
+        return products;
+    }
+
+    @Override
     public void update(Product product) throws CommandException {
         connection = DataSourceController.getConnection();
         try {
@@ -155,7 +188,9 @@ public class ProductMapper implements IProductMapper {
             pstmt.setString(3, product.getCategoryname());
             pstmt.setInt(4, product.getId());
             int rowsUpdated = pstmt.executeUpdate();
-            if(rowsUpdated == 0) throw new SQLException("No rows updated");
+            if (rowsUpdated == 0) {
+                throw new SQLException("No rows updated");
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
         }
@@ -169,7 +204,9 @@ public class ProductMapper implements IProductMapper {
             PreparedStatement pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, product.getId());
             int rowsUpdated = pstmt.executeUpdate();
-            if(rowsUpdated == 0) throw new SQLException("No rows updated");
+            if (rowsUpdated == 0) {
+                throw new SQLException("No rows updated");
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the product to be deleted");
         }

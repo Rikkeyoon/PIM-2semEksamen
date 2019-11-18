@@ -4,6 +4,7 @@
     Author     : zarpy
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,29 +13,36 @@
     </head>
     <body>
         <form name="update" action="FrontController" method = "POST">
-        <h1>View product</h1>
-                <br><br>
+            <h1>View product</h1>
+            <br><br>
 
-                <label for="product_id"><b>ID</b></label>
-                <p>${product.getId()} </p>
-                
-                <br>
-                <label for="product_name"><b>Product Name</b></label>
-                <p>${product.getName()} </p>
-                <br><br>
-                <label for="product_desc"><b>Description</b></label>
-                <br>
-                <p>
-                    ${product.getDescription()}
-                </p>
-                <br><br>
-                <label for="product_category"><b>Category</b></label>
-                <p>${product.getCategoryname()}</p>
-                <br>
-                </form>
-                <form name="update" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="view_edit_page">
-                <input type="submit" value="Edit">
-            </form>
+            <label for="product_id"><b>ID</b></label>
+            <p>${product.getId()} </p>
+
+            <br>
+            <label for="product_name"><b>Product Name</b></label>
+            <p>${product.getName()} </p>
+            <br><br>
+            <label for="product_desc"><b>Description</b></label>
+            <br>
+            <p>
+                ${product.getDescription()}
+            </p>
+            <br><br>
+            <label for="product_category"><b>Category</b></label>
+            <p>${product.getCategoryname()}</p>
+            <br>
+            <c:forEach items="${product.getCategoryAttributes().keySet()}" 
+                       var="key"> 
+                <label for="category_attributes"><b>${key}</b></label>
+            </c:forEach> 
+            <c:forEach items="${product.getCategoryAttributes().values()}" 
+                       var="value">
+                <p>${value}</p>
+            </c:forEach>
+            <br>
+            <input type="hidden" name="cmd" value="view_edit_page">
+            <input type="submit" value="Edit">
+        </form>
     </body>
 </html>

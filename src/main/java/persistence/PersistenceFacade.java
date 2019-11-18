@@ -11,10 +11,16 @@ import logic.Product;
 
 public class PersistenceFacade {
 
-    private static IDataSourceController DSController = new DataSourceController(false);
+    //private static IDataSourceController DSController = new DataSourceController(false);
+    //Til test
+    private static IDataSourceController DSController = new DataSourceController(true);
 
     public static List<Product> getCatalog() throws CommandException {
         return DSController.getProducts();
+    }
+    
+    public static List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
+        return DSController.getAllProductsWithCategoryAttributes();
     }
 
     public static Product getProduct(int id) throws CommandException {

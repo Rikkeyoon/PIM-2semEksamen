@@ -47,7 +47,6 @@ public class DataSourceController implements IDataSourceController {
     @Override
     public List<Product> getProducts() throws CommandException {
         return pm.getAllProducts();
-
     }
 
     @Override
@@ -70,5 +69,10 @@ public class DataSourceController implements IDataSourceController {
     public List<Product> getProductsByCategory(String category) throws CommandException {
         //return pm.getProductsByCategory(category);
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
+        return pm.getAllProductsWithCategoryAttributes();
     }
 }

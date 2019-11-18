@@ -31,4 +31,8 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
     
+    public static List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
+        return LogicController.getAllProductsWithCategoryAttributes();
+    }
+    
 }

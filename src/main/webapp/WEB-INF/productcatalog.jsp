@@ -20,16 +20,16 @@
         <br>
         <table border="1">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>View Product</th>
-                </tr>
-            </thead>
-            <tbody>
                 <c:forEach items="${catalog}" var="product">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>View Product</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
