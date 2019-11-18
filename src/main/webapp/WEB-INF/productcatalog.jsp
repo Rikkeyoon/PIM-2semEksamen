@@ -20,21 +20,21 @@
         <br>
         <table border="1">
             <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>View Product</th>
+                </tr>
+            </thead>
+            <tbody>
                 <c:forEach items="${catalog}" var="product">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>View Product</th>
-                    </tr>
-                </thead>
-                <tbody>
                     <tr>
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
                         <td>${product.getDescription()}</td>
-                        <td>${product.getCategoryname()}</td>
+                        <td>${product.getCategory().getCategoryname()}</td>
                         <td>
                             <form name="create" action="FrontController" method = "POST">
                                 <input type="hidden" name="cmd" value="view_product">
@@ -52,11 +52,11 @@
             <input type="submit" value="Create new product" />
         </form>
         <br>
-        
+
         <form name="create_category" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="create_category">
             <input type="submit" value="Create new category" />
         </form>
-        
+
     </body>
 </html>

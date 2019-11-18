@@ -92,6 +92,11 @@ JOIN attributes a ON c.attribute_id = a.id
 LEFT JOIN attribute_values av ON p.id = av.product_id AND av.attribute_id = a.id
 ORDER BY p.id ASC;
 
+CREATE OR REPLACE VIEW categories_and_attributes AS
+SELECT c.category_name, attribute_name FROM categories c
+JOIN category_attributes ca ON c.category_name = ca.category_name
+JOIN attributes a ON ca.attribute_id = a.id;
+
 INSERT INTO attributes(attribute_name) VALUE ("Alkohol Procent");
 INSERT INTO attributes(attribute_name) VALUE ("Kamera");
 INSERT INTO attributes(attribute_name) VALUE ("Processor");
