@@ -51,5 +51,12 @@
             <input type="hidden" name="cmd" value="view_create_page">
             <input type="submit" value="Create new product" />
         </form>
+        <br>
+        
+        <form name="create_category" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="create_category">
+            <input type="submit" value="Create new category" />
+        </form>
+        
     </body>
 </html>
