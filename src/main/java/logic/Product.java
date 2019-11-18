@@ -11,22 +11,22 @@ public class Product {
     private int id;
     private String name;
     private String description;
-    private String categoryname;
+    private Category category;
     private Map<String, String> categoryAttributes;
 
-    public Product(int id, String name, String description, String categoryname) {
+    public Product(int id, String name, String description, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.categoryname = categoryname;
+        this.category = category;
     }
     
-    public Product(int id, String name, String description, String categoryname,
+    public Product(int id, String name, String description, Category category,
             Map<String, String> categoryAttributes) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.categoryname = categoryname;
+        this.category = category;
         this.categoryAttributes = categoryAttributes;
     }
 
@@ -54,14 +54,14 @@ public class Product {
         this.description = description;
     }
 
-    public String getCategoryname() {
-        return categoryname;
+    public Category getCategory() {
+        return category;
     }
-
-    public void setCategoryname(String categoryname) {
-        this.categoryname = categoryname;
+    
+    public void setCategory(Category category) {
+        this.category = category;
     }
-
+    
     public Map<String, String> getCategoryAttributes() {
         return categoryAttributes;
     }
@@ -76,7 +76,8 @@ public class Product {
     
     @Override
     public String toString() {
-        return "Product with id: " + id + ", name: " + name + ", description: " + description + ", categoryname:" + categoryname;
+        return "Product with id: " + id + ", name: " + name + ", description: " 
+                + description + ", category:" + category.getCategoryname();
     }
 
 }

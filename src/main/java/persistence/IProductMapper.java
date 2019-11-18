@@ -1,5 +1,6 @@
 package persistence;
 
+import logic.TemporaryProduct;
 import exception.CommandException;
 import java.util.List;
 import logic.Product;
@@ -11,15 +12,15 @@ public interface IProductMapper {
 
     public void create(Product product) throws CommandException;
 
-    public Product getProduct(String name) throws CommandException;
+    public TemporaryProduct getProduct(String name) throws CommandException;
 
-    public Product getProduct(int id) throws CommandException;
+    public TemporaryProduct getProduct(int id) throws CommandException;
 
-    public List<Product> getProductsByCategory(String categoryname) throws CommandException;
+    public List<TemporaryProduct> getProductsByCategory(String categoryname) throws CommandException;
 
-    public List<Product> getAllProducts() throws CommandException;
+    public List<TemporaryProduct> getAllProducts() throws CommandException;
 
-    public List<Product> getAllProductsWithCategoryAttributes() throws CommandException;
+    public TemporaryProduct getProductWithCategoryAttributes(int id) throws CommandException;
 
     public void update(Product product) throws CommandException;
 

@@ -13,7 +13,10 @@ public interface ICategoryMapper {
 
     public void createCategory(Product p) throws CommandException;
     
-    public List<String> getAllCategories() throws CommandException;
+    public void createCategoryAttributes(Category category, List<Integer> attributeIds)
+            throws CommandException;
+    
+    public List<Category> getAllCategories() throws CommandException;
 
     public Category getCategory(String categoryname) throws CommandException;
     

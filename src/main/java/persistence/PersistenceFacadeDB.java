@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 import logic.Product;
 import logic.Category;
+import logic.TemporaryProduct;
 
 /**
  *
@@ -16,10 +17,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private IProductMapper pm = new ProductMapper();
     private ICategoryMapper cm = new CategoryMapper();
 
-    public PersistenceFacadeDB(Boolean testmode){
-        try{
+    public PersistenceFacadeDB(Boolean testmode) {
+        try {
             DBC = new DatabaseConnection(testmode);
-        }catch(CommandException ex){
+        } catch (CommandException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -29,17 +30,17 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<Product> getCatalog() throws CommandException {
+    public List<TemporaryProduct> getCatalog() throws CommandException {
         return pm.getAllProducts();
     }
 
     @Override
-    public Product getProduct(int id) throws CommandException {
+    public TemporaryProduct getProduct(int id) throws CommandException {
         return pm.getProduct(id);
     }
 
     @Override
-    public Product getProduct(String name) throws CommandException {
+    public TemporaryProduct getProduct(String name) throws CommandException {
         return pm.getProduct(name);
     }
 
@@ -51,7 +52,6 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
-
         pm.create(p);
     }
 
@@ -72,18 +72,21 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category) throws CommandException {
+    public List<TemporaryProduct> getProductsByCategory(String category)
+            throws CommandException {
         return pm.getProductsByCategory(category);
 
     }
-    
+
     @Override
     public Category getCategory(String categoryname) throws CommandException {
         return cm.getCategory(categoryname);
     }
 
     @Override
-    public List<Product> getAllProductsWithCategoryAttributes() throws CommandException {
-        return pm.getAllProductsWithCategoryAttributes();
+    public TemporaryProduct getProductWithCategoryAttributes(int id) 
+            throws CommandException {
+        return pm.getProductWithCategoryAttributes(id);
     }
+
 }

@@ -9,6 +9,7 @@ import exception.CommandException;
 import java.util.List;
 import logic.Category;
 import logic.Product;
+import logic.TemporaryProduct;
 
 /**
  *
@@ -17,11 +18,11 @@ import logic.Product;
 
 public interface IPersistenceFacade {
     
-    public List<Product> getCatalog() throws CommandException;
+    public List<TemporaryProduct> getCatalog() throws CommandException;
     
-    public Product getProduct(int id) throws CommandException;
+    public TemporaryProduct getProduct(int id) throws CommandException;
     
-    public Product getProduct(String name) throws CommandException;
+    public TemporaryProduct getProduct(String name) throws CommandException;
     
     public void createProduct(Product p) throws CommandException;
     
@@ -29,11 +30,13 @@ public interface IPersistenceFacade {
     
     public void deleteProduct(Product p) throws CommandException;
     
-    public List<Product> getProductsByCategory(String category) throws CommandException;
+    public List<TemporaryProduct> getProductsByCategory(String category) 
+            throws CommandException;
     
     public Category getCategory(String categoryname) throws CommandException;
 
-    public List<Product> getAllProductsWithCategoryAttributes() throws CommandException;
+    public TemporaryProduct getProductWithCategoryAttributes(int id) 
+            throws CommandException;
 
 
 }
