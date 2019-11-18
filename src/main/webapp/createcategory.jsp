@@ -31,10 +31,11 @@
         </div>
 
         <div class="new_attributes">
-            <label for="attribute_name">Attribute Name</label>
+            <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
             <br>
-
-            <div><input type="text" name="attribute"></div>
+            <div><input type="text" name="attribute">
+                 <input type="radio" name="required">
+            </div>
         </div>
 
         <script>
@@ -44,7 +45,7 @@
 
                 $(add_button).click(function (e) {
                     e.preventDefault();
-                    $(wrapper).append('<div><input type="text" name="attribute"/><a href="#" class="remove_field"> Remove</a></div>');
+                    $(wrapper).append('<div><input type="text" name="attribute"/><input type="radio" name"required"/><a href="#" class="remove_field"> Remove</a></div>');
                 });
 
                 $(wrapper).on("click", ".remove_field", function (e) {
