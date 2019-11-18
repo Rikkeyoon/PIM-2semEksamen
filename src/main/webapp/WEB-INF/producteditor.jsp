@@ -14,6 +14,12 @@
     </head>
 
     <body>
+        <form name="Back" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_product">
+            <input type="hidden" value="${product.getId()}" name="product_id"/>
+            <input type="submit" value="Back">
+        </form>
+
         <div>
             <form name="update" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="update_product">
@@ -92,14 +98,14 @@
 
             function dconfirmation() {
                 if (confirm("You are about to delete a product!")) {
-                    document.getElementById("delcmd").value="delete_product";
+                    document.getElementById("delcmd").value = "delete_product";
                     document.getElementById("delform").submit();
                     alert("Product has been deleted!");
                 } else {
                     alert("Return to Product page!");
                 }
-                
-                }
+
+            }
 
         </script>
 
