@@ -22,24 +22,25 @@
             <br>
             <label for="product_name"><b>Product Name</b></label>
             <p>${product.getName()} </p>
-            <br><br>
+            <br>
             <label for="product_desc"><b>Description</b></label>
             <br>
             <p>
                 ${product.getDescription()}
             </p>
-            <br><br>
+            <br>
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 
-                <label for="category_attributes"><b>${key}</b></label>
-            </c:forEach> 
-            <c:forEach items="${product.getCategoryAttributes().values()}" 
-                       var="value">
-                <p>${value}</p>
+                <div>
+                    <b>${key}</b>
+                    <p>${product.getCategoryAttributes().get(key)}</p>
+                </div>
+                <br>
             </c:forEach>
+             
             <br>
             <input type="hidden" name="cmd" value="view_edit_page">
             <input type="submit" value="Edit">

@@ -43,17 +43,17 @@ public class LogicController {
     }
 
     public static Product getProduct(int id) throws CommandException {
-        Product p = null;
+        TemporaryProduct temp = null;
         try {
-            p = convertTemporaryProductToProduct(pf.getProductWithCategoryAttributes(id));
+            temp = pf.getProductWithCategoryAttributes(id);
         } catch (CommandException ex) {
             //Doesn't need to give this command exception to the user. 
             //It just means that the product with that id doesn't have any category attributes yet
         }
-        if (p == null) {
-            p = convertTemporaryProductToProduct(pf.getProduct(id));
+        if (temp == null) {
+            temp = pf.getProduct(id);
         }
-        return p;
+        return convertTemporaryProductToProduct(temp);
     }
 
     public static Category getCategory(String categoryname) throws CommandException {
@@ -65,8 +65,8 @@ public class LogicController {
         Category category = pf.getCategory(temp.getCategoryname());
         Map<String, String> categoryAttributes;
 
-        if (temp.getCategoryAtrributes() != null) {
-            categoryAttributes = temp.getCategoryAtrributes();
+        if (temp.getCategoryAttributes() != null) {
+            categoryAttributes = temp.getCategoryAttributes();
         } else {
             categoryAttributes = new HashMap<>();
             List<String> attributes = category.getAttributes();
@@ -88,8 +88,8 @@ public class LogicController {
             Category category = pf.getCategory(temp.getCategoryname());
             Map<String, String> categoryAttributes;
 
-            if (temp.getCategoryAtrributes() != null) {
-                categoryAttributes = temp.getCategoryAtrributes();
+            if (temp.getCategoryAttributes() != null) {
+                categoryAttributes = temp.getCategoryAttributes();
             } else {
                 categoryAttributes = new HashMap<>();
                 List<String> attributes = category.getAttributes();

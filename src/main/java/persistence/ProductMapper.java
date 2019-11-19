@@ -63,7 +63,7 @@ public class ProductMapper implements IProductMapper {
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
 
-                tempProduct = new TemporaryProduct(id, name, description, 
+                tempProduct = new TemporaryProduct(id, name, description,
                         categoryname);
             }
 
@@ -72,7 +72,7 @@ public class ProductMapper implements IProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any product with that name" );
+            throw new CommandException("Could not find any product with that name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -99,7 +99,7 @@ public class ProductMapper implements IProductMapper {
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
 
-                tempProduct = new TemporaryProduct(id, name, description, 
+                tempProduct = new TemporaryProduct(id, name, description,
                         categoryname);
             }
 
@@ -138,7 +138,7 @@ public class ProductMapper implements IProductMapper {
                 tempProducts.add(new TemporaryProduct(id, name, description,
                         categoryname));
             }
-            
+
             if (tempProducts.size() < 1) {
                 throw new SQLException();
             }
@@ -186,7 +186,7 @@ public class ProductMapper implements IProductMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        
+
         TemporaryProduct product = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
@@ -207,8 +207,14 @@ public class ProductMapper implements IProductMapper {
 
                 categoryAttributes.putIfAbsent(attribute, attrValue);
 
-                product = new TemporaryProduct(id, name, description, categoryname,
-                        categoryAttributes);
+                if (product != null) {
+                    Map<String, String> newCategoryAttr = product.getCategoryAttributes();
+                    newCategoryAttr.putIfAbsent(attribute, attrValue);
+                    product.setCategoryAtrributes(newCategoryAttr);
+                } else {
+                    product = new TemporaryProduct(id, name, description, categoryname,
+                            categoryAttributes);
+                }
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any products");
