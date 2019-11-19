@@ -263,6 +263,39 @@ public class ProductMapper implements IProductMapper {
                 pstmt.setString(1, product.getCategoryAttributes().get(key));
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, key);
+                
+                int rowsUpdated = pstmt.executeUpdate();
+                if (rowsUpdated == 0) {
+                    createAttributes(product);
+                }
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find a product with the given ID");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+
+    @Override
+    public void createAttributes(Product product) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            for (String key : product.getCategoryAttributes().keySet()) {
+                String updateSql = "INSERT INTO attribute_values VALUES "
+                        + "((SELECT id FROM attributes WHERE attribute_name LIKE ?), "
+                        + "?, ?)";
+                pstmt = connection.prepareStatement(updateSql);
+                pstmt.setString(1, key);
+                pstmt.setInt(2, product.getId());
+                pstmt.setString(3, product.getCategoryAttributes().get(key));
+                
+                int rowsUpdated = pstmt.executeUpdate();
+                if (rowsUpdated == 0) {
+                    throw new SQLException("No rows updated");
+                }
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
