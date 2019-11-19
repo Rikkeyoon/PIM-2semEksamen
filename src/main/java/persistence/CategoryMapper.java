@@ -109,20 +109,20 @@ public class CategoryMapper implements ICategoryMapper {
             connection = PersistenceFacadeDB.getConnection();
 
             pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, '%' + categoryname + '%');
+            pstmt.setString(1, categoryname);
 
             result = pstmt.executeQuery();
 
             while (result.next()) {
                 attributes.add(result.getString(1));
+
             }
-
-            category = new Category(categoryname, attributes);
-
-            if (category == null) {
+            
+            if (result.getString(1).isBlank()) {
                 throw new SQLException();
             }
-
+            
+            category = new Category(categoryname, attributes);
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any category with that name");
         } finally {
