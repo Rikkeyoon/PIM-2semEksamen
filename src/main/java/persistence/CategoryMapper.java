@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import logic.Category;
-import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -18,14 +17,14 @@ import org.apache.commons.dbutils.DbUtils;
 public class CategoryMapper implements ICategoryMapper {
 
     @Override
-    public void createCategory(Product product) throws CommandException {
+    public void createCategory(Category c) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         String insertSql = "INSERT INTO categories VALUE(?)";
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
-            pstmt.setString(1, product.getCategory().getCategoryname());
+            pstmt.setString(1, c.getCategoryname());
 
             int rowsUpdated = pstmt.executeUpdate();
 
@@ -33,7 +32,7 @@ public class CategoryMapper implements ICategoryMapper {
                 throw new NullPointerException();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category");
+            throw new CommandException("Could not create new category" + ex);
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -47,9 +46,9 @@ public class CategoryMapper implements ICategoryMapper {
         PreparedStatement pstmt = null;
         String insertSql = "INSERT INTO category_attributes VALUES(?,?)";
         try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
             for (Integer id : attributeIds) {
-                connection = PersistenceFacadeDB.getConnection();
-                pstmt = connection.prepareStatement(insertSql);
                 pstmt.setString(1, category.getCategoryname());
                 pstmt.setInt(2, id);
 
@@ -60,7 +59,7 @@ public class CategoryMapper implements ICategoryMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category");
+            throw new CommandException("Could not create new category" + ex);
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -93,7 +92,7 @@ public class CategoryMapper implements ICategoryMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return categories;
-        
+
     }
 
     @Override

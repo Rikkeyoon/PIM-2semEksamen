@@ -38,4 +38,6 @@ public interface IPersistenceFacade {
     public TemporaryProduct getProductWithCategoryAttributes(int id) 
             throws CommandException;
 
+    public void createCategory(Category c) throws CommandException;
+
 }

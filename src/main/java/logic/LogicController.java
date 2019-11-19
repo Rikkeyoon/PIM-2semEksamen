@@ -61,6 +61,17 @@ public class LogicController {
         return pf.getCategory(categoryname);
     }
 
+    public static Category createCategory(String categoryname, String[] attributes)
+            throws CommandException {
+        List<String> attributeList = new ArrayList<>();
+        for (String attribute : attributes) {
+            attributeList.add(attribute);
+        }
+        Category c = new Category(categoryname, attributeList);
+        pf.createCategory(c);
+        return c;
+    }
+    
     private static Product convertTemporaryProductToProduct(TemporaryProduct temp)
             throws CommandException {
         Category category = pf.getCategory(temp.getCategoryname());

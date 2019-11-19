@@ -32,7 +32,8 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
     
-    public static Category createCategory(String categoryname) throws CommandException {
-        return LogicController.getCategory(categoryname);
+    public static Category createCategory(String categoryname, String[] attributes)
+            throws CommandException {
+        return LogicController.createCategory(categoryname, attributes);
     }
 }

@@ -2,6 +2,7 @@ package persistence;
 
 import exception.CommandException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import logic.Product;
 import logic.Category;
@@ -16,6 +17,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IDatabaseConnection DBC;
     private IProductMapper pm = new ProductMapper();
     private ICategoryMapper cm = new CategoryMapper();
+    private AttributeMapper am = new AttributeMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
         try {
@@ -46,7 +48,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void createProduct(Product p) throws CommandException {
         try {
-            cm.createCategory(p);
+            Category c = p.getCategory();
+            cm.createCategory(c);
         } catch (CommandException e) {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
@@ -57,7 +60,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void updateProduct(Product p) throws CommandException {
         try {
-            cm.createCategory(p);
+            Category c = p.getCategory();
+            cm.createCategory(c);
         } catch (CommandException e) {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
@@ -84,9 +88,21 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public TemporaryProduct getProductWithCategoryAttributes(int id) 
+    public TemporaryProduct getProductWithCategoryAttributes(int id)
             throws CommandException {
         return pm.getProductWithCategoryAttributes(id);
+    }
+
+    @Override
+    public void createCategory(Category c) throws CommandException {
+        try {
+            cm.createCategory(c);
+        } catch (CommandException e) {
+            throw new CommandException("The category already exists.");
+        }
+        List<Integer> attributeIds = new ArrayList<>();
+        attributeIds = am.createAttributes(c.getAttributes());
+        cm.createCategoryAttributes(c, attributeIds);
     }
 
 }

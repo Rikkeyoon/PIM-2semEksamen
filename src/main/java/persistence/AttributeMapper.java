@@ -22,9 +22,9 @@ public class AttributeMapper {
         String insertSql = "INSERT INTO attributes(attribute_name) VALUE(?)";
         List<Integer> attributeIds = new ArrayList<>();
         try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
             for (String name : attributeNames) {
-                connection = PersistenceFacadeDB.getConnection();
-                pstmt = connection.prepareStatement(insertSql);
                 pstmt.setString(1, name);
 
                 int rowsUpdated = pstmt.executeUpdate();
@@ -32,8 +32,8 @@ public class AttributeMapper {
                 if (rowsUpdated == 0) {
                     throw new NullPointerException();
                 }
-                
-                attributeIds.add(getLastInsertedId());
+
+                attributeIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not create new category attributes");
@@ -44,26 +44,28 @@ public class AttributeMapper {
         return attributeIds;
     }
 
-    public int getLastInsertedId() throws CommandException {
-        Connection connection = null;
+    public int getLastInsertedId(Connection connection) throws CommandException {
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        
+
         int id = 0;
-        String selectSql = "SELECT LAST_INSERT_ID() FROM attributes LIMIT 1";
+        String selectSql = "SELECT last_insert_id() FROM attributes LIMIT 1";
         try {
-            connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(selectSql);
 
             result = pstmt.executeQuery(selectSql);
-            
+
             while (result.next()) {
                 id = result.getInt(1);
+            }
+            if (id == 0) {
+                throw new SQLException();
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not get newest id");
         } finally {
-            DbUtils.closeQuietly(connection, pstmt, result);
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(result);
         }
         return id;
     }

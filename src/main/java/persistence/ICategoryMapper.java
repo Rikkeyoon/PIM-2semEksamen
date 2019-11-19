@@ -3,7 +3,6 @@ package persistence;
 import exception.CommandException;
 import java.util.List;
 import logic.Category;
-import logic.Product;
 
 /**
  *
@@ -11,7 +10,7 @@ import logic.Product;
  */
 public interface ICategoryMapper {
 
-    public void createCategory(Product p) throws CommandException;
+    public void createCategory(Category c) throws CommandException;
     
     public void createCategoryAttributes(Category category, List<Integer> attributeIds)
             throws CommandException;
