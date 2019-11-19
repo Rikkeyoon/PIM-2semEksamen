@@ -3,10 +3,28 @@ package presentation;
 import exception.CommandException;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.util.*;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.output.*;
 
 /**
  * The purpose of FrontController is to handle all request for the web site It
@@ -17,8 +35,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author carol
  */
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
-public class FrontController extends HttpServlet {
+@MultipartConfig(fileSizeThreshold = 6291456, // 6 MB
+        maxFileSize = 10485760L, // 10 MB
+        maxRequestSize = 20971520L // 20 MB
+)
 
+public class FrontController extends HttpServlet {	
+	private static final String UPLOAD_DIR = "img";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -28,21 +51,57 @@ public class FrontController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            Command cmd = Command.from(request);
-            String view = cmd.execute(request, response);
-            if (view.equals("index")) {
-                request.getRequestDispatcher(view + ".jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
-            }
-        } catch (CommandException ex) {
-            request.setAttribute("error", ex.getMessage());
-            //TODO: Forward to a view or   perhaps an error page instead of index
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        try {
+//            Command cmd = Command.from(request);
+//            String view = cmd.execute(request, response);
+//            if (view.equals("index")) {
+//                request.getRequestDispatcher(view + ".jsp").forward(request, response);
+//            } else {
+//                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+//            }
+//        } catch (CommandException ex) {
+//            request.setAttribute("error", ex.getMessage());
+//            //TODO: Forward to a view or   perhaps an error page instead of index
+//            request.getRequestDispatcher("index.jsp").forward(request, response);
+//        }
+//    }
+    public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        // gets absolute path of the web application
+        String applicationPath = request.getServletContext().getRealPath("");
+        // constructs path of the directory to save uploaded file
+        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        // creates upload folder if it does not exists
+        File uploadFolder = new File(uploadFilePath);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
         }
+        PrintWriter writer = response.getWriter();
+        // write all files in upload folder
+        System.out.println(request.getParts().size());
+        for (Part part : request.getParts()) {
+            if (part != null && part.getSize() > 0) {
+                String fileName = part.getSubmittedFileName();
+                String contentType = part.getContentType();
+                System.out.println(contentType);
+                // allows only JPEG files to be uploaded
+                if (contentType != null && !contentType.equalsIgnoreCase("image/jpeg")) {
+                    continue;  
+                }
+
+                part.write(uploadFilePath + File.separator + fileName);
+
+                writer.append("File successfully uploaded to "
+                        + uploadFolder.getAbsolutePath()
+                        + File.separator
+                        + fileName
+                        + "<br>\r\n");
+            }
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
