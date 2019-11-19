@@ -17,20 +17,20 @@
 
     <body>
         <h1>Product Catalog</h1>
-        <br>
-
+        
         <h3>Search</h3>
-        <br>
         
         <label for="product_id"><b>Product ID</b></label>
         <br>
         <input type="text" name="product_id">
         <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        <br>
         
         <label for="product_name"><b>Product Name</b></label>
         <br>
         <input type="text" name="product_name">
         <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        <br>
         
         <label for="product_category"><b>Category</b></label>
         <br>
@@ -39,7 +39,7 @@
         <br>
         
         <input class="resetbtn" id="resetbtn" type="submit" value="Reset"/>
-        <br>
+        <br><br>
         
         <table border="1">
             <thead>
