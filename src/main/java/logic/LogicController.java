@@ -25,10 +25,11 @@ public class LogicController {
     }
 
     public static Product updateProduct(Product p, String name, String description,
-            String categoryname) throws CommandException {
+            String categoryname, String[] attributeValues) throws CommandException {
         p.setName(name);
         p.setDescription(description);
         p.setCategory(getCategory(categoryname));
+        p.setAttributeValues(attributeValues);
         pf.updateProduct(p);
         return p;
     }

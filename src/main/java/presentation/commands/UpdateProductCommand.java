@@ -21,8 +21,10 @@ public class UpdateProductCommand extends Command {
         String name = request.getParameter("product_name");
         String description = request.getParameter("product_desc");
         String category = request.getParameter("product_category");
+        String[] attributeValues = request.getParameterValues("attribute_value");
         //TODO: Change to String... (varargs) or ArrayList<String>
-        p = LogicFacade.updateProduct(p, name, description, category);
+        p = LogicFacade.updateProduct(p, name, description, category, 
+                attributeValues);
         session.setAttribute("product", p);
 //        return "productcatalog";
         return "index";

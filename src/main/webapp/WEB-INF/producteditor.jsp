@@ -54,7 +54,7 @@
                     <div>
                         <label for="category_attribute"><b>${key}</b></label>
                         <br>
-                        <textarea name="product_desc" rows="4" cols="20" 
+                        <textarea name="attribute_value" rows="4" cols="20" 
                                   style="resize: none; width: 25%;" required="required">
                             ${product.getCategoryAttributes().get(key)}  
                         </textarea>

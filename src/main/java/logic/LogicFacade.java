@@ -15,8 +15,9 @@ public class LogicFacade {
     }
     
     public static Product updateProduct(Product p, String name, String description,
-            String category) throws CommandException {
-        return LogicController.updateProduct(p, name, description, category);
+            String category, String[] attributeValues) throws CommandException {
+        return LogicController.updateProduct(p, name, description, category,
+                attributeValues);
     }
 
     public static void deleteProduct(Product p) throws CommandException {

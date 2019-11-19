@@ -250,6 +250,29 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
+    public void updateAttributes(Product product) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            for (String key : product.getCategoryAttributes().keySet()) {
+                String updateSql = "UPDATE attribute_values SET attribute_value = ? "
+                        + "WHERE product_id = ? AND attribute_id = "
+                        + "(SELECT id FROM attributes WHERE attribute_name LIKE ?)";
+                pstmt = connection.prepareStatement(updateSql);
+                pstmt.setString(1, product.getCategoryAttributes().get(key));
+                pstmt.setInt(2, product.getId());
+                pstmt.setString(3, key);
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find a product with the given ID");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+
+    @Override
     public void delete(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
