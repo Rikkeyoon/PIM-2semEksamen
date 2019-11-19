@@ -30,7 +30,7 @@ public class LogicFacade {
     public static Product getProduct(int id) throws CommandException {
         return LogicController.getProduct(id);
     }
-
+    
     public static Category createCategory(String categoryname) throws CommandException {
         return LogicController.getCategory(categoryname);
     }

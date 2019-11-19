@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.Map;
+
 /**
  *
  * @author Nina
@@ -9,13 +11,23 @@ public class Product {
     private int id;
     private String name;
     private String description;
-    private String categoryname;
+    private Category category;
+    private Map<String, String> categoryAttributes;
 
-    public Product(int id, String name, String description, String categoryname) {
+    public Product(int id, String name, String description, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.categoryname = categoryname;
+        this.category = category;
+    }
+    
+    public Product(int id, String name, String description, Category category,
+            Map<String, String> categoryAttributes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.categoryAttributes = categoryAttributes;
     }
 
     public int getId() {
@@ -42,21 +54,30 @@ public class Product {
         this.description = description;
     }
 
-    public String getCategoryname() {
-        return categoryname;
+    public Category getCategory() {
+        return category;
+    }
+    
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    
+    public Map<String, String> getCategoryAttributes() {
+        return categoryAttributes;
     }
 
-    public void setCategoryname(String categoryname) {
-        this.categoryname = categoryname;
+    public void setCategoryAttributes(Map<String, String> categoryAttributes) {
+        this.categoryAttributes = categoryAttributes;
     }
-
+    
     public boolean compareTo(Product product) {
         return this.id == product.getId();
     }
-
+    
     @Override
     public String toString() {
-        return "Product with id: " + id + ", name: " + name + ", description: " + description + ", categoryname:" + categoryname;
+        return "Product with id: " + id + ", name: " + name + ", description: " 
+                + description + ", category:" + category.getCategoryname();
     }
 
 }

@@ -34,7 +34,7 @@
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
                         <td>${product.getDescription()}</td>
-                        <td>${product.getCategoryname()}</td>
+                        <td>${product.getCategory().getCategoryname()}</td>
                         <td>
                             <form name="create" action="FrontController" method = "POST">
                                 <input type="hidden" name="cmd" value="view_product">
@@ -52,7 +52,7 @@
             <input type="submit" value="Create new product" />
         </form>
         <br>
-        
+
         <form name="create_category" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="view_create_category_page">
             <input type="submit" value="Create new category" />

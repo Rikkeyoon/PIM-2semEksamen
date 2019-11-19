@@ -46,7 +46,7 @@
                 <label for="product_category"><b>Category</b></label>
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" 
-                       value="${product.getCategoryname()}" required>
+                       value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
 
