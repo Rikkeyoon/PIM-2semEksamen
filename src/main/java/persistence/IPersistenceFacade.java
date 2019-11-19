@@ -7,6 +7,7 @@ package persistence;
 
 import exception.CommandException;
 import java.util.List;
+import logic.Catalog;
 import logic.Category;
 import logic.Product;
 import logic.TemporaryProduct;
@@ -37,6 +38,8 @@ public interface IPersistenceFacade {
 
     public TemporaryProduct getProductWithCategoryAttributes(int id) 
             throws CommandException;
+
+    public Catalog getCatalog(String categoryname) throws CommandException;
 
 
 }
