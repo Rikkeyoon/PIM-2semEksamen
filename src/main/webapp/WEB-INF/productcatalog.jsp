@@ -57,6 +57,9 @@
             <input type="hidden" name="cmd" value="view_create_category_page">
             <input type="submit" value="Create new category" />
         </form>
+        <br>
+        
+        
         
     </body>
 </html>
