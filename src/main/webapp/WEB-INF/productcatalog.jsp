@@ -59,6 +59,11 @@
         </form>
         <br>
         
+        <form name="search_products" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_search_page">
+            <input type="submit" value="Search products" />
+        </form>
+        <br>
         
         
     </body>
