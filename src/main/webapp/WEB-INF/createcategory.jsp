@@ -16,11 +16,16 @@
     </head>
     <body>
         <div>
+            <form name="back" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="view_catalog">
+                <input type="submit" value="Back" />
+            </form>
+
             <form name="create_category" action="FrontController" method="POST">
                 <input type="hidden" name="cmd" value="create_category">
 
                 <h1>Create Category</h1>
-                <br><br>
+                <br>
 
                 <label for="category_name">Category Name</label>
                 <br>
@@ -34,7 +39,7 @@
             <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
             <br>
             <div><input type="text" name="attribute">
-                 <input type="radio" name="required">
+                <input type="radio" name="required">
             </div>
         </div>
 

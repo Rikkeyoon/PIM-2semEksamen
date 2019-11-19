@@ -14,6 +14,12 @@
     </head>
 
     <body>
+        <form name="Back" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_product">
+            <input type="hidden" value="${product.getId()}" name="product_id"/>
+            <input type="submit" value="Back">
+        </form>
+
         <div>
             <form name="update" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="update_product">
@@ -63,9 +69,9 @@
 
                 <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
             </form>
-            <form name="update" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="delete_product">
-                <input class="deletebtn" type="submit" value="Delete Product" onclick="dconfirmation()"/>
+            <form name="update" id="delform" action="FrontController" method = "POST"> 
+                <input type="hidden" name="cmd" id="delcmd" value="">
+                <input class="deletebtn" type="button" value="Delete Product" onclick="dconfirmation()"/>
             </form>
 
         </div>
@@ -104,10 +110,13 @@
 
             function dconfirmation() {
                 if (confirm("You are about to delete a product!")) {
-                    txt = "Product has been deleted!";
+                    document.getElementById("delcmd").value = "delete_product";
+                    document.getElementById("delform").submit();
+                    alert("Product has been deleted!");
                 } else {
-                    txt = "Return to Product page!";
+                    alert("Return to Product page!");
                 }
+
             }
 
         </script>

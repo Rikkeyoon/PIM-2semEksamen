@@ -93,6 +93,7 @@ public class CategoryMapper implements ICategoryMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return categories;
+        
     }
 
     @Override

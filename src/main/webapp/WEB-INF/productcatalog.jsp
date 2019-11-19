@@ -18,6 +18,14 @@
     <body>
         <h1>Product Catalog</h1>
         <br>
+
+        <h3>Search</h3>
+        <br>
+        
+        <label for="product_id"><b>ID</b></label>
+        <br>
+        <input type="text" name="product_id">
+
         <table border="1">
             <thead>
                 <tr>
@@ -54,9 +62,11 @@
         <br>
 
         <form name="create_category" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="create_category">
+            <input type="hidden" name="cmd" value="view_create_category_page">
             <input type="submit" value="Create new category" />
         </form>
+        <br>
+
 
     </body>
 </html>

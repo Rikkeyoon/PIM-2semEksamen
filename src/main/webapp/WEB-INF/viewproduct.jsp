@@ -12,6 +12,12 @@
         <title>View product</title>
     </head>
     <body>
+        <form name="back" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_catalog">
+            <input type="submit" value="Back" />
+        </form>
+
+
         <form name="update" action="FrontController" method = "POST">
             <h1>View product</h1>
             <br><br>
@@ -40,8 +46,9 @@
                 </div>
                 <br>
             </c:forEach>
-             
             <br>
+        </form>
+        <form name="update" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="view_edit_page">
             <input type="submit" value="Edit">
         </form>
