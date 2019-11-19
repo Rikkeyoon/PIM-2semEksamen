@@ -65,7 +65,9 @@ public class LogicController {
             throws CommandException {
         List<String> attributeList = new ArrayList<>();
         for (String attribute : attributes) {
-            attributeList.add(attribute);
+            if (!attribute.isBlank()) {
+                attributeList.add(attribute);
+            }
         }
         Category c = new Category(categoryname, attributeList);
         pf.createCategory(c);
