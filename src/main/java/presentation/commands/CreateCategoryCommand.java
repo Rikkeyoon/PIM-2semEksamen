@@ -18,7 +18,7 @@ public class CreateCategoryCommand extends Command {
         String categoryname = request.getParameter("category_name");
         Category c = LogicFacade.createCategory(categoryname);
         request.getSession().setAttribute("category", c);
-        return "createcategory";
+        return "index";
     }
     
 }

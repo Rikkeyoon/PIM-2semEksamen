@@ -64,7 +64,13 @@
         <br><br>
 
         <input class="crtbtn" id="crtbtn" type="submit" value="Create Category" 
-               onclick=""/>
+               onclick="confirmation()"/>
+        
+        <script>
+        function confirmation() {
+                alert("Product created succesfully!");
+            }
+        </script>
 
     </body>
 </html>

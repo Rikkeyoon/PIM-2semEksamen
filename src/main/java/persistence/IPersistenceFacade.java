@@ -40,6 +40,4 @@ public interface IPersistenceFacade {
             throws CommandException;
 
     public Catalog getCatalog(String categoryname) throws CommandException;
-
-
 }

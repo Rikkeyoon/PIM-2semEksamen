@@ -22,10 +22,25 @@
         <h3>Search</h3>
         <br>
         
-        <label for="product_id"><b>ID</b></label>
+        <label for="product_id"><b>Product ID</b></label>
         <br>
         <input type="text" name="product_id">
-
+        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        
+        <label for="product_name"><b>Product Name</b></label>
+        <br>
+        <input type="text" name="product_name">
+        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        
+        <label for="product_category"><b>Category</b></label>
+        <br>
+        <input type="text" name="product_category">
+        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        <br>
+        
+        <input class="resetbtn" id="resetbtn" type="submit" value="Reset"/>
+        <br>
+        
         <table border="1">
             <thead>
                 <tr>
