@@ -20,7 +20,7 @@ public class Product {
         this.description = description;
         this.category = category;
     }
-    
+
     public Product(int id, String name, String description, Category category,
             Map<String, String> categoryAttributes) {
         this.id = id;
@@ -57,11 +57,11 @@ public class Product {
     public Category getCategory() {
         return category;
     }
-    
+
     public void setCategory(Category category) {
         this.category = category;
     }
-    
+
     public Map<String, String> getCategoryAttributes() {
         return categoryAttributes;
     }
@@ -69,14 +69,23 @@ public class Product {
     public void setCategoryAttributes(Map<String, String> categoryAttributes) {
         this.categoryAttributes = categoryAttributes;
     }
-    
+
     public boolean compareTo(Product product) {
         return this.id == product.getId();
     }
-    
+
+    public void setAttributeValues(String[] attributeValues) {
+        //FIXME!!!
+        for (String key : categoryAttributes.keySet()) {
+            for (String attributeValue : attributeValues) {
+                categoryAttributes.replace(key, attributeValue);
+            }
+        }
+    }
+
     @Override
     public String toString() {
-        return "Product with id: " + id + ", name: " + name + ", description: " 
+        return "Product with id: " + id + ", name: " + name + ", description: "
                 + description + ", category:" + category.getCategoryname();
     }
 

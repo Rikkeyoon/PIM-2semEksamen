@@ -28,15 +28,24 @@
             <br>
             <label for="product_name"><b>Product Name</b></label>
             <p>${product.getName()} </p>
-            <br><br>
+            <br>
             <label for="product_desc"><b>Description</b></label>
             <br>
             <p>
                 ${product.getDescription()}
             </p>
-            <br><br>
+            <br>
             <label for="product_category"><b>Category</b></label>
-            <p>${product.getCategoryname()}</p>
+            <p>${product.getCategory().getCategoryname()}</p>
+            <br>
+            <c:forEach items="${product.getCategoryAttributes().keySet()}" 
+                       var="key"> 
+                <div>
+                    <b>${key}</b>
+                    <p>${product.getCategoryAttributes().get(key)}</p>
+                </div>
+                <br>
+            </c:forEach>
             <br>
         </form>
         <form name="update" action="FrontController" method = "POST">

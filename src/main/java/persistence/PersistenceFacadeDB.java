@@ -63,6 +63,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //We don't need to forward the message to the user
         }
         pm.update(p);
+        pm.updateAttributes(p);
     }
 
     @Override

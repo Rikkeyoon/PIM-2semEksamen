@@ -23,6 +23,8 @@ public interface IProductMapper {
     public TemporaryProduct getProductWithCategoryAttributes(int id) throws CommandException;
 
     public void update(Product product) throws CommandException;
+    
+    public void updateAttributes(Product product) throws CommandException;
 
     public void delete(Product product) throws CommandException;
 

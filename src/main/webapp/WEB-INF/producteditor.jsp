@@ -28,11 +28,10 @@
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
-                <input type="text" name="product_id" id="id" onkeyup="validateId();"
-                       value="${product.getId()}" required>
-                <div id="divValidateId"></div>
+                <p>${product.getId()} </p>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
+                <br>
                 <input type="text" name="product_name" 
                        value="${product.getName()}" required>
                 <br><br>
@@ -44,11 +43,24 @@
                 </textarea>
                 <br><br>
                 <label for="product_category"><b>Category</b></label>
+                <br>
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" 
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
+                <c:forEach items="${product.getCategoryAttributes().keySet()}" 
+                           var="key"> 
+                    <div>
+                        <label for="category_attribute"><b>${key}</b></label>
+                        <br>
+                        <textarea name="attribute_value" rows="4" cols="20" 
+                                  style="resize: none; width: 25%;" required="required">
+                            ${product.getCategoryAttributes().get(key)}  
+                        </textarea>
+                    </div>
+                    <br>
+                </c:forEach>
 
                 <!-- Exception handling -->
                 <c:if test="${error != null}">
