@@ -10,7 +10,7 @@ import logic.TemporaryProduct;
 
 /**
  *
- * @author allan
+ * @author allan, carol
  */
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
