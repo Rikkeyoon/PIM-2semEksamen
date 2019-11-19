@@ -38,8 +38,4 @@ public interface IPersistenceFacade {
     public TemporaryProduct getProductWithCategoryAttributes(int id) 
             throws CommandException;
 
-<<<<<<< HEAD
-    public Catalog getCatalog(String categoryname) throws CommandException;
-=======
->>>>>>> master
 }
