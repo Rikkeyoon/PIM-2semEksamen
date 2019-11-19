@@ -32,7 +32,7 @@ public class CategoryMapper implements ICategoryMapper {
                 throw new NullPointerException();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category" + ex);
+            throw new CommandException("Could not create new category");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -59,7 +59,7 @@ public class CategoryMapper implements ICategoryMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category" + ex);
+            throw new CommandException("Could not create new category");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -117,10 +117,10 @@ public class CategoryMapper implements ICategoryMapper {
                 attributes.add(result.getString(1));
 
             }
-            
-            if (result.getString(1).isBlank()) {
-                throw new SQLException();
-            }
+//            
+//            if (!pstmt.execute(selectSql)) {
+//                throw new SQLException();
+//            }
             
             category = new Category(categoryname, attributes);
         } catch (SQLException | NullPointerException ex) {

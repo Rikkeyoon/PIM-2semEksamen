@@ -15,29 +15,32 @@ import logic.TemporaryProduct;
  *
  * @author allan
  */
-
 public interface IPersistenceFacade {
-    
+
     public List<TemporaryProduct> getCatalog() throws CommandException;
-    
+
     public TemporaryProduct getProduct(int id) throws CommandException;
-    
+
     public TemporaryProduct getProduct(String name) throws CommandException;
-    
+
     public void createProduct(Product p) throws CommandException;
-    
+
     public void updateProduct(Product p) throws CommandException;
-    
+
     public void deleteProduct(Product p) throws CommandException;
-    
-    public List<TemporaryProduct> getProductsByCategory(String category) 
+
+    public List<TemporaryProduct> getProductsByCategory(String category)
             throws CommandException;
-    
+
     public Category getCategory(String categoryname) throws CommandException;
 
-    public TemporaryProduct getProductWithCategoryAttributes(int id) 
+    public TemporaryProduct getProductWithCategoryAttributes(int id)
             throws CommandException;
 
     public void createCategory(Category c) throws CommandException;
+
+    public void editCategory(Category c) throws CommandException;
+
+    public List<Category> getCategories() throws CommandException;
 
 }

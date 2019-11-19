@@ -105,4 +105,24 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         cm.createCategoryAttributes(c, attributeIds);
     }
 
+    @Override
+    public void editCategory(Category c) throws CommandException {
+        List<String> newAttributes = new ArrayList<>();
+        for (String attribute : c.getAttributes()) {
+            try {
+            String attr = am.getAttribute(attribute);
+            } catch (CommandException e) {
+              newAttributes.add(attribute);  
+            }
+        }
+        List<Integer> attributeIds = new ArrayList<>();
+        attributeIds = am.createAttributes(newAttributes);
+        cm.createCategoryAttributes(c, attributeIds);
+    }
+
+    @Override
+    public List<Category> getCategories() throws CommandException {
+        return cm.getAllCategories();
+    }
+
 }

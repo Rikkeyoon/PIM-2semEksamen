@@ -82,6 +82,10 @@
         </form>
         <br>
 
-
+        <form name="edit_category" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="view_edit_category_page">
+            <input type="submit" value="Edit category" />
+        </form>
+        <br>
     </body>
 </html>

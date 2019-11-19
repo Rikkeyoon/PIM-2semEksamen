@@ -15,7 +15,38 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class AttributeMapper {
 
-    public List<Integer> createAttributes(List<String> attributeNames) throws CommandException {
+    public String getAttribute(String attributename) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+
+        String selectSql = "SELECT attribute_name FROM attributes "
+                + "WHERE attribute_name = ?";
+        String attribute = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, attributename);
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                attribute = result.getString(1);
+
+            }
+            if (attribute == null) {
+                throw new SQLException();
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find category attribute");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return attribute;
+    }
+
+    public List<Integer> createAttributes(List<String> attributeNames)
+            throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
@@ -69,4 +100,5 @@ public class AttributeMapper {
         }
         return id;
     }
+
 }

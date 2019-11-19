@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class LogicFacade {
 
-    public static Product createProduct(int id, String name, String description, 
+    public static Product createProduct(int id, String name, String description,
             String category) throws CommandException {
         return LogicController.createProduct(id, name, description, category);
     }
-    
+
     public static Product updateProduct(Product p, String name, String description,
             String category, String[] attributeValues) throws CommandException {
         return LogicController.updateProduct(p, name, description, category,
@@ -31,9 +31,19 @@ public class LogicFacade {
     public static Product getProduct(int id) throws CommandException {
         return LogicController.getProduct(id);
     }
-    
+
     public static Category createCategory(String categoryname, String[] attributes)
             throws CommandException {
         return LogicController.createCategory(categoryname, attributes);
     }
+
+    public static Category editCategory(String categoryname, String[] attributes) 
+            throws CommandException {
+        return LogicController.editCategory(categoryname, attributes);
+    }
+
+    public static List<Category> getCategories() throws CommandException {
+        return LogicController.getCategories();
+    }
+
 }

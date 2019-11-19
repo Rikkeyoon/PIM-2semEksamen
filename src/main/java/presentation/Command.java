@@ -23,10 +23,12 @@ public abstract class Command {
         commands.put("delete_product", new DeleteProductCommand());
         commands.put("view_catalog", new ViewCatalogCommand());
         commands.put("view_product", new ViewProductCommand());
-        commands.put("view_create_page", new ViewCreatePageCommand());
-        commands.put("view_edit_page", new ViewEditPageCommand());
+        commands.put("view_create_page", new ViewCreateProductCommand());
+        commands.put("view_edit_page", new ViewEditProductCommand());
         commands.put("create_category", new CreateCategoryCommand());
+        commands.put("edit_category", new EditCategoryCommand());
         commands.put("view_create_category_page", new ViewCreateCategoryCommand());
+        commands.put("view_edit_category_page", new ViewEditCategoryCommand());
     }
     
     /**
