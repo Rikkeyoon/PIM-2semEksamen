@@ -62,18 +62,12 @@
                     <br>
                 </c:forEach>
 
-                <!-- Exception handling -->
-                <c:if test="${error != null}">
-                    <div class="form-alert">${error}</div>
-                </c:if>
-
-                <input class="updatebtn" type="submit" value="Save Changes" onclick="confirmation()"/>
+                <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
                 <input class="deletebtn" type="button" value="Delete Product" onclick="dconfirmation()"/>
             </form>
-
         </div>
 
         <!-- JavaScript functions -->
@@ -102,10 +96,6 @@
                     $("#updatebtn").removeAttr('disabled');
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
-            }
-
-            function confirmation() {
-                alert("Product updated succesfully!");
             }
 
             function dconfirmation() {

@@ -49,14 +49,7 @@
                 <div id="divValidateCategory"></div>
                 <br>
 
-                <!-- Exception handling -->
-                <c:if test="${error != null}">
-                    <div class="form-alert">${error}</div>
-                </c:if>
-
-                <input class="createbtn" id="createbtn" type="submit" value="Create" 
-                       onclick="confirmation()"/>
-
+                <input class="createbtn" id="createbtn" type="submit" value="Create" />
             </form>
         </div>
 
@@ -87,12 +80,6 @@
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
             }
-
-            function confirmation() {
-                alert("Product created succesfully!");
-            }
-
         </script>
-
     </body>
 </html>
