@@ -18,10 +18,11 @@
     <body>
         <div>
             <form name="back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="view_catalog">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="productcatalog">
                 <input type="submit" value="Back" />
             </form>
-            
+
             <form name="create" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="create_product">
 

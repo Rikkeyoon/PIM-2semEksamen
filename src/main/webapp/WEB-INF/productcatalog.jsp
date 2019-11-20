@@ -21,26 +21,39 @@
 
         <h3>Search</h3>
         <br>
-        
-        <label for="product_id"><b>Product ID</b></label>
-        <br>
-        <input type="text" name="product_id">
-        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        
-        <label for="product_name"><b>Product Name</b></label>
-        <br>
-        <input type="text" name="product_name">
-        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        
-        <label for="product_category"><b>Category</b></label>
-        <br>
-        <input type="text" name="product_category">
-        <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        <br>
-        
-        <input class="resetbtn" id="resetbtn" type="submit" value="Reset"/>
-        <br>
-        
+
+        <form name="search" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="search_product">
+            <label for="product_id"><b>Product ID</b></label>
+            <br>
+            <input type="text" name="product_id">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        </form>
+
+        <form name="search" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="search_product">
+            <label for="product_name"><b>Product Name</b></label>
+            <br>
+            <input type="text" name="product_name">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+        </form>
+
+        <form name="search" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="search_product">
+            <label for="product_category"><b>Category</b></label>
+            <br>
+            <input type="text" name="product_category">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+            <br>
+        </form>
+
+        <form name="get_product_catalog" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="productcatalog">
+            <input type="submit" value="Reset"/>
+            <br>
+        </form>
+
         <table border="1">
             <thead>
                 <tr>
@@ -59,8 +72,9 @@
                         <td>${product.getDescription()}</td>
                         <td>${product.getCategory().getCategoryname()}</td>
                         <td>
-                            <form name="create" action="FrontController" method = "POST">
-                                <input type="hidden" name="cmd" value="view_product">
+                            <form name="view_product" action="FrontController" method = "POST">
+                                <input type="hidden" name="cmd" value="get_view">
+                                <input type="hidden" name="view" value="viewproduct">
                                 <input type="hidden" value="${product.getId()}" name="product_id"/>
                                 <input type="submit" value="View product">
                             </form>
@@ -71,19 +85,22 @@
         </table>
         <br><br>
         <form name="create" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_create_page">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="createproduct">
             <input type="submit" value="Create new product" />
         </form>
         <br>
 
         <form name="create_category" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_create_category_page">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="createcategory">
             <input type="submit" value="Create new category" />
         </form>
         <br>
 
         <form name="edit_category" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_edit_category_page">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="editcategory">
             <input type="submit" value="Edit category" />
         </form>
         <br>

@@ -18,8 +18,9 @@
     <body>
 
         <h1>Pim system</h1>
-        <form name="create" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_catalog">
+        <form name="get_product_catalog" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="productcatalog">
             <input type="submit" value="Product Catalog" />
         </form>
 

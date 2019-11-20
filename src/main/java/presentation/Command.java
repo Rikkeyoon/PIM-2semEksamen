@@ -18,17 +18,13 @@ public abstract class Command {
     
     private static void initCommands() {
         commands = new HashMap<>();
+        commands.put("get_view", new ViewPageCommand());
         commands.put("create_product", new CreateProductCommand());
         commands.put("update_product", new UpdateProductCommand());
         commands.put("delete_product", new DeleteProductCommand());
-        commands.put("view_catalog", new ViewCatalogCommand());
-        commands.put("view_product", new ViewProductCommand());
-        commands.put("view_create_page", new ViewCreateProductCommand());
-        commands.put("view_edit_page", new ViewEditProductCommand());
+        commands.put("search_product", new SearchProductCommand());
         commands.put("create_category", new CreateCategoryCommand());
         commands.put("edit_category", new EditCategoryCommand());
-        commands.put("view_create_category_page", new ViewCreateCategoryCommand());
-        commands.put("view_edit_category_page", new ViewEditCategoryCommand());
     }
     
     /**

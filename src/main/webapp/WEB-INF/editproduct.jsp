@@ -15,7 +15,8 @@
 
     <body>
         <form name="Back" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_product">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="viewproduct">
             <input type="hidden" value="${product.getId()}" name="product_id"/>
             <input type="submit" value="Back">
         </form>

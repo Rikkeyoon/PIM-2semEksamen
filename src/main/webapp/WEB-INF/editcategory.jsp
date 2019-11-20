@@ -16,7 +16,8 @@
     </head>
     <body>
         <form name="back" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_catalog">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="productcatalog">
             <input type="submit" value="Back" />
         </form>
 
@@ -27,7 +28,7 @@
                 <c:forEach items="${categories}" var="cat">
                     <option value="${cat.getCategoryname()}">
                         ${cat.getCategoryname()}</option>
-                </c:forEach>
+                    </c:forEach>
             </select>
             <br><br>
 

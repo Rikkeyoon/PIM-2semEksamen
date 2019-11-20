@@ -13,7 +13,8 @@
     </head>
     <body>
         <form name="back" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_catalog">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="productcatalog">
             <input type="submit" value="Back" />
         </form>
 
@@ -49,7 +50,8 @@
             <br>
         </form>
         <form name="update" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="view_edit_page">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="editproduct">
             <input type="submit" value="Edit">
         </form>
     </body>
