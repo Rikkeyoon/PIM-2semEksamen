@@ -41,8 +41,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public TemporaryProduct getProduct(String name) throws CommandException {
-        return pm.getProduct(name);
+    public List<TemporaryProduct> getProductsByName(String name) throws CommandException {
+        return pm.getProductsByName(name);
     }
 
     @Override

@@ -45,39 +45,36 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public TemporaryProduct getProduct(String name) throws CommandException {
+    public List<TemporaryProduct> getProductsByName(String names) 
+            throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        TemporaryProduct tempProduct = null;
+        List<TemporaryProduct> tempProducts = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
             pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, '%' + name + '%');
+            pstmt.setString(1, '%' + names + '%');
 
             result = pstmt.executeQuery();
 
             while (result.next()) {
                 int id = result.getInt(1);
+                String name = result.getString(2);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
 
-                tempProduct = new TemporaryProduct(id, name, description,
-                        categoryname);
+                tempProducts.add(new TemporaryProduct(id, name, description,
+                        categoryname));
             }
-
-            if (tempProduct == null) {
-                throw new SQLException();
-            }
-
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
 
-        return tempProduct;
+        return tempProducts;
     }
 
     @Override
@@ -134,9 +131,10 @@ public class ProductMapper implements IProductMapper {
                 int id = result.getInt(1);
                 String name = result.getString(2);
                 String description = result.getString(3);
+                String category = result.getString(4);
 
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname));
+                        category));
             }
 
             if (tempProducts.size() < 1) {

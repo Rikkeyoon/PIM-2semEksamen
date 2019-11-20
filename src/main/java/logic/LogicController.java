@@ -57,6 +57,17 @@ public class LogicController {
         return convertTemporaryProductToProduct(temp);
     }
 
+    public static List<Product> getProductsByName(String name) throws CommandException {
+        List<TemporaryProduct> temps = pf.getProductsByName(name);
+        return convertTemporaryProductListToProductList(temps);
+    }
+
+    public static List<Product> getProductsByCategory(String category)
+            throws CommandException {
+        List<TemporaryProduct> products = pf.getProductsByCategory(category);
+        return convertTemporaryProductListToProductList(products);
+    }
+
     public static Category getCategory(String categoryname) throws CommandException {
         return pf.getCategory(categoryname);
     }

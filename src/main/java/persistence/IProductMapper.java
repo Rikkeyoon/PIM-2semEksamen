@@ -12,20 +12,20 @@ public interface IProductMapper {
 
     public void create(Product product) throws CommandException;
 
-    public TemporaryProduct getProduct(String name) throws CommandException;
-
     public TemporaryProduct getProduct(int id) throws CommandException;
 
-    public List<TemporaryProduct> getProductsByCategory(String categoryname) throws CommandException;
+    public List<TemporaryProduct> getProductsByName(String name) throws CommandException;
+
+    public List<TemporaryProduct> getProductsByCategory(String category) throws CommandException;
 
     public List<TemporaryProduct> getAllProducts() throws CommandException;
 
     public TemporaryProduct getProductWithCategoryAttributes(int id) throws CommandException;
 
     public void update(Product product) throws CommandException;
-    
+
     public void updateAttributes(Product product) throws CommandException;
-    
+
     public void createAttributes(Product product) throws CommandException;
 
     public void delete(Product product) throws CommandException;

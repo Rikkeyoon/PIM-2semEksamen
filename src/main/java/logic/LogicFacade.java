@@ -32,12 +32,21 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
 
+    public static List<Product> getProductsByName(String name) throws CommandException {
+        return LogicController.getProductsByName(name);
+    }
+
+    public static List<Product> getProductsByCategory(String category)
+            throws CommandException {
+        return LogicController.getProductsByCategory(category);
+    }
+
     public static Category createCategory(String categoryname, String[] attributes)
             throws CommandException {
         return LogicController.createCategory(categoryname, attributes);
     }
 
-    public static Category editCategory(String categoryname, String[] attributes) 
+    public static Category editCategory(String categoryname, String[] attributes)
             throws CommandException {
         return LogicController.editCategory(categoryname, attributes);
     }
