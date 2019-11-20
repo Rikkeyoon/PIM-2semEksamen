@@ -52,6 +52,7 @@ import org.apache.commons.io.output.*;
 public class FrontController extends HttpServlet {
 
     private static final String UPLOAD_DIR = "img";
+    private static final String WORKING_DIR = System.getProperty("user.dir");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -84,16 +85,15 @@ public class FrontController extends HttpServlet {
         // gets absolute path of the web application
         String applicationPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
         // creates upload folder if it does not exists
-        File uploadFolder = new File(uploadFilePath);
+        File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
         PrintWriter writer = response.getWriter();
         // write all files in upload folder
         for (Part part : request.getParts()) {
-            if (part != null && part.getSize() > 0) {
+            if (part.getContentType() != null && part.getSize() > 0) {
                 String fileName = part.getSubmittedFileName();
                 String contentType = part.getContentType();
 
@@ -102,9 +102,10 @@ public class FrontController extends HttpServlet {
                     continue;
                 }
 
-                part.write(System.getProperty("user.dir") + File.separator + fileName);
-                File file = new File(System.getProperty("user.dir") + File.separator + fileName);
-                 Map uploadResult = null;
+                part.write(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
+                File file = new File(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
+                Map uploadResult = null;
+                String s = null;
                 try{
                 Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                         
@@ -112,6 +113,8 @@ public class FrontController extends HttpServlet {
                         "api_key", "228872137167968",
                         "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));                
                 uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+                s = (String) uploadResult.get(new String("url"));
+                file.delete();
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
@@ -122,7 +125,7 @@ public class FrontController extends HttpServlet {
                         + fileName
                         + "<br>\r\n");
                 writer.append(file.getAbsolutePath());
-                //writer.append((CharSequence) uploadResult.get(new String("url")));
+                writer.append("<img src ='" + s + "'  >");
             }
         }
     }
