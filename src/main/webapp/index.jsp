@@ -45,12 +45,10 @@
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
-                <input id = "files" type = "file" name = "file" size = "50" required="required" />
+                <input type="file" id="files" name = "file" multiple />
                 <br>
-                <img id="image" width = "250" />
+                <output id="list"></output>
                 <br><br>
-                
-                <img src ="https://res.cloudinary.com/dmk5yii3m/image/upload/v1574167919/sample.jpg">
 
                 <!-- Exception handling -->
                 <c:if test="${error != null}">
@@ -65,17 +63,39 @@
 
         <!-- JavaScript functions -->
         <script>
-            document.getElementById("files").onchange = function () {
+            function handleFileSelect(evt) {
+            var files = evt.target.files;
+
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+            continue;
+            }
+
             var reader = new FileReader();
 
-            reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("image").src = e.target.result;
-            };
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+            return function(e) {
+            // Render thumbnail.
+            var span = document.createElement('span');
+            span.innerHTML = 
+            [
+              '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="',e.target.result,'" title="', escape(theFile.name),'"/><input type="radio" name="fileSelected" value="', escape(theFile.name),'" required></span>'
+            ].join('    ');
 
-            // read the image file as a data URL.
-            reader.readAsDataURL(this.files[0]);
+            document.getElementById('list').insertBefore(span, null);
             };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+            }
+            }
+
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
             function validateID() {
             var id = $("#id").val();

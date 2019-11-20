@@ -44,9 +44,9 @@ import org.apache.commons.io.output.*;
  * @author carol
  */
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
-@MultipartConfig(fileSizeThreshold = 6291456, // 6 MB
-        maxFileSize = 10485760L, // 10 MB
-        maxRequestSize = 20971520L // 20 MB
+@MultipartConfig(fileSizeThreshold = 500000, // 0.5 MB
+        maxFileSize = 1048576L, // 1 MB
+        maxRequestSize = 5242880 // 5 MB
 )
 
 public class FrontController extends HttpServlet {
@@ -92,6 +92,7 @@ public class FrontController extends HttpServlet {
         }
         PrintWriter writer = response.getWriter();
         // write all files in upload folder
+        
         for (Part part : request.getParts()) {
             if (part.getContentType() != null && part.getSize() > 0) {
                 String fileName = part.getSubmittedFileName();
@@ -124,9 +125,15 @@ public class FrontController extends HttpServlet {
                         + File.separator
                         + fileName
                         + "<br>\r\n");
-                writer.append(file.getAbsolutePath());
-                writer.append("<img src ='" + s + "'  >");
+                writer.append(file.getAbsolutePath()+"<br>");
+                writer.append("<img src ='" + s + "'  >"+"<br>");
+                writer.append("Billede navn:" + part.getSubmittedFileName()+"<br>");
+                
+                if(part.getSubmittedFileName().equals(request.getParameter("fileSelected").replaceAll("\\s+",""))){
+                    writer.append("DETTE BILLEDE ER VALGT"+"<br>");
+                }
             }
+            writer.append("Billede valgt:" + request.getParameter("fileSelected")+"<br>");
         }
     }
 
