@@ -2,6 +2,7 @@ package logic;
 
 import exception.CommandException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -14,10 +15,9 @@ public class LogicFacade {
         return LogicController.createProduct(id, name, description, category);
     }
 
-    public static Product updateProduct(Product p, String name, String description,
-            String category, String[] attributeValues) throws CommandException {
-        return LogicController.updateProduct(p, name, description, category,
-                attributeValues);
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
+            throws CommandException {
+        return LogicController.updateProduct(p, parameterMap);
     }
 
     public static void deleteProduct(Product p) throws CommandException {
@@ -54,5 +54,6 @@ public class LogicFacade {
     public static List<Category> getCategories() throws CommandException {
         return LogicController.getCategories();
     }
+
 
 }

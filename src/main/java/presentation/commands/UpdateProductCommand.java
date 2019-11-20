@@ -1,6 +1,7 @@
 package presentation;
 
 import exception.CommandException;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,15 +19,9 @@ public class UpdateProductCommand extends Command {
             throws CommandException {
         HttpSession session = request.getSession();
         Product p = (Product) session.getAttribute("product");
-        String name = request.getParameter("product_name");
-        String description = request.getParameter("product_desc");
-        String category = request.getParameter("product_category");
-        String[] attributeValues = request.getParameterValues("attribute_value");
-        //TODO: Change to String... (varargs) or ArrayList<String>
-        p = LogicFacade.updateProduct(p, name, description, category, 
-                attributeValues);
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        p = LogicFacade.updateProduct(p, parameterMap);
         session.setAttribute("product", p);
-//        return "productcatalog";
         return "index";
     }
 

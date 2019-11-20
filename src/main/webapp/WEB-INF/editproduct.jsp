@@ -55,8 +55,8 @@
                     <div>
                         <label for="category_attribute"><b>${key}</b></label>
                         <br>
-                        <textarea name="attribute_value" rows="4" cols="20" 
-                                  style="resize: none; width: 25%;" required="required">
+                        <textarea name="${key}" rows="4" cols="20" style="resize: none; 
+                                  width: 25%;" required="required">
                             ${product.getCategoryAttributes().get(key)}  
                         </textarea>
                     </div>
@@ -67,7 +67,8 @@
             </form>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
-                <input class="deletebtn" type="button" value="Delete Product" onclick="dconfirmation()"/>
+                <input class="deletebtn" type="button" value="Delete Product" 
+                       onclick="dconfirmation()"/>
             </form>
         </div>
 

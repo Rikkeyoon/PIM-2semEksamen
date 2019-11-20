@@ -24,12 +24,20 @@ public class LogicController {
         return p;
     }
 
-    public static Product updateProduct(Product p, String name, String description,
-            String categoryname, String[] attributeValues) throws CommandException {
-        p.setName(name);
-        p.setDescription(description);
-        p.setCategory(getCategory(categoryname));
-        p.setAttributeValues(attributeValues);
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
+            throws CommandException {
+        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+        for (String key : parameterMap.keySet()) {
+            if (key.equalsIgnoreCase("product_name")) {
+                p.setName(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("product_desc")) {
+                p.setDescription(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("product_category")) {
+                p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
+            } else {
+                categoryAttributes.replace(key, parameterMap.get(key)[0]);
+            }
+        }
         pf.updateProduct(p);
         return p;
     }
@@ -150,5 +158,6 @@ public class LogicController {
         }
         return products;
     }
+
 
 }
