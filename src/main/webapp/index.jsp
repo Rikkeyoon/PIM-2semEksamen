@@ -49,6 +49,8 @@
                 <br>
                 <img id="image" width = "250" />
                 <br><br>
+                
+                <img src ="https://res.cloudinary.com/dmk5yii3m/image/upload/v1574167919/sample.jpg">
 
                 <!-- Exception handling -->
                 <c:if test="${error != null}">

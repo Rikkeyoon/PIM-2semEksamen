@@ -9,9 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.users.FullAccount;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
+import com.cloudinary.*;
+import com.cloudinary.utils.ObjectUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -40,8 +49,10 @@ import org.apache.commons.io.output.*;
         maxRequestSize = 20971520L // 20 MB
 )
 
-public class FrontController extends HttpServlet {	
-	private static final String UPLOAD_DIR = "img";
+public class FrontController extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "img";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -81,27 +92,99 @@ public class FrontController extends HttpServlet {
         }
         PrintWriter writer = response.getWriter();
         // write all files in upload folder
-        System.out.println(request.getParts().size());
         for (Part part : request.getParts()) {
             if (part != null && part.getSize() > 0) {
                 String fileName = part.getSubmittedFileName();
                 String contentType = part.getContentType();
-                System.out.println(contentType);
+
                 // allows only JPEG files to be uploaded
                 if (contentType != null && !contentType.equalsIgnoreCase("image/jpeg")) {
-                    continue;  
+                    continue;
                 }
 
-                part.write(uploadFilePath + File.separator + fileName);
-
+                part.write(System.getProperty("user.dir") + File.separator + fileName);
+                File file = new File(System.getProperty("user.dir") + File.separator + fileName);
+                 Map uploadResult = null;
+                try{
+                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                        
+                        "cloud_name", "dmk5yii3m",
+                        "api_key", "228872137167968",
+                        "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));                
+                uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("hallo" + file.getAbsoluteFile());
                 writer.append("File successfully uploaded to "
                         + uploadFolder.getAbsolutePath()
                         + File.separator
                         + fileName
                         + "<br>\r\n");
+                writer.append(file.getAbsolutePath());
+                //writer.append((CharSequence) uploadResult.get(new String("url")));
             }
         }
+    }
 
+    /* response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        // gets absolute path of the web application
+      //String applicationPath = request.getServletContext().getRealPath("");
+        // constructs path of the directory to save uploaded file
+      //String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        // creates upload folder if it does not exists
+      //File uploadFolder = new File(uploadFilePath);
+     //  if (!uploadFolder.exists()) {
+     //       uploadFolder.mkdirs();
+      //  }
+       PrintWriter writer = response.getWriter();
+        // write all files in upload folder
+      //  System.out.println(request.getParts().size());
+      //  for (Part part : request.getParts()) {
+      //      if (part != null && part.getSize() > 0) {
+      //          String fileName = part.getSubmittedFileName();
+      //          String contentType = part.getContentType();
+      //          System.out.println(contentType);
+                // allows only JPEG files to be uploaded
+      //          if (contentType != null && !contentType.equalsIgnoreCase("image/jpeg")) {
+      //              continue;  
+      //          }
+              Part part = request.getPart("file");
+              
+//        part.write(filename);
+        String fileName = getFileName(part);
+        File uploads = new File("");
+        System.out.println(fileName);
+        System.out.println(new File("").getAbsolutePath());
+        File file = new File(fileName);
+               
+                                
+                //part.write(uploadFilePath + File.separator + fileName);
+
+                writer.append("File successfully uploaded to "
+                        + uploadResult.get("url")
+                        + "<br>\r\n");
+            //}
+        //}
+     */
+    //}
+//    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+//                "cloud_name", "dmk5yii3m",
+//                "api_key", "228872137167968",
+//                "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
+//  //              part.write(uploadFilePath + File.separator + fileName);;
+////                File file = new File(uploadFilePath + File.separator + fileName);
+//                Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+    private String getFileName(Part part) {
+        for (String token : part.getHeader("content-disposition").split(";")) {
+            if (token.trim().startsWith("filename")) {
+                String file = token.substring(token.indexOf('=') + 1).trim().replace("\"", "");
+                String[] fileSplit = file.split("\\\\");
+                return fileSplit[fileSplit.length - 1];
+            }
+        }
+        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
