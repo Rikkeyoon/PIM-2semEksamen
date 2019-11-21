@@ -16,7 +16,7 @@ import javax.servlet.http.Part;
  */
 public interface IImageMapper {
 
-    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage);
+    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)throws CommandException;
 
     public void addPictureURL(int id, List<Pair<String, Boolean>> images)throws CommandException;
     

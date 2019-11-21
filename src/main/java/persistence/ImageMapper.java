@@ -34,7 +34,7 @@ public class ImageMapper implements IImageMapper {
             "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
 
     @Override
-    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) {
+    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
         List<Pair<String, Boolean>> images = new ArrayList<Pair<String, Boolean>>();
         try {
             //Creates img folder if none exist(temporary storage for image before uploaded to cloudinary)
@@ -48,34 +48,31 @@ public class ImageMapper implements IImageMapper {
                     String fileName = part.getSubmittedFileName();
                     String contentType = part.getContentType();
 
-                    // allows only JPEG files to be uploaded
-                    if (contentType != null && !contentType.equalsIgnoreCase("image/jpeg")) {
-                        continue;
+                    // allows JPEG & PNG files to be uploaded
+                    if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/png"))) {
+                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
+                        File file = new File(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
+
+                        Map uploadResult = null;
+                        String URL = null;
+                        Boolean bool = false;
+
+                        uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+                        URL = (String) uploadResult.get(new String("url"));
+
+                        if (part.getSubmittedFileName().equals(primaryImage.replaceAll("\\s+", ""))) {
+                            bool = true;
+                        }
+                        images.add(new Pair(URL, bool));
+
+                        file.delete();
                     }
-
-                    part.write(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
-                    File file = new File(WORKING_DIR + File.separator + UPLOAD_DIR + File.separator + fileName);
-
-                    Map uploadResult = null;
-                    String URL = null;
-                    Boolean bool = false;
-
-                    uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-
-                    URL = (String) uploadResult.get(new String("url"));
-
-                    if (part.getSubmittedFileName().equals(primaryImage.replaceAll("\\s+", ""))) {
-                        bool = true;
-                    }
-                    images.add(new Pair(URL, bool));
-
-                    file.delete();
-
                 }
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new CommandException(e.getMessage());
         }
         return images;
     }
