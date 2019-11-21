@@ -57,6 +57,7 @@
         <table border="1">
             <thead>
                 <tr>
+                    <th>Picture</th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
@@ -67,6 +68,7 @@
             <tbody>
                 <c:forEach items="${catalog}" var="product">
                     <tr>
+                        <td><img width = "100" alt= "Picture not found" src = "${product.getImages().get(0).getKey()}"></td>
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
                         <td>${product.getDescription()}</td>

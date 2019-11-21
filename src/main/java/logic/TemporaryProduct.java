@@ -1,34 +1,39 @@
 package logic;
 
+import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 
 /**
  *
  * @author carol
  */
 public class TemporaryProduct {
-    
+
     private int id;
     private String name;
     private String description;
     private String categoryname;
     private Map<String, String> categoryAtrributes;
+    private List<Pair<String, Boolean>> images;
 
-    public TemporaryProduct(int id, String name, String description, 
-            String categoryname) {
+    public TemporaryProduct(int id, String name, String description,
+            String categoryname, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
+        this.images = images;
     }
 
-    public TemporaryProduct(int id, String name, String description, 
-            String categoryname, Map<String, String> categoryAttributes) {
+    public TemporaryProduct(int id, String name, String description, String categoryname,
+            Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
         this.categoryAtrributes = categoryAttributes;
+        this.images = images;
     }
 
     public int getId() {
@@ -70,4 +75,13 @@ public class TemporaryProduct {
     public void setCategoryAtrributes(Map<String, String> categoryAtrributes) {
         this.categoryAtrributes = categoryAtrributes;
     }
+
+    public List<Pair<String, Boolean>> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Pair<String, Boolean>> images) {
+        this.images = images;
+    }
+    
 }

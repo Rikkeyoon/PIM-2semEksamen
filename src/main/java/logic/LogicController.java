@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
+import javax.servlet.http.Part;
+import org.apache.commons.lang.StringUtils;
 import persistence.IPersistenceFacade;
 import persistence.PersistenceFacadeDB;
 
@@ -17,10 +20,15 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, String name, String description,
-            String categoryname) throws CommandException {
-        Product p = new Product(id, name, description, getCategory(categoryname));
+            String category, List<Pair<String, Boolean>> images) throws CommandException {
+        Product p = new Product(id, name, description, getCategory(category), images);
+
         pf.createProduct(p);
         return p;
+    }
+
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+        return pf.uploadImages(parts, primaryImage);
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
@@ -83,7 +91,7 @@ public class LogicController {
             throws CommandException {
         List<String> attributeList = new ArrayList<>();
         for (String attribute : attributes) {
-            if (!attribute.isBlank()) {
+            if (StringUtils.isNotBlank(attribute)) {
                 attributeList.add(attribute);
             }
         }
@@ -130,7 +138,7 @@ public class LogicController {
         }
 
         Product product = new Product(temp.getId(), temp.getName(),
-                temp.getDescription(), category, categoryAttributes);
+                temp.getDescription(), category, categoryAttributes, temp.getImages());
         return product;
     }
 
@@ -153,7 +161,7 @@ public class LogicController {
             }
 
             products.add(new Product(temp.getId(), temp.getName(),
-                    temp.getDescription(), category, categoryAttributes));
+                    temp.getDescription(), category, categoryAttributes, temp.getImages()));
         }
         return products;
     }

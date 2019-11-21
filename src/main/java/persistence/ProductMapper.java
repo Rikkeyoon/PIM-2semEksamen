@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -66,7 +67,7 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
 
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname));
+                        categoryname, null));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
@@ -97,7 +98,7 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
 
                 tempProduct = new TemporaryProduct(id, name, description,
-                        categoryname);
+                        categoryname, null);
             }
 
             if (tempProduct == null) {
@@ -134,7 +135,7 @@ public class ProductMapper implements IProductMapper {
                 String category = result.getString(4);
 
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        category));
+                        category, null));
             }
 
             if (tempProducts.size() < 1) {
@@ -166,9 +167,10 @@ public class ProductMapper implements IProductMapper {
                 String name = result.getString(2);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
-
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPrimaryImageWithId(id);
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname));
+                        categoryname, images));
+
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -211,7 +213,7 @@ public class ProductMapper implements IProductMapper {
                     product.setCategoryAtrributes(newCategoryAttr);
                 } else {
                     product = new TemporaryProduct(id, name, description, categoryname,
-                            categoryAttributes);
+                            categoryAttributes, null);
                 }
             }
         } catch (SQLException | NullPointerException ex) {

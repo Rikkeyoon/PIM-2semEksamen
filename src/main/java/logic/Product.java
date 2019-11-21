@@ -1,6 +1,8 @@
 package logic;
 
 import java.util.Map;
+import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -13,6 +15,7 @@ public class Product {
     private String description;
     private Category category;
     private Map<String, String> categoryAttributes;
+    private List<Pair<String, Boolean>> images;
 
     public Product(int id, String name, String description, Category category) {
         this.id = id;
@@ -20,14 +23,37 @@ public class Product {
         this.description = description;
         this.category = category;
     }
-
-    public Product(int id, String name, String description, Category category,
-            Map<String, String> categoryAttributes) {
+    public Product(int id, String name, String description, Category category, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
+        this.images = images;
+    }
+
+
+//    public Product(int id, String name, String description, Category category,
+//            Map<String, String> categoryAttributes) {
+//        this.id = id;
+//        this.name = name;
+//        this.description = description;
+//        this.category = category;
+//        this.categoryAttributes = categoryAttributes;
+//    }
+
+    //Master Contructor
+    public Product(int id, String name, String description, Category categoryname,
+            Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = categoryname;
         this.categoryAttributes = categoryAttributes;
+        this.images = images;
+    }
+
+    public List<Pair<String, Boolean>> getImages() {
+        return images;
     }
 
     public int getId() {
@@ -48,6 +74,10 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setImages(List<Pair<String, Boolean>> images) {
+        this.images = images;
     }
 
     public void setDescription(String description) {

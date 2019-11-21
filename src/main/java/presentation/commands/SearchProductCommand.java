@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logic.LogicFacade;
 import logic.Product;
+import org.apache.commons.lang.StringUtils;
 import presentation.Command;
 
 /**
@@ -25,7 +26,7 @@ public class SearchProductCommand extends Command {
                 catalog.add(product);
             } catch (NumberFormatException e) {
                 String name = request.getParameter("product_name");
-                if (name != null && !name.isBlank()) {
+                if (name != null && StringUtils.isNotBlank(name)) {
                     catalog = LogicFacade.getProductsByName(name);
                 } else {
                     String category = request.getParameter("product_category");

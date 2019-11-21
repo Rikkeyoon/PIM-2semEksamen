@@ -4,6 +4,8 @@ import exception.CommandException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
+import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;
 import logic.TemporaryProduct;
@@ -15,9 +17,10 @@ import logic.TemporaryProduct;
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
     private static IDatabaseConnection DBC;
-    private IProductMapper pm = new ProductMapper();
-    private ICategoryMapper cm = new CategoryMapper();
-    private AttributeMapper am = new AttributeMapper();
+    private static IProductMapper pm = new ProductMapper();
+    private static ICategoryMapper cm = new CategoryMapper();
+    private static AttributeMapper am = new AttributeMapper();
+    private static IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
         try {
@@ -28,6 +31,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
     public static Connection getConnection() throws CommandException {
         return DBC.getConnection();
+    }
+
+    public static List<Pair<String, Boolean>> getPrimaryImageWithId(int id) throws CommandException {
+        return im.getPicturesWithId(id);
     }
 
     @Override
@@ -54,7 +61,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
+
         pm.create(p);
+        if (p.getImages() != null) {
+            im.addPictureURL(p.getId(), p.getImages());
+        }
     }
 
     @Override
@@ -110,9 +121,9 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         List<String> newAttributes = new ArrayList<>();
         for (String attribute : c.getAttributes()) {
             try {
-            String attr = am.getAttribute(attribute);
+                String attr = am.getAttribute(attribute);
             } catch (CommandException e) {
-              newAttributes.add(attribute);  
+                newAttributes.add(attribute);
             }
         }
         List<Integer> attributeIds = new ArrayList<>();
@@ -125,4 +136,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return cm.getAllCategories();
     }
 
+    @Override
+    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+        return im.uploadImages(parts, primaryImage);
+    }
 }

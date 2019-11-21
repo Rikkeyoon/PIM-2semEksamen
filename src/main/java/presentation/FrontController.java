@@ -2,8 +2,9 @@ package presentation;
 
 import exception.CommandException;
 import java.io.IOException;
-import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author carol
  */
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
+@MultipartConfig(fileSizeThreshold = 500000, // 0.5 MB
+        maxFileSize = 1048576L, // 1 MB
+        maxRequestSize = 5242880 // 5 MB
+)
+
 public class FrontController extends HttpServlet {
 
     /**
@@ -32,6 +38,9 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             Command cmd = Command.from(request);
+            if(cmd.getClass() == CreateProductCommand.class){
+                request.setAttribute("partList", request.getParts());
+            }
             String view = cmd.execute(request, response);
             if (view.equals("index")) {
                 request.getRequestDispatcher(view + ".jsp").forward(request, response);
