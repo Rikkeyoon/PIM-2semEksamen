@@ -7,6 +7,8 @@ package persistence;
 
 import exception.CommandException;
 import java.util.List;
+import javafx.util.Pair;
+import javax.servlet.http.Part;
 import logic.Category;
 import logic.Product;
 
@@ -32,6 +34,8 @@ public interface IPersistenceFacade {
     public List<Product> getProductsByCategory(String category) throws CommandException;
     
     public Category getCategory(String categoryname) throws CommandException;
+
+    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException;
 
 
 

@@ -3,6 +3,8 @@ package persistence;
 import exception.CommandException;
 import java.sql.Connection;
 import java.util.List;
+import javafx.util.Pair;
+import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;
 
@@ -15,6 +17,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IDatabaseConnection DBC;
     private IProductMapper pm = new ProductMapper();
     private ICategoryMapper cm = new CategoryMapper();
+    private IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode){
         try{
@@ -80,5 +83,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public Category getCategory(String categoryname) throws CommandException {
         return cm.getCategory(categoryname);
+    }
+
+    @Override
+    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+        return im.uploadImages(parts, primaryImage);
     }
 }

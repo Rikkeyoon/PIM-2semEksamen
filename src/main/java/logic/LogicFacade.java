@@ -2,6 +2,8 @@ package logic;
 
 import exception.CommandException;
 import java.util.List;
+import javafx.util.Pair;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -33,5 +35,9 @@ public class LogicFacade {
 
     public static Category createCategory(String categoryname) throws CommandException {
         return LogicController.getCategory(categoryname);
+    }
+
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException{
+        return LogicController.uploadImages(parts, primaryImage);
     }
 }
