@@ -141,7 +141,7 @@ public class ProductMapper implements IProductMapper {
                 throw new SQLException();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the products with the chosen name");
+            throw new CommandException("Could not find the products with the chosen category");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }

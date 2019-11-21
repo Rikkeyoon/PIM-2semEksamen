@@ -14,8 +14,7 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, String name, String description,
             String categoryname) throws CommandException {
@@ -158,6 +157,5 @@ public class LogicController {
         }
         return products;
     }
-
 
 }

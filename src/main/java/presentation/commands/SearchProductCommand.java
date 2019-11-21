@@ -16,7 +16,7 @@ import presentation.Command;
 public class SearchProductCommand extends Command {
 
     @Override
-    String execute(HttpServletRequest request, HttpServletResponse response) {
+    String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         List<Product> catalog = new ArrayList<>();
         try {
             try {
@@ -24,10 +24,10 @@ public class SearchProductCommand extends Command {
                 Product product = LogicFacade.getProduct(id);
                 catalog.add(product);
             } catch (NumberFormatException e) {
-                try {
-                    String name = request.getParameter("product_name");
+                String name = request.getParameter("product_name");
+                if (name != null && !name.isBlank()) {
                     catalog = LogicFacade.getProductsByName(name);
-                } catch (NullPointerException ex) {
+                } else {
                     String category = request.getParameter("product_category");
                     catalog = LogicFacade.getProductsByCategory(category);
                 }

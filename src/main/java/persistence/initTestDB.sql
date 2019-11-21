@@ -68,7 +68,7 @@ INSERT INTO products VALUES (9, "Xiaomi redmi note 5", "Middel performance telef
 INSERT INTO products VALUES (10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler");
 
 INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol");
-INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the would", "Alkohol");
+INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol");
 INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
 INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
 INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");

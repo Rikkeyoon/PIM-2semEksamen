@@ -32,7 +32,8 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
 
-    public static List<Product> getProductsByName(String name) throws CommandException {
+    public static List<Product> getProductsByName(String name) 
+            throws CommandException {
         return LogicController.getProductsByName(name);
     }
 
