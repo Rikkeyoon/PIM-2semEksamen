@@ -7,12 +7,18 @@ package persistence;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import exception.CommandException;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javafx.util.Pair;
 import javax.servlet.http.Part;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -62,14 +68,93 @@ public class ImageMapper implements IImageMapper {
                         bool = true;
                     }
                     images.add(new Pair(URL, bool));
-                    
+
                     file.delete();
 
                 }
             }
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+        return images;
+    }
+
+    @Override
+    public void addPictureURL(int id, List<Pair<String, Boolean>> images) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String insertSql = "INSERT INTO images VALUES (?, ? , ?);";
+            for (Pair<String, Boolean> p : images) {
+                pstmt = connection.prepareStatement(insertSql);
+                pstmt.setInt(1, id);
+                pstmt.setString(2, p.getKey());
+                pstmt.setBoolean(3, p.getValue());
+                pstmt.executeUpdate();
+            }
+
+        } catch (SQLException | NullPointerException e) {
+            throw new CommandException("Could not save URL reference to images");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+
+        }
+    }
+
+    @Override
+    public List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Pair<String, Boolean>> images = new ArrayList();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM images WHERE product_id = " + id + ";";
+            pstmt = connection.prepareStatement(selectSql);
+            //pstmt.setInt(1, id);
+
+            result = pstmt.executeQuery(selectSql);
+
+            while (result.next()) {
+                String URL = result.getString("url");
+                Boolean bool = result.getBoolean("primaryImage");
+
+                images.add(new Pair(URL, bool));
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return images;
+    }
+
+    @Override
+    public List<Pair<String, Boolean>> getPrimaryPictureWithId(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Pair<String, Boolean>> images = new ArrayList();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = 1;";
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, id);
+
+            result = pstmt.executeQuery(selectSql);
+            result.next();
+            String URL = result.getString("url");
+            Boolean bool = result.getBoolean("primaryImage");
+            images.add(new Pair(URL, bool));
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
         }
         return images;
     }

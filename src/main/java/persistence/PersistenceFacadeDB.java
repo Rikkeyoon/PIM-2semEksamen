@@ -15,9 +15,9 @@ import logic.Category;
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
     private static IDatabaseConnection DBC;
-    private IProductMapper pm = new ProductMapper();
-    private ICategoryMapper cm = new CategoryMapper();
-    private IImageMapper im = new ImageMapper();
+    private static IProductMapper pm = new ProductMapper();
+    private static ICategoryMapper cm = new CategoryMapper();
+    private static IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode){
         try{
@@ -31,6 +31,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return DBC.getConnection();
     }
 
+    public static List<Pair<String, Boolean>> getPrimaryImageWithId(int id) throws CommandException{
+        return im.getPicturesWithId(id);
+    }
+    
     @Override
     public List<Product> getCatalog() throws CommandException {
         return pm.getAllProducts();
@@ -54,8 +58,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
-
+        
         pm.create(p);
+        if(p.getImages() != null){
+           im.addPictureURL(p.getId(),p.getImages()); 
+        }
     }
 
     @Override
@@ -89,4 +96,5 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
+    
 }

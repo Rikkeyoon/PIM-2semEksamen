@@ -5,6 +5,7 @@
  */
 package persistence;
 
+import exception.CommandException;
 import java.util.List;
 import javafx.util.Pair;
 import javax.servlet.http.Part;
@@ -16,5 +17,10 @@ import javax.servlet.http.Part;
 public interface IImageMapper {
 
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage);
+
+    public void addPictureURL(int id, List<Pair<String, Boolean>> images)throws CommandException;
     
+    public List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException;
+    
+    public List<Pair<String, Boolean>> getPrimaryPictureWithId(int id) throws CommandException;
 }

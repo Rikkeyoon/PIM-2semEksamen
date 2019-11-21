@@ -16,8 +16,8 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, String name, String description, 
-            String category) throws CommandException {
-        Product p = new Product(id, name, description, category);
+            String category, List<Pair<String, Boolean>> images) throws CommandException {
+        Product p = new Product(id, name, description, category, images);
         pf.createProduct(p);
         return p;
     }

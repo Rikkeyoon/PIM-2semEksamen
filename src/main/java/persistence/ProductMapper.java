@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -161,8 +162,9 @@ public class ProductMapper implements IProductMapper {
                 String name = result.getString(2);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPrimaryImageWithId(id);
 
-                products.add(new Product(id, name, description, categoryname));
+                products.add(new Product(id, name, description, categoryname, images));
             }
 
         } catch (SQLException | NullPointerException ex) {
