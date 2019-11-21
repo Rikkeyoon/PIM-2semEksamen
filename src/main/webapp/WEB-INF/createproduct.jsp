@@ -45,7 +45,7 @@
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
-                <input type="file" id="files" name = "file" multiple />
+                <input type="file" id="files" name = "file" multiple required />
                 <br>
                 <output id="list"></output>
                 <br><br>

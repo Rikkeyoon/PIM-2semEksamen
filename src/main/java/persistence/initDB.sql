@@ -7,6 +7,7 @@ USE pim;
 
 DROP TABLE IF EXISTS category_attributes;
 DROP TABLE IF EXISTS attribute_values;
+DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS attributes;
@@ -25,6 +26,15 @@ CREATE TABLE products (
     PRIMARY KEY(id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
 );
+
+CREATE TABLE images (
+    product_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    primaryImage BIT NOT NULL,
+    PRIMARY KEY(product_id, URL),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE attributes (
     id INT AUTO_INCREMENT NOT NULL,
@@ -110,4 +120,30 @@ INSERT INTO attribute_values VALUES (1, 11, "4,5 %");
 INSERT INTO attribute_values VALUES (2, 6, "12 MP kamera med Dual Pixel teknologi");
 INSERT INTO attribute_values VALUES (3, 6, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (2, 9, "10 MP kamera");
+
+INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574296066/aucm33bxwmsxsk8bmusx.jpg", 1);
+INSERT INTO images VALUES (2, "www.hej.dk", 1);
+INSERT INTO images VALUES (3, "www.hej.dk", 1);
+INSERT INTO images VALUES (4, "www.hej.dk", 1);
+INSERT INTO images VALUES (5, "www.hej.dk", 1);
+INSERT INTO images VALUES (6, "www.hej.dk", 1);
+INSERT INTO images VALUES (7, "www.hej.dk", 1);
+INSERT INTO images VALUES (8, "www.hej.dk", 1);
+INSERT INTO images VALUES (9, "www.hej.dk", 1);
+INSERT INTO images VALUES (10, "www.hej.dk", 1);
+INSERT INTO images VALUES (11, "www.hej.dk", 1);
+INSERT INTO images VALUES (12, "www.hej.dk", 1);
+INSERT INTO images VALUES (13, "www.hej.dk", 1);
+INSERT INTO images VALUES (14, "www.hej.dk", 1);
+INSERT INTO images VALUES (15, "www.hej.dk", 1);
+INSERT INTO images VALUES (16, "www.hej.dk", 1);
+INSERT INTO images VALUES (17, "www.hej.dk", 1);
+INSERT INTO images VALUES (18, "www.hej.dk", 1);
+INSERT INTO images VALUES (19, "www.hej.dk", 1);
+INSERT INTO images VALUES (20, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574282183/fkgsdkjxum4hjp4tyukd.jpg", 1);
+INSERT INTO images VALUES (21, "www.hej.dk", 1);
+INSERT INTO images VALUES (22, "www.hej.dk", 1);
+INSERT INTO images VALUES (23, "www.hej.dk", 1);
+INSERT INTO images VALUES (24, "www.hej.dk", 1);
+INSERT INTO images VALUES (25, "www.hej.dk", 1);
 

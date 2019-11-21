@@ -1,13 +1,10 @@
-/**
- * Author:  Rikke, Allan, carol
- * Created: 10. nov. 2019
- * Run this as a localhost database.
- */
+
 CREATE SCHEMA IF NOT EXISTS pimTest_template;
 USE pimTest_template;
 
 DROP TABLE IF EXISTS category_attributes;
 DROP TABLE IF EXISTS attribute_values;
+DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS attributes;
@@ -26,6 +23,15 @@ CREATE TABLE products (
     PRIMARY KEY(id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
 );
+
+CREATE TABLE images (
+    product_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    primaryImage BIT NOT NULL,
+    PRIMARY KEY(product_id, URL),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE attributes (
     id INT AUTO_INCREMENT NOT NULL,
@@ -68,7 +74,7 @@ INSERT INTO products VALUES (9, "Xiaomi redmi note 5", "Middel performance telef
 INSERT INTO products VALUES (10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler");
 
 INSERT INTO products VALUES (11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol");
-INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol");
+INSERT INTO products VALUES (12, "Carlsberg 6 pack", "Probably the best beer in the would", "Alkohol");
 INSERT INTO products VALUES (13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
 INSERT INTO products VALUES (14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
 INSERT INTO products VALUES (15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
@@ -112,3 +118,28 @@ INSERT INTO attribute_values VALUES (2, 6, "12 MP kamera med Dual Pixel teknolog
 INSERT INTO attribute_values VALUES (3, 6, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (2, 9, "10 MP kamera");
 
+INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574296066/aucm33bxwmsxsk8bmusx.jpg", 1);
+INSERT INTO images VALUES (2, "www.hej.dk", 1);
+INSERT INTO images VALUES (3, "www.hej.dk", 1);
+INSERT INTO images VALUES (4, "www.hej.dk", 1);
+INSERT INTO images VALUES (5, "www.hej.dk", 1);
+INSERT INTO images VALUES (6, "www.hej.dk", 1);
+INSERT INTO images VALUES (7, "www.hej.dk", 1);
+INSERT INTO images VALUES (8, "www.hej.dk", 1);
+INSERT INTO images VALUES (9, "www.hej.dk", 1);
+INSERT INTO images VALUES (10, "www.hej.dk", 1);
+INSERT INTO images VALUES (11, "www.hej.dk", 1);
+INSERT INTO images VALUES (12, "www.hej.dk", 1);
+INSERT INTO images VALUES (13, "www.hej.dk", 1);
+INSERT INTO images VALUES (14, "www.hej.dk", 1);
+INSERT INTO images VALUES (15, "www.hej.dk", 1);
+INSERT INTO images VALUES (16, "www.hej.dk", 1);
+INSERT INTO images VALUES (17, "www.hej.dk", 1);
+INSERT INTO images VALUES (18, "www.hej.dk", 1);
+INSERT INTO images VALUES (19, "www.hej.dk", 1);
+INSERT INTO images VALUES (20, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574282183/fkgsdkjxum4hjp4tyukd.jpg", 1);
+INSERT INTO images VALUES (21, "www.hej.dk", 1);
+INSERT INTO images VALUES (22, "www.hej.dk", 1);
+INSERT INTO images VALUES (23, "www.hej.dk", 1);
+INSERT INTO images VALUES (24, "www.hej.dk", 1);
+INSERT INTO images VALUES (25, "www.hej.dk", 1);
