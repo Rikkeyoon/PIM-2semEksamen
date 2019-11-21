@@ -4,7 +4,7 @@ import exception.CommandException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;

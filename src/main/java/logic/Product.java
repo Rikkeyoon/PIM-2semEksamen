@@ -2,7 +2,7 @@ package logic;
 
 import java.util.Map;
 import java.util.List;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  *

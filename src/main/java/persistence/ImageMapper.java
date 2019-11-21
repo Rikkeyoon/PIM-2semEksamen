@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import com.cloudinary.Cloudinary;
@@ -16,9 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javafx.util.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  *
@@ -64,7 +60,7 @@ public class ImageMapper implements IImageMapper {
                         if (part.getSubmittedFileName().equals(primaryImage.replaceAll("\\s+", ""))) {
                             bool = true;
                         }
-                        images.add(new Pair(URL, bool));
+                        images.add(new MutablePair(URL, bool));
 
                         file.delete();
                     }
@@ -119,7 +115,7 @@ public class ImageMapper implements IImageMapper {
                 String URL = result.getString("url");
                 Boolean bool = result.getBoolean("primaryImage");
 
-                images.add(new Pair(URL, bool));
+                images.add(new MutablePair(URL, bool));
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -146,7 +142,7 @@ public class ImageMapper implements IImageMapper {
             result.next();
             String URL = result.getString("url");
             Boolean bool = result.getBoolean("primaryImage");
-            images.add(new Pair(URL, bool));
+            images.add(new MutablePair(URL, bool));
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
