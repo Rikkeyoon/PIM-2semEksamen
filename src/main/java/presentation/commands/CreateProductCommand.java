@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import logic.LogicFacade;
 import logic.Product;
@@ -24,10 +25,8 @@ public class CreateProductCommand extends Command {
         String category = request.getParameter("product_category");
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
         Product p = LogicFacade.createProduct(id, name, description, category, imageURLs);
-        //FIXME: Skal sættes ind i kataloget somehow?
         request.getSession().setAttribute("product", p);
-//        return "productcatalog";
-        return "index";
+        return "productcatalog";
     }
     
 

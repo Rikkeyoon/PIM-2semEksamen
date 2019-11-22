@@ -31,8 +31,8 @@ public class LogicController {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
-            throws CommandException {
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap, 
+        List<Pair<String, Boolean>> imageURLs) throws CommandException {
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
@@ -45,6 +45,11 @@ public class LogicController {
                 categoryAttributes.replace(key, parameterMap.get(key)[0]);
             }
         }
+        List<Pair<String, Boolean>> images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+          images.add(imageURL);  
+        }
+        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
