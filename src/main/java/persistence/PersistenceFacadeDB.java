@@ -34,7 +34,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     public static List<Pair<String, Boolean>> getPrimaryImageWithId(int id) throws CommandException {
-        return im.getPicturesWithId(id);
+        return im.getPrimaryPictureWithId(id);
     }
 
     @Override

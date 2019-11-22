@@ -31,7 +31,7 @@ public class ImageMapper implements IImageMapper {
 
     @Override
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
-        List<Pair<String, Boolean>> images = new ArrayList<Pair<String, Boolean>>();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             //Creates img folder if none exist(temporary storage for image before uploaded to cloudinary)
             File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
@@ -105,11 +105,11 @@ public class ImageMapper implements IImageMapper {
         List<Pair<String, Boolean>> images = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT * FROM images WHERE product_id = " + id + ";";
+            String selectSql = "SELECT * FROM images WHERE product_id = ?;";
             pstmt = connection.prepareStatement(selectSql);
-            //pstmt.setInt(1, id);
+            pstmt.setInt(1, id);
 
-            result = pstmt.executeQuery(selectSql);
+            result = pstmt.executeQuery();
 
             while (result.next()) {
                 String URL = result.getString("url");
@@ -134,18 +134,19 @@ public class ImageMapper implements IImageMapper {
         List<Pair<String, Boolean>> images = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = 1;";
+            String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = ?;";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
+            pstmt.setBoolean(2, true);
 
-            result = pstmt.executeQuery(selectSql);
+            result = pstmt.executeQuery();
             result.next();
             String URL = result.getString("url");
             Boolean bool = result.getBoolean("primaryImage");
             images.add(new MutablePair(URL, bool));
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
+            throw new CommandException("Could not fetch primary URLs to images" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
