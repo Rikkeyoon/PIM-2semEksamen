@@ -46,7 +46,7 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByName(String names) 
+    public List<TemporaryProduct> getProductsByName(String names)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -66,8 +66,10 @@ public class ProductMapper implements IProductMapper {
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
 
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname, null));
+                        categoryname, images));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
@@ -97,8 +99,10 @@ public class ProductMapper implements IProductMapper {
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
 
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+
                 tempProduct = new TemporaryProduct(id, name, description,
-                        categoryname, null);
+                        categoryname, images);
             }
 
             if (tempProduct == null) {
@@ -134,8 +138,10 @@ public class ProductMapper implements IProductMapper {
                 String description = result.getString(3);
                 String category = result.getString(4);
 
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+
                 tempProducts.add(new TemporaryProduct(id, name, description,
-                        category, null));
+                        category, images));
             }
 
             if (tempProducts.size() < 1) {
@@ -167,10 +173,10 @@ public class ProductMapper implements IProductMapper {
                 String name = result.getString(2);
                 String description = result.getString(3);
                 String categoryname = result.getString(4);
-                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPrimaryImageWithId(id);
+                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+
                 tempProducts.add(new TemporaryProduct(id, name, description,
                         categoryname, images));
-
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -199,21 +205,23 @@ public class ProductMapper implements IProductMapper {
 
             while (result.next()) {
                 Map<String, String> categoryAttributes = new HashMap<>();
-                String name = result.getString(2);
-                String description = result.getString(3);
-                String categoryname = result.getString(4);
                 String attribute = result.getString(5);
                 String attrValue = result.getString(6);
-
+                
                 categoryAttributes.putIfAbsent(attribute, attrValue);
 
-                if (product != null) {
+                if (product == null) {
+                    String name = result.getString(2);
+                    String description = result.getString(3);
+                    String categoryname = result.getString(4);
+
+                    List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                    product = new TemporaryProduct(id, name, description, categoryname,
+                            categoryAttributes, images);
+                } else {
                     Map<String, String> newCategoryAttr = product.getCategoryAttributes();
                     newCategoryAttr.putIfAbsent(attribute, attrValue);
                     product.setCategoryAtrributes(newCategoryAttr);
-                } else {
-                    product = new TemporaryProduct(id, name, description, categoryname,
-                            categoryAttributes, null);
                 }
             }
         } catch (SQLException | NullPointerException ex) {
@@ -263,7 +271,7 @@ public class ProductMapper implements IProductMapper {
                 pstmt.setString(1, product.getCategoryAttributes().get(key));
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, key);
-                
+
                 int rowsUpdated = pstmt.executeUpdate();
                 if (rowsUpdated == 0) {
                     createAttributes(product);
@@ -291,7 +299,7 @@ public class ProductMapper implements IProductMapper {
                 pstmt.setString(1, key);
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, product.getCategoryAttributes().get(key));
-                
+
                 int rowsUpdated = pstmt.executeUpdate();
                 if (rowsUpdated == 0) {
                     throw new SQLException("No rows updated");

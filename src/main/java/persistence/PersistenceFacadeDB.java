@@ -33,8 +33,12 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return DBC.getConnection();
     }
 
-    public static List<Pair<String, Boolean>> getPrimaryImageWithId(int id) throws CommandException {
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id) throws CommandException {
         return im.getPrimaryPictureWithId(id);
+    }
+
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException {
+        return im.getPicturesWithId(id);
     }
 
     @Override
@@ -79,10 +83,15 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         }
         pm.update(p);
         pm.updateAttributes(p);
+        if (p.getImages() != null) {
+            im.deleteAllImages(p);
+            im.addPictureURL(p.getId(), p.getImages());
+        }
     }
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
+        im.deleteAllImages(p);
         pm.delete(p);
     }
 
