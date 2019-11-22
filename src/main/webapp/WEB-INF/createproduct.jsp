@@ -62,8 +62,9 @@
         </div>
 
         <!-- JavaScript functions -->
-        <script>
+        <script type="text/javascript">
             function handleFileSelect(evt) {
+            document.getElementById('list').innerHTML = "";
             var files = evt.target.files;
 
             // Loop through the FileList and render image files as thumbnails.
@@ -84,7 +85,7 @@
             span.innerHTML = 
             [
               '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="',e.target.result,'" title="', escape(theFile.name),'"/><input type="radio" name="fileSelected" value="', escape(theFile.name),'" required></span>'
-            ].join('    ');
+            ].join('');
 
             document.getElementById('list').insertBefore(span, null);
             };

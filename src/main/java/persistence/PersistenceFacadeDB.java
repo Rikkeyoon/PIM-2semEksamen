@@ -137,7 +137,12 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
+    }
+    
+    @Override
+    public void removeImageFromCloudinary(String URL) throws CommandException{
+        im.removePictureFromCloudinary(URL);
     }
 }

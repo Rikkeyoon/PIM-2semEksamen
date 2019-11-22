@@ -28,7 +28,7 @@ public class LogicController {
     }
 
     public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
-        return pf.uploadImages(parts, primaryImage);
+        return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap)

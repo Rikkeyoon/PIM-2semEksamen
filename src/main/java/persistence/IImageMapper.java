@@ -18,4 +18,6 @@ public interface IImageMapper {
     public List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException;
     
     public List<Pair<String, Boolean>> getPrimaryPictureWithId(int id) throws CommandException;
+
+    public void removePictureFromCloudinary(String URL) throws CommandException;
 }

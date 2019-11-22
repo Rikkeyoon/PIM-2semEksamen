@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import exception.CommandException;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class ImageMapper implements IImageMapper {
 
     private static final String UPLOAD_DIR = "img";
     private static final String WORKING_DIR = System.getProperty("user.dir");
-    private static final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+    private static final Cloudinary CLOUDINARY = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "dmk5yii3m",
             "api_key", "228872137167968",
             "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
@@ -53,7 +54,7 @@ public class ImageMapper implements IImageMapper {
                         String URL = null;
                         Boolean bool = false;
 
-                        uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+                        uploadResult = CLOUDINARY.uploader().upload(file, ObjectUtils.emptyMap());
 
                         URL = (String) uploadResult.get(new String("url"));
 
@@ -67,7 +68,7 @@ public class ImageMapper implements IImageMapper {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new CommandException(e.getMessage());
         }
         return images;
@@ -102,10 +103,11 @@ public class ImageMapper implements IImageMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<Pair<String, Boolean>> images = new ArrayList();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM images WHERE product_id = ?;";
+
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
 
@@ -131,19 +133,19 @@ public class ImageMapper implements IImageMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<Pair<String, Boolean>> images = new ArrayList();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = ?;";
+            String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = 1;";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
-            pstmt.setBoolean(2, true);
 
             result = pstmt.executeQuery();
-            result.next();
-            String URL = result.getString("url");
-            Boolean bool = result.getBoolean("primaryImage");
-            images.add(new MutablePair(URL, bool));
+            if (result.next()) {
+                String URL = result.getString("url");
+                Boolean bool = result.getBoolean("primaryImage");
+                images.add(new MutablePair(URL, bool));
+            }
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not fetch primary URLs to images" + ex.getMessage());
@@ -151,5 +153,19 @@ public class ImageMapper implements IImageMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return images;
+    }
+
+    @Override
+    public void removePictureFromCloudinary(String URL) throws CommandException{
+        System.out.println(getPublicIDFromURL(URL));
+        try{
+            CLOUDINARY.uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
+        }catch(Exception e){
+            throw new CommandException("could not delete picture");
+        }
+    }
+    
+    private String getPublicIDFromURL(String url){
+        return url.substring(62, url.length()-4);
     }
 }
