@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import exception.CommandException;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,14 +25,14 @@ public class ImageMapper implements IImageMapper {
 
     private static final String UPLOAD_DIR = "img";
     private static final String WORKING_DIR = System.getProperty("user.dir");
-    private static final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+    private static final Cloudinary CLOUDINARY = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "dmk5yii3m",
             "api_key", "228872137167968",
             "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
 
     @Override
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
-        List<Pair<String, Boolean>> images = new ArrayList<Pair<String, Boolean>>();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             //Creates img folder if none exist(temporary storage for image before uploaded to cloudinary)
             File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
@@ -53,7 +54,7 @@ public class ImageMapper implements IImageMapper {
                         String URL = null;
                         Boolean bool = false;
 
-                        uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+                        uploadResult = CLOUDINARY.uploader().upload(file, ObjectUtils.emptyMap());
 
                         URL = (String) uploadResult.get(new String("url"));
 
@@ -67,7 +68,7 @@ public class ImageMapper implements IImageMapper {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new CommandException(e.getMessage());
         }
         return images;
@@ -102,14 +103,14 @@ public class ImageMapper implements IImageMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<Pair<String, Boolean>> images = new ArrayList();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT * FROM images WHERE product_id = " + id + ";";
+            String selectSql = "SELECT * FROM images WHERE product_id = ?";
             pstmt = connection.prepareStatement(selectSql);
-            //pstmt.setInt(1, id);
+            pstmt.setInt(1, id);
 
-            result = pstmt.executeQuery(selectSql);
+            result = pstmt.executeQuery();
 
             while (result.next()) {
                 String URL = result.getString("url");
@@ -131,14 +132,14 @@ public class ImageMapper implements IImageMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<Pair<String, Boolean>> images = new ArrayList();
+        List<Pair<String, Boolean>> images = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM images WHERE product_id = ? AND primaryImage = 1;";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
 
-            result = pstmt.executeQuery(selectSql);
+            result = pstmt.executeQuery();
             result.next();
             String URL = result.getString("url");
             Boolean bool = result.getBoolean("primaryImage");
