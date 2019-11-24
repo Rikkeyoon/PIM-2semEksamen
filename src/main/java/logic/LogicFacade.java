@@ -46,8 +46,7 @@ public class LogicFacade {
 
     public static List<Product> getProductsByTag(String tag) 
             throws CommandException {
-        fix
-        return LogicController.getProductsByName("x");
+        return LogicController.getProductsByTag(tag);
     }
 
     public static Category createCategory(String categoryname, String[] attributes)
