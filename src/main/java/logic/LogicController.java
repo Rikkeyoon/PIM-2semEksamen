@@ -29,7 +29,8 @@ public class LogicController {
         return p;
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) 
+            throws CommandException {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
@@ -75,6 +76,7 @@ public class LogicController {
         if (product == null) {
             product = pf.getProduct(id);
         }
+        product.setTags(pf.getTagsForProductWithID(product.getId()));
         return product;
     }
 

@@ -20,6 +20,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static ICategoryMapper cm = new CategoryMapper();
     private static IAttributeMapper am = new AttributeMapper();
     private static IImageMapper im = new ImageMapper();
+    private static ITagMapper tm = new TagMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
         try {
@@ -155,5 +156,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
-    
+
+    @Override
+    public List<String> getTagsForProductWithID(int id) throws CommandException {
+        return tm.getTagsForProductWithID(id);
+    }
+
 }

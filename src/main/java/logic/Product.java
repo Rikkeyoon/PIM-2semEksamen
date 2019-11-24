@@ -16,6 +16,7 @@ public class Product {
     private Category category;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
+    private List<String> tags;
 
     public Product(int id, String name, String description, Category category,
             List<Pair<String, Boolean>> images) {
@@ -82,6 +83,23 @@ public class Product {
 
     public void setImages(List<Pair<String, Boolean>> images) {
         this.images = images;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getTagsAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : tags) {
+            sb.append(s).append(", ");
+        }
+        String s = sb.toString();
+        return s.substring(0, s.length() - 2);
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public boolean compareTo(Product product) {

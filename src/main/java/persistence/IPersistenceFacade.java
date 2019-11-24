@@ -43,4 +43,6 @@ public interface IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) 
             throws CommandException;
 
+    public List<String> getTagsForProductWithID(int id) throws CommandException;
+
 }
