@@ -19,7 +19,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IDatabaseConnection DBC;
     private static IProductMapper pm = new ProductMapper();
     private static ICategoryMapper cm = new CategoryMapper();
-    private static AttributeMapper am = new AttributeMapper();
+    private static IAttributeMapper am = new AttributeMapper();
     private static IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
@@ -131,15 +131,19 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void editCategory(Category c) throws CommandException {
         List<String> newAttributes = new ArrayList<>();
+        List<Integer> attributeIds = new ArrayList<>();
         for (String attribute : c.getAttributes()) {
             try {
-                String attr = am.getAttribute(attribute);
+                int attr = am.getAttributeId(attribute);
+                attributeIds.add(attr);
             } catch (CommandException e) {
                 newAttributes.add(attribute);
             }
         }
-        List<Integer> attributeIds = new ArrayList<>();
-        attributeIds = am.createAttributes(newAttributes);
+        List<Integer> ids = am.createAttributes(newAttributes);
+        for (Integer attr : ids) {
+            attributeIds.add(attr);
+        }
         cm.createCategoryAttributes(c, attributeIds);
     }
 
