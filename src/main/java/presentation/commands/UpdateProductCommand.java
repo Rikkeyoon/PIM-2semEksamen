@@ -26,7 +26,7 @@ public class UpdateProductCommand extends Command {
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
         p = LogicFacade.updateProduct(p, parameterMap, imageURLs);
         session.setAttribute("product", p);
-        return "productcatalog";
+        return "index";
     }
 
 }

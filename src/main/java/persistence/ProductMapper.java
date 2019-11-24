@@ -1,6 +1,5 @@
 package persistence;
 
-import logic.TemporaryProduct;
 import logic.Product;
 import exception.CommandException;
 import java.sql.Connection;
@@ -18,6 +17,8 @@ import org.apache.commons.dbutils.DbUtils;
  * @author Nina Lisakowski, Allan, carol
  */
 public class ProductMapper implements IProductMapper {
+    
+    private static ICategoryMapper cm = new CategoryMapper();
 
     @Override
     public void create(Product product) throws CommandException {
@@ -46,12 +47,12 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByName(String names)
+    public List<Product> getProductsByName(String names)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<TemporaryProduct> tempProducts = new ArrayList();
+        List<Product> products = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE name LIKE ?";
@@ -68,8 +69,8 @@ public class ProductMapper implements IProductMapper {
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname, images));
+                products.add(new Product(id, name, description,
+                        cm.getCategory(categoryname), images));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
@@ -77,15 +78,15 @@ public class ProductMapper implements IProductMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
 
-        return tempProducts;
+        return products;
     }
 
     @Override
-    public TemporaryProduct getProduct(int id) throws CommandException {
+    public Product getProduct(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        TemporaryProduct tempProduct = null;
+        Product product = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE id = ?";
@@ -101,11 +102,11 @@ public class ProductMapper implements IProductMapper {
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                tempProduct = new TemporaryProduct(id, name, description,
-                        categoryname, images);
+                product = new Product(id, name, description,
+                        cm.getCategory(categoryname), images);
             }
 
-            if (tempProduct == null) {
+            if (product == null) {
                 throw new SQLException();
             }
 
@@ -114,16 +115,16 @@ public class ProductMapper implements IProductMapper {
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
-        return tempProduct;
+        return product;
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByCategory(String categoryname)
+    public List<Product> getProductsByCategory(String categoryname)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<TemporaryProduct> tempProducts = new ArrayList();
+        List<Product> products = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
@@ -140,11 +141,11 @@ public class ProductMapper implements IProductMapper {
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                tempProducts.add(new TemporaryProduct(id, name, description,
-                        category, images));
+                products.add(new Product(id, name, description,
+                        cm.getCategory(categoryname), images));
             }
 
-            if (tempProducts.size() < 1) {
+            if (products.size() < 1) {
                 throw new SQLException();
             }
         } catch (SQLException | NullPointerException ex) {
@@ -152,15 +153,15 @@ public class ProductMapper implements IProductMapper {
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
-        return tempProducts;
+        return products;
     }
 
     @Override
-    public List<TemporaryProduct> getAllProducts() throws CommandException {
+    public List<Product> getAllProducts() throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<TemporaryProduct> tempProducts = new ArrayList();
+        List<Product> products = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products";
@@ -175,8 +176,8 @@ public class ProductMapper implements IProductMapper {
                 String categoryname = result.getString(4);
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                tempProducts.add(new TemporaryProduct(id, name, description,
-                        categoryname, images));
+                products.add(new Product(id, name, description,
+                        cm.getCategory(categoryname), images));
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -184,16 +185,16 @@ public class ProductMapper implements IProductMapper {
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
-        return tempProducts;
+        return products;
     }
 
     @Override
-    public TemporaryProduct getProductWithCategoryAttributes(int id) throws CommandException {
+    public Product getProductWithCategoryAttributes(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
 
-        TemporaryProduct product = null;
+        Product product = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products_with_categories_and_attributes "
@@ -216,12 +217,12 @@ public class ProductMapper implements IProductMapper {
                     String categoryname = result.getString(4);
 
                     List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
-                    product = new TemporaryProduct(id, name, description, categoryname,
+                    product = new Product(id, name, description, cm.getCategory(categoryname),
                             categoryAttributes, images);
                 } else {
                     Map<String, String> newCategoryAttr = product.getCategoryAttributes();
                     newCategoryAttr.putIfAbsent(attribute, attrValue);
-                    product.setCategoryAtrributes(newCategoryAttr);
+                    product.setCategoryAttributes(newCategoryAttr);
                 }
             }
         } catch (SQLException | NullPointerException ex) {
@@ -250,7 +251,7 @@ public class ProductMapper implements IProductMapper {
                 throw new SQLException("No rows updated");
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex);
+            throw new CommandException("Could not find a product with the given ID");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -278,7 +279,7 @@ public class ProductMapper implements IProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -306,7 +307,7 @@ public class ProductMapper implements IProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

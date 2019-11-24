@@ -8,7 +8,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;
-import logic.TemporaryProduct;
 
 /**
  *
@@ -42,17 +41,17 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<TemporaryProduct> getCatalog() throws CommandException {
+    public List<Product> getCatalog() throws CommandException {
         return pm.getAllProducts();
     }
 
     @Override
-    public TemporaryProduct getProduct(int id) throws CommandException {
+    public Product getProduct(int id) throws CommandException {
         return pm.getProduct(id);
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByName(String name) throws CommandException {
+    public List<Product> getProductsByName(String name) throws CommandException {
         return pm.getProductsByName(name);
     }
 
@@ -99,7 +98,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByCategory(String category)
+    public List<Product> getProductsByCategory(String category)
             throws CommandException {
         return pm.getProductsByCategory(category);
 
@@ -111,7 +110,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public TemporaryProduct getProductWithCategoryAttributes(int id)
+    public Product getProductWithCategoryAttributes(int id)
             throws CommandException {
         return pm.getProductWithCategoryAttributes(id);
     }

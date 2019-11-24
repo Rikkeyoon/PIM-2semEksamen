@@ -19,7 +19,7 @@ public class EditCategoryCommand extends Command {
         String[] attributes = request.getParameterValues("attribute");
         Category c = LogicFacade.editCategory(categoryname, attributes);
         request.getSession().setAttribute("category", c);
-        return "index";
+        return "productcatalog";
     }
     
 }
