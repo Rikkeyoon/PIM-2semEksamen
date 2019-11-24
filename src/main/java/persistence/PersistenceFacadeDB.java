@@ -20,6 +20,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IProductMapper pm = new ProductMapper();
     private static ICategoryMapper cm = new CategoryMapper();
     private static AttributeMapper am = new AttributeMapper();
+    private static ITagMapper tm = new TagMapper();
     private static IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
@@ -139,5 +140,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
+    }
+
+    @Override
+    public List<String> getTagsForProductWithID(int id) throws CommandException {
+        return tm.getTagsForProductWithID(id);
     }
 }

@@ -36,6 +36,12 @@
                 ${product.getDescription()}
             </p>
             <br>
+            <label for="product_tags"><b>Tags:</b></label>
+            <br>
+            <p>
+                ${product.getTagsAsString()}
+            </p>
+            <br>
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>

@@ -16,6 +16,7 @@ public class Product {
     private Category category;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
+    private List<String> tags;
 
     public Product(int id, String name, String description, Category category) {
         this.id = id;
@@ -30,16 +31,6 @@ public class Product {
         this.category = category;
         this.images = images;
     }
-
-
-//    public Product(int id, String name, String description, Category category,
-//            Map<String, String> categoryAttributes) {
-//        this.id = id;
-//        this.name = name;
-//        this.description = description;
-//        this.category = category;
-//        this.categoryAttributes = categoryAttributes;
-//    }
 
     //Master Contructor
     public Product(int id, String name, String description, Category categoryname,
@@ -113,6 +104,24 @@ public class Product {
         }
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+    
+    public String getTagsAsString(){
+        StringBuilder sb = new StringBuilder();
+        for(String s : tags){
+            sb.append(s + ", ");
+        }
+        String s = sb.toString();
+        return s.substring(0, s.length()-2);
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    
     @Override
     public String toString() {
         return "Product with id: " + id + ", name: " + name + ", description: "

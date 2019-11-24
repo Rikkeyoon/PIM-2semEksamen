@@ -69,7 +69,9 @@ public class LogicController {
         if (temp == null) {
             temp = pf.getProduct(id);
         }
-        return convertTemporaryProductToProduct(temp);
+        Product p = convertTemporaryProductToProduct(temp);
+        p.setTags(pf.getTagsForProductWithID(p.getId()));
+        return p;
     }
 
     public static List<Product> getProductsByName(String name) throws CommandException {

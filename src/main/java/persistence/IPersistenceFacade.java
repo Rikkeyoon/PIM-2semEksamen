@@ -40,6 +40,8 @@ public interface IPersistenceFacade {
     public void editCategory(Category c) throws CommandException;
     
     public List<Category> getCategories() throws CommandException;
+    
+    public List<String> getTagsForProductWithID(int id) throws CommandException;
 
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException;
 
