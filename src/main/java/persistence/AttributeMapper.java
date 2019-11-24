@@ -13,16 +13,17 @@ import org.apache.commons.dbutils.DbUtils;
  *
  * @author carol
  */
-public class AttributeMapper {
-
-    public String getAttribute(String attributename) throws CommandException {
+public class AttributeMapper implements IAttributeMapper {
+    
+    @Override
+    public int getAttributeId(String attributename) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
 
-        String selectSql = "SELECT attribute_name FROM attributes "
+        String selectSql = "SELECT id FROM attributes "
                 + "WHERE attribute_name = ?";
-        String attribute = null;
+        int id = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(selectSql);
@@ -31,10 +32,10 @@ public class AttributeMapper {
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                attribute = result.getString(1);
+                id = result.getInt(1);
 
             }
-            if (attribute == null) {
+            if (id == 0) {
                 throw new SQLException();
             }
         } catch (SQLException | NullPointerException ex) {
@@ -42,9 +43,10 @@ public class AttributeMapper {
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
-        return attribute;
+        return id;
     }
 
+    @Override
     public List<Integer> createAttributes(List<String> attributeNames)
             throws CommandException {
         Connection connection = null;
@@ -61,7 +63,7 @@ public class AttributeMapper {
                 int rowsUpdated = pstmt.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                    throw new NullPointerException();
+                   throw new SQLException(); 
                 }
 
                 attributeIds.add(getLastInsertedId(connection));
@@ -75,7 +77,7 @@ public class AttributeMapper {
         return attributeIds;
     }
 
-    public int getLastInsertedId(Connection connection) throws CommandException {
+    private int getLastInsertedId(Connection connection) throws CommandException {
         PreparedStatement pstmt = null;
         ResultSet result = null;
 

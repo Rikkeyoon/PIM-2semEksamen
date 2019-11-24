@@ -24,9 +24,7 @@ public class CreateProductCommand extends Command {
         String category = request.getParameter("product_category");
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
         Product p = LogicFacade.createProduct(id, name, description, category, imageURLs);
-        //FIXME: Skal sættes ind i kataloget somehow?
         request.getSession().setAttribute("product", p);
-//        return "productcatalog";
         return "index";
     }
     

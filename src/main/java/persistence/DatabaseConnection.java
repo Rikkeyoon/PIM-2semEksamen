@@ -61,7 +61,9 @@ public class DatabaseConnection implements IDatabaseConnection{
             throw new CommandException(ex.getMessage());
         }
     }
-
+    public static void shutDownConnection(){
+        
+    }
     
     
 }

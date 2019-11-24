@@ -8,7 +8,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;
-import logic.TemporaryProduct;
 
 /**
  *
@@ -19,7 +18,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IDatabaseConnection DBC;
     private static IProductMapper pm = new ProductMapper();
     private static ICategoryMapper cm = new CategoryMapper();
-    private static AttributeMapper am = new AttributeMapper();
+    private static IAttributeMapper am = new AttributeMapper();
     private static IImageMapper im = new ImageMapper();
 
     public PersistenceFacadeDB(Boolean testmode) {
@@ -33,22 +32,26 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return DBC.getConnection();
     }
 
-    public static List<Pair<String, Boolean>> getPrimaryImageWithId(int id) throws CommandException {
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id) throws CommandException {
         return im.getPrimaryPictureWithId(id);
     }
 
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException {
+        return im.getPicturesWithId(id);
+    }
+
     @Override
-    public List<TemporaryProduct> getCatalog() throws CommandException {
+    public List<Product> getCatalog() throws CommandException {
         return pm.getAllProducts();
     }
 
     @Override
-    public TemporaryProduct getProduct(int id) throws CommandException {
+    public Product getProduct(int id) throws CommandException {
         return pm.getProduct(id);
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByName(String name) throws CommandException {
+    public List<Product> getProductsByName(String name) throws CommandException {
         return pm.getProductsByName(name);
     }
 
@@ -79,15 +82,23 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         }
         pm.update(p);
         pm.updateAttributes(p);
+        if (p.getImages() != null) {
+            im.deleteAllImages(p);
+            im.addPictureURL(p.getId(), p.getImages());
+        }
     }
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
+        im.deleteAllImages(p);
+        for (Pair<String, Boolean> image : p.getImages()) {
+            im.removePictureFromCloudinary(image.getKey());
+        }
         pm.delete(p);
     }
 
     @Override
-    public List<TemporaryProduct> getProductsByCategory(String category)
+    public List<Product> getProductsByCategory(String category)
             throws CommandException {
         return pm.getProductsByCategory(category);
 
@@ -99,7 +110,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public TemporaryProduct getProductWithCategoryAttributes(int id)
+    public Product getProductWithCategoryAttributes(int id)
             throws CommandException {
         return pm.getProductWithCategoryAttributes(id);
     }
@@ -119,15 +130,19 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void editCategory(Category c) throws CommandException {
         List<String> newAttributes = new ArrayList<>();
+        List<Integer> attributeIds = new ArrayList<>();
         for (String attribute : c.getAttributes()) {
             try {
-                String attr = am.getAttribute(attribute);
+                int attr = am.getAttributeId(attribute);
+                attributeIds.add(attr);
             } catch (CommandException e) {
                 newAttributes.add(attribute);
             }
         }
-        List<Integer> attributeIds = new ArrayList<>();
-        attributeIds = am.createAttributes(newAttributes);
+        List<Integer> ids = am.createAttributes(newAttributes);
+        for (Integer attr : ids) {
+            attributeIds.add(attr);
+        }
         cm.createCategoryAttributes(c, attributeIds);
     }
 
@@ -137,7 +152,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
+    
 }
