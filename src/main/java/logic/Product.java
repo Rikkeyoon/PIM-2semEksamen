@@ -11,20 +11,24 @@ import org.apache.commons.lang3.tuple.Pair;
 public class Product {
 
     private int id;
+    private int itemnumber;
     private String name;
     private String description;
     private Category category;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
+    public int getItemnumber;
 
-    public Product(int id, String name, String description, Category category) {
+    public Product(int id, int itemnumber, String name, String description, Category category) {
         this.id = id;
+        this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = category;
     }
-    public Product(int id, String name, String description, Category category, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String description, Category category, List<Pair<String, Boolean>> images) {
         this.id = id;
+        this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = category;
@@ -32,9 +36,10 @@ public class Product {
     }
 
 
-//    public Product(int id, String name, String description, Category category,
+//    public Product(int id, int itemnumber, String name, String description, Category category,
 //            Map<String, String> categoryAttributes) {
 //        this.id = id;
+//        this.itemnumber = itemnumber;  
 //        this.name = name;
 //        this.description = description;
 //        this.category = category;
@@ -42,9 +47,10 @@ public class Product {
 //    }
 
     //Master Contructor
-    public Product(int id, String name, String description, Category categoryname,
+    public Product(int id, int itemnumber, String name, String description, Category categoryname,
             Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
+        this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = categoryname;
@@ -60,6 +66,10 @@ public class Product {
         return id;
     }
 
+    public int getItemnumber() {
+        return itemnumber;
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -115,7 +125,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product with id: " + id + ", name: " + name + ", description: "
+        return "Product with id: " + id + itemnumber + ", name: " + name + ", description: "
                 + description + ", category:" + category.getCategoryname();
     }
 

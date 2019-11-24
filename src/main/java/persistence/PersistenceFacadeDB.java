@@ -64,7 +64,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
         pm.create(p);
         if (p.getImages() != null) {
-            im.addPictureURL(p.getId(), p.getImages());
+            im.addPictureURL(pm.getHighestProductID(), p.getImages());
         }
     }
 

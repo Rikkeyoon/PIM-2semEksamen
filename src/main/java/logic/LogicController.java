@@ -19,9 +19,9 @@ public class LogicController {
 
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
-    public static Product createProduct(int id, String name, String description,
+    public static Product createProduct(int id, int itemnumber, String name, String description,
             String category, List<Pair<String, Boolean>> images) throws CommandException {
-        Product p = new Product(id, name, description, getCategory(category), images);
+        Product p = new Product(id, itemnumber, name, description, getCategory(category), images);
 
         pf.createProduct(p);
         return p;
@@ -137,7 +137,7 @@ public class LogicController {
             }
         }
 
-        Product product = new Product(temp.getId(), temp.getName(),
+        Product product = new Product(temp.getId(), temp.getItemnumber(), temp.getName(),
                 temp.getDescription(), category, categoryAttributes, temp.getImages());
         return product;
     }
@@ -160,7 +160,7 @@ public class LogicController {
                 }
             }
 
-            products.add(new Product(temp.getId(), temp.getName(),
+            products.add(new Product(temp.getId(), temp.getItemnumber(), temp.getName(),
                     temp.getDescription(), category, categoryAttributes, temp.getImages()));
         }
         return products;

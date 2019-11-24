@@ -25,8 +25,12 @@
 
                 <label for="product_id"><b>ID</b></label>
                 <br>
-                <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
+                <input type="text" name="product_id" value="0" id="id" onkeyup="validateId();" readonly>
                 <div id="divValidateId"></div>
+                <br>
+                <label for="item_number"><b>Item Number</b></label>
+                <br>
+                <input type="text" name="item_number" item_number="item_number" required>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>

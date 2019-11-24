@@ -11,24 +11,28 @@ import org.apache.commons.lang3.tuple.Pair;
 public class TemporaryProduct {
 
     private int id;
+    private int itemnumber;
     private String name;
     private String description;
     private String categoryname;
     private Map<String, String> categoryAtrributes;
     private List<Pair<String, Boolean>> images;
+    
 
-    public TemporaryProduct(int id, String name, String description,
+    public TemporaryProduct(int id, int itemnumber, String name, String description,
             String categoryname, List<Pair<String, Boolean>> images) {
         this.id = id;
+        this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
         this.images = images;
     }
 
-    public TemporaryProduct(int id, String name, String description, String categoryname,
+    public TemporaryProduct(int id, int itemnumber, String name, String description, String categoryname,
             Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
+        this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
@@ -38,6 +42,10 @@ public class TemporaryProduct {
 
     public int getId() {
         return id;
+    }
+    
+    public int getItemnumber() {
+        return itemnumber;
     }
 
     public void setId(int id) {

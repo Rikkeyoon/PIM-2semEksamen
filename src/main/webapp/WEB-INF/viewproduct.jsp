@@ -25,7 +25,8 @@
 
             <label for="product_id"><b>ID</b></label>
             <p>${product.getId()} </p>
-
+            <label for="item_number"><b>Item Number</b></label>
+            <p>${product.getItemnumber()} </p>
             <br>
             <label for="product_name"><b>Product Name</b></label>
             <p>${product.getName()} </p>

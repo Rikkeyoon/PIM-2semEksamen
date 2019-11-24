@@ -19,11 +19,12 @@ public class CreateProductCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
         int id = Integer.parseInt(request.getParameter("product_id"));
+        int itemnumber = Integer.parseInt(request.getParameter("item_number"));
         String name = request.getParameter("product_name");
         String description = request.getParameter("product_desc");
         String category = request.getParameter("product_category");
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
-        Product p = LogicFacade.createProduct(id, name, description, category, imageURLs);
+        Product p = LogicFacade.createProduct(id, itemnumber, name, description, category, imageURLs);
         //FIXME: Skal sættes ind i kataloget somehow?
         request.getSession().setAttribute("product", p);
 //        return "productcatalog";

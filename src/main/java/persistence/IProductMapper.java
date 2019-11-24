@@ -13,6 +13,8 @@ public interface IProductMapper {
     public void create(Product product) throws CommandException;
 
     public TemporaryProduct getProduct(int id) throws CommandException;
+    
+    public int getHighestProductID() throws CommandException;
 
     public List<TemporaryProduct> getProductsByName(String name) throws CommandException;
 

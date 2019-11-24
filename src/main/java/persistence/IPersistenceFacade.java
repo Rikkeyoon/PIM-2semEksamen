@@ -18,7 +18,7 @@ public interface IPersistenceFacade {
     public List<TemporaryProduct> getCatalog() throws CommandException;
 
     public TemporaryProduct getProduct(int id) throws CommandException;
-
+    
     public List<TemporaryProduct> getProductsByName(String name) throws CommandException;
 
     public void createProduct(Product p) throws CommandException;

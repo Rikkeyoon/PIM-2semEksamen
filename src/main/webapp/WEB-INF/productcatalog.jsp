@@ -59,6 +59,7 @@
                 <tr>
                     <th>Picture</th>
                     <th>ID</th>
+                    <th>Item Number</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Category</th>
@@ -70,6 +71,7 @@
                     <tr>
                         <td><img width = "100" alt= "Picture not found" src = "${product.getImages().get(0).getKey()}"></td>
                         <td>${product.getId()}</td>
+                        <td>${product.getItemnumber()}</td>
                         <td>${product.getName()}</td>
                         <td>${product.getDescription()}</td>
                         <td>${product.getCategory().getCategoryname()}</td>

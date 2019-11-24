@@ -31,6 +31,9 @@
                 <label for="product_id"><b>ID</b></label>
                 <p>${product.getId()} </p>
                 <br>
+                <label for="item_number"><b>Item Number</b></label>
+                <input type="text" name="item_name" value="${product.getItemnumber()}" required>
+                <br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
                 <input type="text" name="product_name" 
