@@ -17,7 +17,7 @@ import org.apache.commons.dbutils.DbUtils;
  * @author Nina Lisakowski, Allan, carol
  */
 public class ProductMapper implements IProductMapper {
-    
+
     private static ICategoryMapper cm = new CategoryMapper();
 
     @Override
@@ -142,7 +142,7 @@ public class ProductMapper implements IProductMapper {
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, name, description,
-                        cm.getCategory(categoryname), images));
+                        cm.getCategory(category), images));
             }
 
             if (products.size() < 1) {
@@ -208,7 +208,7 @@ public class ProductMapper implements IProductMapper {
                 Map<String, String> categoryAttributes = new HashMap<>();
                 String attribute = result.getString(5);
                 String attrValue = result.getString(6);
-                
+
                 categoryAttributes.putIfAbsent(attribute, attrValue);
 
                 if (product == null) {
@@ -307,7 +307,7 @@ public class ProductMapper implements IProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex);
+            throw new CommandException("Could not find a product with the given ID");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -323,6 +323,53 @@ public class ProductMapper implements IProductMapper {
             String deleteSql = "DELETE FROM products WHERE id = ?";
             pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, product.getId());
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new SQLException("No rows updated");
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find the product to be deleted");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+
+    @Override
+    public void createTags(Product p, List<Integer> tagIds) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        String insertSql = "INSERT INTO product_tags VALUES(?,?)";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+            for (Integer id : tagIds) {
+                pstmt.setInt(1, id);
+                pstmt.setInt(2, p.getId());
+
+                int rowsUpdated = pstmt.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    throw new NullPointerException();
+                }
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not create new tag");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+
+    @Override
+    public void deleteTags(Product p) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
+            pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, p.getId());
             int rowsUpdated = pstmt.executeUpdate();
             if (rowsUpdated == 0) {
                 throw new SQLException("No rows updated");

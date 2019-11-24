@@ -34,7 +34,7 @@
             <br>
             <p>${product.getDescription()}</p>
             <br>
-            <label for="product_tags"><b>Tags:</b></label>
+            <label for="product_tags"><b>Tags</b></label>
             <br>
             <p>${product.getTagsAsString()}</p>
             <br>

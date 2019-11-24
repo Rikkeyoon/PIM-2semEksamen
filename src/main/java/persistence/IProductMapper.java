@@ -29,4 +29,8 @@ public interface IProductMapper {
 
     public void delete(Product product) throws CommandException;
 
+    public void createTags(Product p, List<Integer> tagIds) throws CommandException;
+
+    public void deleteTags(Product p) throws CommandException;
+
 }

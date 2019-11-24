@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -41,5 +42,62 @@ public class TagMapper implements ITagMapper {
         }
         return tags;
     }
+
+    @Override
+    public List<Integer> updateTags(Product p) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "INSERT INTO tags(name) VALUE(?)";
+        List<Integer> tagIds = new ArrayList<>();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+            for (String tag : p.getTags()) {
+                pstmt.setString(1, tag);
+
+                int rowsUpdated = pstmt.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                   throw new SQLException(); 
+                }
+
+                tagIds.add(getLastInsertedId(connection));
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not create new tags");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+        return tagIds;
+    }
+
+    private int getLastInsertedId(Connection connection) throws CommandException {
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+
+        int id = 0;
+        String selectSql = "SELECT last_insert_id() FROM tags LIMIT 1";
+        try {
+            pstmt = connection.prepareStatement(selectSql);
+
+            result = pstmt.executeQuery(selectSql);
+
+            while (result.next()) {
+                id = result.getInt(1);
+            }
+            if (id == 0) {
+                throw new SQLException();
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not get newest id");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(result);
+        }
+        return id;
+    }
+
 
 }

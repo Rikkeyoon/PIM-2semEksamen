@@ -81,8 +81,16 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
+        List<Integer> tagIds = tm.updateTags(p);
         pm.update(p);
-        pm.updateAttributes(p);
+        try {
+            pm.updateAttributes(p);
+        } catch (CommandException ex) {
+        }
+        if (p.getTags() != null) {
+            pm.deleteTags(p);
+            pm.createTags(p, tagIds);
+        }
         if (p.getImages() != null) {
             im.deleteAllImages(p);
             im.addPictureURL(p.getId(), p.getImages());

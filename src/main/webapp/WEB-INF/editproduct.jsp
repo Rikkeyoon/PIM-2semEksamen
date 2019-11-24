@@ -43,6 +43,11 @@
                     ${product.getDescription()}
                 </textarea>
                 <br><br>
+                <label for="product_tags"><b>Tags</b></label>
+                <br>
+                <input type="text" name="product_tags" 
+                       value="${product.getTagsAsString()}">
+                <br>
                 <label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 

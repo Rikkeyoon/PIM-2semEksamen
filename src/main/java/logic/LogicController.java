@@ -2,6 +2,7 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,28 +30,40 @@ public class LogicController {
         return p;
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) 
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap, 
-        List<Pair<String, Boolean>> imageURLs) throws CommandException {
-        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        Map<String, String> categoryAttributes = new HashMap<>();
+        try {
+            categoryAttributes = p.getCategoryAttributes();
+        } catch (NullPointerException e) {
+        }
+        
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_desc")) {
                 p.setDescription(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("product_tags")) {
+                String str = parameterMap.get(key)[0];
+                List<String> tags = Arrays.asList(str.split(",[ ]*"));
+                p.setTags(tags);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
             } else {
-                categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                try {
+                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                } catch (NullPointerException e) {
+                }
             }
         }
         List<Pair<String, Boolean>> images = p.getImages();
         for (Pair<String, Boolean> imageURL : imageURLs) {
-          images.add(imageURL);  
+            images.add(imageURL);
         }
         p.setImages(images);
         pf.updateProduct(p);
@@ -127,7 +140,7 @@ public class LogicController {
         return pf.getCategories();
     }
 
-    private static  Map<String, String> createCategoryAttributeMap(Product product)
+    private static Map<String, String> createCategoryAttributeMap(Product product)
             throws CommandException {
         Category category = product.getCategory();
         Map<String, String> categoryAttributes;

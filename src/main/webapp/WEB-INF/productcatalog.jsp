@@ -28,21 +28,23 @@
             <br>
             <input type="text" name="product_id">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        </form>
-
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
+            <br>
+            
             <label for="product_name"><b>Product Name</b></label>
             <br>
             <input type="text" name="product_name">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        </form>
-
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
+            <br>
+            
             <label for="product_category"><b>Category</b></label>
             <br>
             <input type="text" name="product_category">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+            <br>
+            
+            <label for="product_tag"><b>Tag</b></label>
+            <br>
+            <input type="text" name="product_tag">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
         </form>

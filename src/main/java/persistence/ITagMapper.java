@@ -2,6 +2,7 @@ package persistence;
 
 import exception.CommandException;
 import java.util.List;
+import logic.Product;
 
 /**
  *
@@ -10,5 +11,7 @@ import java.util.List;
 public interface ITagMapper {
 
     public List<String> getTagsForProductWithID(int id) throws CommandException;
+
+    public List<Integer> updateTags(Product p) throws CommandException;
 
 }
