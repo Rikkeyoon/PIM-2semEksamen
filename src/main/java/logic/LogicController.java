@@ -2,6 +2,7 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,31 +21,51 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, String name, String description,
-            String category, List<Pair<String, Boolean>> images) throws CommandException {
-        Product p = new Product(id, name, description, getCategory(category), images);
+            String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
+        Category category = getCategory(categoryname);
+        Product p = new Product(id, name, description, category, images);
+        p.setCategoryAttributes(createCategoryAttributeMap(p));
 
         pf.createProduct(p);
         return p;
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
-        return pf.uploadImages(parts, primaryImage);
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
+            throws CommandException {
+        return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
-            throws CommandException {
-        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        Map<String, String> categoryAttributes = new HashMap<>();
+        try {
+            categoryAttributes = p.getCategoryAttributes();
+        } catch (NullPointerException e) {
+        }
+        
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_desc")) {
                 p.setDescription(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("product_tags")) {
+                String str = parameterMap.get(key)[0];
+                List<String> tags = Arrays.asList(str.split(",[ ]*"));
+                p.setTags(tags);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
             } else {
-                categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                try {
+                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                } catch (NullPointerException e) {
+                }
             }
         }
+        List<Pair<String, Boolean>> images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+            images.add(imageURL);
+        }
+        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
@@ -54,35 +75,33 @@ public class LogicController {
     }
 
     public static List<Product> getCatalog() throws CommandException {
-        List<TemporaryProduct> catalog = pf.getCatalog();
-        return convertTemporaryProductListToProductList(catalog);
+        return pf.getCatalog();
     }
 
     public static Product getProduct(int id) throws CommandException {
-        TemporaryProduct temp = null;
+        Product product = null;
         try {
-            temp = pf.getProductWithCategoryAttributes(id);
+            product = pf.getProductWithCategoryAttributes(id);
         } catch (CommandException ex) {
             //Doesn't need to give this command exception to the user. 
             //It just means that the product with that id doesn't have any category attributes yet
         }
-        if (temp == null) {
-            temp = pf.getProduct(id);
+        if (product == null) {
+            product = pf.getProduct(id);
         }
-        Product p = convertTemporaryProductToProduct(temp);
-        p.setTags(pf.getTagsForProductWithID(p.getId()));
-        return p;
+
+        product.setTags(pf.getTagsForProductWithID(product.getId()));
+        return product;
+
     }
 
     public static List<Product> getProductsByName(String name) throws CommandException {
-        List<TemporaryProduct> temps = pf.getProductsByName(name);
-        return convertTemporaryProductListToProductList(temps);
+        return pf.getProductsByName(name);
     }
 
     public static List<Product> getProductsByCategory(String category)
             throws CommandException {
-        List<TemporaryProduct> products = pf.getProductsByCategory(category);
-        return convertTemporaryProductListToProductList(products);
+        return pf.getProductsByCategory(category);
     }
 
     public static Category getCategory(String categoryname) throws CommandException {
@@ -123,13 +142,13 @@ public class LogicController {
         return pf.getCategories();
     }
 
-    private static Product convertTemporaryProductToProduct(TemporaryProduct temp)
+    private static Map<String, String> createCategoryAttributeMap(Product product)
             throws CommandException {
-        Category category = pf.getCategory(temp.getCategoryname());
+        Category category = product.getCategory();
         Map<String, String> categoryAttributes;
 
-        if (temp.getCategoryAttributes() != null) {
-            categoryAttributes = temp.getCategoryAttributes();
+        if (product.getCategoryAttributes() != null) {
+            categoryAttributes = product.getCategoryAttributes();
         } else {
             categoryAttributes = new HashMap<>();
             List<String> attributes = category.getAttributes();
@@ -138,34 +157,11 @@ public class LogicController {
                 categoryAttributes.putIfAbsent(attribute, "");
             }
         }
-
-        Product product = new Product(temp.getId(), temp.getName(),
-                temp.getDescription(), category, categoryAttributes, temp.getImages());
-        return product;
+        return categoryAttributes;
     }
 
-    private static List<Product> convertTemporaryProductListToProductList(List<TemporaryProduct> temps)
-            throws CommandException {
-        List<Product> products = new ArrayList<>();
-        for (TemporaryProduct temp : temps) {
-            Category category = pf.getCategory(temp.getCategoryname());
-            Map<String, String> categoryAttributes;
-
-            if (temp.getCategoryAttributes() != null) {
-                categoryAttributes = temp.getCategoryAttributes();
-            } else {
-                categoryAttributes = new HashMap<>();
-                List<String> attributes = category.getAttributes();
-
-                for (String attribute : attributes) {
-                    categoryAttributes.putIfAbsent(attribute, "");
-                }
-            }
-
-            products.add(new Product(temp.getId(), temp.getName(),
-                    temp.getDescription(), category, categoryAttributes, temp.getImages()));
-        }
-        return products;
+    public static List<Product> getProductsByTag(String tag) throws CommandException{
+        return pf.getProductsWithTagSearch(tag);
     }
 
 }

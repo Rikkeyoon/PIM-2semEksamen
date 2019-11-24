@@ -18,6 +18,11 @@ import persistence.PersistenceFacadeDB;
  */
 public class TagMapperTest {
 
+    @Test
+    public void tagproductsmastertest() throws CommandException{
+        IPersistenceFacade pf = new PersistenceFacadeDB(false);
+        assertEquals(2, pf.getProductsWithTagSearch("g").size());
+    }
     
     public void tagmastertest() throws CommandException {
         

@@ -12,15 +12,14 @@ import javax.servlet.http.Part;
  */
 public class LogicFacade {
 
-
-    public static Product createProduct(int id, String name, String description, 
+    public static Product createProduct(int id, String name, String description,
             String category, List<Pair<String, Boolean>> images) throws CommandException {
         return LogicController.createProduct(id, name, description, category, images);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
-            throws CommandException {
-        return LogicController.updateProduct(p, parameterMap);
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        return LogicController.updateProduct(p, parameterMap, imageURLs);
     }
 
     public static void deleteProduct(Product p) throws CommandException {
@@ -35,7 +34,7 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
 
-    public static List<Product> getProductsByName(String name) 
+    public static List<Product> getProductsByName(String name)
             throws CommandException {
         return LogicController.getProductsByName(name);
     }
@@ -45,11 +44,15 @@ public class LogicFacade {
         return LogicController.getProductsByCategory(category);
     }
 
+    public static List<Product> getProductsByTag(String tag) 
+            throws CommandException {
+        return LogicController.getProductsByTag(tag);
+    }
+
     public static Category createCategory(String categoryname, String[] attributes)
             throws CommandException {
         return LogicController.createCategory(categoryname, attributes);
     }
-
 
     public static Category editCategory(String categoryname, String[] attributes)
             throws CommandException {
@@ -60,7 +63,7 @@ public class LogicFacade {
         return LogicController.getCategories();
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException{
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
         return LogicController.uploadImages(parts, primaryImage);
     }
 

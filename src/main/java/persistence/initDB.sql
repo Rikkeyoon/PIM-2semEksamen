@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS attributes;
 CREATE TABLE categories (
     category_name VARCHAR(45) NOT NULL,
     PRIMARY KEY(category_name)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE products (
     id INT AUTO_INCREMENT NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE products (
     category_name VARCHAR(45) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE images (
     product_id INT NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE attributes (
     id INT AUTO_INCREMENT NOT NULL,
     attribute_name VARCHAR(45) NOT NULL,
     PRIMARY KEY(id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE attribute_values(
 	attribute_id INT NOT NULL,
@@ -65,14 +65,14 @@ CREATE TABLE attribute_values(
     PRIMARY KEY(attribute_id, product_id),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id),
     FOREIGN KEY(product_id) REFERENCES products(id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE category_attributes (
 	category_name VARCHAR(45) NOT NULL,
     attribute_id INT NOT NULL,
     FOREIGN KEY(category_name) REFERENCES categories(category_name),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO categories VALUES ("Cykler");
 INSERT INTO categories VALUES ("Mobiler");
@@ -203,8 +203,3 @@ INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/uploa
 INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carpeDiemHarmano.jpg", 1);
 INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tempurFusion.jpg", 1);
 
-
-SELECT name FROM tags WHERE id IN (SELECT tag_id FROM tags_products WHERE product_id = 11);
-SELECT id FROM tags where name like "%grøn%";
-INSERT INTO tags_products VALUES ( , );
-INSERT INTO tags VALUES(100, "grøn");

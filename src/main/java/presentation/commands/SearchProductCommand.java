@@ -30,7 +30,12 @@ public class SearchProductCommand extends Command {
                     catalog = LogicFacade.getProductsByName(name);
                 } else {
                     String category = request.getParameter("product_category");
-                    catalog = LogicFacade.getProductsByCategory(category);
+                    if (category != null && StringUtils.isNotBlank(category)) {
+                        catalog = LogicFacade.getProductsByCategory(category);
+                    } else {
+                        String tag = request.getParameter("product_tag");
+                        catalog = LogicFacade.getProductsByTag(tag);
+                    }
                 }
             }
         } catch (CommandException ex) {

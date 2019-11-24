@@ -32,9 +32,11 @@
             <br>
             <label for="product_desc"><b>Description</b></label>
             <br>
-            <p>
-                ${product.getDescription()}
-            </p>
+            <p>${product.getDescription()}</p>
+            <br>
+            <label for="product_tags"><b>Tags</b></label>
+            <br>
+            <p>${product.getTagsAsString()}</p>
             <br>
             <label for="product_tags"><b>Tags:</b></label>
             <br>
@@ -54,6 +56,11 @@
                 <br>
             </c:forEach>
             <br>
+
+            <c:forEach items="${product.getImages()}" var="image"> 
+                <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+            </c:forEach>
+
         </form>
         <form name="update" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">

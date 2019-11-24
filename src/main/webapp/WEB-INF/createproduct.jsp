@@ -17,6 +17,12 @@
 
     <body>
         <div>
+            <form name="Back" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="productcatalog">
+                <input type="submit" value="Back">
+            </form>
+
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="create_product">
 
@@ -45,9 +51,11 @@
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
-                <input type="file" id="files" name = "file" multiple required />
+                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <br>
                 <output id="list"></output>
+                <br>
+                <input type="reset" onclick="removeThumbnails();">
                 <br><br>
 
                 <!-- Exception handling -->
@@ -55,71 +63,79 @@
                     <div class="form-alert">${error}</div>
                 </c:if>
 
-                    <input class="createbtn" id="createbtn" type="submit" value="Create">
+                <input class="createbtn" id="createbtn" type="submit" value="Create">
 
             </form>
         </div>
 
         <!-- JavaScript functions -->
-        <script>
+        <script type="text/javascript">
             function handleFileSelect(evt) {
-            var files = evt.target.files;
+                document.getElementById('list').innerHTML = "";
+                var files = evt.target.files;
 
-            // Loop through the FileList and render image files as thumbnails.
-            for (var i = 0, f; f = files[i]; i++) {
+                // Loop through the FileList and render image files as thumbnails.
+                for (var i = 0, f; f = files[i]; i++) {
 
-            // Only process image files.
-            if (!f.type.match('image.*')) {
-            continue;
-            }
+                    // Only process image files.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
 
-            var reader = new FileReader();
+                    var reader = new FileReader();
 
-            // Closure to capture the file information.
-            reader.onload = (function(theFile) {
-            return function(e) {
-            // Render thumbnail.
-            var span = document.createElement('span');
-            span.innerHTML = 
-            [
-              '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="',e.target.result,'" title="', escape(theFile.name),'"/><input type="radio" name="fileSelected" value="', escape(theFile.name),'" required></span>'
-            ].join('    ');
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML =
+                                    [
+                                        '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+                                    ].join('');
 
-            document.getElementById('list').insertBefore(span, null);
-            };
-            })(f);
+                            document.getElementById('list').insertBefore(span, null);
+                        };
+                    })(f);
 
-            // Read in the image file as a data URL.
-            reader.readAsDataURL(f);
-            }
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(f);
+                }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
-            function validateID() {
-            var id = $("#id").val();
-            var idformat = /[0-9]/;
-
-            if (!id.match(idformat)) {
-            $("#createbtn").attr('disabled', 'disabled');
-            $("#divValidateId").html("Invalid Id").addClass('form-alert');
-            } else {
-            $("#createbtn").removeAttr('disabled');
-            $("#divValidateId").html("").removeClass('form-alert');
+            function removeThumbnails() {
+                var empty = document.getElementById('list');
+                empty.innerHTML = [' '].join('');
+                document.getElementById('list').insertBefore(empty, null);
             }
+            ;
+
+            function validateID() {
+                var id = $("#id").val();
+                var idformat = /[0-9]/;
+
+                if (!id.match(idformat)) {
+                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
+                } else {
+                    $("#createbtn").removeAttr('disabled');
+                    $("#divValidateId").html("").removeClass('form-alert');
+                }
             }
 
             function validateCategory() {
-            var category = $("#category").val();
-            var categoryformat = /[a-z]/;
+                var category = $("#category").val();
+                var categoryformat = /[a-z]/;
 
-            if (!category.match(categoryformat)) {
-            $("#createbtn").attr('disabled', 'disabled');
-            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-            } else {
-            $("#createbtn").removeAttr('disabled');
-            $("#divValidateCategory").html("").removeClass('form-alert');
-            }
+                if (!category.match(categoryformat)) {
+                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
+                } else {
+                    $("#createbtn").removeAttr('disabled');
+                    $("#divValidateCategory").html("").removeClass('form-alert');
+                }
             }
 
         </script>
