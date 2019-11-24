@@ -1,7 +1,7 @@
 <%-- 
     Document   : producteditor
     Created on : 11 Nov 2019, 11:23:01
-    Author     : zarpy, carol
+    Author     : zarpy, carol, allan
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -66,21 +66,20 @@
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
                         <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                        <input type="radio" name="fileSelected" value="" required>
                     </span>
                 </c:forEach>
-                <br>
+                <br><br>
                 <label for="file"><b>Add more pictures</b></label>
-                <br><br>
-                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
-                <input type="reset">
                 <br>
+                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <output id="list"></output>
+                <br>
+                <input type="reset" onclick="removeThumbnails();">
                 <br><br>
-
 
                 <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>
+            <br>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
                 <input class="deletebtn" type="button" value="Delete Product" 
@@ -111,7 +110,7 @@
                             var span = document.createElement('span');
                             span.innerHTML =
                                     [
-                                        '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+                                        '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
                                     ].join('');
 
                             document.getElementById('list').insertBefore(span, null);
@@ -124,6 +123,13 @@
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+            function removeThumbnails() {
+                var empty = document.getElementById('list');
+                empty.innerHTML = [' '].join('');
+                document.getElementById('list').insertBefore(empty, null);
+            }
+            ;
 
             function validateID() {
                 var id = $("#product_id").val();
@@ -161,8 +167,6 @@
                 }
 
             }
-
         </script>
-
     </body>
 </html>

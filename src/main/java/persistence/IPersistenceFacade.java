@@ -41,7 +41,7 @@ public interface IPersistenceFacade {
     
     public List<Category> getCategories() throws CommandException;
 
-    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException;
+    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) 
+            throws CommandException;
 
-    public void removeImageFromCloudinary(String URL) throws CommandException;
 }
