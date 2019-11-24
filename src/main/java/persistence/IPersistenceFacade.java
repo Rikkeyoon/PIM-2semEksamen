@@ -44,5 +44,7 @@ public interface IPersistenceFacade {
     public List<String> getTagsForProductWithID(int id) throws CommandException;
 
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException;
+    
+    public void createProductTags(int id, List<String> tags) throws CommandException;
 
 }

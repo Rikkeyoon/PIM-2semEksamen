@@ -39,8 +39,8 @@ CREATE TABLE images (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE tags(
-    id INT,
-    name VARCHAR(255) NOT NULL,
+    id INT auto_increment,
+    name VARCHAR(255) NOT NULL unique,
     PRIMARY KEY(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
@@ -203,4 +203,8 @@ INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/uploa
 INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carpeDiemHarmano.jpg", 1);
 INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tempurFusion.jpg", 1);
 
-SELECT name FROM tags WHERE id IN (SELECT tag_id FROM tags_products WHERE product_id = 6);
+
+SELECT name FROM tags WHERE id IN (SELECT tag_id FROM tags_products WHERE product_id = 11);
+SELECT id FROM tags where name like "%grøn%";
+INSERT INTO tags_products VALUES ( , );
+INSERT INTO tags VALUES(100, "grøn");

@@ -15,5 +15,8 @@ import java.util.List;
 public interface ITagMapper {
     public List<String> getTagsForProductWithID(int id) throws CommandException;
     
+    public void createTagsAndProductRelation(int productID, List<String> tags) throws CommandException;
     
+    public void createTags(List<String> tags) throws CommandException;
+            
 }

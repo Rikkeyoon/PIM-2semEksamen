@@ -146,4 +146,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public List<String> getTagsForProductWithID(int id) throws CommandException {
         return tm.getTagsForProductWithID(id);
     }
+    
+    @Override
+    public void createProductTags(int id, List<String> tags) throws CommandException{
+        tm.createTags(tags);
+        tm.createTagsAndProductRelation(id, tags);
+    }
 }
