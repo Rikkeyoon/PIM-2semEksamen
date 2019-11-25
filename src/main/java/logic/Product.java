@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
@@ -83,6 +84,18 @@ public class Product {
 
     public void setImages(List<Pair<String, Boolean>> images) {
         this.images = images;
+    }
+
+    public void removeImages(String[] picsToDelete) {
+        List<Pair<String, Boolean>> newImages = new ArrayList<>();
+        for (Pair<String, Boolean> image : this.images) {
+            for (String string : picsToDelete) {
+              if (!image.getKey().equalsIgnoreCase(string)) {
+                  newImages.add(image);
+              }
+            }
+        }
+        setImages(newImages);
     }
 
     public List<String> getTags() {

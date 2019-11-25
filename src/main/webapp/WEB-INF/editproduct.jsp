@@ -45,9 +45,17 @@
                 <br><br>
                 <label for="product_tags"><b>Tags</b></label>
                 <br>
-                <input type="text" name="product_tags" 
-                       value="${product.getTagsAsString()}">
-                <br>
+                <c:choose>
+                    <c:when test="${!product.getTags().isEmpty()}">
+                        <input type="text" name="product_tags" 
+                               value="${product.getTagsAsString()}">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" name="product_tags" 
+                               value=""/>
+                    </c:otherwise>
+                </c:choose>
+                <br><br>
                 <label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 
@@ -79,8 +87,21 @@
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <output id="list"></output>
                 <br>
+
+                <label for="delete_pics"><b>Delete pictures</b></label>
+                <div class="delete_pics">
+                    <c:forEach items="${product.getImages()}" var="image">
+                        <span>
+                            <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+                            <input type="checkbox" name="delete_chosen_pics" value="${image.getKey()}" />
+                        </span>
+                    </c:forEach>
+                </div>
+                <br><br>
+
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
+
 
                 <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>
@@ -134,7 +155,6 @@
                 empty.innerHTML = [' '].join('');
                 document.getElementById('list').insertBefore(empty, null);
             }
-            ;
 
             function validateID() {
                 var id = $("#product_id").val();

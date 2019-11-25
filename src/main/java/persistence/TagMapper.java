@@ -56,11 +56,7 @@ public class TagMapper implements ITagMapper {
             for (String tag : p.getTags()) {
                 pstmt.setString(1, tag);
 
-                int rowsUpdated = pstmt.executeUpdate();
-
-                if (rowsUpdated == 0) {
-                   throw new SQLException(); 
-                }
+                pstmt.executeUpdate();
 
                 tagIds.add(getLastInsertedId(connection));
             }

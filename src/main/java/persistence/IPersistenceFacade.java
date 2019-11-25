@@ -45,4 +45,6 @@ public interface IPersistenceFacade {
 
     public List<String> getTagsForProductWithID(int id) throws CommandException;
 
+    public void deleteImages(String[] picsToDelete) throws CommandException;
+
 }

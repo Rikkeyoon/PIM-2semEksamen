@@ -54,6 +54,10 @@ public class LogicController {
                 p.setTags(tags);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
+            } else if (key.equalsIgnoreCase("delete_chosen_pics")) {
+                String[] picsToDelete = parameterMap.get(key);
+                p.removeImages(picsToDelete);
+                pf.deleteImages(picsToDelete);
             } else {
                 try {
                     categoryAttributes.replace(key, parameterMap.get(key)[0]);

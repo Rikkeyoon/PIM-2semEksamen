@@ -67,7 +67,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         }
 
         pm.create(p);
-        if (p.getImages() != null) {
+        if (!p.getImages().isEmpty()) {
             im.addPictureURL(p.getId(), p.getImages());
         }
     }
@@ -81,18 +81,24 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
-        List<Integer> tagIds = tm.updateTags(p);
+        im.deleteAllImages(p);
         pm.update(p);
         try {
             pm.updateAttributes(p);
         } catch (CommandException ex) {
         }
-        if (p.getTags() != null) {
-            pm.deleteTags(p);
-            pm.createTags(p, tagIds);
+        if (!p.getTags().isEmpty()) {
+            try {
+                pm.deleteTags(p);
+            } catch (CommandException ex) {
+            }
+            try {
+                List<Integer> tagIds = tm.updateTags(p);
+                pm.createTags(p, tagIds);
+            } catch (CommandException e) {
+            }
         }
-        if (p.getImages() != null) {
-            im.deleteAllImages(p);
+        if (!p.getImages().isEmpty()) {
             im.addPictureURL(p.getId(), p.getImages());
         }
     }
@@ -104,6 +110,14 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             im.removePictureFromCloudinary(image.getKey());
         }
         pm.delete(p);
+    }
+
+    @Override
+    public void deleteImages(String[] picsToDelete) throws CommandException {
+        im.deleteImages(picsToDelete);
+        for (String imageurl : picsToDelete) {
+            im.removePictureFromCloudinary(imageurl);
+        }
     }
 
     @Override

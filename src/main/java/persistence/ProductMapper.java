@@ -328,7 +328,7 @@ public class ProductMapper implements IProductMapper {
                 throw new SQLException("No rows updated");
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to be deleted" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -370,12 +370,9 @@ public class ProductMapper implements IProductMapper {
             String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
             pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, p.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to delete the tags" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

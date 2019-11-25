@@ -48,11 +48,11 @@ public class ImageMapper implements IImageMapper {
                     String contentType = part.getContentType();
 
                     // allows JPEG & PNG files to be uploaded
-                    if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg") 
+                    if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg")
                             || contentType.equalsIgnoreCase("image/png"))) {
-                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR 
+                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR
                                 + File.separator + fileName);
-                        File file = new File(WORKING_DIR + File.separator 
+                        File file = new File(WORKING_DIR + File.separator
                                 + UPLOAD_DIR + File.separator + fileName);
 
                         Map uploadResult = null;
@@ -80,7 +80,7 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public void addPictureURL(int productId, List<Pair<String, Boolean>> images) 
+    public void addPictureURL(int productId, List<Pair<String, Boolean>> images)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -96,7 +96,7 @@ public class ImageMapper implements IImageMapper {
             }
 
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not save URL reference to images");
+            throw new CommandException("Could not save URL reference to images" + e);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -105,7 +105,7 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public List<Pair<String, Boolean>> getPicturesWithId(int productId) 
+    public List<Pair<String, Boolean>> getPicturesWithId(int productId)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -136,7 +136,7 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public Pair<String, Boolean> getPrimaryPictureWithId(int productId) 
+    public Pair<String, Boolean> getPrimaryPictureWithId(int productId)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -205,16 +205,16 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public void deleteImages(List<Pair<String, Boolean>> images)
+    public void deleteImages(String[] imageUrls)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
-            for (Pair<String, Boolean> image : images) {
+            for (String image : imageUrls) {
                 connection = PersistenceFacadeDB.getConnection();
                 String deleteSql = "DELETE FROM images WHERE url = ?";
                 pstmt = connection.prepareStatement(deleteSql);
-                pstmt.setString(1, image.getKey());
+                pstmt.setString(1, image);
 
                 int rowsUpdated = pstmt.executeUpdate();
                 if (rowsUpdated == 0) {
@@ -222,7 +222,7 @@ public class ImageMapper implements IImageMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the image to be deleted" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -239,12 +239,9 @@ public class ImageMapper implements IImageMapper {
             pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, p.getId());
 
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to delete the pictures" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -252,16 +249,15 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public void removePictureFromCloudinary(String URL) throws CommandException{
-        System.out.println(getPublicIDFromURL(URL));
-        try{
+    public void removePictureFromCloudinary(String URL) throws CommandException {
+        try {
             CLOUDINARY.uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
-        }catch(Exception e){
-            throw new CommandException("could not delete picture");
+        } catch (IOException e) {
+            throw new CommandException("Could not delete picture");
         }
     }
-    
-    private String getPublicIDFromURL(String url){
-        return url.substring(62, url.length()-4);
+
+    private String getPublicIDFromURL(String url) {
+        return url.substring(62, url.length() - 4);
     }
 }

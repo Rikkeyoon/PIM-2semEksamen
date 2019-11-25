@@ -36,7 +36,10 @@
             <br>
             <label for="product_tags"><b>Tags</b></label>
             <br>
-            <p>${product.getTagsAsString()}</p>
+            <c:if test="${!product.getTags().isEmpty()}">
+                <p>${product.getTagsAsString()}</p>
+            </c:if>
+            
             <br>
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
