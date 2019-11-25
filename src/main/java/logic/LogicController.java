@@ -18,14 +18,17 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
-    public static Product createProduct(int id, String name, String description,
-            String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
+    public static Product createProduct(int id, int itemnumber, String name, 
+            String brand, String description, String categoryname, String supplier,
+            String seotext, int status, List<Pair<String, Boolean>> images) 
+            throws CommandException {
         Category category = getCategory(categoryname);
-        Product p = new Product(id, name, description, category, images);
+        Product p = new Product(id, itemnumber, name, brand, description,
+                category, supplier, seotext, status, images);
         p.setCategoryAttributes(createCategoryAttributeMap(p));
-
         pf.createProduct(p);
         return p;
     }
@@ -37,12 +40,7 @@ public class LogicController {
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
             List<Pair<String, Boolean>> imageURLs) throws CommandException {
-        Map<String, String> categoryAttributes = new HashMap<>();
-        try {
-            categoryAttributes = p.getCategoryAttributes();
-        } catch (NullPointerException e) {
-        }
-        
+        Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
@@ -159,7 +157,9 @@ public class LogicController {
                 categoryAttributes.putIfAbsent(attribute, "");
             }
         }
+
         return categoryAttributes;
+
     }
 
 }

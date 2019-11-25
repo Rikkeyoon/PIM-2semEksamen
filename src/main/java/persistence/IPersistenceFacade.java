@@ -15,7 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public interface IPersistenceFacade {
 
     public List<Product> getCatalog() throws CommandException;
-
+    
     public Product getProduct(int id) throws CommandException;
 
     public List<Product> getProductsByName(String name) throws CommandException;

@@ -27,14 +27,19 @@ public class ProductMapper implements IProductMapper {
         try {
             connection = PersistenceFacadeDB.getConnection();
             String insertSql = "INSERT INTO products "
-                    + "(id, name, description, category_name) VALUES"
-                    + "(?, ?, ?, ?)";
+                    + "(item_number, name, brand, description, category_name, "
+                    + "supplier, seo_text, status) VALUES"
+                    + "(?, ?, ?, ?, ?, ?, ?, ?)";
 
             pstmt = connection.prepareStatement(insertSql);
-            pstmt.setInt(1, product.getId());
+            pstmt.setInt(1, product.getItemnumber());
             pstmt.setString(2, product.getName());
-            pstmt.setString(3, product.getDescription());
-            pstmt.setString(4, product.getCategory().getCategoryname());
+            pstmt.setString(3, product.getBrand());
+            pstmt.setString(4, product.getDescription());
+            pstmt.setString(5, product.getCategory().getCategoryname());
+            pstmt.setString(6, product.getSupplier());
+            pstmt.setString(7, product.getSEOText());
+            pstmt.setInt(8, product.getStatus());
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
@@ -62,15 +67,22 @@ public class ProductMapper implements IProductMapper {
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                int id = result.getInt(1);
-                String name = result.getString(2);
-                String description = result.getString(3);
-                String categoryname = result.getString(4);
+
+                int id = result.getInt("id");
+                int itemnumber = result.getInt("Item_number");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                products.add(new Product(id, name, description,
-                        cm.getCategory(categoryname), images));
+                products.add(new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
+
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
@@ -96,14 +108,20 @@ public class ProductMapper implements IProductMapper {
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                String name = result.getString(2);
-                String description = result.getString(3);
-                String categoryname = result.getString(4);
+                int itemnumber = result.getInt("item_number");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                product = new Product(id, name, description,
-                        cm.getCategory(categoryname), images);
+                product = new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images);
+
             }
 
             if (product == null) {
@@ -119,7 +137,35 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String categoryname)
+    public int getHighestProductID() throws CommandException {
+        String sql = "SELECT * FROM products ORDER BY ID DESC LIMIT 0, 1";
+        int returnInt = 0;
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        try {
+
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(sql);
+            result = pstmt.executeQuery();
+
+            if (result == null) {
+
+                returnInt = 0;
+            } else {
+                result.next();
+                returnInt = result.getInt("id");
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find the highest product id");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return returnInt;
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String categorynames)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -129,20 +175,26 @@ public class ProductMapper implements IProductMapper {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products WHERE category_name LIKE ?";
             pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, '%' + categoryname + '%');
+            pstmt.setString(1, '%' + categorynames + '%');
 
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                int id = result.getInt(1);
-                String name = result.getString(2);
-                String description = result.getString(3);
-                String category = result.getString(4);
+
+                int id = result.getInt("id");
+                int itemnumber = result.getInt("item_number");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
 
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                products.add(new Product(id, name, description,
-                        cm.getCategory(category), images));
+                products.add(new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
             }
 
             if (products.size() < 1) {
@@ -170,18 +222,25 @@ public class ProductMapper implements IProductMapper {
             result = pstmt.executeQuery(selectSql);
 
             while (result.next()) {
-                int id = result.getInt(1);
-                String name = result.getString(2);
-                String description = result.getString(3);
-                String categoryname = result.getString(4);
+
+                int id = result.getInt("id");
+                int itemnumber = result.getInt("item_number");
+                String name = result.getString("name");
+                String brand = result.getString("Brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
+
                 List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                products.add(new Product(id, name, description,
-                        cm.getCategory(categoryname), images));
+                products.add(new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any products");
+            throw new CommandException("Could not find any products" );
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -206,19 +265,26 @@ public class ProductMapper implements IProductMapper {
 
             while (result.next()) {
                 Map<String, String> categoryAttributes = new HashMap<>();
-                String attribute = result.getString(5);
-                String attrValue = result.getString(6);
+
+                String attribute = result.getString("attribute_id");
+                String attrValue = result.getString("attribute_value");
 
                 categoryAttributes.putIfAbsent(attribute, attrValue);
 
                 if (product == null) {
-                    String name = result.getString(2);
-                    String description = result.getString(3);
-                    String categoryname = result.getString(4);
+                    int itemnumber = result.getInt("item_number");
+                    String name = result.getString("name");
+                    String brand = result.getString("brand");
+                    String description = result.getString("description");
+                    String categoryname = result.getString("category_name");
+                    String supplier = result.getString("supplier");
+                    String seotext = result.getString("seo_text");
+                    int status = result.getInt("status");
 
                     List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
-                    product = new Product(id, name, description, cm.getCategory(categoryname),
-                            categoryAttributes, images);
+                    product = new Product(id, itemnumber, name, brand, description,
+                            cm.getCategory(categoryname), supplier, seotext, 
+                            status, categoryAttributes, images);
                 } else {
                     Map<String, String> newCategoryAttr = product.getCategoryAttributes();
                     newCategoryAttr.putIfAbsent(attribute, attrValue);
@@ -239,13 +305,20 @@ public class ProductMapper implements IProductMapper {
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String updateSql = "UPDATE products SET name = ?, description = ?, "
-                    + "category_name = ? WHERE id = ?";
+            String updateSql = "UPDATE products SET item_number = ?, name = ?, "
+                    + "brand = ?, description = ?, category_name = ?,"
+                    + "supplier = ?, seo_text = ?, status = ? WHERE id = ?";
             pstmt = connection.prepareStatement(updateSql);
-            pstmt.setString(1, product.getName());
-            pstmt.setString(2, product.getDescription());
-            pstmt.setString(3, product.getCategory().getCategoryname());
-            pstmt.setInt(4, product.getId());
+            pstmt.setInt(1, product.getItemnumber());
+            pstmt.setString(2, product.getName());
+            pstmt.setString(3, product.getBrand());
+            pstmt.setString(4, product.getDescription());
+            pstmt.setString(5, product.getCategory().getCategoryname());
+            pstmt.setString(6, product.getSupplier());
+            pstmt.setString(7, product.getSEOText());
+            pstmt.setInt(8, product.getStatus());
+            pstmt.setInt(9, product.getId());
+            
             int rowsUpdated = pstmt.executeUpdate();
             if (rowsUpdated == 0) {
                 throw new SQLException("No rows updated");
@@ -279,7 +352,7 @@ public class ProductMapper implements IProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex);
+            throw new CommandException("Could not find a product with the given ID");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

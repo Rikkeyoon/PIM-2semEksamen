@@ -10,9 +10,11 @@ import logic.Product;
 public interface IProductMapper {
 
     public void create(Product product) throws CommandException;
+    
+    public int getHighestProductID() throws CommandException;
 
     public Product getProduct(int id) throws CommandException;
-
+    
     public List<Product> getProductsByName(String name) throws CommandException;
 
     public List<Product> getProductsByCategory(String category) throws CommandException;
