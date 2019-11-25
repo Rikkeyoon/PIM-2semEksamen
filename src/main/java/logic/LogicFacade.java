@@ -12,9 +12,9 @@ import javax.servlet.http.Part;
  */
 public class LogicFacade {
 
-    public static Product createProduct(int id, String name, String description,
+    public static Product createProduct(int id, String name, String description, String tags,
             String category, List<Pair<String, Boolean>> images) throws CommandException {
-        return LogicController.createProduct(id, name, description, category, images);
+        return LogicController.createProduct(id, name, description, tags, category, images);
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,

@@ -20,13 +20,16 @@ public class LogicController {
 
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
-    public static Product createProduct(int id, String name, String description,
+    public static Product createProduct(int id, String name, String description, String tags,
             String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
         Category category = getCategory(categoryname);
+
         Product p = new Product(id, name, description, category, images);
         p.setCategoryAttributes(createCategoryAttributeMap(p));
-
         pf.createProduct(p);
+        List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
+        pf.createProductTags(p.getId(), tagsList);
+
         return p;
     }
 
@@ -36,13 +39,13 @@ public class LogicController {
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        List<Pair<String, Boolean>> imageURLs) throws CommandException {
         Map<String, String> categoryAttributes = new HashMap<>();
         try {
             categoryAttributes = p.getCategoryAttributes();
         } catch (NullPointerException e) {
         }
-        
+
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
@@ -50,7 +53,13 @@ public class LogicController {
                 p.setDescription(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_tags")) {
                 String str = parameterMap.get(key)[0];
-                List<String> tags = Arrays.asList(str.split(",[ ]*"));
+                List<String> tags = new ArrayList<>();
+                for (String s : Arrays.asList(str.split(",[ ]*"))) {
+                    if (StringUtils.isNotBlank(s)) {
+                        tags.add(s);
+                    }
+                }
+
                 p.setTags(tags);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
@@ -160,7 +169,7 @@ public class LogicController {
         return categoryAttributes;
     }
 
-    public static List<Product> getProductsByTag(String tag) throws CommandException{
+    public static List<Product> getProductsByTag(String tag) throws CommandException {
         return pf.getProductsWithTagSearch(tag);
     }
 

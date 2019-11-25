@@ -35,15 +35,18 @@
             <p>${product.getDescription()}</p>
             <br>
             <label for="product_tags"><b>Tags</b></label>
-            <br>
-            <p>${product.getTagsAsString()}</p>
-            <br>
-            <label for="product_tags"><b>Tags:</b></label>
-            <br>
-            <p>
-                ${product.getTagsAsString()}
-            </p>
-            <br>
+            <br> <br>      
+            <c:if test="${!product.getTags().isEmpty()}">
+                <c:forEach items="${product.getTags()}" var="key">
+                    <form name="search" action="FrontController" method = "POST">
+                        <input type="hidden" name="cmd" value="search_product">
+                        <input type="hidden" name="product_tag" value = "${key}">
+                        <input style = "  background:none; border:none; font-size:1em; color:black;" class="searchbtn" id="searchbtn" type="submit" value="${key}"/>
+                    </form>
+
+                </c:forEach>
+            </c:if>
+            <br><br>  
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>
@@ -64,7 +67,7 @@
         </form>
         <form name="update" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="editproduct">
+            <input type="hidden" name="view" value="updateproduct">
             <input type="submit" value="Edit">
         </form>
     </body>

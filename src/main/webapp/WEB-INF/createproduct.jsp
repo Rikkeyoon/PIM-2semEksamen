@@ -43,6 +43,11 @@
                 <textarea name="product_desc" rows="4" cols="20" required="required">
                 </textarea>
                 <br><br>
+                <label for="product_tags"><b>Tags</b></label>
+                <br>
+                <input type="text" name="product_tags" 
+                       placeholder="tag1, tag2, tag3">
+                <br>
                 <label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 

@@ -24,7 +24,7 @@ public class TagMapper implements ITagMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
-        String insertSql = "INSERT INTO tags_products VALUES ( ? , ?);";
+        String insertSql = "INSERT INTO product_tags VALUES ( ? , ?);";
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
@@ -106,7 +106,7 @@ public class TagMapper implements ITagMapper {
         List<Integer> productIDs = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT DISTINCT product_id FROM tags_products WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE ?);";
+            String selectSql = "SELECT DISTINCT product_id FROM product_tags WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE ?);";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + tagSearch + '%');
 
@@ -146,7 +146,7 @@ public class TagMapper implements ITagMapper {
                 tagIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new tags");
+            throw new CommandException("Could not create new tags " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -207,5 +207,76 @@ public class TagMapper implements ITagMapper {
         return id;
     }
 
+    @Override
+    public void deleteTagsForProduct(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
+            pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+            
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find the product to be deleted");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+    
+    
+    public List<Integer> getAllTagIds() throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Integer> tags = new ArrayList<>();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT id FROM tags;";
+            pstmt = connection.prepareStatement(selectSql);
+            
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                tags.add(result.getInt("id"));
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not fetch tags to product: " + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return tags;
+    }
+
+    @Override
+    public void deleteUnusedTags() throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        List<Integer> tagids = getAllTagIds();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String deleteSql = "DELETE FROM tags WHERE id = ?;";
+            pstmt = connection.prepareStatement(deleteSql);
+            for(Integer i : tagids){
+                try{
+                    pstmt.setInt(1, i);
+                    pstmt.executeUpdate();
+                }catch(SQLException ex){
+                    if(ex.getErrorCode() != 1451){
+                        throw ex;
+                    }
+                }
+            }
+            
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("could not delete");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    } 
 
 }

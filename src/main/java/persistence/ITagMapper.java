@@ -20,5 +20,9 @@ public interface ITagMapper {
     public List<Integer> updateTags(Product p) throws CommandException;
     
      public List<Integer> getProductsIDFromTagNameSearch(String tagSearch)throws CommandException;
+     
+     public void deleteTagsForProduct(int id) throws CommandException;
+
+    public void deleteUnusedTags() throws CommandException;
 
 }

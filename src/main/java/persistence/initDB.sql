@@ -7,7 +7,7 @@ USE pim;
 
 DROP TABLE IF EXISTS category_attributes;
 DROP TABLE IF EXISTS attribute_values;
-DROP TABLE IF EXISTS tags_products;
+DROP TABLE IF EXISTS product_tags;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS products;
@@ -39,12 +39,13 @@ CREATE TABLE images (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE tags(
+
     id INT auto_increment,
     name VARCHAR(255) NOT NULL unique,
     PRIMARY KEY(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE tags_products (
+CREATE TABLE product_tags (
     tag_id INT NOT NULL,
     product_id INT NOT NULL,
     PRIMARY KEY(tag_id, product_id),
@@ -146,36 +147,36 @@ INSERT INTO tags VALUES(6, "Elektronik");
 INSERT INTO tags VALUES(7, "Madvare");
 INSERT INTO tags VALUES(8, "Møbel");
 
-INSERT INTO tags_products VALUES(1,1);
-INSERT INTO tags_products VALUES(2,2);
-INSERT INTO tags_products VALUES(3,3);
-INSERT INTO tags_products VALUES(4,4);
-INSERT INTO tags_products VALUES(5,5);
+INSERT INTO product_tags VALUES(1,1);
+INSERT INTO product_tags VALUES(2,2);
+INSERT INTO product_tags VALUES(3,3);
+INSERT INTO product_tags VALUES(4,4);
+INSERT INTO product_tags VALUES(5,5);
 
-INSERT INTO tags_products VALUES(6,6);
-INSERT INTO tags_products VALUES(6,7);
-INSERT INTO tags_products VALUES(6,8);
-INSERT INTO tags_products VALUES(6,9);
-INSERT INTO tags_products VALUES(6,10);
+INSERT INTO product_tags VALUES(6,6);
+INSERT INTO product_tags VALUES(6,7);
+INSERT INTO product_tags VALUES(6,8);
+INSERT INTO product_tags VALUES(6,9);
+INSERT INTO product_tags VALUES(6,10);
 
-INSERT INTO tags_products VALUES(7,11);
-INSERT INTO tags_products VALUES(2,11);
-INSERT INTO tags_products VALUES(7,12);
-INSERT INTO tags_products VALUES(7,13);
-INSERT INTO tags_products VALUES(7,14);
-INSERT INTO tags_products VALUES(7,15);
+INSERT INTO product_tags VALUES(7,11);
+INSERT INTO product_tags VALUES(2,11);
+INSERT INTO product_tags VALUES(7,12);
+INSERT INTO product_tags VALUES(7,13);
+INSERT INTO product_tags VALUES(7,14);
+INSERT INTO product_tags VALUES(7,15);
 
-INSERT INTO tags_products VALUES(6,16);
-INSERT INTO tags_products VALUES(6,17);
-INSERT INTO tags_products VALUES(6,18);
-INSERT INTO tags_products VALUES(6,19);
-INSERT INTO tags_products VALUES(6,20);
+INSERT INTO product_tags VALUES(6,16);
+INSERT INTO product_tags VALUES(6,17);
+INSERT INTO product_tags VALUES(6,18);
+INSERT INTO product_tags VALUES(6,19);
+INSERT INTO product_tags VALUES(6,20);
 
-INSERT INTO tags_products VALUES(8,21);
-INSERT INTO tags_products VALUES(8,22);
-INSERT INTO tags_products VALUES(8,23);
-INSERT INTO tags_products VALUES(8,24);
-INSERT INTO tags_products VALUES(8,25);
+INSERT INTO product_tags VALUES(8,21);
+INSERT INTO product_tags VALUES(8,22);
+INSERT INTO product_tags VALUES(8,23);
+INSERT INTO product_tags VALUES(8,24);
+INSERT INTO product_tags VALUES(8,25);
 
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/roedCykel.jpg", 1);
 INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/groenCykel.jpg", 1);
@@ -203,3 +204,8 @@ INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/uploa
 INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carpeDiemHarmano.jpg", 1);
 INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tempurFusion.jpg", 1);
 
+SELECT name FROM tags WHERE id IN (SELECT tag_id FROM product_tags WHERE product_id = 11);
+SELECT id FROM tags where name like "%grøn%";
+SELECT DISTINCT product_id FROM tags_products WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE "%ø%");
+SELECT * FROM tags_products;
+INSERT INTO tags VALUES(100, "grøn");
