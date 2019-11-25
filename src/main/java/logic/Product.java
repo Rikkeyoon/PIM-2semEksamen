@@ -20,15 +20,9 @@ public class Product {
     private List<Pair<String, Boolean>> images;
     public int getItemnumber;
 
-    public Product(int id, int itemnumber, String name, String description, Category category, String supplier) {
-        this.id = id;
-        this.itemnumber = itemnumber;
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.supplier = supplier;
-    }
-    public Product(int id, int itemnumber, String name, String description, Category category, String supplier, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String description, 
+            Category category, String supplier, List<Pair<String, Boolean>> images) {
+
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
@@ -37,17 +31,6 @@ public class Product {
         this.supplier = supplier;
         this.images = images;
     }
-
-
-//    public Product(int id, int itemnumber, String name, String description, Category category,
-//            Map<String, String> categoryAttributes) {
-//        this.id = id;
-//        this.itemnumber = itemnumber;  
-//        this.name = name;
-//        this.description = description;
-//        this.category = category;
-//        this.categoryAttributes = categoryAttributes;
-//    }
 
     //Master Contructor
     public Product(int id, int itemnumber, String name, String description, Category categoryname, String supplier, 
@@ -60,10 +43,6 @@ public class Product {
         this.supplier = supplier;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
-    }
-
-    public List<Pair<String, Boolean>> getImages() {
-        return images;
     }
 
     public int getId() {
@@ -90,10 +69,6 @@ public class Product {
         return description;
     }
 
-    public void setImages(List<Pair<String, Boolean>> images) {
-        this.images = images;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -118,17 +93,16 @@ public class Product {
         this.categoryAttributes = categoryAttributes;
     }
 
-    public boolean compareTo(Product product) {
-        return this.id == product.getId();
+    public List<Pair<String, Boolean>> getImages() {
+        return images;
     }
 
-    public void setAttributeValues(String[] attributeValues) {
-        //FIXME!!!
-        for (String key : categoryAttributes.keySet()) {
-            for (String attributeValue : attributeValues) {
-                categoryAttributes.replace(key, attributeValue);
-            }
-        }
+    public void setImages(List<Pair<String, Boolean>> images) {
+        this.images = images;
+    }
+
+    public boolean compareTo(Product product) {
+        return this.id == product.getId();
     }
 
     @Override

@@ -70,7 +70,17 @@
             <tbody>
                 <c:forEach items="${catalog}" var="product">
                     <tr>
-                        <td><img width = "100" alt= "Picture not found" src = "${product.getImages().get(0).getKey()}"></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty product.getImages()}">
+                                    <img width = "100" alt= "Picture not found" src = "${product.getImages().get(0).getKey()}"> 
+                                </c:when>    
+                                <c:otherwise>
+                                    No pictures.
+                                </c:otherwise>
+                            </c:choose>
+                            
+                        </td>
                         <td>${product.getId()}</td>
                         <td>${product.getItemnumber()}</td>
                         <td>${product.getName()}</td>

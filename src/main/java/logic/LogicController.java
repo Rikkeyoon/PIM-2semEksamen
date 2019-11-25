@@ -20,19 +20,20 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
 
     public static Product createProduct(int id, int itemnumber, String name, String description,
-            String category, String supplier, List<Pair<String, Boolean>> images) throws CommandException {
-        Product p = new Product(id, itemnumber, name, description, getCategory(category), supplier, images);
-
+            String categoryname, String supplier, List<Pair<String, Boolean>> images) throws CommandException {
+        Category category = getCategory(categoryname);
+        Product p = new Product(id, itemnumber, name, description, category, supplier, images);
+        p.setCategoryAttributes(createCategoryAttributeMap(p));
         pf.createProduct(p);
         return p;
     }
 
     public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
-        return pf.uploadImages(parts, primaryImage);
+        return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
-            throws CommandException {
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
@@ -45,6 +46,11 @@ public class LogicController {
                 categoryAttributes.replace(key, parameterMap.get(key)[0]);
             }
         }
+        List<Pair<String, Boolean>> images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+            images.add(imageURL);
+        }
+        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
@@ -54,33 +60,30 @@ public class LogicController {
     }
 
     public static List<Product> getCatalog() throws CommandException {
-        List<TemporaryProduct> catalog = pf.getCatalog();
-        return convertTemporaryProductListToProductList(catalog);
+        return pf.getCatalog();
     }
 
     public static Product getProduct(int id) throws CommandException {
-        TemporaryProduct temp = null;
+        Product product = null;
         try {
-            temp = pf.getProductWithCategoryAttributes(id);
+            product = pf.getProductWithCategoryAttributes(id);
         } catch (CommandException ex) {
             //Doesn't need to give this command exception to the user. 
             //It just means that the product with that id doesn't have any category attributes yet
         }
-        if (temp == null) {
-            temp = pf.getProduct(id);
+        if (product == null) {
+            product = pf.getProduct(id);
         }
-        return convertTemporaryProductToProduct(temp);
+        return product;
     }
 
     public static List<Product> getProductsByName(String name) throws CommandException {
-        List<TemporaryProduct> temps = pf.getProductsByName(name);
-        return convertTemporaryProductListToProductList(temps);
+        return pf.getProductsByName(name);
     }
 
     public static List<Product> getProductsByCategory(String category)
             throws CommandException {
-        List<TemporaryProduct> products = pf.getProductsByCategory(category);
-        return convertTemporaryProductListToProductList(products);
+        return pf.getProductsByCategory(category);
     }
 
     public static Category getCategory(String categoryname) throws CommandException {
@@ -121,13 +124,13 @@ public class LogicController {
         return pf.getCategories();
     }
 
-    private static Product convertTemporaryProductToProduct(TemporaryProduct temp)
+    private static Map<String, String> createCategoryAttributeMap(Product product)
             throws CommandException {
-        Category category = pf.getCategory(temp.getCategoryname());
+        Category category = product.getCategory();
         Map<String, String> categoryAttributes;
 
-        if (temp.getCategoryAttributes() != null) {
-            categoryAttributes = temp.getCategoryAttributes();
+        if (product.getCategoryAttributes() != null) {
+            categoryAttributes = product.getCategoryAttributes();
         } else {
             categoryAttributes = new HashMap<>();
             List<String> attributes = category.getAttributes();
@@ -137,33 +140,8 @@ public class LogicController {
             }
         }
 
-        Product product = new Product(temp.getId(), temp.getItemnumber(), temp.getName(),
-                temp.getDescription(), category, temp.getSupplier(), categoryAttributes, temp.getImages());
-        return product;
-    }
+        return categoryAttributes;
 
-    private static List<Product> convertTemporaryProductListToProductList(List<TemporaryProduct> temps)
-            throws CommandException {
-        List<Product> products = new ArrayList<>();
-        for (TemporaryProduct temp : temps) {
-            Category category = pf.getCategory(temp.getCategoryname());
-            Map<String, String> categoryAttributes;
-
-            if (temp.getCategoryAttributes() != null) {
-                categoryAttributes = temp.getCategoryAttributes();
-            } else {
-                categoryAttributes = new HashMap<>();
-                List<String> attributes = category.getAttributes();
-
-                for (String attribute : attributes) {
-                    categoryAttributes.putIfAbsent(attribute, "");
-                }
-            }
-
-            products.add(new Product(temp.getId(), temp.getItemnumber(), temp.getName(),
-                    temp.getDescription(), category, temp.getSupplier(), categoryAttributes, temp.getImages()));
-        }
-        return products;
     }
 
 }

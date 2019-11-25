@@ -18,9 +18,9 @@ public class LogicFacade {
         return LogicController.createProduct(id, itemnumber, name, description, category, supplier, images);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap)
-            throws CommandException {
-        return LogicController.updateProduct(p, parameterMap);
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        return LogicController.updateProduct(p, parameterMap, imageURLs);
     }
 
     public static void deleteProduct(Product p) throws CommandException {
