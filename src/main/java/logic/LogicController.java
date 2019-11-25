@@ -17,12 +17,16 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
-    public static Product createProduct(int id, int itemnumber, String name, String brand, String description,
-            String categoryname, String supplier, String seatext, int status, List<Pair<String, Boolean>> images) throws CommandException {
+    public static Product createProduct(int id, int itemnumber, String name, 
+            String brand, String description, String categoryname, String supplier,
+            String seotext, int status, List<Pair<String, Boolean>> images) 
+            throws CommandException {
         Category category = getCategory(categoryname);
-        Product p = new Product(id, itemnumber, name, brand, description, category, supplier, seatext, status, images);
+        Product p = new Product(id, itemnumber, name, brand, description,
+                category, supplier, seotext, status, images);
         p.setCategoryAttributes(createCategoryAttributeMap(p));
         pf.createProduct(p);
         return p;

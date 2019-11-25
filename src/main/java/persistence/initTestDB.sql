@@ -23,7 +23,7 @@ CREATE TABLE products (
     description VARCHAR(200) NOT NULL,
     category_name VARCHAR(45) NOT NULL,
     supplier VARCHAR(45) NOT NULL,
-    sea_text VARCHAR(45) NOT NULL,
+    seo_text VARCHAR(45) NOT NULL,
     status INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
@@ -97,7 +97,8 @@ INSERT INTO products VALUES (24,24, "Carpe Diem Harmano", "Carpe Diem", "Carpe D
 INSERT INTO products VALUES (25,25, "Tempur Fusion", "Tempur", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng","Royal Bed Import","Spring madras",1);
 
 CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
-SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_name, p.supplier, p.sea_text, p.status, a.attribute_name, av.attribute_value
+SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_name,
+ p.supplier, p.seo_text, p.status, a.attribute_name, av.attribute_value
 FROM products p JOIN category_attributes c 
 ON p.category_name = c.category_name 
 JOIN attributes a ON c.attribute_id = a.id 

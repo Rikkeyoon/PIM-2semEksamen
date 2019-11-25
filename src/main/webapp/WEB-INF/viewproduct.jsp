@@ -46,8 +46,8 @@
             <label for="supplier"><b>Supplier</b></label>
             <p>${product.getSupplier()} </p>
             <br>
-            <label for="sea_text"><b>Sea text</b></label>
-            <p>${product.getSeaText()} </p>
+            <label for="seo_text"><b>Sea text</b></label>
+            <p>${product.getSEOText()} </p>
             <br>
             <label for="status"><b>Status</b></label>
             <p>${product.getStatus()} </p>

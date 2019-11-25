@@ -25,11 +25,14 @@ public class CreateProductCommand extends Command {
         String description = request.getParameter("product_desc");
         String category = request.getParameter("product_category");
         String supplier = request.getParameter("supplier");
-        String seatext = request.getParameter("sea_text");
+        String seotext = request.getParameter("seo_text");
         int status = Integer.parseInt(request.getParameter("status"));
-        List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
+        List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages(
+                (List<Part>)request.getAttribute("partList"), 
+                request.getParameter("fileSelected"));
 
-        Product p = LogicFacade.createProduct(id, itemnumber, name, brand, description, category, supplier, seatext, status, imageURLs);
+        Product p = LogicFacade.createProduct(id, itemnumber, name, brand, 
+                description, category, supplier, seotext, status, imageURLs);
 
         request.getSession().setAttribute("product", p);
         return "index";

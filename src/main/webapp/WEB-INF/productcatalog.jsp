@@ -65,7 +65,7 @@
                     <th>Description</th>
                     <th>Category</th>
                     <th>Supplier</th>
-                    <th>Sea text</th>
+                    <th>SEO text</th>
                     <th>Status</th>
                     <th>View Product</th>
                 </tr>
@@ -91,7 +91,7 @@
                         <td>${product.getDescription()}</td>
                         <td>${product.getCategory().getCategoryname()}</td>
                         <td>${product.getSupplier()}</td>
-                        <td>${product.getSeaText()}</td>
+                        <td>${product.getSEOText()}</td>
                         <td>${product.getStatus()}</td>
                         <td>
                             <form name="view_product" action="FrontController" method = "POST">

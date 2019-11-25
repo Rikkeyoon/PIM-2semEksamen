@@ -42,7 +42,7 @@
                 <br>
                 <label for="brand"><b>Brand</b></label>
                 <br>
-                <input type="text" name="brand" required>
+                <input type="text" name="brand" value="${product.getBrand()}" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
@@ -60,15 +60,15 @@
                 <br>
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
-                <input type="text" name="supplier" required>
+                <input type="text" name="supplier" value="${product.getSupplier()}" required>
                 <br>
-                <label for="sea_text"><b>Sea text</b></label>
+                <label for="sea_text"><b>SEO text</b></label>
                 <br>
-                <input type="text" name="sea_text" required>
+                <input type="text" name="seo_text" value="${product.getSEOText()}" required>
                 <br><br>
                 <label for="status"><b>Status</b></label>
                 <br>
-                <input type="text" name="status" required>
+                <input type="text" name="status" value="${product.getStatus()}" required>
                 <br><br>
                 
                 <c:forEach items="${product.getCategoryAttributes().keySet()}" 

@@ -17,14 +17,13 @@ public class Product {
     private String description;
     private Category category;
     private String supplier;
-    private String seatext;
+    private String SEOText;
     private int status;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
-    public int getItemnumber;
 
-    public Product(int id, int itemnumber, String name, String brand, String description, 
-            Category category, String supplier, String seatext, int status, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String brand, String description,
+            Category category, String supplier, String SEOText, int status, List<Pair<String, Boolean>> images) {
 
         this.id = id;
         this.itemnumber = itemnumber;
@@ -33,14 +32,14 @@ public class Product {
         this.description = description;
         this.category = category;
         this.supplier = supplier;
-        this.seatext = seatext;
+        this.SEOText = SEOText;
         this.status = status;
         this.images = images;
     }
 
     //Master Contructor
-    public Product(int id, int itemnumber, String name, String brand, String description, Category categoryname, 
-            String supplier, String seatext, int status, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String brand, String description, Category categoryname,
+            String supplier, String SEOText, int status, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
@@ -48,10 +47,30 @@ public class Product {
         this.description = description;
         this.category = categoryname;
         this.supplier = supplier;
-        this.seatext = seatext;
+        this.SEOText = SEOText;
         this.status = status;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
+    }
+
+    public void setItemnumber(int itemnumber) {
+        this.itemnumber = itemnumber;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public void setSEOText(String SEOText) {
+        this.SEOText = SEOText;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -61,7 +80,7 @@ public class Product {
     public int getItemnumber() {
         return itemnumber;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -69,7 +88,7 @@ public class Product {
     public String getName() {
         return name;
     }
-    
+
     public String getBrand() {
         return brand;
     }
@@ -89,16 +108,16 @@ public class Product {
     public Category getCategory() {
         return category;
     }
-    
-    public String getSupplier(){
+
+    public String getSupplier() {
         return supplier;
     }
-    
-    public String getSeaText(){
-        return seatext;
+
+    public String getSEOText() {
+        return SEOText;
     }
-    
-    public int getStatus(){
+
+    public int getStatus() {
         return status;
     }
 
@@ -129,7 +148,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product with id: " + id + itemnumber + ", name: " + name + ", brand" + brand + ", description: "
-                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", sea text" + seatext + status;
+                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", sea text" + SEOText + status;
     }
 
 }
