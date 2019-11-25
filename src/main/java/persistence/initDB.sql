@@ -24,6 +24,7 @@ CREATE TABLE products (
     name VARCHAR(45) NOT NULL,
     description VARCHAR(200) NOT NULL,
     category_name VARCHAR(45) NOT NULL,
+    supplier VARCHAR(45) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name)
 );
@@ -65,38 +66,38 @@ INSERT INTO categories VALUES ("Alkohol");
 INSERT INTO categories VALUES ("Computer");
 INSERT INTO categories VALUES ("Seng");
 
-INSERT INTO products VALUES (1,1, "Rød Cykel", "En Cykel der er rød", "Cykler");
-INSERT INTO products VALUES (2,2, "Grøn Cykel", "En Cykel der er grøn", "Cykler");
-INSERT INTO products VALUES (3,3, "Blå Cykel", "En Cykel der er blå", "Cykler");
-INSERT INTO products VALUES (4,4, "Pink Cykel", "En Cykel der er pink", "Cykler");
-INSERT INTO products VALUES (5,5, "SORT Cykel", "En Cykel der er SORT", "Cykler");
+INSERT INTO products VALUES (1,1, "Rød Cykel", "En Cykel der er rød", "Cykler","Jupiter");
+INSERT INTO products VALUES (2,2, "Grøn Cykel", "En Cykel der er grøn", "Cykler","Jupiter");
+INSERT INTO products VALUES (3,3, "Blå Cykel", "En Cykel der er blå", "Cykler","Jupiter");
+INSERT INTO products VALUES (4,4, "Pink Cykel", "En Cykel der er pink", "Cykler","Jupiter");
+INSERT INTO products VALUES (5,5, "SORT Cykel", "En Cykel der er SORT", "Cykler","Jupiter");
 
-INSERT INTO products VALUES (6,6, "Samsung Galaxy S10", "Samsungs nyeste telefon med kraftig processor", "Mobiler");
-INSERT INTO products VALUES (7,7, "Apple iphone 11", "Apples nyeste telefon med fantastisk kamera.", "Mobiler");
-INSERT INTO products VALUES (8,8, "Huawei P30", "Kragtig og billig telefon med mange smarte features", "Mobiler");
-INSERT INTO products VALUES (9,9, "Xiaomi redmi note 5", "Middel performance telefon fra Xiaomi", "Mobiler");
-INSERT INTO products VALUES (10,10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler");
+INSERT INTO products VALUES (6,6, "Samsung Galaxy S10", "Samsungs nyeste telefon med kraftig processor", "Mobiler","Samsung Electronics");
+INSERT INTO products VALUES (7,7, "Apple iphone 11", "Apples nyeste telefon med fantastisk kamera.", "Mobiler","Apple Corp");
+INSERT INTO products VALUES (8,8, "Huawei P30", "Kragtig og billig telefon med mange smarte features", "Mobiler","Huawei Util");
+INSERT INTO products VALUES (9,9, "Xiaomi redmi note 5", "Middel performance telefon fra Xiaomi", "Mobiler","Xiome Tech");
+INSERT INTO products VALUES (10,10, "Sony Ericsson Xperia", "Revolutionerende telefon fra Sony Erricson", "Mobiler","Ericsson Manufacturing");
 
-INSERT INTO products VALUES (11,11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol");
-INSERT INTO products VALUES (12,12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol");
-INSERT INTO products VALUES (13,13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol");
-INSERT INTO products VALUES (14,14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol");
-INSERT INTO products VALUES (15,15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol");
+INSERT INTO products VALUES (11,11, "Tuborg Classic 6 pack", "Klassisk god smag, til alle lejligheder", "Alkohol","Tuborg Bryghus");
+INSERT INTO products VALUES (12,12, "Carlsberg 6 pack", "Probably the best beer in the world", "Alkohol","Carlsberg Aps");
+INSERT INTO products VALUES (13,13, "Sierra Silver Tequila", "Tequila er en mexicansk brændevin, der fremstilles af saften fra blå agave.", "Alkohol","Navada Lakeview brewery");
+INSERT INTO products VALUES (14,14, "Smirnoff Vodka 37,5%", "Den klassiske vodka til alle fester, kan blandes med næsten alt", "Alkohol","Smirnoff AS");
+INSERT INTO products VALUES (15,15, "Bornholmer Honningsyp", "Honningsyp er en bornholmsk drik, som efter 2008 oplevede en renæssance pga. salg i fødevare- og specialbutikker til turister og bornholmere.", "Alkohol","Bornholmere");
 
-INSERT INTO products VALUES (16,16, "Huawei R5", "Kraftig og stilfuld computer fra Hauwei", "Computer");
-INSERT INTO products VALUES (17,17, "Apple Pro", "Appples flagship bærbar har alt hvad en bærbar kræver", "Computer");
-INSERT INTO products VALUES (18,18, "Asus Zenbook", "Kraftig arbejdscomputer med mange smarte features fra Asus", "Computer");
-INSERT INTO products VALUES (19,19, "Acer Chromebook", "Acer' chromebook med lang batteri levetid og sikker anti virus", "Computer");
-INSERT INTO products VALUES (20,20, "Lenovo thinkpad L590", "Lenovo's thinkpad serie levere pålidelig ydelse til en god pris", "Computer");
+INSERT INTO products VALUES (16,16, "Huawei R5", "Kraftig og stilfuld computer fra Hauwei", "Computer","Huawei Util");
+INSERT INTO products VALUES (17,17, "Apple Pro", "Appples flagship bærbar har alt hvad en bærbar kræver", "Computer","Apple Corp");
+INSERT INTO products VALUES (18,18, "Asus Zenbook", "Kraftig arbejdscomputer med mange smarte features fra Asus", "Computer","Asus Inc");
+INSERT INTO products VALUES (19,19, "Acer Chromebook", "Acer' chromebook med lang batteri levetid og sikker anti virus", "Computer","Acer Corp");
+INSERT INTO products VALUES (20,20, "Lenovo thinkpad L590", "Lenovo's thinkpad serie levere pålidelig ydelse til en god pris", "Computer","IBM");
 
-INSERT INTO products VALUES (21,21, "Auping Royal", "Fantastisk seng fra Auping med 5 motorer i hver bund samt stilfuld sengeramme.", "Seng");
-INSERT INTO products VALUES (22,22, "Viking Birka", "Kontinental seng fra Viking, med 7 zoner og 2 pocketfjedre madras", "Seng");
-INSERT INTO products VALUES (23,23, "Jensen Prestige", "Kontinental seng med elevation, 5 zoner madras med softline topmadras", "Seng");
-INSERT INTO products VALUES (24,24, "Carpe Diem Harmano", "Carpe Diem Harmano leverer det bedste fra Darpe Diem.", "Seng");
-INSERT INTO products VALUES (25,25, "Tempur Fusion", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng");
+INSERT INTO products VALUES (21,21, "Auping Royal", "Fantastisk seng fra Auping med 5 motorer i hver bund samt stilfuld sengeramme.", "Seng","Royal Bed Import");
+INSERT INTO products VALUES (22,22, "Viking Birka", "Kontinental seng fra Viking, med 7 zoner og 2 pocketfjedre madras", "Seng","Nordic Bedcompany");
+INSERT INTO products VALUES (23,23, "Jensen Prestige", "Kontinental seng med elevation, 5 zoner madras med softline topmadras", "Seng","Nordic Becompany");
+INSERT INTO products VALUES (24,24, "Carpe Diem Harmano", "Carpe Diem Harmano leverer det bedste fra Darpe Diem.", "Seng","Carpe Diem me Hombre");
+INSERT INTO products VALUES (25,25, "Tempur Fusion", "TEMPUR® Fusion Box gør valget dejlig enkelt. Du får både de trykaflastende fordele og springmadrassens bevægelighed.", "Seng","Royal Bed Import");
 
 CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
-SELECT p.id,p.item_number, p.name, p.description, p.category_name, a.attribute_name, av.attribute_value
+SELECT p.id,p.item_number, p.name, p.description, p.category_name, p.supplier, a.attribute_name, av.attribute_value
 FROM products p JOIN category_attributes c 
 ON p.category_name = c.category_name 
 JOIN attributes a ON c.attribute_id = a.id 

@@ -23,8 +23,9 @@ public class CreateProductCommand extends Command {
         String name = request.getParameter("product_name");
         String description = request.getParameter("product_desc");
         String category = request.getParameter("product_category");
+        String supplier = request.getParameter("supplier");
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
-        Product p = LogicFacade.createProduct(id, itemnumber, name, description, category, imageURLs);
+        Product p = LogicFacade.createProduct(id, itemnumber, name, description, category, supplier, imageURLs);
         //FIXME: Skal sættes ind i kataloget somehow?
         request.getSession().setAttribute("product", p);
 //        return "productcatalog";

@@ -32,6 +32,7 @@
                 <p>${product.getId()} </p>
                 <br>
                 <label for="item_number"><b>Item Number</b></label>
+                <br>
                 <input type="text" name="item_name" value="${product.getItemnumber()}" required>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
@@ -53,6 +54,11 @@
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
+                <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" required>
+                <br>
+                
                 <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                            var="key"> 
                     <div>

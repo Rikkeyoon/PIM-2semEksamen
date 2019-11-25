@@ -15,23 +15,26 @@ public class Product {
     private String name;
     private String description;
     private Category category;
+    private String supplier;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
     public int getItemnumber;
 
-    public Product(int id, int itemnumber, String name, String description, Category category) {
+    public Product(int id, int itemnumber, String name, String description, Category category, String supplier) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = category;
+        this.supplier = supplier;
     }
-    public Product(int id, int itemnumber, String name, String description, Category category, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String description, Category category, String supplier, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = category;
+        this.supplier = supplier;
         this.images = images;
     }
 
@@ -47,13 +50,14 @@ public class Product {
 //    }
 
     //Master Contructor
-    public Product(int id, int itemnumber, String name, String description, Category categoryname,
+    public Product(int id, int itemnumber, String name, String description, Category categoryname, String supplier, 
             Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.category = categoryname;
+        this.supplier = supplier;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
     }
@@ -97,6 +101,10 @@ public class Product {
     public Category getCategory() {
         return category;
     }
+    
+    public String getSupplier(){
+        return supplier;
+    }
 
     public void setCategory(Category category) {
         this.category = category;
@@ -126,7 +134,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product with id: " + id + itemnumber + ", name: " + name + ", description: "
-                + description + ", category:" + category.getCategoryname();
+                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier;
     }
 
 }

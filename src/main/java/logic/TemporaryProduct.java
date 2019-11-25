@@ -15,27 +15,30 @@ public class TemporaryProduct {
     private String name;
     private String description;
     private String categoryname;
+    private String supplier;
     private Map<String, String> categoryAtrributes;
     private List<Pair<String, Boolean>> images;
     
 
     public TemporaryProduct(int id, int itemnumber, String name, String description,
-            String categoryname, List<Pair<String, Boolean>> images) {
+            String categoryname, String supplier, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
+        this.supplier = supplier;
         this.images = images;
     }
 
-    public TemporaryProduct(int id, int itemnumber, String name, String description, String categoryname,
+    public TemporaryProduct(int id, int itemnumber, String name, String description, String categoryname, String supplier, 
             Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
         this.description = description;
         this.categoryname = categoryname;
+        this.supplier = supplier;
         this.categoryAtrributes = categoryAttributes;
         this.images = images;
     }
@@ -75,6 +78,10 @@ public class TemporaryProduct {
     public void setCategoryname(String categoryname) {
         this.categoryname = categoryname;
     }
+    
+    public String getSupplier() {
+        return supplier;
+    }    
 
     public Map<String, String> getCategoryAttributes() {
         return categoryAtrributes;

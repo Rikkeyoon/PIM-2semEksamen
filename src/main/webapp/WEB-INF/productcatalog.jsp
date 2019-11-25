@@ -63,6 +63,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Category</th>
+                    <th>Supplier</th>
                     <th>View Product</th>
                 </tr>
             </thead>
@@ -75,6 +76,7 @@
                         <td>${product.getName()}</td>
                         <td>${product.getDescription()}</td>
                         <td>${product.getCategory().getCategoryname()}</td>
+                        <td>${product.getSupplier()}</td>
                         <td>
                             <form name="view_product" action="FrontController" method = "POST">
                                 <input type="hidden" name="cmd" value="get_view">

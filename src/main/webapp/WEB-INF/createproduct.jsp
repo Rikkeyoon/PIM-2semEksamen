@@ -46,6 +46,10 @@
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
+                <br>
+                <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" required>
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>

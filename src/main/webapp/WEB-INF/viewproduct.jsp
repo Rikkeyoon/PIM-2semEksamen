@@ -40,6 +40,9 @@
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>
+            <label for="supplier"><b>Supplier</b></label>
+            <p>${product.getSupplier()} </p>
+            <br>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 
                 <div>
