@@ -31,6 +31,9 @@
             <label for="product_name"><b>Product Name</b></label>
             <p>${product.getName()} </p>
             <br>
+            <label for="brand"><b>Brand</b></label>
+            <p>${product.getBrand()} </p>
+            <br>
             <label for="product_desc"><b>Description</b></label>
             <br>
             <p>
@@ -42,6 +45,12 @@
             <br>
             <label for="supplier"><b>Supplier</b></label>
             <p>${product.getSupplier()} </p>
+            <br>
+            <label for="sea_text"><b>Sea text</b></label>
+            <p>${product.getSeaText()} </p>
+            <br>
+            <label for="status"><b>Status</b></label>
+            <p>${product.getStatus()} </p>
             <br>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 

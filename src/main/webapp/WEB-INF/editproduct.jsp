@@ -39,6 +39,10 @@
                 <br>
                 <input type="text" name="product_name" 
                        value="${product.getName()}" required>
+                <br>
+                <label for="brand"><b>Brand</b></label>
+                <br>
+                <input type="text" name="brand" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
@@ -58,6 +62,14 @@
                 <br>
                 <input type="text" name="supplier" required>
                 <br>
+                <label for="sea_text"><b>Sea text</b></label>
+                <br>
+                <input type="text" name="sea_text" required>
+                <br><br>
+                <label for="status"><b>Status</b></label>
+                <br>
+                <input type="text" name="status" required>
+                <br><br>
                 
                 <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                            var="key"> 

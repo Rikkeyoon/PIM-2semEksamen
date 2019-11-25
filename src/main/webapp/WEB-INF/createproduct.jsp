@@ -42,6 +42,10 @@
                 <br>
                 <input type="text" name="product_name" required>
                 <br><br>
+                <label for="brand"><b>Brand</b></label>
+                <br>
+                <input type="text" name="brand" required>
+                <br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" required="required">
@@ -57,12 +61,20 @@
                 <br>
                 <input type="text" name="supplier" required>
                 <br><br>
+                <label for="sea_text"><b>Sea text</b></label>
+                <br>
+                <input type="text" name="sea_text" required>
+                <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <br>
                 <output id="list"></output>
                 <br>
+                <label for="status"><b>Status</b></label>
+                <br>
+                <input type="text" name="status" required>
+                <br><br>
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
 

@@ -13,34 +13,43 @@ public class Product {
     private int id;
     private int itemnumber;
     private String name;
+    private String brand;
     private String description;
     private Category category;
     private String supplier;
+    private String seatext;
+    private int status;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
     public int getItemnumber;
 
-    public Product(int id, int itemnumber, String name, String description, 
-            Category category, String supplier, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String brand, String description, 
+            Category category, String supplier, String seatext, int status, List<Pair<String, Boolean>> images) {
 
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
+        this.brand = brand;
         this.description = description;
         this.category = category;
         this.supplier = supplier;
+        this.seatext = seatext;
+        this.status = status;
         this.images = images;
     }
 
     //Master Contructor
-    public Product(int id, int itemnumber, String name, String description, Category categoryname, String supplier, 
-            Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
+    public Product(int id, int itemnumber, String name, String brand, String description, Category categoryname, 
+            String supplier, String seatext, int status, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
+        this.brand = brand;
         this.description = description;
         this.category = categoryname;
         this.supplier = supplier;
+        this.seatext = seatext;
+        this.status = status;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
     }
@@ -59,6 +68,10 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+    
+    public String getBrand() {
+        return brand;
     }
 
     public void setName(String name) {
@@ -79,6 +92,14 @@ public class Product {
     
     public String getSupplier(){
         return supplier;
+    }
+    
+    public String getSeaText(){
+        return seatext;
+    }
+    
+    public int getStatus(){
+        return status;
     }
 
     public void setCategory(Category category) {
@@ -107,8 +128,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product with id: " + id + itemnumber + ", name: " + name + ", description: "
-                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier;
+        return "Product with id: " + id + itemnumber + ", name: " + name + ", brand" + brand + ", description: "
+                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", sea text" + seatext + status;
     }
 
 }
