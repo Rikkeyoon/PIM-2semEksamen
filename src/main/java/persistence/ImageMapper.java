@@ -96,7 +96,7 @@ public class ImageMapper implements IImageMapper {
             }
 
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not save URL reference to images" + e);
+            throw new CommandException("Could not save URL reference to images " + e + " " + productId);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -205,8 +205,7 @@ public class ImageMapper implements IImageMapper {
     }
 
     @Override
-    public void deleteImages(String[] imageUrls)
-            throws CommandException {
+    public void deleteImages(String[] imageUrls) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {

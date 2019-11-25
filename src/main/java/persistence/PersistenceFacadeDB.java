@@ -81,7 +81,6 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
-        im.deleteAllImages(p);
         pm.update(p);
         try {
             pm.updateAttributes(p);
@@ -99,7 +98,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             }
         }
         if (!p.getImages().isEmpty()) {
-            im.addPictureURL(p.getId(), p.getImages());
+            try {
+                im.addPictureURL(p.getId(), p.getImages());
+            } catch (CommandException e) {
+            }
         }
     }
 
@@ -114,10 +116,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
     @Override
     public void deleteImages(String[] picsToDelete) throws CommandException {
-        im.deleteImages(picsToDelete);
         for (String imageurl : picsToDelete) {
             im.removePictureFromCloudinary(imageurl);
         }
+        im.deleteImages(picsToDelete);
+        
     }
 
     @Override
@@ -182,6 +185,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<String> getTagsForProductWithID(int id) throws CommandException {
         return tm.getTagsForProductWithID(id);
+    }
+
+    public void removePictureFromCloudinary(String URL) throws CommandException {
+        im.removePictureFromCloudinary(URL);
     }
 
 }

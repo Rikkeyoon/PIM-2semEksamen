@@ -24,10 +24,10 @@ public class ImageMapperTest {
         pf = new PersistenceFacadeDB(true);
     }
 
-//    @Test
-//    public void testDeletePicture() throws CommandException{
-//        pf.removeImagesFromCloudinary("https://res.cloudinary.com/dmk5yii3m/image/upload/v1574424829/270px-Powerpuff_girls_characters_sn8709.jpg");
-//    }
+    @Test
+    public void testDeletePicture() throws CommandException{
+        pf.removePictureFromCloudinary("https://res.cloudinary.com/dmk5yii3m/image/upload/v1574692173/y5n5s0cywnfum2kpo7fq.jpg");
+    }
     
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
