@@ -86,13 +86,19 @@ public class ImageMapper implements IImageMapper {
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String insertSql = "INSERT INTO images VALUES (?, ? , ?);";
+            String insertSql = "INSERT INTO images VALUES (?, ? , ?)";
+            pstmt = connection.prepareStatement(insertSql);
             for (Pair<String, Boolean> p : images) {
-                pstmt = connection.prepareStatement(insertSql);
                 pstmt.setInt(1, productId);
                 pstmt.setString(2, p.getKey());
                 pstmt.setBoolean(3, p.getValue());
-                pstmt.executeUpdate();
+                try {
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    if (e.getErrorCode() != 1062) {
+                        throw new SQLException();
+                    }
+                }
             }
 
         } catch (SQLException | NullPointerException e) {
@@ -192,10 +198,7 @@ public class ImageMapper implements IImageMapper {
             pstmt.setInt(1, productId);
             pstmt.setString(2, imageURL);
 
-            rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
         } finally {
@@ -253,7 +256,6 @@ public class ImageMapper implements IImageMapper {
 
     @Override
     public void removePictureFromCloudinary(String URL) throws CommandException{
-        System.out.println(getPublicIDFromURL(URL));
         try{
             CLOUDINARY.uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
         }catch(Exception e){

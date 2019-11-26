@@ -17,7 +17,7 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     public static Product createProduct(int id, String name, String description,
             String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
@@ -33,8 +33,14 @@ public class LogicController {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap, 
-        List<Pair<String, Boolean>> imageURLs) throws CommandException {
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        List<Pair<String, Boolean>> images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+            images.add(imageURL);
+        }
+        p.setImages(images);
+        
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
@@ -43,15 +49,15 @@ public class LogicController {
                 p.setDescription(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
+            } else if (key.equalsIgnoreCase("fileSelected")) {
+                p.setPrimaryImage(parameterMap.get(key)[0]);
             } else {
-                categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                try {
+                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                } catch (NullPointerException e) {
+                }
             }
         }
-        List<Pair<String, Boolean>> images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
-          images.add(imageURL);  
-        }
-        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
@@ -125,7 +131,7 @@ public class LogicController {
         return pf.getCategories();
     }
 
-    private static  Map<String, String> createCategoryAttributeMap(Product product)
+    private static Map<String, String> createCategoryAttributeMap(Product product)
             throws CommandException {
         Category category = product.getCategory();
         Map<String, String> categoryAttributes;

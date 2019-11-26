@@ -80,12 +80,16 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
-        pm.update(p);
-        pm.updateAttributes(p);
-        if (p.getImages() != null) {
-            im.deleteAllImages(p);
+        if (!p.getImages().isEmpty()) {
+            im.updatePrimaryPicture(p.getId(), p.getPrimaryImage());
             im.addPictureURL(p.getId(), p.getImages());
         }
+        pm.update(p);
+        try {
+            pm.updateAttributes(p);
+        } catch (CommandException e) {
+        }
+
     }
 
     @Override
@@ -155,5 +159,5 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
-    
+
 }

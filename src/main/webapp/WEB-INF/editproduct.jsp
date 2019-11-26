@@ -66,6 +66,7 @@
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
                         <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+                        <input type="radio" name="fileSelected" value="${image.getKey()}" required>
                     </span>
                 </c:forEach>
                 <br><br>
