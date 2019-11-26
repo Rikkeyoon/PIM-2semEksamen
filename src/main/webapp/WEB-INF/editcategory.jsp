@@ -24,9 +24,7 @@
         
         <form name="update_attributes" action="FrontController" method="POST">
             <input type="hidden" name="category" value="${category1}">
-            <input type="hidden" name="edit" value="editOld">
             <input type="hidden" name="cmd" value="edit_category">
-            <div class="old_attributes">
                 <label for="attributes"><b>Attributes</b></label>
                 <br>
                 <c:forEach items="${categories}" var="cat">
@@ -36,19 +34,12 @@
                             <input type="text" name="attr_new" value="${attr}"/>
                             <label>Remove:</label>
                             <input type="checkbox" name="attr_remove" value="${attr}"/>
-                            <div id="divValidateAttribute"></div>
                             <br>
                         </c:forEach>
                     </c:if>
                 </c:forEach>
-            </div>
-            <input type="submit" value="Update attributenames"
-                   <br><br><br>
-        </form>
+                   <br><br>
 
-        <form name="edit_category" action="FrontController" method="POST">
-            <input type="hidden" name="category" value="${category1}">
-            <input type="hidden" name="edit" value="editNew">
             <input type="hidden" name="cmd" value="edit_category">
             <div class="new_attributes">
                 <p>New Attribute Name (Mark if the field is required)</p>

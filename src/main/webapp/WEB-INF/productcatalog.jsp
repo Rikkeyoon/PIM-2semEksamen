@@ -110,13 +110,6 @@
         </form>
         <br>
 
-        <form name="edit_category" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="editcategory">
-            <input type="submit" value="Edit category" />
-        </form>
-        <br>
-
         <form name="edit_category" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <select name="category">
