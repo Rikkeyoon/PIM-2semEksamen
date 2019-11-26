@@ -18,6 +18,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     private static IDatabaseConnection DBC;
     private static IProductMapper pm = new ProductMapper();
     private static ICategoryMapper cm = new CategoryMapper();
+    private static ITagMapper tm = new TagMapper();
     private static IAttributeMapper am = new AttributeMapper();
     private static IImageMapper im = new ImageMapper();
 
@@ -38,6 +39,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
     public static List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException {
         return im.getPicturesWithId(id);
+    }
+
+    public static List<Integer> getProductsIDFromTagNameSearch(String tagSearch) throws CommandException {
+        return tm.getProductsIDFromTagNameSearch(tagSearch);
     }
 
     @Override
@@ -80,13 +85,19 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //If an exception is thrown it means that the category already exits
             //We don't need to forward the message to the user
         }
+        //List<Integer> tagIds = tm.updateTags(p);
         pm.update(p);
         try {
             pm.updateAttributes(p);
         } catch (CommandException e) {
+            if (p.getTags() != null) {
+                tm.deleteTagsForProduct(p.getId());
+                createProductTags(p.getId(), p.getTags());
+                tm.deleteUnusedTags();
+            }
         }
     }
-    
+
     @Override
     public void addImages(Product p) throws CommandException {
         if (!p.getImages().isEmpty()) {
@@ -94,14 +105,14 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             im.addPictureURL(p.getId(), p.getImages());
         }
     }
-    
+
     @Override
     public void deleteImages(String[] picsToDelete) throws CommandException {
         for (String imageurl : picsToDelete) {
             im.removePictureFromCloudinary(imageurl);
         }
         im.deleteImages(picsToDelete);
-        
+
     }
 
     @Override
@@ -170,6 +181,22 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
+    }
+
+    @Override
+    public List<String> getTagsForProductWithID(int id) throws CommandException {
+        return tm.getTagsForProductWithID(id);
+    }
+
+    @Override
+    public void createProductTags(int id, List<String> tags) throws CommandException {
+        tm.createTags(tags);
+        tm.createTagsAndProductRelation(id, tags);
+    }
+
+    @Override
+    public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
+        return pm.getProductsWithTagSearch(tagSearch);
     }
 
 }

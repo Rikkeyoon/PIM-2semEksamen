@@ -7,10 +7,13 @@ USE pim;
 
 DROP TABLE IF EXISTS category_attributes;
 DROP TABLE IF EXISTS attribute_values;
+DROP TABLE IF EXISTS product_tags;
+DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS attributes;
+
 
 
 CREATE TABLE categories (
@@ -40,6 +43,20 @@ CREATE TABLE images (
     FOREIGN KEY(product_id) REFERENCES products(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE tags(
+
+    id INT auto_increment,
+    name VARCHAR(255) NOT NULL unique,
+    PRIMARY KEY(id)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE product_tags (
+    tag_id INT NOT NULL,
+    product_id INT NOT NULL,
+    PRIMARY KEY(tag_id, product_id),
+	FOREIGN KEY(tag_id) REFERENCES tags(id),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE attributes (
     id INT AUTO_INCREMENT NOT NULL,
@@ -59,6 +76,7 @@ CREATE TABLE attribute_values(
 CREATE TABLE category_attributes (
 	category_name VARCHAR(45) NOT NULL,
     attribute_id INT NOT NULL,
+    PRIMARY KEY (category_name, attribute_id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -127,6 +145,46 @@ INSERT INTO attribute_values VALUES (2, 6, "12 MP kamera med Dual Pixel teknolog
 INSERT INTO attribute_values VALUES (3, 6, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (2, 9, "10 MP kamera");
 
+INSERT INTO tags VALUES(1, "Rød");
+INSERT INTO tags VALUES(2, "Grøn");
+INSERT INTO tags VALUES(3, "Blå");
+INSERT INTO tags VALUES(4, "Sort");
+INSERT INTO tags VALUES(5, "Pink");
+INSERT INTO tags VALUES(6, "Elektronik");
+INSERT INTO tags VALUES(7, "Madvare");
+INSERT INTO tags VALUES(8, "Møbel");
+
+INSERT INTO product_tags VALUES(1,1);
+INSERT INTO product_tags VALUES(2,2);
+INSERT INTO product_tags VALUES(3,3);
+INSERT INTO product_tags VALUES(4,4);
+INSERT INTO product_tags VALUES(5,5);
+
+INSERT INTO product_tags VALUES(6,6);
+INSERT INTO product_tags VALUES(6,7);
+INSERT INTO product_tags VALUES(6,8);
+INSERT INTO product_tags VALUES(6,9);
+INSERT INTO product_tags VALUES(6,10);
+
+INSERT INTO product_tags VALUES(7,11);
+INSERT INTO product_tags VALUES(2,11);
+INSERT INTO product_tags VALUES(7,12);
+INSERT INTO product_tags VALUES(7,13);
+INSERT INTO product_tags VALUES(7,14);
+INSERT INTO product_tags VALUES(7,15);
+
+INSERT INTO product_tags VALUES(6,16);
+INSERT INTO product_tags VALUES(6,17);
+INSERT INTO product_tags VALUES(6,18);
+INSERT INTO product_tags VALUES(6,19);
+INSERT INTO product_tags VALUES(6,20);
+
+INSERT INTO product_tags VALUES(8,21);
+INSERT INTO product_tags VALUES(8,22);
+INSERT INTO product_tags VALUES(8,23);
+INSERT INTO product_tags VALUES(8,24);
+INSERT INTO product_tags VALUES(8,25);
+
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/roedCykel.jpg", 1);
 INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/groenCykel.jpg", 1);
 INSERT INTO images VALUES (3, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/blaaCykel.jpg", 1);
@@ -153,3 +211,10 @@ INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/uploa
 INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carpeDiemHarmano.jpg", 1);
 INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tempurFusion.jpg", 1);
 
+SELECT name FROM tags WHERE id IN (SELECT tag_id FROM product_tags WHERE product_id = 11);
+SELECT id FROM tags where name like "%grøn%";
+SELECT DISTINCT product_id FROM tags_products WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE "%ø%");
+SELECT * FROM tags_products;
+INSERT INTO tags VALUES(100, "grøn");
+
+INSERT INTO category_attributes VALUES("Alkohol", 1);

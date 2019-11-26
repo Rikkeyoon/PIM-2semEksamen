@@ -43,8 +43,15 @@ public interface IPersistenceFacade {
     public void editCategory(Category c) throws CommandException;
     
     public List<Category> getCategories() throws CommandException;
+    
+    public List<String> getTagsForProductWithID(int id) throws CommandException;
+    
+    public void createProductTags(int id, List<String> tags) throws CommandException;
 
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) 
             throws CommandException;
+    
+    public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException;
+
 
 }

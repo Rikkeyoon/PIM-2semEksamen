@@ -195,7 +195,6 @@ public class ProductMapper implements IProductMapper {
 
                 products.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
-
             }
 
             if (products.size() < 1) {
@@ -249,6 +248,16 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
+    public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
+        ArrayList<Product> products = new ArrayList<>();
+        for( Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)){
+            products.add(getProduct(i));
+        }
+        return products;
+        
+    }
+
+    @Override
     public Product getProductWithCategoryAttributes(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -266,7 +275,6 @@ public class ProductMapper implements IProductMapper {
 
             while (result.next()) {
                 Map<String, String> categoryAttributes = new HashMap<>();
-
                 String attribute = result.getString("attribute_id");
                 String attrValue = result.getString("attribute_value");
 

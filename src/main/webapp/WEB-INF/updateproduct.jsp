@@ -51,6 +51,17 @@
                     ${product.getDescription()}
                 </textarea>
                 <br><br>
+                <label for="product_tags"><b>Tags</b></label>
+                <br>
+                <c:choose>
+                    <c:when test="${not empty product.getTags()}">
+                        <input type="text" name="product_tags" size="50" value = "${product.getTagsAsString()}">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" name="product_tags" size="50">
+                    </c:otherwise>
+                </c:choose>
+                <br><br>
                 <label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 
@@ -58,6 +69,7 @@
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
+<<<<<<< HEAD:src/main/webapp/WEB-INF/editproduct.jsp
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
                 <input type="text" name="supplier" value="${product.getSupplier()}" required>
@@ -83,6 +95,8 @@
                     </div>
                     <br>
                 </c:forEach>
+=======
+>>>>>>> tagFeature:src/main/webapp/WEB-INF/updateproduct.jsp
 
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
@@ -125,47 +139,48 @@
         <!-- JavaScript functions -->
         <script type="text/javascript">
             function handleFileSelect(evt) {
-                document.getElementById('list').innerHTML = "";
-                var files = evt.target.files;
+            document.getElementById('list').innerHTML = "";
+            var files = evt.target.files;
 
-                // Loop through the FileList and render image files as thumbnails.
-                for (var i = 0, f; f = files[i]; i++) {
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
 
-                    // Only process image files.
-                    if (!f.type.match('image.*')) {
-                        continue;
-                    }
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+            continue;
+            }
 
-                    var reader = new FileReader();
+            var reader = new FileReader();
 
-                    // Closure to capture the file information.
-                    reader.onload = (function (theFile) {
-                        return function (e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                            span.innerHTML =
-                                    [
-                                        '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
-                                    ].join('');
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+            return function (e) {
+            // Render thumbnail.
+            var span = document.createElement('span');
+            span.innerHTML =
+            [
+            '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+            ].join('');
 
-                            document.getElementById('list').insertBefore(span, null);
-                        };
-                    })(f);
+            document.getElementById('list').insertBefore(span, null);
+            };
+            })(f);
 
-                    // Read in the image file as a data URL.
-                    reader.readAsDataURL(f);
-                }
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+            }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
             function removeThumbnails() {
-                var empty = document.getElementById('list');
-                empty.innerHTML = [' '].join('');
-                document.getElementById('list').insertBefore(empty, null);
+            var empty = document.getElementById('list');
+            empty.innerHTML = [' '].join('');
+            document.getElementById('list').insertBefore(empty, null);
             }
 
             function validateID() {
+<<<<<<< HEAD:src/main/webapp/WEB-INF/editproduct.jsp
                 var id = $("#product_id").val();
                 var idformat = /[0-9]/;
 
@@ -189,16 +204,41 @@
                     $("#updatebtn").removeAttr('disabled');
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
+=======
+            var id = $("#product_id").val();
+            var idformat = /[0-9]/;
+
+            if (!id.match(idformat)) {
+            $("#updatebtn").attr('disabled', 'diasabled');
+            $("#divValidateId").html("Invalid Id").addClass('form-alert');
+            } else {
+            $("#updatebtn").removeAttr('disabled');
+            $("#divValidateId").html("").removeClass('form-alert');
+            }
+            }
+
+            function validateCategory() {
+            var category = $("#product_category").val();
+            var categoryformat = /[a-z]/;
+
+            if (!category.match(categoryformat)) {
+            $("#updatebtn").attr('disabled', 'diasbled');
+            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
+            } else {
+            $("#updatebtn").removeAttr('disabled');
+            $("#divValidateCategory").html("").removeClass('form-alert');
+            }
+>>>>>>> tagFeature:src/main/webapp/WEB-INF/updateproduct.jsp
             }
 
             function dconfirmation() {
-                if (confirm("You are about to delete a product!")) {
-                    document.getElementById("delcmd").value = "delete_product";
-                    document.getElementById("delform").submit();
-                    alert("Product has been deleted!");
-                } else {
-                    alert("Return to Product page!");
-                }
+            if (confirm("You are about to delete a product!")) {
+            document.getElementById("delcmd").value = "delete_product";
+            document.getElementById("delform").submit();
+            alert("Product has been deleted!");
+            } else {
+            alert("Return to Product page!");
+            }
 
             }
         </script>

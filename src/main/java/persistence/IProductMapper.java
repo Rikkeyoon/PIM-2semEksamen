@@ -30,5 +30,9 @@ public interface IProductMapper {
     public void createAttributes(Product product) throws CommandException;
 
     public void delete(Product product) throws CommandException;
+    
+    public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException;
+    
+
 
 }

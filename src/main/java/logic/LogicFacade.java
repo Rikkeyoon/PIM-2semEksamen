@@ -14,11 +14,11 @@ public class LogicFacade {
 
 
     public static Product createProduct(int id, int itemnumber, String name, 
-            String brand, String description, String category, String supplier, 
+            String brand, String description, String tags, String category, String supplier, 
             String seotext, int status, List<Pair<String, Boolean>> images) 
             throws CommandException {
         return LogicController.createProduct(id, itemnumber, name, brand, 
-                description, category, supplier, seotext, status, images);
+                description, tags, category, supplier, seotext, status, images);
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
@@ -38,7 +38,7 @@ public class LogicFacade {
         return LogicController.getProduct(id);
     }
 
-    public static List<Product> getProductsByName(String name) 
+    public static List<Product> getProductsByName(String name)
             throws CommandException {
         return LogicController.getProductsByName(name);
     }
@@ -48,11 +48,15 @@ public class LogicFacade {
         return LogicController.getProductsByCategory(category);
     }
 
+    public static List<Product> getProductsByTag(String tag) 
+            throws CommandException {
+        return LogicController.getProductsByTag(tag);
+    }
+
     public static Category createCategory(String categoryname, String[] attributes)
             throws CommandException {
         return LogicController.createCategory(categoryname, attributes);
     }
-
 
     public static Category editCategory(String categoryname, String[] attributes)
             throws CommandException {
@@ -63,7 +67,7 @@ public class LogicFacade {
         return LogicController.getCategories();
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException{
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
         return LogicController.uploadImages(parts, primaryImage);
     }
 

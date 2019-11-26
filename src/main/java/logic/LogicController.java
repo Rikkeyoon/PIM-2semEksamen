@@ -2,6 +2,7 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,18 +22,22 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     public static Product createProduct(int id, int itemnumber, String name, 
-            String brand, String description, String categoryname, String supplier,
-            String seotext, int status, List<Pair<String, Boolean>> images) 
-            throws CommandException {
+            String brand, String description, String tags, String categoryname,
+            String supplier, String seotext, int status,
+            List<Pair<String, Boolean>> images) throws CommandException {
         Category category = getCategory(categoryname);
         Product p = new Product(id, itemnumber, name, brand, description,
                 category, supplier, seotext, status, images);
         p.setCategoryAttributes(createCategoryAttributeMap(p));
         pf.createProduct(p);
+        List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
+        pf.createProductTags(p.getId(), tagsList);
+
         return p;
     }
 
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException {
+    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
+            throws CommandException {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
@@ -45,12 +50,27 @@ public class LogicController {
         p.setImages(images);
         pf.addImages(p);
         
-        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+        Map<String, String> categoryAttributes = new HashMap<>();
+        try {
+            categoryAttributes = p.getCategoryAttributes();
+        } catch (NullPointerException e) {
+        }
+
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_desc")) {
                 p.setDescription(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("product_tags")) {
+                String str = parameterMap.get(key)[0];
+                List<String> tags = new ArrayList<>();
+                for (String s : Arrays.asList(str.split(",[ ]*"))) {
+                    if (StringUtils.isNotBlank(s)) {
+                        tags.add(s);
+                    }
+                }
+
+                p.setTags(tags);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
             } else if (key.equalsIgnoreCase("fileSelected")) {
@@ -89,7 +109,10 @@ public class LogicController {
         if (product == null) {
             product = pf.getProduct(id);
         }
+
+        product.setTags(pf.getTagsForProductWithID(product.getId()));
         return product;
+
     }
 
     public static List<Product> getProductsByName(String name) throws CommandException {
@@ -157,6 +180,10 @@ public class LogicController {
 
         return categoryAttributes;
 
+    }
+
+    public static List<Product> getProductsByTag(String tag) throws CommandException {
+        return pf.getProductsWithTagSearch(tag);
     }
 
 }

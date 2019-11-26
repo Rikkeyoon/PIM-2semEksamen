@@ -22,6 +22,7 @@ public class Product {
     private int status;
     private Map<String, String> categoryAttributes;
     private List<Pair<String, Boolean>> images;
+    private List<String> tags;
 
     public Product(int id, int itemnumber, String name, String brand, String description,
             Category category, String supplier, String SEOText, int status, List<Pair<String, Boolean>> images) {
@@ -174,10 +175,28 @@ public class Product {
         }
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getTagsAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : tags) {
+            sb.append(s).append(", ");
+        }
+        String s = sb.toString();
+        return s.substring(0, s.length() - 2);
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     public boolean compareTo(Product product) {
         return this.id == product.getId();
     }
 
+    
     @Override
     public String toString() {
         return "Product with id: " + id + itemnumber + ", name: " + name + ", brand" + brand + ", description: "

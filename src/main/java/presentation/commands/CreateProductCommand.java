@@ -23,6 +23,7 @@ public class CreateProductCommand extends Command {
         String name = request.getParameter("product_name");
         String brand = request.getParameter("brand");
         String description = request.getParameter("product_desc");
+        String tags = request.getParameter("product_tags");
         String category = request.getParameter("product_category");
         String supplier = request.getParameter("supplier");
         String seotext = request.getParameter("seo_text");
@@ -32,8 +33,7 @@ public class CreateProductCommand extends Command {
                 request.getParameter("fileSelected"));
 
         Product p = LogicFacade.createProduct(id, itemnumber, name, brand, 
-                description, category, supplier, seotext, status, imageURLs);
-
+                description, tags, category, supplier, seotext, status, imageURLs);
         request.getSession().setAttribute("product", p);
         return "index";
     }
