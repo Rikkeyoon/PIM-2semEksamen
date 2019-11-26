@@ -181,7 +181,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product with id: " + id + itemnumber + ", name: " + name + ", brand" + brand + ", description: "
-                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", sea text" + SEOText + status;
+                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", SEO text" + SEOText + status;
     }
 
 }

@@ -62,7 +62,7 @@
                 <br>
                 <input type="text" name="supplier" value="${product.getSupplier()}" required>
                 <br>
-                <label for="sea_text"><b>SEO text</b></label>
+                <label for="seo_text"><b>SEO text</b></label>
                 <br>
                 <input type="text" name="seo_text" value="${product.getSEOText()}" required>
                 <br><br>

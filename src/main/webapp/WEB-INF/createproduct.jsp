@@ -63,7 +63,7 @@
                 <br><br>
                 <label for="seo_text"><b>SEO text</b></label>
                 <br>
-                <input type="text" name="sea_text" required>
+                <input type="text" name="seo_text" required>
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
