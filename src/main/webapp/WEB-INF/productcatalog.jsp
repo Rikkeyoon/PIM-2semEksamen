@@ -28,18 +28,12 @@
             <br>
             <input type="text" name="product_id">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        </form>
 
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
             <label for="product_name"><b>Product Name</b></label>
             <br>
             <input type="text" name="product_name">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-        </form>
 
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
             <label for="product_category"><b>Category</b></label>
             <br>
             <input type="text" name="product_category">
@@ -71,13 +65,20 @@
                         <td>
                             <c:choose>
                                 <c:when test="${not empty product.getImages()}">
-                                    <img width = "100" alt= "Picture not found" src = "${product.getImages().get(0).getKey()}"> 
-                                </c:when>    
+                                    <c:choose>
+                                        <c:when test="${!product.getPrimaryImage().equals('')}">
+                                            <img width = "100" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when> 
                                 <c:otherwise>
-                                    No pictures.
+                                    <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                 </c:otherwise>
                             </c:choose>
-                            
+
                         </td>
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
