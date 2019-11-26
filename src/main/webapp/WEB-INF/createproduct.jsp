@@ -31,13 +31,21 @@
 
                 <label for="product_id"><b>ID</b></label>
                 <br>
-                <input type="text" name="product_id" id="id" onkeyup="validateId();" required>
+                <input type="text" name="product_id" value="0" id="id" onkeyup="validateId();" readonly>
                 <div id="divValidateId"></div>
+                <br>
+                <label for="item_number"><b>Item Number</b></label>
+                <br>
+                <input type="text" name="item_number" item_number="item_number" required>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
                 <input type="text" name="product_name" required>
                 <br><br>
+                <label for="brand"><b>Brand</b></label>
+                <br>
+                <input type="text" name="brand" required>
+                <br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" required="required">
@@ -48,6 +56,14 @@
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
+                <br>
+                <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" required>
+                <br><br>
+                <label for="sea_text"><b>Sea text</b></label>
+                <br>
+                <input type="text" name="sea_text" required>
                 <br><br>
                 <label for="file"><b>Picture</b></label>
                 <br>
@@ -55,6 +71,10 @@
                 <br>
                 <output id="list"></output>
                 <br>
+                <label for="status"><b>Status</b></label>
+                <br>
+                <input type="text" name="status" required>
+                <br><br>
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
 

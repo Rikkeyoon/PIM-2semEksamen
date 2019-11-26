@@ -31,10 +31,18 @@
                 <label for="product_id"><b>ID</b></label>
                 <p>${product.getId()} </p>
                 <br>
+                <label for="item_number"><b>Item Number</b></label>
+                <br>
+                <input type="text" name="item_name" value="${product.getItemnumber()}" required>
+                <br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
                 <input type="text" name="product_name" 
                        value="${product.getName()}" required>
+                <br>
+                <label for="brand"><b>Brand</b></label>
+                <br>
+                <input type="text" name="brand" value="${product.getBrand()}" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
@@ -50,6 +58,19 @@
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
+                <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" value="${product.getSupplier()}" required>
+                <br>
+                <label for="sea_text"><b>SEO text</b></label>
+                <br>
+                <input type="text" name="seo_text" value="${product.getSEOText()}" required>
+                <br><br>
+                <label for="status"><b>Status</b></label>
+                <br>
+                <input type="text" name="status" value="${product.getStatus()}" required>
+                <br><br>
+                
                 <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                            var="key"> 
                     <div>
@@ -95,6 +116,7 @@
             <br>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
+                
                 <input class="deletebtn" type="button" value="Delete Product" 
                        onclick="dconfirmation()"/>
             </form>

@@ -25,10 +25,14 @@
 
             <label for="product_id"><b>ID</b></label>
             <p>${product.getId()} </p>
-
+            <label for="item_number"><b>Item Number</b></label>
+            <p>${product.getItemnumber()} </p>
             <br>
             <label for="product_name"><b>Product Name</b></label>
             <p>${product.getName()} </p>
+            <br>
+            <label for="brand"><b>Brand</b></label>
+            <p>${product.getBrand()} </p>
             <br>
             <label for="product_desc"><b>Description</b></label>
             <br>
@@ -38,6 +42,15 @@
             <br>
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
+            <br>
+            <label for="supplier"><b>Supplier</b></label>
+            <p>${product.getSupplier()} </p>
+            <br>
+            <label for="seo_text"><b>Sea text</b></label>
+            <p>${product.getSEOText()} </p>
+            <br>
+            <label for="status"><b>Status</b></label>
+            <p>${product.getStatus()} </p>
             <br>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 

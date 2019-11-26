@@ -19,11 +19,21 @@ public class CreateProductCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
         int id = Integer.parseInt(request.getParameter("product_id"));
+        int itemnumber = Integer.parseInt(request.getParameter("item_number"));
         String name = request.getParameter("product_name");
+        String brand = request.getParameter("brand");
         String description = request.getParameter("product_desc");
         String category = request.getParameter("product_category");
-        List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages((List<Part>)request.getAttribute("partList"), request.getParameter("fileSelected"));
-        Product p = LogicFacade.createProduct(id, name, description, category, imageURLs);
+        String supplier = request.getParameter("supplier");
+        String seotext = request.getParameter("seo_text");
+        int status = Integer.parseInt(request.getParameter("status"));
+        List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages(
+                (List<Part>)request.getAttribute("partList"), 
+                request.getParameter("fileSelected"));
+
+        Product p = LogicFacade.createProduct(id, itemnumber, name, brand, 
+                description, category, supplier, seotext, status, imageURLs);
+
         request.getSession().setAttribute("product", p);
         return "index";
     }
