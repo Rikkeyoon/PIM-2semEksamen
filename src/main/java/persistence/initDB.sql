@@ -71,6 +71,7 @@ CREATE TABLE attribute_values(
 CREATE TABLE category_attributes (
 	category_name VARCHAR(45) NOT NULL,
     attribute_id INT NOT NULL,
+    PRIMARY KEY (category_name, attribute_id),
     FOREIGN KEY(category_name) REFERENCES categories(category_name),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -209,3 +210,5 @@ SELECT id FROM tags where name like "%grøn%";
 SELECT DISTINCT product_id FROM tags_products WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE "%ø%");
 SELECT * FROM tags_products;
 INSERT INTO tags VALUES(100, "grøn");
+
+INSERT INTO category_attributes VALUES("Alkohol", 1);
