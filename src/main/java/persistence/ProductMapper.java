@@ -192,6 +192,7 @@ public class ProductMapper implements IProductMapper {
     public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
         ArrayList<Product> products = new ArrayList<>();
         for( Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)){
+            //GIT ER NOGET SKOD
             products.add(getProduct(i));
         }
         return products;
