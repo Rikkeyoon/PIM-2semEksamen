@@ -17,6 +17,7 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
+    //Hej
 //    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
     private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
