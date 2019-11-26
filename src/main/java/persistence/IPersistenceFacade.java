@@ -43,4 +43,10 @@ public interface IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) 
             throws CommandException;
 
+    public void updateCategoryAttributename(String oldAttr, String newAttr) 
+            throws CommandException;
+    
+    public void deleteAttributeFromCategory(List<String> removeAttr ) 
+            throws CommandException;
+
 }

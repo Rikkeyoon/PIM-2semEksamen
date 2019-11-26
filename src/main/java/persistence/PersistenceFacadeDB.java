@@ -11,7 +11,7 @@ import logic.Category;
 
 /**
  *
- * @author allan, carol
+ * @author allan, carol, Nina
  */
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
@@ -154,6 +154,22 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
+    }
+
+    @Override
+    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        am.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    @Override
+    public void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        for (String s : removeAttr) {
+            int i = am.getAttributeId(s);
+            
+            cm.deleteCategoryAttribute(i);
+            pm.deleteProductAttribute(i);
+            am.deleteAttribute(i);
+        }
     }
     
 }

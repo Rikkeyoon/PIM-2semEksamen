@@ -8,7 +8,7 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author carol
+ * @author carol, Nina
  */
 public class LogicFacade {
 
@@ -62,6 +62,14 @@ public class LogicFacade {
 
     public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage) throws CommandException{
         return LogicController.uploadImages(parts, primaryImage);
+    }
+
+    public static void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        LogicController.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        LogicController.deleteAttributeFromCategory(removeAttr);
     }
 
 }

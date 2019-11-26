@@ -14,10 +14,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Nina Lisakowski, Allan, carol
+ * @author Nina, Allan, carol
  */
 public class ProductMapper implements IProductMapper {
-    
+
     private static ICategoryMapper cm = new CategoryMapper();
 
     @Override
@@ -208,7 +208,7 @@ public class ProductMapper implements IProductMapper {
                 Map<String, String> categoryAttributes = new HashMap<>();
                 String attribute = result.getString(5);
                 String attrValue = result.getString(6);
-                
+
                 categoryAttributes.putIfAbsent(attribute, attrValue);
 
                 if (product == null) {
@@ -332,6 +332,28 @@ public class ProductMapper implements IProductMapper {
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
+        }
+    }
+
+    @Override
+    public void deleteProductAttribute(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attribute_values WHERE attribute_id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from product");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
         }
     }
 }

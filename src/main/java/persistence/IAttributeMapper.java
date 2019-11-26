@@ -13,5 +13,9 @@ public interface IAttributeMapper {
     
     public List<Integer> createAttributes(List<String> attributeNames)
             throws CommandException;
+
+    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException;
+
+    public void deleteAttribute(int i) throws CommandException;
     
 }

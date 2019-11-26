@@ -1,7 +1,7 @@
 <%-- 
     Document   : productcatalog
     Created on : 10. nov. 2019, 13.10.28
-    Author     : Rikke, carol
+    Author     : Rikke, carol, Nina
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -77,7 +77,7 @@
                                     No pictures.
                                 </c:otherwise>
                             </c:choose>
-                            
+
                         </td>
                         <td>${product.getId()}</td>
                         <td>${product.getName()}</td>
@@ -116,5 +116,19 @@
             <input type="submit" value="Edit category" />
         </form>
         <br>
+
+        <form name="edit_category" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <select name="category">
+                <c:forEach items="${categories}" var="cat">
+                    <option value="${cat.getCategoryname()}">
+                        ${cat.getCategoryname()}
+                    </option>
+                </c:forEach>
+            </select>
+            <input type="hidden" name="view" value="editcategory">
+            <input type="submit" value="Edit category">
+        </form>
+        <br><br>
     </body>
 </html>

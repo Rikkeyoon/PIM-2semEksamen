@@ -29,4 +29,6 @@ public interface IProductMapper {
 
     public void delete(Product product) throws CommandException;
 
+    public void deleteProductAttribute(int i) throws CommandException;
+
 }

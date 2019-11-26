@@ -30,5 +30,9 @@ public class Category {
     public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Category categoryname : " + categoryname + " with attribute(s) : " + attributes;
+    }
 }

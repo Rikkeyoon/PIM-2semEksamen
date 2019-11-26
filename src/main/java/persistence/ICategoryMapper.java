@@ -18,5 +18,7 @@ public interface ICategoryMapper {
     public List<Category> getAllCategories() throws CommandException;
 
     public Category getCategory(String categoryname) throws CommandException;
+
+    public void deleteCategoryAttribute(int i) throws CommandException;
     
 }

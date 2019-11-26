@@ -1,7 +1,7 @@
 <%-- 
     Document   : editcategory
     Created on : 19. nov. 2019, 17.31.45
-    Author     : carol
+    Author     : carol, Allan, Nina
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,42 +20,52 @@
             <input type="hidden" name="view" value="productcatalog">
             <input type="submit" value="Back" />
         </form>
+        <h1>Edit ${category1}</h1>
+        
+        <form name="update_attributes" action="FrontController" method="POST">
+            <input type="hidden" name="category" value="${category1}">
+            <input type="hidden" name="edit" value="editOld">
+            <input type="hidden" name="cmd" value="edit_category">
+            <div class="old_attributes">
+                <label for="attributes"><b>Attributes</b></label>
+                <br>
+                <c:forEach items="${categories}" var="cat">
+                    <c:if test="${cat.getCategoryname().equals(category1)}">
+                        <c:forEach items="${cat.getAttributes()}" var="attr">
+                            <input type="hidden" name="attr_old" value="${attr}"/>
+                            <input type="text" name="attr_new" value="${attr}"/>
+                            <label>Remove:</label>
+                            <input type="checkbox" name="attr_remove" value="${attr}"/>
+                            <div id="divValidateAttribute"></div>
+                            <br>
+                        </c:forEach>
+                    </c:if>
+                </c:forEach>
+            </div>
+            <input type="submit" value="Update attributenames"
+                   <br><br><br>
+        </form>
 
         <form name="edit_category" action="FrontController" method="POST">
+            <input type="hidden" name="category" value="${category1}">
+            <input type="hidden" name="edit" value="editNew">
             <input type="hidden" name="cmd" value="edit_category">
-            <h1>Edit Category</h1>
-            <select name="category">
-                <c:forEach items="${categories}" var="cat">
-                    <option value="${cat.getCategoryname()}">
-                        ${cat.getCategoryname()}</option>
-                    </c:forEach>
-            </select>
-            <br><br>
-
-            <!--
-            <label for="current_attributes">Current Attributes</label>
-            <c:forEach items="${category.getAttributes()}" var="attr">
-                <p>${attr}</p>
-            </c:forEach>
-            -->
-
             <div class="new_attributes">
-                <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
-                <br>
+                <p>New Attribute Name (Mark if the field is required)</p>
                 <div><input type="text" name="attribute">
                     <input type="radio" name="required">
                 </div>
             </div>
 
-            <button class="add_field_button">Add</button>
+            <button id="add_field_button">Add</button>
             <br><br>
-            <input type="submit" value="Update Category"/>
+            <input class="updatebtn" type="submit" value="Save Changes"/>
         </form>
         <script>
             $(document).ready(function () {
                 var wrapper = $(".new_attributes");
-                var add_button = $(".add_field_button");
-
+                var add_button = $("#add_field_button");
+                
                 $(add_button).click(function (e) {
                     e.preventDefault();
                     $(wrapper).append('<div><input type="text" name="attribute"/><input type="radio" name"required"/><a href="#" class="remove_field"> Remove</a></div>');

@@ -11,10 +11,10 @@ import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
- * @author carol
+ * @author carol, Allan, Nina
  */
 public class AttributeMapper implements IAttributeMapper {
-    
+
     @Override
     public int getAttributeId(String attributename) throws CommandException {
         Connection connection = null;
@@ -63,13 +63,13 @@ public class AttributeMapper implements IAttributeMapper {
                 int rowsUpdated = pstmt.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                   throw new SQLException(); 
+                    throw new SQLException();
                 }
 
                 attributeIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category attributes");
+            throw new CommandException("createAttributes Could not create new category attributes" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -101,6 +101,59 @@ public class AttributeMapper implements IAttributeMapper {
             DbUtils.closeQuietly(result);
         }
         return id;
+    }
+
+    @Override
+    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "UPDATE attributes SET attribute_name = ? WHERE attribute_name = ?;";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setString(1, newAttr);
+            pstmt.setString(2, oldAttr);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new SQLException();
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not update name on attribute");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+
+    @Override
+    public void deleteAttribute(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attributes WHERE id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new SQLException();
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from attributes");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
     }
 
 }

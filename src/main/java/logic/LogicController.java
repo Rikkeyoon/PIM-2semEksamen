@@ -13,11 +13,11 @@ import persistence.PersistenceFacadeDB;
 
 /**
  *
- * @author carol
+ * @author carol, Nina
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     public static Product createProduct(int id, String name, String description,
             String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
@@ -141,6 +141,14 @@ public class LogicController {
             }
         }
         return categoryAttributes;
+    }
+
+    public static void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        pf.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        pf.deleteAttributeFromCategory(removeAttr);
     }
 
 }
