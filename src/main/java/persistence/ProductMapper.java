@@ -246,12 +246,9 @@ public class ProductMapper implements IProductMapper {
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategory().getCategoryname());
             pstmt.setInt(4, product.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" +ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -301,10 +298,7 @@ public class ProductMapper implements IProductMapper {
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, product.getCategoryAttributes().get(key));
 
-                int rowsUpdated = pstmt.executeUpdate();
-                if (rowsUpdated == 0) {
-                    throw new SQLException("No rows updated");
-                }
+                pstmt.executeUpdate();
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID" + ex);

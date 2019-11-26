@@ -40,6 +40,7 @@ public class LogicController {
             images.add(imageURL);
         }
         p.setImages(images);
+        pf.addImages(p);
         
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
@@ -51,6 +52,10 @@ public class LogicController {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
             } else if (key.equalsIgnoreCase("fileSelected")) {
                 p.setPrimaryImage(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("delete_chosen_pics")) {
+                String[] picsToDelete = parameterMap.get(key);
+                p.removeImages(picsToDelete);
+                pf.deleteImages(picsToDelete);
             } else {
                 try {
                     categoryAttributes.replace(key, parameterMap.get(key)[0]);

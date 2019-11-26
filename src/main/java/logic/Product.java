@@ -84,6 +84,18 @@ public class Product {
     public void setImages(List<Pair<String, Boolean>> images) {
         this.images = images;
     }
+    
+    public void removeImages(String[] picsToDelete) {
+        List<Pair<String, Boolean>> newImages = new ArrayList<>();
+        for (Pair<String, Boolean> image : this.images) {
+            for (String string : picsToDelete) {
+              if (!image.getKey().equalsIgnoreCase(string)) {
+                  newImages.add(image);
+              }
+            }
+        }
+        setImages(newImages);
+    }
 
     public String getPrimaryImage() {
         String result = "";
