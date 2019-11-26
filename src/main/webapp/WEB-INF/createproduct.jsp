@@ -36,7 +36,7 @@
                 <br>
                 <label for="item_number"><b>Item Number</b></label>
                 <br>
-                <input type="text" name="item_number" item_number="item_number" required>
+                <input type="text" name="item_number" required>
                 <br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
@@ -61,7 +61,7 @@
                 <br>
                 <input type="text" name="supplier" required>
                 <br><br>
-                <label for="sea_text"><b>Sea text</b></label>
+                <label for="seo_text"><b>SEO text</b></label>
                 <br>
                 <input type="text" name="sea_text" required>
                 <br><br>

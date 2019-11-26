@@ -43,7 +43,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!");
+            throw new CommandException("Could not create product. Try again!" + e);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
