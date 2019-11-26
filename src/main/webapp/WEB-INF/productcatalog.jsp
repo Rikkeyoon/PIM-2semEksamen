@@ -55,6 +55,8 @@
             <input type="submit" value="Reset"/>
             <br>
         </form>
+        
+        <br><br>
 
         <table border="1">
             <thead>
