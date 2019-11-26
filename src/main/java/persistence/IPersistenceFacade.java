@@ -53,5 +53,7 @@ public interface IPersistenceFacade {
     
     public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException;
 
+    public int getProductDBId(Product p) throws CommandException;
+
 
 }

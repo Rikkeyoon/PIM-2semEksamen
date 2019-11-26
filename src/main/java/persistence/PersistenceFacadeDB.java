@@ -72,7 +72,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
         pm.create(p);
         if (p.getImages() != null) {
-            im.addPictureURL(pm.getHighestProductID(), p.getImages());
+            im.addPictureURL(pm.getProductDBId(p), p.getImages());
         }
     }
 
@@ -197,6 +197,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
         return pm.getProductsWithTagSearch(tagSearch);
+    }
+
+    @Override
+    public int getProductDBId(Product p) throws CommandException {
+        return pm.getProductDBId(p);
     }
 
 }

@@ -11,7 +11,7 @@ public interface IProductMapper {
 
     public void create(Product product) throws CommandException;
     
-    public int getHighestProductID() throws CommandException;
+    public int getProductDBId(Product p) throws CommandException;
 
     public Product getProduct(int id) throws CommandException;
     

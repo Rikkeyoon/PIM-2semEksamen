@@ -44,7 +44,6 @@ CREATE TABLE images (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE tags(
-
     id INT auto_increment,
     name VARCHAR(255) NOT NULL unique,
     PRIMARY KEY(id)

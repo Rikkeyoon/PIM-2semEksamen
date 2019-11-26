@@ -137,27 +137,34 @@ public class ProductMapper implements IProductMapper {
     }
 
     @Override
-    public int getHighestProductID() throws CommandException {
-        String sql = "SELECT * FROM products ORDER BY ID DESC LIMIT 0, 1";
+    public int getProductDBId(Product p) throws CommandException {
         int returnInt = 0;
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
         try {
-
+            String sql = "SELECT id FROM products WHERE item_number =? AND name =? "
+                    + "AND brand=? AND description=? AND category_name=? "
+                    + "AND supplier=? AND seo_text=?";
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, p.getItemnumber());
+            pstmt.setString(2, p.getName());
+            pstmt.setString(3, p.getBrand());
+            pstmt.setString(4, p.getDescription());
+            pstmt.setString(5, p.getCategory().getCategoryname());
+            pstmt.setString(6, p.getSupplier());
+            pstmt.setString(7, p.getSEOText());
             result = pstmt.executeQuery();
 
             if (result == null) {
-
                 returnInt = 0;
             } else {
                 result.next();
                 returnInt = result.getInt("id");
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the highest product id");
+            throw new CommandException("Could not find the products database id");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -240,7 +247,7 @@ public class ProductMapper implements IProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any products" );
+            throw new CommandException("Could not find any products");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -250,11 +257,11 @@ public class ProductMapper implements IProductMapper {
     @Override
     public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
         ArrayList<Product> products = new ArrayList<>();
-        for( Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)){
+        for (Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)) {
             products.add(getProduct(i));
         }
         return products;
-        
+
     }
 
     @Override
@@ -292,7 +299,7 @@ public class ProductMapper implements IProductMapper {
 
                     List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
                     product = new Product(id, itemnumber, name, brand, description,
-                            cm.getCategory(categoryname), supplier, seotext, 
+                            cm.getCategory(categoryname), supplier, seotext,
                             status, categoryAttributes, images);
                 } else {
                     Map<String, String> newCategoryAttr = product.getCategoryAttributes();
@@ -327,7 +334,7 @@ public class ProductMapper implements IProductMapper {
             pstmt.setString(7, product.getSEOText());
             pstmt.setInt(8, product.getStatus());
             pstmt.setInt(9, product.getId());
-            
+
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");

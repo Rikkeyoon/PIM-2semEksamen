@@ -30,9 +30,9 @@ public class LogicController {
                 category, supplier, seotext, status, images);
         p.setCategoryAttributes(createCategoryAttributeMap(p));
         pf.createProduct(p);
+        
         List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
-        pf.createProductTags(p.getId(), tagsList);
-
+        pf.createProductTags(pf.getProductDBId(p), tagsList);
         return p;
     }
 
