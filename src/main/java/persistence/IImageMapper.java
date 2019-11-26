@@ -24,7 +24,7 @@ public interface IImageMapper {
     
     public void updatePrimaryPicture(int productId, String imageURL) throws CommandException;
 
-    public void deleteImages(List<Pair<String, Boolean>> images) throws CommandException;
+    public void deleteImages(String[] imageUrls) throws CommandException;
 
     public void deleteAllImages(Product p) throws CommandException;
 }

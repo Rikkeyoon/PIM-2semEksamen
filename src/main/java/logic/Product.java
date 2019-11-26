@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
@@ -139,6 +140,38 @@ public class Product {
 
     public void setImages(List<Pair<String, Boolean>> images) {
         this.images = images;
+    }
+    
+    public void removeImages(String[] picsToDelete) {
+        List<Pair<String, Boolean>> newImages = new ArrayList<>();
+        for (Pair<String, Boolean> image : this.images) {
+            for (String string : picsToDelete) {
+              if (!image.getKey().equalsIgnoreCase(string)) {
+                  newImages.add(image);
+              }
+            }
+        }
+        setImages(newImages);
+    }
+
+    public String getPrimaryImage() {
+        String result = "";
+        for (Pair<String, Boolean> image : images) {
+            if (image.getValue()) {
+                result = image.getKey();
+            }
+        }
+        return result;
+    }
+
+    public void setPrimaryImage(String imageURL) {
+        for (Pair<String, Boolean> image : images) {
+            if (image.getKey().equalsIgnoreCase(imageURL)) {
+                image.setValue(true);
+            } else {
+                image.setValue(false);
+            }
+        }
     }
 
     public boolean compareTo(Product product) {

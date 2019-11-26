@@ -320,10 +320,7 @@ public class ProductMapper implements IProductMapper {
             pstmt.setInt(8, product.getStatus());
             pstmt.setInt(9, product.getId());
             
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");
         } finally {
@@ -375,10 +372,7 @@ public class ProductMapper implements IProductMapper {
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, product.getCategoryAttributes().get(key));
 
-                int rowsUpdated = pstmt.executeUpdate();
-                if (rowsUpdated == 0) {
-                    throw new SQLException("No rows updated");
-                }
+                pstmt.executeUpdate();
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID");

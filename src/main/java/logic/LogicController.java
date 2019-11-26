@@ -38,6 +38,13 @@ public class LogicController {
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
             List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        List<Pair<String, Boolean>> images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+            images.add(imageURL);
+        }
+        p.setImages(images);
+        pf.addImages(p);
+        
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
@@ -46,15 +53,19 @@ public class LogicController {
                 p.setDescription(parameterMap.get(key)[0]);
             } else if (key.equalsIgnoreCase("product_category")) {
                 p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
+            } else if (key.equalsIgnoreCase("fileSelected")) {
+                p.setPrimaryImage(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("delete_chosen_pics")) {
+                String[] picsToDelete = parameterMap.get(key);
+                p.removeImages(picsToDelete);
+                pf.deleteImages(picsToDelete);
             } else {
-                categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                try {
+                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
+                } catch (NullPointerException e) {
+                }
             }
         }
-        List<Pair<String, Boolean>> images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
-            images.add(imageURL);
-        }
-        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }

@@ -23,6 +23,10 @@ public interface IPersistenceFacade {
     public void createProduct(Product p) throws CommandException;
 
     public void updateProduct(Product p) throws CommandException;
+    
+    public void deleteImages(String[] picsToDelete) throws CommandException;
+    
+    public void addImages(Product p) throws CommandException;
 
     public void deleteProduct(Product p) throws CommandException;
 

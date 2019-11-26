@@ -81,11 +81,27 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             //We don't need to forward the message to the user
         }
         pm.update(p);
-        pm.updateAttributes(p);
-        if (p.getImages() != null) {
-            im.deleteAllImages(p);
+        try {
+            pm.updateAttributes(p);
+        } catch (CommandException e) {
+        }
+    }
+    
+    @Override
+    public void addImages(Product p) throws CommandException {
+        if (!p.getImages().isEmpty()) {
+            im.updatePrimaryPicture(p.getId(), p.getPrimaryImage());
             im.addPictureURL(p.getId(), p.getImages());
         }
+    }
+    
+    @Override
+    public void deleteImages(String[] picsToDelete) throws CommandException {
+        for (String imageurl : picsToDelete) {
+            im.removePictureFromCloudinary(imageurl);
+        }
+        im.deleteImages(picsToDelete);
+        
     }
 
     @Override
@@ -155,5 +171,5 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
-    
+
 }

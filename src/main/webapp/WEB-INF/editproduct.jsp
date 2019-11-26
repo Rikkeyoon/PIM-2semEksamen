@@ -87,6 +87,7 @@
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
                         <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+                        <input type="radio" name="fileSelected" value="${image.getKey()}" required>
                     </span>
                 </c:forEach>
                 <br><br>
@@ -95,6 +96,18 @@
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <output id="list"></output>
                 <br>
+
+                <label><b>Delete pictures</b></label>
+                <div id="div_delete_pics">
+                    <c:forEach items="${product.getImages()}" var="image">
+                        <span>
+                            <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+                            <input type="checkbox" name="delete_chosen_pics" value="${image.getKey()}" />
+                        </span>
+                    </c:forEach>
+                </div>
+                <br><br>
+
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
 
@@ -151,14 +164,13 @@
                 empty.innerHTML = [' '].join('');
                 document.getElementById('list').insertBefore(empty, null);
             }
-            ;
 
             function validateID() {
                 var id = $("#product_id").val();
                 var idformat = /[0-9]/;
 
                 if (!id.match(idformat)) {
-                    $("#updatebtn").attr('disabled', 'diasabled');
+                    $("#updatebtn").attr('disabled', 'disabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
                 } else {
                     $("#updatebtn").removeAttr('disabled');
@@ -171,7 +183,7 @@
                 var categoryformat = /[a-z]/;
 
                 if (!category.match(categoryformat)) {
-                    $("#updatebtn").attr('disabled', 'diasbled');
+                    $("#updatebtn").attr('disabled', 'disabled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
                 } else {
                     $("#updatebtn").removeAttr('disabled');
