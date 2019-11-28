@@ -8,14 +8,14 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author carol, Nina
+ * @author carol
  */
 public class LogicFacade {
 
 
     public static Product createProduct(int id, String name, String description, 
-            String category, List<Pair<String, Boolean>> images) throws CommandException {
-        return LogicController.createProduct(id, name, description, category, images);
+            Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images) throws CommandException {
+        return LogicController.createProduct(id, name, description, parameterMap, images);
     }
 
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,

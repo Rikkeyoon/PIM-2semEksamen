@@ -28,9 +28,12 @@ public class ViewPageCommand extends Command {
         } else if (view.contains("category")) {
             session.setAttribute("category1", request.getParameter("category"));
         } else if (view.contains("viewproduct")) {
+            session.setAttribute("category1", request.getParameter("category"));
             int id = Integer.parseInt(request.getParameter("product_id"));
             Product product = LogicFacade.getProduct(id);
             session.setAttribute("product", product);
+        } else if (view.contains("createproduct")) {
+            session.setAttribute("category1", request.getParameter("category"));
         }
         return view;
     }

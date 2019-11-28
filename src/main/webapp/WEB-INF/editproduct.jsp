@@ -55,10 +55,8 @@
                     <div>
                         <label for="category_attribute"><b>${key}</b></label>
                         <br>
-                        <textarea name="${key}" rows="4" cols="20" style="resize: none; 
-                                  width: 25%;" required="required">
-                            ${product.getCategoryAttributes().get(key)}  
-                        </textarea>
+                        <input type="text" name="${key}" 
+                               value="${product.getCategoryAttributes().get(key)}" required>
                     </div>
                     <br>
                 </c:forEach>

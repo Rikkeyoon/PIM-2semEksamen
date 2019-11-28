@@ -69,6 +69,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         if (p.getImages() != null) {
             im.addPictureURL(p.getId(), p.getImages());
         }
+        pm.createAttributes(p);
     }
 
     @Override

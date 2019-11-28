@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import logic.Category;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.dbutils.DbUtils;
 
@@ -26,9 +28,7 @@ public class ProductMapper implements IProductMapper {
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String insertSql = "INSERT INTO products "
-                    + "(id, name, description, category_name) VALUES"
-                    + "(?, ?, ?, ?)";
+            String insertSql = "INSERT INTO products (id, name, description, category_name) VALUES (?, ?, ?, ?);";
 
             pstmt = connection.prepareStatement(insertSql);
             pstmt.setInt(1, product.getId());
@@ -38,7 +38,7 @@ public class ProductMapper implements IProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!");
+            throw new CommandException("Could not create product. Try again!" + e.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -205,7 +205,7 @@ public class ProductMapper implements IProductMapper {
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                Map<String, String> categoryAttributes = new HashMap<>();
+                Map<String, String> categoryAttributes = new LinkedHashMap<>();
                 String attribute = result.getString(5);
                 String attrValue = result.getString(6);
 

@@ -26,7 +26,7 @@
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="create_product">
 
-                <h1>Create product</h1>
+                <h1>Create product for category: ${category1}</h1>
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
@@ -43,12 +43,30 @@
                 <textarea name="product_desc" rows="4" cols="20" required="required">
                 </textarea>
                 <br><br>
-                <label for="product_category"><b>Category</b></label>
+                <!--<label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 
                        onkeyup="validateCategory();" required>
                 <div id="divValidateCategory"></div>
                 <br><br>
+                -->
+                <input type="hidden" name="category" value="${category1}">
+                <input type="hidden" name="cmd" value="create_product">
+                <label for="attributes"><b>Attributes</b></label>
+                <br>
+                <c:forEach items="${categories}" var="cat">
+                    <c:if test="${cat.getCategoryname().equals(category1)}">
+                        <c:forEach items="${cat.getAttributes()}" var="attr">
+                            <br>
+                            <label for="attribute_name"><b>${attr}</b></label>
+                            <br>
+                            <input type="text" name="attributes" required>
+                        </c:forEach>
+                    </c:if>
+                </c:forEach>
+                <br><br>
+
+
                 <label for="file"><b>Picture</b></label>
                 <br>
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
@@ -139,6 +157,5 @@
             }
 
         </script>
-
     </body>
 </html>

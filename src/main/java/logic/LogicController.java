@@ -2,9 +2,13 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
@@ -20,11 +24,23 @@ public class LogicController {
     private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     public static Product createProduct(int id, String name, String description,
-            String categoryname, List<Pair<String, Boolean>> images) throws CommandException {
-        Category category = getCategory(categoryname);
-        Product p = new Product(id, name, description, category, images);
-        p.setCategoryAttributes(createCategoryAttributeMap(p));
-
+            Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images) throws CommandException {
+        Category category = null;
+        List<String> attributes = null;
+        for (String key : parameterMap.keySet()) {
+            if (key.equalsIgnoreCase("category")) {
+                category = pf.getCategory(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("attributes")) {
+                attributes = new ArrayList<>(Arrays.asList(parameterMap.get(key)));
+                
+            }
+        }
+        Map<String, String> categoryAttributes = new LinkedHashMap<>();
+        for (String s : category.getAttributes()) {
+            categoryAttributes.put(s, attributes.get(category.getAttributes().indexOf(s)));
+        }
+        Product p = new Product(id, name, description, category, categoryAttributes, images);
+        // p.setCategoryAttributes(createCategoryAttributeMap(p));
         pf.createProduct(p);
         return p;
     }
@@ -33,8 +49,8 @@ public class LogicController {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
 
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap, 
-        List<Pair<String, Boolean>> imageURLs) throws CommandException {
+    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
+            List<Pair<String, Boolean>> imageURLs) throws CommandException {
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
@@ -49,7 +65,7 @@ public class LogicController {
         }
         List<Pair<String, Boolean>> images = p.getImages();
         for (Pair<String, Boolean> imageURL : imageURLs) {
-          images.add(imageURL);  
+            images.add(imageURL);
         }
         p.setImages(images);
         pf.updateProduct(p);
@@ -125,7 +141,7 @@ public class LogicController {
         return pf.getCategories();
     }
 
-    private static  Map<String, String> createCategoryAttributeMap(Product product)
+    private static Map<String, String> createCategoryAttributeMap(Product product)
             throws CommandException {
         Category category = product.getCategory();
         Map<String, String> categoryAttributes;

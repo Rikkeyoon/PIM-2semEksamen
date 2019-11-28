@@ -2,6 +2,7 @@ package persistence;
 
 import exception.CommandException;
 import java.util.List;
+import logic.Category;
 import logic.Product;
 
 /**

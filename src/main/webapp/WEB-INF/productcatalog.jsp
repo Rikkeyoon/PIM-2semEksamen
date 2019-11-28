@@ -96,17 +96,26 @@
             </tbody>
         </table>
         <br><br>
-        <form name="create" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="createproduct">
-            <input type="submit" value="Create new product" />
-        </form>
-        <br>
-
-        <form name="create_category" action="FrontController" method = "POST">
+        
+        <form name="create_category" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="createcategory">
             <input type="submit" value="Create new category" />
+        </form>
+        <br>
+        
+        <form name="create" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="createproduct">
+            <select name="category">
+                <c:forEach items="${categories}" var="cat">
+                    <option value="${cat.getCategoryname()}">
+                        ${cat.getCategoryname()}
+                    </option>
+                </c:forEach>
+            </select>
+            
+            <input type="submit" value="Create new product for category">
         </form>
         <br>
 

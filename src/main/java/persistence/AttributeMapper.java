@@ -69,7 +69,7 @@ public class AttributeMapper implements IAttributeMapper {
                 attributeIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("createAttributes Could not create new category attributes" + ex.getMessage());
+            throw new CommandException("Could not create new category attributes");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
