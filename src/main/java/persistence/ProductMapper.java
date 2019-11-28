@@ -17,7 +17,7 @@ import org.apache.commons.dbutils.DbUtils;
  * The purpose of the ProductMapper is to save the products in the database and
  * to edit the stored data when necessary
  *
- * @author Nina Lisakowski, Allan, carol
+ * @author Nina, Allan, carol
  */
 public class ProductMapper {
 
@@ -332,7 +332,7 @@ public class ProductMapper {
 
             while (result.next()) {
                 Map<String, String> categoryAttributes = new HashMap<>();
-                String attribute = result.getString("attribute_id");
+                String attribute = result.getString("attribute_name");
                 String attrValue = result.getString("attribute_value");
 
                 categoryAttributes.putIfAbsent(attribute, attrValue);
@@ -486,6 +486,27 @@ public class ProductMapper {
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
+        }
+    }
+
+    public void deleteProductAttribute(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attribute_values WHERE attribute_id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from product");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
         }
     }
 }

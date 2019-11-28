@@ -54,15 +54,7 @@
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>
-            <label for="supplier"><b>Supplier</b></label>
-            <p>${product.getSupplier()} </p>
-            <br>
-            <label for="seo_text"><b>SEO text</b></label>
-            <p>${product.getSEOText()} </p>
-            <br>
-            <label for="status"><b>Status</b></label>
-            <p>${product.getStatus()} </p>
-            <br>
+            <h3>Attributes</h3>
             <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                        var="key"> 
                 <div>
@@ -72,7 +64,15 @@
                 <br>
             </c:forEach>
             <br>
-
+            <label for="supplier"><b>Supplier</b></label>
+            <p>${product.getSupplier()} </p>
+            <br>
+            <label for="seo_text"><b>SEO text</b></label>
+            <p>${product.getSEOText()} </p>
+            <br>
+            <label for="status"><b>Status</b></label>
+            <p>${product.getStatus()} </p>
+            <br>
             <c:forEach items="${product.getImages()}" var="image"> 
                 <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
             </c:forEach>

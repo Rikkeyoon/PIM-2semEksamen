@@ -69,7 +69,16 @@
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
-<<<<<<< HEAD:src/main/webapp/WEB-INF/editproduct.jsp
+                <h3>Attributes</h3>
+                <c:forEach items="${product.getCategoryAttributes().keySet()}" 
+                           var="key"> 
+                    <div>
+                        <label for="category_attribute"><b>${key}</b></label>
+                        <br>
+                        <input type="text" name="${key}" value="${product.getCategoryAttributes().get(key)}">
+                    </div>
+                    <br>
+                </c:forEach>
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
                 <input type="text" name="supplier" value="${product.getSupplier()}" required>
@@ -82,21 +91,6 @@
                 <br>
                 <input type="text" name="status" value="${product.getStatus()}" required>
                 <br><br>
-                
-                <c:forEach items="${product.getCategoryAttributes().keySet()}" 
-                           var="key"> 
-                    <div>
-                        <label for="category_attribute"><b>${key}</b></label>
-                        <br>
-                        <textarea name="${key}" rows="4" cols="20" style="resize: none; 
-                                  width: 25%;" required="required">
-                            ${product.getCategoryAttributes().get(key)}  
-                        </textarea>
-                    </div>
-                    <br>
-                </c:forEach>
-=======
->>>>>>> tagFeature:src/main/webapp/WEB-INF/updateproduct.jsp
 
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
@@ -180,7 +174,6 @@
             }
 
             function validateID() {
-<<<<<<< HEAD:src/main/webapp/WEB-INF/editproduct.jsp
                 var id = $("#product_id").val();
                 var idformat = /[0-9]/;
 
@@ -204,31 +197,6 @@
                     $("#updatebtn").removeAttr('disabled');
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
-=======
-            var id = $("#product_id").val();
-            var idformat = /[0-9]/;
-
-            if (!id.match(idformat)) {
-            $("#updatebtn").attr('disabled', 'diasabled');
-            $("#divValidateId").html("Invalid Id").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateId").html("").removeClass('form-alert');
-            }
-            }
-
-            function validateCategory() {
-            var category = $("#product_category").val();
-            var categoryformat = /[a-z]/;
-
-            if (!category.match(categoryformat)) {
-            $("#updatebtn").attr('disabled', 'diasbled');
-            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateCategory").html("").removeClass('form-alert');
-            }
->>>>>>> tagFeature:src/main/webapp/WEB-INF/updateproduct.jsp
             }
 
             function dconfirmation() {

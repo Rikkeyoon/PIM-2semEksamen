@@ -25,13 +25,17 @@ public class ViewPageCommand extends Command {
         if (view.contains("catalog")) {
             List<Product> catalog = LogicFacade.getCatalog();
             session.setAttribute("catalog", catalog);
-        } else if (view.contains("category")) {
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
+        } else if (view.contains("category")) {
+            session.setAttribute("category1", request.getParameter("category"));
         } else if (view.contains("viewproduct")) {
+            session.setAttribute("category1", request.getParameter("category"));
             int id = Integer.parseInt(request.getParameter("product_id"));
             Product product = LogicFacade.getProduct(id);
             session.setAttribute("product", product);
+        } else if (view.contains("createproduct")) {
+            session.setAttribute("category1", request.getParameter("category"));
         }
         return view;
     }

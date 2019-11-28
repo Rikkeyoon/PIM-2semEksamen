@@ -26,7 +26,7 @@
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="create_product">
 
-                <h1>Create product</h1>
+                <h1>Create product for category: ${category1}</h1>
                 <br><br>
 
                 <label for="product_id"><b>ID</b></label>
@@ -56,12 +56,6 @@
                 <input type="text" name="product_tags" 
                        placeholder="tag1, tag2, tag3">
                 <br>
-                <label for="product_category"><b>Category</b></label>
-                <br>
-                <input type="text" name="product_category" id="category" 
-                       onkeyup="validateCategory();" required>
-                <div id="divValidateCategory"></div>
-                <br>
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
                 <input type="text" name="supplier" required>
@@ -70,6 +64,23 @@
                 <br>
                 <input type="text" name="seo_text" required>
                 <br><br>
+                <input type="hidden" name="category" value="${category1}">
+                <input type="hidden" name="cmd" value="create_product">
+                <label for="attributes"><b>Attributes</b></label>
+                <br>
+                <c:forEach items="${categories}" var="cat">
+                    <c:if test="${cat.getCategoryname().equals(category1)}">
+                        <c:forEach items="${cat.getAttributes()}" var="attr">
+                            <br>
+                            <label for="attribute_name"><b>${attr}</b></label>
+                            <br>
+                            <input type="text" name="attributes" required>
+                        </c:forEach>
+                    </c:if>
+                </c:forEach>
+                <br><br>
+
+
                 <label for="file"><b>Picture</b></label>
                 <br>
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
@@ -149,21 +160,6 @@
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
             }
-
-            function validateCategory() {
-                var category = $("#category").val();
-                var categoryformat = /[a-z]/;
-
-                if (!category.match(categoryformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
-                    $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-                } else {
-                    $("#createbtn").removeAttr('disabled');
-                    $("#divValidateCategory").html("").removeClass('form-alert');
-                }
-            }
-
         </script>
-
     </body>
 </html>

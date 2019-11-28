@@ -35,11 +35,11 @@ public class LogicFacade {
      * @throws CommandException
      */
     public static Product createProduct(int id, int itemnumber, String name, 
-            String brand, String description, String tags, String category, String supplier, 
-            String seotext, int status, List<Pair<String, Boolean>> images) 
+            String brand, String description, String tags, String supplier, 
+            String seotext, int status, Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images) 
             throws CommandException {
         return LogicController.createProduct(id, itemnumber, name, brand, 
-                description, tags, category, supplier, seotext, status, images);
+                description, tags, parameterMap, supplier, seotext, status, images);
     }
 
     /**
@@ -191,6 +191,14 @@ public class LogicFacade {
     public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         return LogicController.uploadImages(parts, primaryImage);
+    }
+
+    public static void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        LogicController.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        LogicController.deleteAttributeFromCategory(removeAttr);
     }
 
 }

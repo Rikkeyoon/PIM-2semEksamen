@@ -13,7 +13,7 @@ import org.apache.commons.dbutils.DbUtils;
  * The purpose of the AttributeMapper is to save the categories attributes in
  * the database and to edit the stored data when necessary
  *
- * @author carol
+ * @author carol, Allan, Nina
  */
 public class AttributeMapper {
 
@@ -25,6 +25,7 @@ public class AttributeMapper {
      * @return int
      * @throws CommandException
      */
+
     public int getAttributeId(String attributename) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -126,6 +127,57 @@ public class AttributeMapper {
             DbUtils.closeQuietly(result);
         }
         return id;
+    }
+
+    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "UPDATE attributes SET attribute_name = ? WHERE attribute_name = ?;";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setString(1, newAttr);
+            pstmt.setString(2, oldAttr);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new SQLException();
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not update name on attribute");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+
+    public void deleteAttribute(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attributes WHERE id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new SQLException();
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from attributes");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
     }
 
 }

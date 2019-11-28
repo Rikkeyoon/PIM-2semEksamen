@@ -4,8 +4,11 @@ import exception.CommandException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
@@ -16,12 +19,12 @@ import persistence.PersistenceFacadeDB;
  * The purpose of LogicController is to create Java Objects and to delegate
  * tasks to the PersistenceFacade
  *
- * @author carol
+ * @author carol, Nina
  */
 public class LogicController {
 
-//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    //private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -44,13 +47,26 @@ public class LogicController {
      * @throws CommandException
      */
     public static Product createProduct(int id, int itemnumber, String name,
-            String brand, String description, String tags, String categoryname,
+            String brand, String description, String tags, Map<String, String[]> parameterMap,
             String supplier, String seotext, int status,
             List<Pair<String, Boolean>> images) throws CommandException {
-        Category category = getCategory(categoryname);
+        Category category = null;
+        List<String> attributes = null;
+        for (String key : parameterMap.keySet()) {
+            if (key.equalsIgnoreCase("category")) {
+                category = pf.getCategory(parameterMap.get(key)[0]);
+            } else if (key.equalsIgnoreCase("attributes")) {
+                attributes = new ArrayList<>(Arrays.asList(parameterMap.get(key)));
+
+            }
+        }
+        Map<String, String> categoryAttributes = new LinkedHashMap<>();
+        for (String s : category.getAttributes()) {
+            categoryAttributes.put(s, attributes.get(category.getAttributes().indexOf(s)));
+        }
         Product p = new Product(id, itemnumber, name, brand, description,
-                category, supplier, seotext, status, images);
-        p.setCategoryAttributes(createCategoryAttributeMap(p));
+                category, supplier, seotext, status, categoryAttributes, images);
+
         pf.createProduct(p);
 
         List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
@@ -86,6 +102,8 @@ public class LogicController {
      */
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
             List<Pair<String, Boolean>> imageURLs) throws CommandException {
+        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+
         List<Pair<String, Boolean>> images = p.getImages();
         for (Pair<String, Boolean> imageURL : imageURLs) {
             images.add(imageURL);
@@ -93,12 +111,10 @@ public class LogicController {
         p.setImages(images);
         pf.addImages(p);
 
-        Map<String, String> categoryAttributes = new HashMap<>();
         try {
             categoryAttributes = p.getCategoryAttributes();
         } catch (NullPointerException e) {
         }
-
         for (String key : parameterMap.keySet()) {
             if (key.equalsIgnoreCase("product_name")) {
                 p.setName(parameterMap.get(key)[0]);
@@ -128,6 +144,11 @@ public class LogicController {
                 }
             }
         }
+        images = p.getImages();
+        for (Pair<String, Boolean> imageURL : imageURLs) {
+            images.add(imageURL);
+        }
+        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
@@ -208,9 +229,9 @@ public class LogicController {
     }
 
     /**
-     * A method for getting products that share a tag The LogicController receives
-     * information from the LogicFacade and passes it on to the PersistenceFacade 
-     * and returns the found products
+     * A method for getting products that share a tag The LogicController
+     * receives information from the LogicFacade and passes it on to the
+     * PersistenceFacade and returns the found products
      *
      * @param tag
      * @return List of Products
@@ -297,8 +318,8 @@ public class LogicController {
     }
 
     /**
-     * A private method for creating a category attribute map with all the product's 
-     * category's attributes
+     * A private method for creating a category attribute map with all the
+     * product's category's attributes
      *
      * @param product
      * @return Map with String, sTring
@@ -322,6 +343,14 @@ public class LogicController {
 
         return categoryAttributes;
 
+    }
+
+    public static void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        pf.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        pf.deleteAttributeFromCategory(removeAttr);
     }
 
 }
