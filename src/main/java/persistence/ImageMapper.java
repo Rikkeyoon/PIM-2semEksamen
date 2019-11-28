@@ -19,10 +19,12 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
+ * The purpose of the ImageMapper is to save the images in cloudinary and in the
+ * database and to delete the stored images when necessary
  *
  * @author allan
  */
-public class ImageMapper implements IImageMapper {
+public class ImageMapper {
 
     private static final String UPLOAD_DIR = "img";
     private static final String WORKING_DIR = System.getProperty("user.dir");
@@ -31,7 +33,14 @@ public class ImageMapper implements IImageMapper {
             "api_key", "228872137167968",
             "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
 
-    @Override
+    /**
+     * Method to upload the images to cloudinary
+     *
+     * @param parts
+     * @param primaryImage String containing the URL of the primary image
+     * @return List of Pair of Strign and boolean
+     * @throws CommandException
+     */
     public List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         List<Pair<String, Boolean>> images = new ArrayList<>();
@@ -48,11 +57,11 @@ public class ImageMapper implements IImageMapper {
                     String contentType = part.getContentType();
 
                     // allows JPEG & PNG files to be uploaded
-                    if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg") 
+                    if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg")
                             || contentType.equalsIgnoreCase("image/png"))) {
-                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR 
+                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR
                                 + File.separator + fileName);
-                        File file = new File(WORKING_DIR + File.separator 
+                        File file = new File(WORKING_DIR + File.separator
                                 + UPLOAD_DIR + File.separator + fileName);
 
                         Map uploadResult = null;
@@ -79,8 +88,15 @@ public class ImageMapper implements IImageMapper {
         return images;
     }
 
-    @Override
-    public void addPictureURL(int productId, List<Pair<String, Boolean>> images) 
+    /**
+     * Method to store the images together with the product the images are
+     * assign to in the database
+     *
+     * @param productId
+     * @param images
+     * @throws CommandException
+     */
+    public void addPictureURL(int productId, List<Pair<String, Boolean>> images)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -100,7 +116,6 @@ public class ImageMapper implements IImageMapper {
                     }
                 }
             }
-
         } catch (SQLException | NullPointerException e) {
             throw new CommandException("Could not save URL reference to images");
         } finally {
@@ -110,8 +125,15 @@ public class ImageMapper implements IImageMapper {
         }
     }
 
-    @Override
-    public List<Pair<String, Boolean>> getPicturesWithId(int productId) 
+    /**
+     * Method to the product's pictures' URLs that are stored in the database by
+     * the product's id
+     *
+     * @param productId
+     * @return List of Pair of String and boolean
+     * @throws CommandException
+     */
+    public List<Pair<String, Boolean>> getPicturesWithId(int productId)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -141,8 +163,15 @@ public class ImageMapper implements IImageMapper {
         return images;
     }
 
-    @Override
-    public Pair<String, Boolean> getPrimaryPictureWithId(int productId) 
+    /**
+     * Method to get the product's primary picture's URL which is stored in the
+     * database by getting the product's id
+     *
+     * @param productId
+     * @return Pair of String and boolean
+     * @throws CommandException
+     */
+    public Pair<String, Boolean> getPrimaryPictureWithId(int productId)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -175,7 +204,16 @@ public class ImageMapper implements IImageMapper {
         return image;
     }
 
-    @Override
+    /**
+     * Method to change the primary picture in the database by finding all
+     * pictures assigned to the product and setting their primary image boolean
+     * to 0 (false) and then changing the correct new primary image's boolean to
+     * 1 (true)
+     *
+     * @param productId
+     * @param imageURL
+     * @throws CommandException
+     */
     public void updatePrimaryPicture(int productId, String imageURL)
             throws CommandException {
         Connection connection = null;
@@ -204,7 +242,13 @@ public class ImageMapper implements IImageMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to delete the images which have the URL from the parameter in the
+     * database
+     *
+     * @param imageUrls
+     * @throws CommandException
+     */
     public void deleteImages(String[] imageUrls) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -225,7 +269,12 @@ public class ImageMapper implements IImageMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to delete all of a product's pictures from the database
+     *
+     * @param p Product
+     * @throws CommandException
+     */
     public void deleteAllImages(Product p) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -244,16 +293,28 @@ public class ImageMapper implements IImageMapper {
         }
     }
 
-    @Override
-    public void removePictureFromCloudinary(String URL) throws CommandException{
-        try{
+    /**
+     * Method to delete a picture from cloudinary
+     *
+     * @param URL
+     * @throws CommandException
+     */
+    public void removePictureFromCloudinary(String URL) throws CommandException {
+        try {
             CLOUDINARY.uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new CommandException("Could not delete picture");
         }
     }
-    
-    private String getPublicIDFromURL(String url){
-        return url.substring(62, url.length()-4);
+
+    /**
+     * Private method to get the unique image id in cloudinary based on the
+     * image's URL
+     *
+     * @param url
+     * @return String
+     */
+    private String getPublicIDFromURL(String url) {
+        return url.substring(62, url.length() - 4);
     }
 }

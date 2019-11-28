@@ -10,18 +10,28 @@ import logic.Product;
 import logic.Category;
 
 /**
+ * The purpose of PersistenceFacadeDB is to instantiate a connection to the
+ * database and also instantiate the mappers that are needed to store the data
+ * PersistenceFacadeDB has gotten from the logic layer
  *
  * @author allan, carol
  */
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
     private static IDatabaseConnection DBC;
-    private static IProductMapper pm = new ProductMapper();
-    private static ICategoryMapper cm = new CategoryMapper();
-    private static ITagMapper tm = new TagMapper();
-    private static IAttributeMapper am = new AttributeMapper();
-    private static IImageMapper im = new ImageMapper();
+    private static ProductMapper pm = new ProductMapper();
+    private static CategoryMapper cm = new CategoryMapper();
+    private static TagMapper tm = new TagMapper();
+    private static AttributeMapper am = new AttributeMapper();
+    private static ImageMapper im = new ImageMapper();
 
+    /**
+     * Constructor for PersistenceFacadeDB where the connection can be set
+     * according to whether or not the used database should be the test database
+     * or the regular database
+     *
+     * @param testmode
+     */
     public PersistenceFacadeDB(Boolean testmode) {
         try {
             DBC = new DatabaseConnection(testmode);
@@ -29,20 +39,50 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         }
     }
 
+    /**
+     * Method for getting a connection to the database
+     *
+     * @return @throws CommandException
+     */
     public static Connection getConnection() throws CommandException {
         return DBC.getConnection();
     }
-
-    public static Pair<String, Boolean> getPrimaryImageWithId(int id) throws CommandException {
-        return im.getPrimaryPictureWithId(id);
+    
+    
+    /**
+     * Method to get multiple products' storage ids from a tag
+     *
+     * @param tagSearch
+     * @return List of Integers
+     * @throws CommandException
+     */
+    public static List<Integer> getProductsIDFromTagNameSearch(String tagSearch)
+            throws CommandException {
+        return tm.getProductsIDFromTagNameSearch(tagSearch);
     }
-
-    public static List<Pair<String, Boolean>> getPicturesWithId(int id) throws CommandException {
+    
+    /**
+     * Method to get pictures that are associated with a specific product
+     *
+     * @param id Product id
+     * @return List Pair of String and boolean
+     * @throws CommandException
+     */
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id) 
+            throws CommandException {
         return im.getPicturesWithId(id);
     }
-
-    public static List<Integer> getProductsIDFromTagNameSearch(String tagSearch) throws CommandException {
-        return tm.getProductsIDFromTagNameSearch(tagSearch);
+    
+    /**
+     * Method to get the primary picture for a specific product
+     *
+     * @param id Product id
+     * @return Pair of String and boolean
+     * @throws CommandException
+     */
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id) 
+            throws CommandException {
+        return im.getPrimaryPictureWithId(id);
     }
 
     @Override
@@ -200,7 +240,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public int getProductDBId(Product p) throws CommandException {
+    public int getProductStorageId(Product p) throws CommandException {
         return pm.getProductDBId(p);
     }
 

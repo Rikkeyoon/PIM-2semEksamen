@@ -11,12 +11,19 @@ import logic.Category;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * The purpose of the CategoryMapper is to save the categories in the database
+ * and to edit the stored data when necessary
  *
  * @author carol
  */
-public class CategoryMapper implements ICategoryMapper {
+public class CategoryMapper {
 
-    @Override
+    /**
+     * Method to insert the newly created category into the database
+     *
+     * @param c Category
+     * @throws CommandException
+     */
     public void createCategory(Category c) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -39,7 +46,14 @@ public class CategoryMapper implements ICategoryMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to insert category attributes into the database with the
+     * category's id and the database ids for the attributes
+     *
+     * @param category
+     * @param attributeIds
+     * @throws CommandException
+     */
     public void createCategoryAttributes(Category category, List<Integer> attributeIds)
             throws CommandException {
         Connection connection = null;
@@ -66,7 +80,12 @@ public class CategoryMapper implements ICategoryMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to get all stored categories
+     *
+     * @return List of Categories
+     * @throws CommandException
+     */
     public List<Category> getAllCategories() throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -92,10 +111,15 @@ public class CategoryMapper implements ICategoryMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return categories;
-
     }
 
-    @Override
+    /**
+     * Method to get a single stored category by its name
+     *
+     * @param categoryname
+     * @return Category
+     * @throws CommandException
+     */
     public Category getCategory(String categoryname) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -117,11 +141,6 @@ public class CategoryMapper implements ICategoryMapper {
                 attributes.add(result.getString(1));
 
             }
-//            
-//            if (!pstmt.execute(selectSql)) {
-//                throw new SQLException();
-//            }
-            
             category = new Category(categoryname, attributes);
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any category with that name");

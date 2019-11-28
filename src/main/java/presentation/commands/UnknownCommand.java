@@ -13,14 +13,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UnknownCommand extends Command {
 
-     /**
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws CommandException
-     */
     @Override
-    String execute(HttpServletRequest request, HttpServletResponse response) 
+    String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
         throw new CommandException("Unknown command. Please contact IT.");
     }

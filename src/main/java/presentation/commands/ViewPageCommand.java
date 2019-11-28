@@ -10,6 +10,8 @@ import logic.LogicFacade;
 import logic.Product;
 
 /**
+ * The purpose of ViewPageCommand is to get a generic command that can navigate 
+ * to another view page and get the wanted data for the view page to work
  *
  * @author carol
  */

@@ -7,71 +7,92 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * The purpose of the TagMapper is to save the tags in the database and to edit
+ * the stored data when necessary
  *
  * @author allan
  */
-public class TagMapper implements ITagMapper {
+public class TagMapper {
 
-    @Override
-    public void createTagsAndProductRelation(int productID, List<String> tags) throws CommandException {
+    /**
+     * Method to store new tags for a specific product in the database
+     *
+     * @param productId
+     * @param tags
+     * @throws CommandException
+     */
+    public void createTagsAndProductRelation(int productId, List<String> tags)
+            throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
-        String insertSql = "INSERT INTO product_tags VALUES ( ? , ?);";
+        String insertSql = "INSERT INTO product_tags VALUES (?, ?);";
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
             for (String tag : tags) {
-                try{
-                pstmt.setInt(1, getTagIdFromName(tag));
-                pstmt.setInt(2, productID);
-                pstmt.executeUpdate();
-                }catch(SQLException ex){
-                    if(ex.getErrorCode() != 1062){
+                try {
+                    pstmt.setInt(1, getTagIdFromName(tag));
+                    pstmt.setInt(2, productId);
+                    pstmt.executeUpdate();
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() != 1062) {
                         throw ex;
                     }
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create tag relation " + ex.getMessage());
+            throw new CommandException("Could not create tag relation ");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
         }
     }
 
-    @Override
+    /**
+     * Method for storing new tags in the database
+     *
+     * @param tags
+     * @throws CommandException
+     */
     public void createTags(List<String> tags) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         String insertSql = "INSERT INTO tags(name) VALUE(?)";
-        try{
+        try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
             for (String tag : tags) {
-                try{
-                pstmt.setString(1, tag);
-                pstmt.executeUpdate();
+                try {
+                    pstmt.setString(1, tag);
+                    pstmt.executeUpdate();
 
-                }catch(SQLException ex){
-                    if(ex.getErrorCode() != 1062){
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() != 1062) {
                         throw ex;
                     }
                 }
             }
         } catch (SQLException ex) {
             throw new CommandException(ex.getMessage() + " " + ex.getErrorCode());
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
         }
     }
-    
-    @Override
+
+    /**
+     * Method to get all tags for a specific product based on the product's
+     * unique database id
+     *
+     * @param id
+     * @return List of Strings
+     * @throws CommandException
+     */
     public List<String> getTagsForProductWithID(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -91,22 +112,31 @@ public class TagMapper implements ITagMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch tags to product: " + ex.getMessage());
+            throw new CommandException("Could not fetch tags to product");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return tags;
     }
-    
-    @Override
-    public List<Integer> getProductsIDFromTagNameSearch(String tagSearch)throws CommandException{
+
+    /**
+     * Method to get the unique database ids for products that share a tag or
+     * share the String as part of their tags' names
+     *
+     * @param tagSearch
+     * @return List of ints
+     * @throws CommandException
+     */
+    public List<Integer> getProductsIDFromTagNameSearch(String tagSearch)
+            throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
         List<Integer> productIDs = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT DISTINCT product_id FROM product_tags WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE ?);";
+            String selectSql = "SELECT DISTINCT product_id FROM product_tags "
+                    + "WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE ?);";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + tagSearch + '%');
 
@@ -117,14 +147,20 @@ public class TagMapper implements ITagMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch tags to product: " + ex.getMessage());
+            throw new CommandException("Could not fetch tags to product");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return productIDs;
     }
 
-    @Override
+    /**
+     * Method to update the stored tags for a specific product
+     *
+     * @param p Product
+     * @return List of ints
+     * @throws CommandException
+     */
     public List<Integer> updateTags(Product p) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -140,13 +176,13 @@ public class TagMapper implements ITagMapper {
                 int rowsUpdated = pstmt.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                   throw new SQLException(); 
+                    throw new SQLException();
                 }
 
                 tagIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new tags " + ex.getMessage());
+            throw new CommandException("Could not create new tags ");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -154,6 +190,13 @@ public class TagMapper implements ITagMapper {
         return tagIds;
     }
 
+    /**
+     * Method to get the unique database id for a specific tag
+     *
+     * @param tag
+     * @return int
+     * @throws CommandException
+     */
     public int getTagIdFromName(String tag) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -161,7 +204,7 @@ public class TagMapper implements ITagMapper {
         int returnID = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT id FROM tags where name like ?;";
+            String selectSql = "SELECT id FROM tags where name like ?";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + tag + '%');
 
@@ -181,6 +224,102 @@ public class TagMapper implements ITagMapper {
         return returnID;
     }
 
+    /**
+     * Method to delete all stored tags for a specific product from the database
+     *
+     * @param id Product id
+     * @throws CommandException
+     */
+    public void deleteTagsForProduct(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
+            pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find the product to be deleted");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+
+    /**
+     * Method to get all stored tags from the database
+     *
+     * @return List of ints
+     * @throws CommandException
+     */
+    public List<Integer> getAllTagIds() throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Integer> tags = new ArrayList<>();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT id FROM tags;";
+            pstmt = connection.prepareStatement(selectSql);
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                tags.add(result.getInt("id"));
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not fetch tags to product");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return tags;
+    }
+
+    /**
+     * Method to delete tags that aren't used by any products stored in the
+     * database
+     *
+     * @throws CommandException
+     */
+    public void deleteUnusedTags() throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        List<Integer> tagids = getAllTagIds();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String deleteSql = "DELETE FROM tags WHERE id = ?";
+            pstmt = connection.prepareStatement(deleteSql);
+            for (Integer i : tagids) {
+                try {
+                    pstmt.setInt(1, i);
+                    pstmt.executeUpdate();
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() != 1451) {
+                        throw ex;
+                    }
+                }
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("could not delete");
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
+        }
+    }
+    
+    /**
+     * Private method to get the last inserted id in the database, since the id
+     * is auto incremented
+     *
+     * @param connection It uses the same connection, as the method which calls
+     * this method so it can get the correct id
+     * @return int The unique database id
+     * @throws CommandException
+     */
     private int getLastInsertedId(Connection connection) throws CommandException {
         PreparedStatement pstmt = null;
         ResultSet result = null;
@@ -206,77 +345,5 @@ public class TagMapper implements ITagMapper {
         }
         return id;
     }
-
-    @Override
-    public void deleteTagsForProduct(int id) throws CommandException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-        try {
-            connection = PersistenceFacadeDB.getConnection();
-            String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
-            pstmt = connection.prepareStatement(deleteSql);
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-            
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
-        } finally {
-            DbUtils.closeQuietly(pstmt);
-            DbUtils.closeQuietly(connection);
-        }
-    }
-    
-    
-    public List<Integer> getAllTagIds() throws CommandException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-        ResultSet result = null;
-        List<Integer> tags = new ArrayList<>();
-        try {
-            connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT id FROM tags;";
-            pstmt = connection.prepareStatement(selectSql);
-            
-            result = pstmt.executeQuery();
-
-            while (result.next()) {
-                tags.add(result.getInt("id"));
-            }
-
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch tags to product: " + ex.getMessage());
-        } finally {
-            DbUtils.closeQuietly(connection, pstmt, result);
-        }
-        return tags;
-    }
-
-    @Override
-    public void deleteUnusedTags() throws CommandException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-        List<Integer> tagids = getAllTagIds();
-        try {
-            connection = PersistenceFacadeDB.getConnection();
-            String deleteSql = "DELETE FROM tags WHERE id = ?;";
-            pstmt = connection.prepareStatement(deleteSql);
-            for(Integer i : tagids){
-                try{
-                    pstmt.setInt(1, i);
-                    pstmt.executeUpdate();
-                }catch(SQLException ex){
-                    if(ex.getErrorCode() != 1451){
-                        throw ex;
-                    }
-                }
-            }
-            
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("could not delete");
-        } finally {
-            DbUtils.closeQuietly(pstmt);
-            DbUtils.closeQuietly(connection);
-        }
-    } 
 
 }

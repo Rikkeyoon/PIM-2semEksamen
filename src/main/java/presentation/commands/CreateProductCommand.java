@@ -10,11 +10,14 @@ import logic.LogicFacade;
 import logic.Product;
 
 /**
+ * The purpose of CreateProductCommand is to get the new product's information
+ * and pass that information on to the LogicFacade, and then put the new product
+ * as a session attribute
  *
  * @author carol
  */
 public class CreateProductCommand extends Command {
-    
+
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
@@ -29,14 +32,13 @@ public class CreateProductCommand extends Command {
         String seotext = request.getParameter("seo_text");
         int status = Integer.parseInt(request.getParameter("status"));
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages(
-                (List<Part>)request.getAttribute("partList"), 
+                (List<Part>) request.getAttribute("partList"),
                 request.getParameter("fileSelected"));
 
-        Product p = LogicFacade.createProduct(id, itemnumber, name, brand, 
+        Product p = LogicFacade.createProduct(id, itemnumber, name, brand,
                 description, tags, category, supplier, seotext, status, imageURLs);
         request.getSession().setAttribute("product", p);
         return "index";
     }
-    
 
 }

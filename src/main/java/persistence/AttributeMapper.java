@@ -10,12 +10,21 @@ import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * The purpose of the AttributeMapper is to save the categories attributes in
+ * the database and to edit the stored data when necessary
  *
  * @author carol
  */
-public class AttributeMapper implements IAttributeMapper {
-    
-    @Override
+public class AttributeMapper {
+
+    /**
+     * Method to get the unique storage id for a specific attribute based on the
+     * name of the attribute
+     *
+     * @param attributename
+     * @return int
+     * @throws CommandException
+     */
     public int getAttributeId(String attributename) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -33,8 +42,8 @@ public class AttributeMapper implements IAttributeMapper {
 
             while (result.next()) {
                 id = result.getInt(1);
-
             }
+
             if (id == 0) {
                 throw new SQLException();
             }
@@ -46,7 +55,14 @@ public class AttributeMapper implements IAttributeMapper {
         return id;
     }
 
-    @Override
+    /**
+     * Method to insert the new attributes into the database
+     *
+     * @param attributeNames
+     * @return List of ints The attributes unique storage id, which are auto
+     * incremented
+     * @throws CommandException
+     */
     public List<Integer> createAttributes(List<String> attributeNames)
             throws CommandException {
         Connection connection = null;
@@ -63,7 +79,7 @@ public class AttributeMapper implements IAttributeMapper {
                 int rowsUpdated = pstmt.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                   throw new SQLException(); 
+                    throw new SQLException();
                 }
 
                 attributeIds.add(getLastInsertedId(connection));
@@ -77,6 +93,15 @@ public class AttributeMapper implements IAttributeMapper {
         return attributeIds;
     }
 
+    /**
+     * Private method to get the last inserted id in the database, since the id
+     * is auto incremented
+     *
+     * @param connection It uses the same connection, as the method which calls
+     * this method so it can get the correct id
+     * @return int The unique database id
+     * @throws CommandException
+     */
     private int getLastInsertedId(Connection connection) throws CommandException {
         PreparedStatement pstmt = null;
         ResultSet result = null;

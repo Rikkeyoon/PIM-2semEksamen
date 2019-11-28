@@ -6,16 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The purpose of Command is to carry out an action 
- * It keeps a list of html actions mapped to related commands (Polymorfi)
+ * The purpose of Command is to carry out an action It keeps a list of html
+ * actions mapped to related commands (Polymorfi)
  *
  * Pattern: Command
  *
  * @author carol
  */
 public abstract class Command {
+
     private static HashMap<String, Command> commands;
-    
+
+    /**
+     * A private method to initiate the commands Map
+     */
     private static void initCommands() {
         commands = new HashMap<>();
         commands.put("get_view", new ViewPageCommand());
@@ -26,11 +30,14 @@ public abstract class Command {
         commands.put("create_category", new CreateCategoryCommand());
         commands.put("edit_category", new EditCategoryCommand());
     }
-    
+
     /**
+     * A method to get the specific Command associated with the request or a
+     * default UnknownCommand
      *
      * @param request servlet request
-     * @return a Command, which relate to the request param, or a default UnknownCommand
+     * @return a Command, which relate to the request param, or a default
+     * UnknownCommand
      */
     static Command from(HttpServletRequest request) {
         String cmd = request.getParameter("cmd");
@@ -39,13 +46,14 @@ public abstract class Command {
         }
         return commands.getOrDefault(cmd, new UnknownCommand());
     }
-    
+
     /**
+     * A method to execute the Command's task
      *
      * @param request servlet request
      * @param response servlet response
      * @throws CommandException if an error occurs
      */
     abstract String execute(HttpServletRequest request, HttpServletResponse response)
-           throws CommandException;
+            throws CommandException;
 }

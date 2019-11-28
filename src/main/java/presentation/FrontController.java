@@ -27,7 +27,10 @@ public class FrontController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods This method receives the request from the User Interface,
+     * delegates to a command, which carries out the wanted action from the request,
+     * and then forwards the result of the action to a view, or the index page with
+     * a user-friendly error message if an error has occurred
      *
      * @param request servlet request
      * @param response servlet response
@@ -38,8 +41,8 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             Command cmd = Command.from(request);
-            if(cmd.getClass() == CreateProductCommand.class
-                    || cmd.getClass() == UpdateProductCommand.class){
+            if (cmd.getClass() == CreateProductCommand.class
+                    || cmd.getClass() == UpdateProductCommand.class) {
                 request.setAttribute("partList", request.getParts());
             }
             String view = cmd.execute(request, response);

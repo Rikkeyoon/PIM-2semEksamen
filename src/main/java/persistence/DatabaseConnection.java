@@ -4,23 +4,30 @@ import exception.CommandException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
+ * The purpose of the DatabaseConnection is to create a connection and
+ * connection pools to a database
  *
  * @author allan, carol
  */
-public class DatabaseConnection implements IDatabaseConnection{
+public class DatabaseConnection implements IDatabaseConnection {
 
     private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
-
     private BasicDataSource basicDS;
 
-    //private constructor
-    public DatabaseConnection(Boolean testMode) throws CommandException{
+    /**
+     * Constructor for DatabaseConnection with the boolean for whether or not
+     * the connection should be made to the test database It also sets up the
+     * connection pool accordingly
+     *
+     * @param testMode
+     * @throws CommandException
+     */
+    public DatabaseConnection(Boolean testMode) throws CommandException {
         try {
             InputStream prob = null;
             basicDS = new BasicDataSource();
@@ -42,28 +49,32 @@ public class DatabaseConnection implements IDatabaseConnection{
             throw new CommandException("Failed to load properties file. " + ex.getMessage());
         }
     }
-    
-    private void connectionPoolSetup(int maxIdle, int minIdle, int initialSize, int maxTotal){
-            basicDS.setMaxIdle(maxIdle);
-            basicDS.setMinIdle(minIdle);
-            basicDS.setInitialSize(initialSize);
-            basicDS.setMaxTotal(maxTotal);
-    }
 
     @Override
     public Connection getConnection() throws CommandException {
-        if(basicDS == null){
+        if (basicDS == null) {
             throw new CommandException("ConnectionPool Not instantiated yet!");
         }
-        try{
+        try {
             return basicDS.getConnection();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new CommandException(ex.getMessage());
         }
     }
-    public static void shutDownConnection(){
-        
+
+    /**
+     * Private method to set up the connection pool
+     *
+     * @param maxIdle
+     * @param minIdle
+     * @param initialSize
+     * @param maxTotal
+     */
+    private void connectionPoolSetup(int maxIdle, int minIdle, int initialSize, int maxTotal) {
+        basicDS.setMaxIdle(maxIdle);
+        basicDS.setMinIdle(minIdle);
+        basicDS.setInitialSize(initialSize);
+        basicDS.setMaxTotal(maxTotal);
     }
-    
-    
+
 }

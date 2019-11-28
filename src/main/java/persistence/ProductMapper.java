@@ -14,13 +14,21 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * The purpose of the ProductMapper is to save the products in the database and
+ * to edit the stored data when necessary
+ *
  * @author Nina Lisakowski, Allan, carol
  */
-public class ProductMapper implements IProductMapper {
+public class ProductMapper {
 
-    private static ICategoryMapper cm = new CategoryMapper();
+    private static CategoryMapper cm = new CategoryMapper();
 
-    @Override
+    /**
+     * Method to insert a new product's data into the database
+     *
+     * @param product
+     * @throws CommandException
+     */
     public void create(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -51,9 +59,15 @@ public class ProductMapper implements IProductMapper {
         }
     }
 
-    @Override
-    public List<Product> getProductsByName(String names)
-            throws CommandException {
+    /**
+     * Method to get multiple products from the database that share the same
+     * name or have the String as part of their names
+     *
+     * @param names
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsByName(String names) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
@@ -93,7 +107,13 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
-    @Override
+    /**
+     * Method to get a specific product by its unique database id
+     *
+     * @param id
+     * @return Product
+     * @throws CommandException
+     */
     public Product getProduct(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -121,7 +141,6 @@ public class ProductMapper implements IProductMapper {
 
                 product = new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images);
-
             }
 
             if (product == null) {
@@ -136,7 +155,13 @@ public class ProductMapper implements IProductMapper {
         return product;
     }
 
-    @Override
+    /**
+     * Method to get a product's unique database id by the product's other data
+     *
+     * @param p Product
+     * @return int
+     * @throws CommandException
+     */
     public int getProductDBId(Product p) throws CommandException {
         int returnInt = 0;
         Connection connection = null;
@@ -171,7 +196,14 @@ public class ProductMapper implements IProductMapper {
         return returnInt;
     }
 
-    @Override
+    /**
+     * Method to get all products that share a category or share the String as
+     * part of their categories' names
+     *
+     * @param categorynames
+     * @return List of Products
+     * @throws CommandException
+     */
     public List<Product> getProductsByCategory(String categorynames)
             throws CommandException {
         Connection connection = null;
@@ -215,7 +247,12 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
-    @Override
+    /**
+     * Method to get all products stored in the database
+     *
+     * @return List of Products
+     * @throws CommandException
+     */
     public List<Product> getAllProducts() throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -254,17 +291,30 @@ public class ProductMapper implements IProductMapper {
         return products;
     }
 
-    @Override
+    /**
+     * Method to get all products that share a tag or share the String as part
+     * of their tags' names
+     *
+     * @param tagSearch
+     * @return List of Products
+     * @throws CommandException
+     */
     public List<Product> getProductsWithTagSearch(String tagSearch) throws CommandException {
         ArrayList<Product> products = new ArrayList<>();
         for (Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)) {
             products.add(getProduct(i));
         }
         return products;
-
     }
 
-    @Override
+    /**
+     * Method to get a product and its category attributes by the product's
+     * unique database id
+     *
+     * @param id
+     * @return Product
+     * @throws CommandException
+     */
     public Product getProductWithCategoryAttributes(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -315,7 +365,12 @@ public class ProductMapper implements IProductMapper {
         return product;
     }
 
-    @Override
+    /**
+     * Method to update the stored data for a specific product
+     *
+     * @param product
+     * @throws CommandException
+     */
     public void update(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -344,7 +399,12 @@ public class ProductMapper implements IProductMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to update the stored data for a specific product's attributes
+     *
+     * @param product
+     * @throws CommandException
+     */
     public void updateAttributes(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -372,7 +432,13 @@ public class ProductMapper implements IProductMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to insert new attribute values for a specific product's based on
+     * the product's category
+     *
+     * @param product
+     * @throws CommandException
+     */
     public void createAttributes(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -397,7 +463,12 @@ public class ProductMapper implements IProductMapper {
         }
     }
 
-    @Override
+    /**
+     * Method to delete all data stored in the database about a specific product
+     *
+     * @param product
+     * @throws CommandException
+     */
     public void delete(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;

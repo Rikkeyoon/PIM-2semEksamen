@@ -12,6 +12,9 @@ import logic.Product;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
+ * The purpose of UpdateProductCommand is to receive the information from the FrontController
+ * and pass it on to the LogicFacade and get a updated product back which is put
+ * as a session attribute, and then a view is returned
  *
  * @author carol
  */

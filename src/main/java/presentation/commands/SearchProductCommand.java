@@ -8,16 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import logic.LogicFacade;
 import logic.Product;
 import org.apache.commons.lang.StringUtils;
-import presentation.Command;
 
 /**
+ * The purpose of SearchProductCommand is to be able to handle receiving
+ * different search terms, ie the id or category, and then return the searched
+ * for products or an empty list, if the products doesn't exist
  *
  * @author carol
  */
 public class SearchProductCommand extends Command {
 
     @Override
-    String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    String execute(HttpServletRequest request, HttpServletResponse response)
+            throws CommandException {
         List<Product> catalog = new ArrayList<>();
         try {
             try {

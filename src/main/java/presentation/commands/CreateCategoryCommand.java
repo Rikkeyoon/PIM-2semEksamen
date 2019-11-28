@@ -8,6 +8,10 @@ import logic.LogicFacade;
 
 
 /**
+ * The purpose of CreateCategoryCommand is to get the new category's information
+ * and pass that information on to the LogicFacade, and then put the new category
+ * as a session attribute
+ * 
  * @author Nina
  */
 public class CreateCategoryCommand extends Command {
