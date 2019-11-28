@@ -2,10 +2,12 @@ package presentation;
 
 import exception.CommandException;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import logic.Category;
 import logic.LogicFacade;
 import logic.Product;
 
@@ -31,13 +33,15 @@ public class CreateProductCommand extends Command {
         String supplier = request.getParameter("supplier");
         String seotext = request.getParameter("seo_text");
         int status = Integer.parseInt(request.getParameter("status"));
+        Map<String, String[]> parameterMap = request.getParameterMap();
         List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages(
                 (List<Part>) request.getAttribute("partList"),
                 request.getParameter("fileSelected"));
 
         Product p = LogicFacade.createProduct(id, itemnumber, name, brand,
-                description, tags, category, supplier, seotext, status, imageURLs);
+                description, tags, supplier, seotext, status, parameterMap, imageURLs);
         request.getSession().setAttribute("product", p);
+
         return "index";
     }
 

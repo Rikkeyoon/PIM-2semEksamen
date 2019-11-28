@@ -14,7 +14,7 @@ import logic.Category;
  * database and also instantiate the mappers that are needed to store the data
  * PersistenceFacadeDB has gotten from the logic layer
  *
- * @author allan, carol
+ * @author allan, carol, Nina
  */
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
@@ -113,6 +113,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         if (p.getImages() != null) {
             im.addPictureURL(pm.getProductDBId(p), p.getImages());
         }
+        pm.createAttributes(p);
     }
 
     @Override
@@ -243,4 +244,19 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return pm.getProductDBId(p);
     }
 
+    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+        am.updateCategoryAttributename(oldAttr, newAttr);
+    }
+
+    @Override
+    public void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
+        for (String s : removeAttr) {
+            int i = am.getAttributeId(s);
+            
+            cm.deleteCategoryAttribute(i);
+            pm.deleteProductAttribute(i);
+            am.deleteAttribute(i);
+        }
+    }
+    
 }

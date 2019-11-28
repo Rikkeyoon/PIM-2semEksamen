@@ -187,4 +187,10 @@ public interface IPersistenceFacade {
      */
     public int getProductStorageId(Product p) throws CommandException;
 
+    public void updateCategoryAttributename(String oldAttr, String newAttr)
+            throws CommandException;
+
+    public void deleteAttributeFromCategory(List<String> removeAttr)
+            throws CommandException;
+
 }

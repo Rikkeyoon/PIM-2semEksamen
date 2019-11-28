@@ -69,15 +69,13 @@
                        value="${product.getCategory().getCategoryname()}" required>
                 <div id="divValidateCategory"></div>
                 <br>
+                <h3>Attributes</h3>
                 <c:forEach items="${product.getCategoryAttributes().keySet()}" 
                            var="key"> 
                     <div>
                         <label for="category_attribute"><b>${key}</b></label>
                         <br>
-                        <textarea name="${key}" rows="4" cols="20" style="resize: none; 
-                                  width: 25%;" required="required">
-                            ${product.getCategoryAttributes().get(key)}  
-                        </textarea>
+                        <input type="text" name="${key}" value="${product.getCategoryAttributes().get(key)}">
                     </div>
                     <br>
                 </c:forEach>
@@ -135,7 +133,7 @@
             <br>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
-                
+
                 <input class="deletebtn" type="button" value="Delete Product" 
                        onclick="dconfirmation()"/>
             </form>
@@ -144,106 +142,88 @@
         <!-- JavaScript functions -->
         <script type="text/javascript">
             function handleFileSelect(evt) {
-            document.getElementById('list').innerHTML = "";
-            var files = evt.target.files;
-            // Loop through the FileList and render image files as thumbnails.
-            for (var i = 0, f; f = files[i]; i++) {
+                document.getElementById('list').innerHTML = "";
+                var files = evt.target.files;
+                // Loop through the FileList and render image files as thumbnails.
+                for (var i = 0, f; f = files[i]; i++) {
 
-            // Only process image files.
-            if (!f.type.match('image.*')) {
-            continue;
-            }
+                    // Only process image files.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
 
-            var reader = new FileReader();
-            // Closure to capture the file information.
-            reader.onload = (function (theFile) {
-            return function (e) {
-            // Render thumbnail.
-            var span = document.createElement('span');
-            span.innerHTML =
-            [
-                    '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
-            ].join('');
-            document.getElementById('list').insertBefore(span, null);
-            };
-            })(f);
-            // Read in the image file as a data URL.
-            reader.readAsDataURL(f);
-            }
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML =
+                                    [
+                                        '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+                                    ].join('');
+                            document.getElementById('list').insertBefore(span, null);
+                        };
+                    })(f);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(f);
+                }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    
             function removeThumbnails() {
-            var empty = document.getElementById('list');
-            empty.innerHTML = [' '].join('');
-            document.getElementById('list').insertBefore(empty, null);
+                var empty = document.getElementById('list');
+                empty.innerHTML = [' '].join('');
+                document.getElementById('list').insertBefore(empty, null);
             }
 
             function validateID() {
-            << << << < HEAD:src/main/webapp/WEB-INF/editproduct.jsp
                 var id = $("#product_id").val();
                 var idformat = /[0-9]/;
-                
-                          if (!id.match(idformat)) 
-                          {
+
+                if (!id.match(idformat))
+                {
                     $("#updatebtn").attr('disabled', 'disabled');
-            $("#divValidateId").html("Invalid Id").addClass('form-alert');
-                } else  {
+                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
+                } else {
                     $("#updatebtn").removeAttr('disabled');
-            $("#divValidateId").html("").removeClass('form-alert');
-                        }
-                        
-                        }
-                        
-                    function validateCategory() 
-                        {
-                    var category = $("#product_category").val();
-            var categoryformat = /[a-z]/;
-            if (!category.match(categoryformat)) {
-            $("#updatebtn").attr('disabled', 'disabled');
-            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateCategory").html("").removeClass('form-alert');
-            }
-            === === =
-                    var id = $("#product_id").val();
-            var idformat = /[0-9]/;
-            if (!id.match(idformat)) {
-            $("#updatebtn").attr('disabled', 'diasabled');
-            $("#divValidateId").html("Invalid Id").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateId").html("").removeClass('form-alert');
-            }
+                    $("#divValidateId").html("").removeClass('form-alert');
                 }
-                
-                
-                function validateCategory() {
-                    var category = $("#product_category").val();
-            var categoryformat = /[a-z]/;
-            if (!category.match(categoryformat)) {
-            $("#updatebtn").attr('disabled', 'diasbled');
-            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateCategory").html("").removeClass('form-alert');
-            }
-            >>> >>> > tagFeature:src / main / webapp / WEB - INF / updateproduct.jsp
-                            }
-                            
-                        
-                        function dconfirmation() {
-                    if (confirm("You are about to delete a product!")) {
-            document.getElementById("delcmd").value = "delete_product";
-            document.getElementById("delform").submit();
-            alert("Product has been deleted!");
-            } else {
-            alert("Return to Product page!");
+
             }
 
-                        }
-                        
-                        </script>
+            function validateCategory(){
+                var category = $("#product_category").val();
+                var categoryformat = /[a-z]/;
+                if (!category.match(categoryformat)) {
+                    $("#updatebtn").attr('disabled', 'disabled');
+                    $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
+                } else {
+                    $("#updatebtn").removeAttr('disabled');
+                    $("#divValidateCategory").html("").removeClass('form-alert');
+                }
+                var id = $("#product_id").val();
+                var idformat = /[0-9]/;
+                if (!id.match(idformat)) {
+                    $("#updatebtn").attr('disabled', 'diasabled');
+                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
+                } else {
+                    $("#updatebtn").removeAttr('disabled');
+                    $("#divValidateId").html("").removeClass('form-alert');
+                }
+            }
+            
+            function dconfirmation() {
+                if (confirm("You are about to delete a product!")) {
+                    document.getElementById("delcmd").value = "delete_product";
+                    document.getElementById("delform").submit();
+                    alert("Product has been deleted!");
+                } else {
+                    alert("Return to Product page!");
+                }
+            }
+
+        </script>
     </body>
 </html>

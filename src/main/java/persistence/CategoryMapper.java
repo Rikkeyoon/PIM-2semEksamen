@@ -63,17 +63,19 @@ public class CategoryMapper {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
             for (Integer id : attributeIds) {
-                pstmt.setString(1, category.getCategoryname());
-                pstmt.setInt(2, id);
+                try {
+                    pstmt.setString(1, category.getCategoryname());
+                    pstmt.setInt(2, id);
 
-                int rowsUpdated = pstmt.executeUpdate();
-
-                if (rowsUpdated == 0) {
-                    throw new NullPointerException();
+                    int rowsUpdated = pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    if (e.getErrorCode() != 1062) {
+                        throw e;
+                    }
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category");
+            throw new CommandException("CreateCategoryAttributes Could not create new attributes" + ex.getMessage() + category.toString());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -148,6 +150,27 @@ public class CategoryMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return category;
+    }
+
+    public void deleteCategoryAttribute(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM category_attributes WHERE attribute_id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from category");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
     }
 
 }

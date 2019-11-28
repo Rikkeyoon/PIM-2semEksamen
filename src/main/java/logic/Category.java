@@ -59,5 +59,4 @@ public class Category {
     public List<String> getAttributes() {
         return attributes;
     }
-
 }
