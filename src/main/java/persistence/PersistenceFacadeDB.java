@@ -47,8 +47,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public static Connection getConnection() throws CommandException {
         return DBC.getConnection();
     }
-    
-    
+
     /**
      * Method to get multiple products' storage ids from a tag
      *
@@ -60,7 +59,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             throws CommandException {
         return tm.getProductsIDFromTagNameSearch(tagSearch);
     }
-    
+
     /**
      * Method to get pictures that are associated with a specific product
      *
@@ -68,11 +67,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return List Pair of String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> getPicturesWithId(int id) 
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id)
             throws CommandException {
         return im.getPicturesWithId(id);
     }
-    
+
     /**
      * Method to get the primary picture for a specific product
      *
@@ -80,7 +79,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return Pair of String and boolean
      * @throws CommandException
      */
-    public static Pair<String, Boolean> getPrimaryImageWithId(int id) 
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id)
             throws CommandException {
         return im.getPrimaryPictureWithId(id);
     }
@@ -130,11 +129,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         try {
             pm.updateAttributes(p);
         } catch (CommandException e) {
-            if (p.getTags() != null) {
-                tm.deleteTagsForProduct(p.getId());
-                createProductTags(p.getId(), p.getTags());
-                tm.deleteUnusedTags();
-            }
+        }
+        if (p.getTags() != null) {
+            tm.deleteTagsForProduct(p.getId());
+            createProductTags(p.getId(), p.getTags());
+            tm.deleteUnusedTags();
         }
     }
 

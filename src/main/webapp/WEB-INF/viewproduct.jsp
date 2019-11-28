@@ -54,6 +54,15 @@
             <label for="product_category"><b>Category</b></label>
             <p>${product.getCategory().getCategoryname()}</p>
             <br>
+            <c:forEach items="${product.getCategoryAttributes().keySet()}" 
+                       var="key"> 
+                <div>
+                    <label for="category_attribute"><b>${key}</b></label>
+                    <p>${product.getCategoryAttributes().get(key)}</p>
+                </div>
+                <br>
+            </c:forEach>
+            <br>
             <label for="supplier"><b>Supplier</b></label>
             <p>${product.getSupplier()} </p>
             <br>
@@ -62,15 +71,6 @@
             <br>
             <label for="status"><b>Status</b></label>
             <p>${product.getStatus()} </p>
-            <br>
-            <c:forEach items="${product.getCategoryAttributes().keySet()}" 
-                       var="key"> 
-                <div>
-                    <b>${key}</b>
-                    <p>${product.getCategoryAttributes().get(key)}</p>
-                </div>
-                <br>
-            </c:forEach>
             <br>
 
             <c:forEach items="${product.getImages()}" var="image"> 

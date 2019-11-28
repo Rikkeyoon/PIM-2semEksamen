@@ -20,8 +20,8 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -168,11 +168,8 @@ public class LogicController {
         try {
             product = pf.getProductWithCategoryAttributes(id);
         } catch (CommandException ex) {
-            //Doesn't need to give this command exception to the user. 
-            //It just means that the product with that id doesn't have any category attributes yet
-        }
-        if (product == null) {
             product = pf.getProduct(id);
+            createCategoryAttributeMap(product);
         }
 
         product.setTags(pf.getTagsForProductWithID(product.getId()));
