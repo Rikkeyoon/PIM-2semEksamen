@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logic.Category;
 import logic.LogicFacade;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.ArtifactUtils;
 
 /**
@@ -56,7 +57,7 @@ public class EditCategoryCommand extends Command {
         }
         String categoryname = request.getParameter("category");
         String[] attributes = request.getParameterValues("attribute");
-        if (attributes != null && !attributes[0].isBlank()) {
+        if (attributes != null && StringUtils.isNotBlank(attributes[0])) {
             Category c = LogicFacade.editCategory(categoryname, attributes);
             request.getSession().setAttribute("category", c);
         }
