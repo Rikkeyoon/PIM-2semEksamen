@@ -47,9 +47,7 @@
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" 
-                          style="resize: none; width: 25%;" required="required">
-                    ${product.getDescription()}
-                </textarea>
+                          style="resize: none; width: 25%;" required="required">${product.getDescription()}</textarea>
                 <br><br>
                 <label for="product_tags"><b>Tags</b></label>
                 <br>
