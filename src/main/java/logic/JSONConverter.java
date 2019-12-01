@@ -12,7 +12,7 @@ import java.io.IOException;
 public class JSONConverter {
 
     private ObjectMapper mapper = new ObjectMapper();
-    private static final String UPLOAD_DIR = "json";
+    private static final String UPLOAD_DIR = "src/main/webapp/WEB-INF";
     private static final String WORKING_DIR = System.getProperty("user.dir");
 
     /**
@@ -26,10 +26,11 @@ public class JSONConverter {
     public String convertObjectToJSON(Object o) throws CommandException {
         String json = "";
         try {
-            //get Class to acess the class' methods
-            Class<? extends Object> aClass = o.getClass();
-            //get the Object's name to use as the filename
-            String fileName = aClass.getName();
+//            //get Class to acess the class' methods
+//            Class<? extends Object> aClass = o.getClass();
+//            //get the Object's name to use as the filename
+//            String fileName = aClass.getName();
+            String fileName = "catalog.json";
 
             File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
             if (!uploadFolder.exists()) {
@@ -39,8 +40,7 @@ public class JSONConverter {
             File file = new File(WORKING_DIR + File.separator
                     + UPLOAD_DIR + File.separator + fileName);
             mapper.writeValue(file, o);
-            //delete the file again, so it doesn't create a bunch of crap
-            file.delete();
+//            file.delete();
 
             // Java objects to JSON string - compact-print
             json = mapper.writeValueAsString(o);
