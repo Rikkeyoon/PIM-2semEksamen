@@ -345,8 +345,12 @@ public class Product {
      */
     public String getTagsAsString() {
         StringBuilder sb = new StringBuilder();
-        for (String s : tags) {
-            sb.append(s).append(", ");
+        try {
+            for (String s : tags) {
+                sb.append(s).append(", ");
+            }
+        } catch (NullPointerException e) {
+            sb.append("  ");
         }
         String s = sb.toString();
         return s.substring(0, s.length() - 2);

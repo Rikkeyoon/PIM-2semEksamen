@@ -18,10 +18,8 @@
     <body>
         <h1>Product Catalog</h1>
         <br>
-
+        
         <h3>Search</h3>
-        <br>
-
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
             <label for="product_id"><b>Product ID</b></label>
@@ -153,5 +151,10 @@
             <input type="submit" value="Edit category">
         </form>
         <br><br>
+        
+        <form name="download" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="download_catalog">
+            <input type="submit" value="Download Catalog">
+        </form>
     </body>
 </html>

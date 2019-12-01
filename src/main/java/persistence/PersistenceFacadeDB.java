@@ -252,11 +252,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         for (String s : removeAttr) {
             int i = am.getAttributeId(s);
-            
+
             cm.deleteCategoryAttribute(i);
             pm.deleteProductAttribute(i);
             am.deleteAttribute(i);
         }
     }
-    
+
 }

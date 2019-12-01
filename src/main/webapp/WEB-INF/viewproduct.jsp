@@ -78,5 +78,10 @@
             <input type="hidden" name="view" value="updateproduct">
             <input type="submit" value="Edit">
         </form>
+        <br><br>
+        <form name="download" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="download_product">
+            <input type="submit" value="Download Product">
+        </form>
     </body>
 </html>

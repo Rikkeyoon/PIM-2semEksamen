@@ -46,10 +46,16 @@ public class FrontController extends HttpServlet {
                 request.setAttribute("partList", request.getParts());
             }
             String view = cmd.execute(request, response);
-            if (view.equals("index")) {
-                request.getRequestDispatcher(view + ".jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+            switch (view) {
+                case "index":
+                    request.getRequestDispatcher(view + ".jsp").forward(request, response);
+                    break;
+                case "/download":
+                    request.getRequestDispatcher("download").forward(request, response);
+                    break;
+                default:
+                    request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+                    break;
             }
         } catch (CommandException ex) {
             request.setAttribute("error", ex.getMessage());

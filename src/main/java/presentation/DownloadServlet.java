@@ -1,8 +1,12 @@
 package presentation;
 
+import exception.CommandException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DownloadServlet", urlPatterns = {"/download"})
 public class DownloadServlet extends HttpServlet {
 
+    private static final String DOWNLOAD_DIR = "json";
+    private static final String WORKING_DIR = System.getProperty("user.dir");
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -29,21 +36,25 @@ public class DownloadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String fileName = (String) request.getSession().getAttribute("file_name");
         response.setContentType("application/json");
         //the default Content-Disposition is “inline”, but we need “attachment” for a downloadable file.
-        response.setHeader("Content-disposition", "attachment; filename=catalog.json");
+        response.setHeader("Content-disposition", "attachment; filename=" 
+                + fileName);
 
+        String filePlacement = WORKING_DIR + File.separator + DOWNLOAD_DIR
+                + File.separator + fileName;
+        File file = new File(filePlacement);
+
+        response.setContentLength((int) file.length());
         /*Using a try-with-resources statement, the application will automatically
          *close any AutoCloseable instances defined as part of the try statement
          */
-        try (InputStream in = request.getServletContext().getResourceAsStream("/WEB-INF/catalog.json");
+        try (FileInputStream in = new FileInputStream(file);
                 OutputStream out = response.getOutputStream()) {
-
-            byte[] buffer = new byte[1048];
-
-            int numBytesRead;
-            while ((numBytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, numBytesRead);
+            int bytes;
+            while ((bytes = in.read()) != -1) {
+                out.write(bytes);
             }
         }
     }

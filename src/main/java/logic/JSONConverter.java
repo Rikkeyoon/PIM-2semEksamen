@@ -4,15 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.CommandException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
  * @author carol
  */
 public class JSONConverter {
-
-    private ObjectMapper mapper = new ObjectMapper();
-    private static final String UPLOAD_DIR = "src/main/webapp/WEB-INF";
+    
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static final String UPLOAD_DIR = "json";
     private static final String WORKING_DIR = System.getProperty("user.dir");
 
     /**
@@ -20,43 +21,70 @@ public class JSONConverter {
      * ObjectMapper
      *
      * @param o Object
-     * @return String
      * @throws exception.CommandException
      */
-    public String convertObjectToJSON(Object o) throws CommandException {
-        String json = "";
+    public static void convertObjectToJSON(Object o) throws CommandException {
         try {
 //            //get Class to acess the class' methods
 //            Class<? extends Object> aClass = o.getClass();
 //            //get the Object's name to use as the filename
 //            String fileName = aClass.getName();
-            String fileName = "catalog.json";
-
+            String fileName = "product.json";
+            
             File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
             if (!uploadFolder.exists()) {
                 uploadFolder.mkdirs();
             }
-
+            
             File file = new File(WORKING_DIR + File.separator
                     + UPLOAD_DIR + File.separator + fileName);
+            // Java objects to JSON string - compact-print
             mapper.writeValue(file, o);
 //            file.delete();
-
-            // Java objects to JSON string - compact-print
-            json = mapper.writeValueAsString(o);
         } catch (IOException ex) {
             throw new CommandException("" + ex);
         }
-        return json;
     }
 
+    /**
+     * Method to convert Java Objects into JSON Strings using the jackson
+     * ObjectMapper
+     *
+     * @param products List of Products
+     * @throws exception.CommandException
+     */
+    public static void convertProductsToJSON(List<Product> products) 
+            throws CommandException {
+        try {
+            String fileName = "catalog.json";
+            
+            File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
+            if (!uploadFolder.exists()) {
+                uploadFolder.mkdirs();
+            }
+            
+            File file = new File(WORKING_DIR + File.separator
+                    + UPLOAD_DIR + File.separator + fileName);
+            
+            StringBuilder sb = new StringBuilder();
+            for (Product product : products) {
+                // Java objects to JSON string - compact-print
+                sb.append(mapper.writeValueAsString(product));   
+            }
+            
+            mapper.writeValue(file, sb.toString());
+        } catch (IOException ex) {
+            throw new CommandException("" + ex);
+        }
+    }
+    
     /**
      * Method to convert a JSON String into a Category Object
      *
      * @param jsonString
      * @return Object
      */
-    public Category convertJSONToCategoryObject(String jsonString) {
+    public static Category convertJSONToCategoryObject(String jsonString) {
         Category category = null;
         try {
             Object o = mapper.readValue(jsonString, Object.class);
@@ -65,4 +93,5 @@ public class JSONConverter {
         }
         return category;
     }
+
 }
