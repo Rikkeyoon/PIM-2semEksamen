@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logic.JSONConverter;
+import logic.LogicFacade;
 import logic.Product;
 
 /**
@@ -20,7 +21,7 @@ public class DownloadCatalogCommand extends Command {
             throws CommandException {
         HttpSession session = request.getSession();
         List<Product> catalog = (List<Product>) session.getAttribute("catalog");
-        JSONConverter.convertProductsToJSON(catalog);
+        LogicFacade.convertProductsToJSON(catalog);
         session.setAttribute("file_name", "catalog.json");
         return "/download";
     }

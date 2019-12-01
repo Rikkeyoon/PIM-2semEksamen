@@ -81,7 +81,7 @@
         <br><br>
         <form name="download" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="download_product">
-            <input type="submit" value="Download Product">
+            <input type="submit" value="Download product">
         </form>
     </body>
 </html>

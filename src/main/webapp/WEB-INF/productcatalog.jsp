@@ -154,7 +154,7 @@
         
         <form name="download" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="download_catalog">
-            <input type="submit" value="Download Catalog">
+            <input type="submit" value="Download catalog">
         </form>
     </body>
 </html>

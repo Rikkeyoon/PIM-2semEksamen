@@ -201,4 +201,12 @@ public class LogicFacade {
         LogicController.deleteAttributeFromCategory(removeAttr);
     }
 
+    public static void convertProductsToJSON(List<Product> catalog) throws CommandException {
+        JSONConverter.convertProductsToJSON(catalog);
+    }
+
+    public static void convertObjectToJSON(Product p) throws CommandException {
+        JSONConverter.convertObjectToJSON(p);
+    }
+
 }
