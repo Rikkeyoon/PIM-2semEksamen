@@ -465,7 +465,7 @@ public class ProductMapper {
                 pstmt.executeUpdate();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID " + ex.getMessage());
+            throw new CommandException("catatr: Could not find a product with the given ID " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -512,7 +512,29 @@ public class ProductMapper {
             pstmt.executeUpdate();
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not delete attribute from product");
+            throw new CommandException("Could not delete attribute from product " + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+    
+    
+    public void deleteProductAttributes(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attribute_values WHERE product_id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from product " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

@@ -108,12 +108,15 @@ public class LogicController {
         }
         p.setImages(imageURLs);
         //saves images
+        
+        pf.updatePrimaryPicture(p.getId(), fileSelected);
+        
         pf.addImages(p);
         if (picsToDelete != null && picsToDelete.length > 0) {
             p.removeImages(picsToDelete);
             pf.deleteImages(picsToDelete);
         }
-        pf.updatePrimaryPicture(p.getId(), fileSelected);
+        p.setImages(pf.getPicturesForProduct(p.getId()));
         //saves tags
         pf.deleteTagsForProduct(p.getId());
         pf.createProductTags(p.getId(), p.getTags());
@@ -131,6 +134,9 @@ public class LogicController {
      * @throws CommandException
      */
     public static void deleteProduct(Product p) throws CommandException {
+        pf.deleteAllImages(p);
+        pf.deleteTagsForProduct(p.getId());
+        pf.deleteProductAttributes(p.getId());
         pf.deleteProduct(p);
     }
 

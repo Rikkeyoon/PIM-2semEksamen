@@ -192,15 +192,20 @@ public interface IPersistenceFacade {
 
     public void deleteAttributeFromCategory(List<String> removeAttr)
             throws CommandException;
-    
+
     public void createProductAttributes(Product product) throws CommandException;
 
     public void updateProductAttributes(Product product) throws CommandException;
-    
-    public void deleteTagsForProduct(int id) throws CommandException;
-    
-    public void deleteUnusedTags() throws CommandException;
-    
-        public void updatePrimaryPicture(int productId, String imageURL) throws CommandException;
 
+    public void deleteTagsForProduct(int id) throws CommandException;
+
+    public void deleteUnusedTags() throws CommandException;
+
+    public void updatePrimaryPicture(int productId, String imageURL) throws CommandException;
+
+    public List<Pair<String, Boolean>> getPicturesForProduct(int id) throws CommandException;
+
+    public void deleteAllImages(Product p)throws CommandException;
+
+    public void deleteProductAttributes(int id)throws CommandException;
 }
