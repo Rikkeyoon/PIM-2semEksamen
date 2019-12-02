@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import exception.CommandException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import javax.servlet.http.Part;
 import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
@@ -28,10 +30,7 @@ public class ImageMapper {
 
     private static final String UPLOAD_DIR = "img";
     private static final String WORKING_DIR = System.getProperty("user.dir");
-    private static final Cloudinary CLOUDINARY = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "dmk5yii3m",
-            "api_key", "228872137167968",
-            "api_secret", "1IRxrcNuw4zVdlwJBiqAgktyyeU"));
+    private static Cloudinary CLOUDINARY = null;
 
     /**
      * Method to upload the images to cloudinary
@@ -68,7 +67,7 @@ public class ImageMapper {
                         String URL = null;
                         Boolean bool = false;
 
-                        uploadResult = CLOUDINARY.uploader().upload(file, ObjectUtils.emptyMap());
+                        uploadResult = getCloudinaryConnection().uploader().upload(file, ObjectUtils.emptyMap());
 
                         URL = (String) uploadResult.get(new String("url"));
 
@@ -301,7 +300,7 @@ public class ImageMapper {
      */
     public void removePictureFromCloudinary(String URL) throws CommandException {
         try {
-            CLOUDINARY.uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
+            getCloudinaryConnection().uploader().destroy(getPublicIDFromURL(URL), ObjectUtils.emptyMap());
         } catch (Exception e) {
             throw new CommandException("Could not delete picture");
         }
@@ -316,5 +315,25 @@ public class ImageMapper {
      */
     private String getPublicIDFromURL(String url) {
         return url.substring(62, url.length() - 4);
+    }
+    
+    private Cloudinary getCloudinaryConnection()throws CommandException{
+        if(CLOUDINARY == null){
+            try{
+            InputStream prob = null;
+            prob = ImageMapper.class.getResourceAsStream("/cloudinary.properties");
+            
+            Properties pros = new Properties();
+            pros.load(prob);
+            
+            CLOUDINARY = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", pros.getProperty("cloud_name"),
+            "api_key", pros.getProperty("api_key"),
+            "api_secret", pros.getProperty("api_secret")));
+            }catch(IOException ex){
+                throw new CommandException("Could not read Cloudinary Properties.");
+            }
+        }    
+        return CLOUDINARY;
     }
 }

@@ -69,6 +69,7 @@ nb-configuration.xml
 #Database properties
 db.properties
 testdb.properties
+cloudinary.properties
 
 ### Windows ###
 # Windows thumbnail cache files
