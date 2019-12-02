@@ -179,9 +179,6 @@ INSERT INTO category_attributes VALUES ("Bed", 21);
 INSERT INTO category_attributes VALUES ("Bed", 22);
 INSERT INTO category_attributes VALUES ("Bed", 23);
 
-attribute_id INT NOT NULL,
-	product_id INT NOT NULL,
-	attribute_value VARCHAR(200) NOT NULL,
 INSERT INTO attribute_values VALUES (1, 1, "XXS");
 INSERT INTO attribute_values VALUES (1, 2, "L");
 INSERT INTO attribute_values VALUES (1, 3, "L");
