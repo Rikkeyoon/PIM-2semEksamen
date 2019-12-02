@@ -57,11 +57,16 @@ public class EditCategoryCommand extends Command {
         }
         String categoryname = request.getParameter("category");
         String[] attributes = request.getParameterValues("attribute");
-        if (attributes != null && StringUtils.isNotBlank(attributes[0])) {
-            Category c = LogicFacade.editCategory(categoryname, attributes);
-            request.getSession().setAttribute("category", c);
+        List<String> gAttr = new ArrayList();
+        for (String s: attributes){
+        if (attributes != null && StringUtils.isNotBlank(s)) {
+            gAttr.add(s);
+     
+            }
         }
-
+        String[] cAttr = new String[gAttr.size()];
+        Category c = LogicFacade.editCategory(categoryname, gAttr.toArray(cAttr));
+            request.getSession().setAttribute("category", c);
         return "productcatalog";
     }
 
