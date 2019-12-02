@@ -47,8 +47,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public static Connection getConnection() throws CommandException {
         return DBC.getConnection();
     }
-    
-    
+
     /**
      * Method to get multiple products' storage ids from a tag
      *
@@ -60,7 +59,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             throws CommandException {
         return tm.getProductsIDFromTagNameSearch(tagSearch);
     }
-    
+
     /**
      * Method to get pictures that are associated with a specific product
      *
@@ -68,11 +67,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return List Pair of String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> getPicturesWithId(int id) 
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id)
             throws CommandException {
         return im.getPicturesWithId(id);
     }
-    
+
     /**
      * Method to get the primary picture for a specific product
      *
@@ -80,7 +79,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return Pair of String and boolean
      * @throws CommandException
      */
-    public static Pair<String, Boolean> getPrimaryImageWithId(int id) 
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id)
             throws CommandException {
         return im.getPrimaryPictureWithId(id);
     }
@@ -101,48 +100,18 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void createProduct(Product p) throws CommandException {
-        try {
-            Category c = p.getCategory();
-            cm.createCategory(c);
-        } catch (CommandException e) {
-            //If an exception is thrown it means that the category already exits
-            //We don't need to forward the message to the user
-        }
-
-        pm.create(p);
-        if (p.getImages() != null) {
-            im.addPictureURL(pm.getProductDBId(p), p.getImages());
-        }
-        pm.createAttributes(p);
+    public int createProduct(Product p) throws CommandException {
+        return pm.create(p);
     }
 
     @Override
     public void updateProduct(Product p) throws CommandException {
-        try {
-            Category c = p.getCategory();
-            cm.createCategory(c);
-        } catch (CommandException e) {
-            //If an exception is thrown it means that the category already exits
-            //We don't need to forward the message to the user
-        }
-        //List<Integer> tagIds = tm.updateTags(p);
         pm.update(p);
-        try {
-            pm.updateAttributes(p);
-        } catch (CommandException e) {
-            if (p.getTags() != null) {
-                tm.deleteTagsForProduct(p.getId());
-                createProductTags(p.getId(), p.getTags());
-                tm.deleteUnusedTags();
-            }
-        }
     }
 
     @Override
     public void addImages(Product p) throws CommandException {
-        if (!p.getImages().isEmpty()) {
-            im.updatePrimaryPicture(p.getId(), p.getPrimaryImage());
+        if (p.getImages() != null) {
             im.addPictureURL(p.getId(), p.getImages());
         }
     }
@@ -158,11 +127,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
     @Override
     public void deleteProduct(Product p) throws CommandException {
-        im.deleteAllImages(p);
-        for (Pair<String, Boolean> image : p.getImages()) {
-            im.removePictureFromCloudinary(image.getKey());
-        }
         pm.delete(p);
+        
     }
 
     @Override
@@ -253,11 +219,54 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         for (String s : removeAttr) {
             int i = am.getAttributeId(s);
-            
+
             cm.deleteCategoryAttribute(i);
             pm.deleteProductAttribute(i);
             am.deleteAttribute(i);
         }
     }
+
+    @Override
+    public void createProductAttributes(Product product) throws CommandException {
+        pm.createAttributes(product);
+    }
     
+    @Override
+    public void updateProductAttributes(Product product) throws CommandException{
+        pm.updateAttributes(product);
+    }
+    
+    @Override
+    public void deleteTagsForProduct(int id) throws CommandException{
+        tm.deleteTagsForProduct(id);
+    }
+    
+    @Override
+    public void deleteUnusedTags() throws CommandException{
+        tm.deleteUnusedTags();
+    }
+    
+    @Override
+    public void updatePrimaryPicture(int productId, String imageURL) throws CommandException{
+        im.updatePrimaryPicture(productId, imageURL);
+    }
+
+    @Override
+    public List<Pair<String, Boolean>> getPicturesForProduct(int id) throws CommandException {
+        return im.getPicturesForProduct(id);
+    }
+
+    @Override
+    public void deleteAllImages(Product p) throws CommandException {
+        im.deleteAllImages(p);
+          for (Pair<String, Boolean> image : p.getImages()) {
+            im.removePictureFromCloudinary(image.getKey());
+        }
+    }
+
+    @Override
+    public void deleteProductAttributes(int id)throws CommandException{
+        pm.deleteProductAttributes(id);
+    }
+
 }

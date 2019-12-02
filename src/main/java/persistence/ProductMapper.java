@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,10 @@ public class ProductMapper {
      * @param product
      * @throws CommandException
      */
-    public void create(Product product) throws CommandException {
+    public int create(Product product) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
+        int id = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String insertSql = "INSERT INTO products "
@@ -39,7 +41,7 @@ public class ProductMapper {
                     + "supplier, seo_text, status) VALUES"
                     + "(?, ?, ?, ?, ?, ?, ?, ?)";
 
-            pstmt = connection.prepareStatement(insertSql);
+            pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, product.getItemnumber());
             pstmt.setString(2, product.getName());
             pstmt.setString(3, product.getBrand());
@@ -50,13 +52,20 @@ public class ProductMapper {
             pstmt.setInt(8, product.getStatus());
 
             pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!" + e);
+            throw new CommandException("Could not create product. Try again!" + e.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
 
         }
+        return id;
     }
 
     /**
@@ -392,7 +401,7 @@ public class ProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -421,11 +430,11 @@ public class ProductMapper {
 
                 int rowsUpdated = pstmt.executeUpdate();
                 if (rowsUpdated == 0) {
-                    createAttributes(product);
+                    //createAttributes(product);
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("Could not find a product with the given ID " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -456,7 +465,7 @@ public class ProductMapper {
                 pstmt.executeUpdate();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+            throw new CommandException("catatr: Could not find a product with the given ID " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -482,7 +491,7 @@ public class ProductMapper {
                 throw new SQLException("No rows updated");
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -503,7 +512,29 @@ public class ProductMapper {
             pstmt.executeUpdate();
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not delete attribute from product");
+            throw new CommandException("Could not delete attribute from product " + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+    
+    
+    public void deleteProductAttributes(int i) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attribute_values WHERE product_id = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setInt(1, i);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not delete attribute from product " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

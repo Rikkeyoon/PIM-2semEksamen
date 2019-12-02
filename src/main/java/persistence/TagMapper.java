@@ -46,7 +46,7 @@ public class TagMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create tag relation ");
+            throw new CommandException("Could not create tag relation " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -241,7 +241,7 @@ public class TagMapper {
             pstmt.executeUpdate();
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

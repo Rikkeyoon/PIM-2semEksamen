@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * The purpose of the Product class is to represent the product which follows
@@ -86,6 +87,49 @@ public class Product {
         this.status = status;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
+    }
+
+    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext) {
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.supplier = supplier;
+        this.SEOText = SEOText;
+        this.status = status;
+        this.categoryAttributes = categoryAttributes;
+        this.images = images;
+    }
+
+    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.category = category;
+        this.supplier = supplier;
+        this.SEOText = seotext;
+        this.tags = tags;
+        this.categoryAttributes = categoryAttributes;
+        this.images = imageURLs;
+    }
+
+    public Product(int id, int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+        this.id = id;
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.category = category;
+        this.supplier = supplier;
+        this.SEOText = seotext;
+        this.tags = tags;
+        this.categoryAttributes = categoryAttributes;
+        this.images = imageURLs;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -229,7 +273,48 @@ public class Product {
      * @return status int
      */
     public int getStatus() {
-        return status;
+        int totalAmount = 0, doneAmount = 0;
+        if (id > 0) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (itemnumber > 0) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (StringUtils.isNotBlank(name)) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (StringUtils.isNotBlank(brand)) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (StringUtils.isNotBlank(description)) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (StringUtils.isNotBlank(SEOText)) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if (StringUtils.isNotBlank(supplier)) {
+            doneAmount++;
+        }
+        totalAmount++;
+        if(tags != null && tags.size() > 0){
+            doneAmount++;
+        }
+            totalAmount++;
+        if(images != null && images.size() > 0){
+            doneAmount++;
+        }
+            totalAmount++;
+        if(categoryAttributes != null && categoryAttributes.size() > 0){
+            doneAmount++;
+        }
+            totalAmount++;
+            return (100/totalAmount)*doneAmount;
     }
 
     /**

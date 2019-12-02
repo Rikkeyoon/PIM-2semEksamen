@@ -155,7 +155,7 @@ public class ImageMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch URLs to images");
+            throw new CommandException("get pictures withID Could not fetch URLs to images" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -196,12 +196,45 @@ public class ImageMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch URLs to images");
+            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return image;
     }
+    
+     public List<Pair<String, Boolean>> getPicturesForProduct(int productId)
+            throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Pair<String, Boolean>> images = new ArrayList<>();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM images WHERE product_id = ?;";
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, productId);
+
+            result = pstmt.executeQuery();
+            while (result.next()) {
+                String URL = result.getString("url");
+                Boolean bool = result.getBoolean("primaryImage");
+
+                images.add(new MutablePair(URL, bool));
+            }
+
+            if (images == null || images.size() <= 0) {
+                throw new SQLException();
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return images;
+    }
+
 
     /**
      * Method to change the primary picture in the database by finding all
@@ -230,11 +263,11 @@ public class ImageMapper {
                     + "WHERE product_id = ? AND url = ?";
             pstmt = connection.prepareStatement(updateSql);
             pstmt.setInt(1, productId);
-            pstmt.setString(2, imageURL);
+            pstmt.setString(2, '%' + imageURL + '%');
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex);
+            throw new CommandException("img, Could not find a product with the given ID" + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -285,7 +318,7 @@ public class ImageMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted");
+            throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
