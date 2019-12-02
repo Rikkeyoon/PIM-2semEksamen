@@ -88,6 +88,49 @@ public class Product {
         this.images = images;
     }
 
+    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext) {
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.supplier = supplier;
+        this.SEOText = SEOText;
+        this.status = status;
+        this.categoryAttributes = categoryAttributes;
+        this.images = images;
+    }
+
+    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.category = category;
+        this.supplier = supplier;
+        this.SEOText = seotext;
+        this.tags = tags;
+        this.categoryAttributes = categoryAttributes;
+        this.images = imageURLs;
+    }
+
+    public Product(int id, int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+        this.id = id;
+        this.itemnumber = itemnumber;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.category = category;
+        this.supplier = supplier;
+        this.SEOText = seotext;
+        this.tags = tags;
+        this.categoryAttributes = categoryAttributes;
+        this.images = imageURLs;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * A method for getting the product's id in the database
      *

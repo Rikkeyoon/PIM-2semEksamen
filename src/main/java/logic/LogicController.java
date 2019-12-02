@@ -46,31 +46,25 @@ public class LogicController {
      * @return Product
      * @throws CommandException
      */
-    public static Product createProduct(int id, int itemnumber, String name,
-            String brand, String description, String tags, Map<String, String[]> parameterMap,
-            String supplier, String seotext, int status,
-            List<Pair<String, Boolean>> images) throws CommandException {
-        Category category = null;
-        List<String> attributes = null;
-        for (String key : parameterMap.keySet()) {
-            if (key.equalsIgnoreCase("category")) {
-                category = pf.getCategory(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("attributes")) {
-                attributes = new ArrayList<>(Arrays.asList(parameterMap.get(key)));
+    public static Product createProduct(Product p, String category, String fileSelected, List<Part> parts) throws CommandException {
+        List<Pair<String, Boolean>> imageURLs = null;
 
-            }
+        p.setCategory(pf.getCategory(category));
+        //creates product
+        int id = pf.createProduct(p);
+        p.setId(id);
+        //saves attributes
+        pf.createProductAttributes(p);
+        //uploads images
+        if (fileSelected != null) {
+            imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
         }
-        Map<String, String> categoryAttributes = new LinkedHashMap<>();
-        for (String s : category.getAttributes()) {
-            categoryAttributes.put(s, attributes.get(category.getAttributes().indexOf(s)));
-        }
-        Product p = new Product(id, itemnumber, name, brand, description,
-                category, supplier, seotext, status, categoryAttributes, images);
+        p.setImages(imageURLs);
+        //saves images
+        pf.addImages(p);
+        //saves tags
+        pf.createProductTags(p.getId(), p.getTags());
 
-        pf.createProduct(p);
-
-        List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
-        pf.createProductTags(pf.getProductStorageId(p), tagsList);
         return p;
     }
 
@@ -100,57 +94,33 @@ public class LogicController {
      * @return Product
      * @throws CommandException
      */
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Pair<String, Boolean>> imageURLs) throws CommandException {
-        Map<String, String> categoryAttributes = p.getCategoryAttributes();
+    public static Product updateProduct(Product p, String category, String[] picsToDelete, String fileSelected, List<Part> parts) throws CommandException {
+        List<Pair<String, Boolean>> imageURLs = null;
 
-        List<Pair<String, Boolean>> images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
-            images.add(imageURL);
-        }
-        p.setImages(images);
-        pf.addImages(p);
-
-        try {
-            categoryAttributes = p.getCategoryAttributes();
-        } catch (NullPointerException e) {
-        }
-        for (String key : parameterMap.keySet()) {
-            if (key.equalsIgnoreCase("product_name")) {
-                p.setName(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("product_desc")) {
-                p.setDescription(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("product_tags")) {
-                String str = parameterMap.get(key)[0];
-                List<String> tags = new ArrayList<>();
-                for (String s : Arrays.asList(str.split(",[ ]*"))) {
-                    if (StringUtils.isNotBlank(s)) {
-                        tags.add(s);
-                    }
-                }
-                p.setTags(tags);
-            } else if (key.equalsIgnoreCase("product_category")) {
-                p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
-            } else if (key.equalsIgnoreCase("fileSelected")) {
-                p.setPrimaryImage(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("delete_chosen_pics")) {
-                String[] picsToDelete = parameterMap.get(key);
-                p.removeImages(picsToDelete);
-                pf.deleteImages(picsToDelete);
-            } else {
-                try {
-                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
-                } catch (NullPointerException e) {
-                }
-            }
-        }
-        images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
-            images.add(imageURL);
-        }
-        p.setImages(images);
+        p.setCategory(pf.getCategory(category));
+        //creates product
         pf.updateProduct(p);
+        //saves attributes
+        pf.updateProductAttributes(p);
+        //uploads images
+        if (fileSelected != null) {
+            imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
+        }
+        p.setImages(imageURLs);
+        //saves images
+        pf.addImages(p);
+        if (picsToDelete != null && picsToDelete.length > 0) {
+            p.removeImages(picsToDelete);
+            pf.deleteImages(picsToDelete);
+        }
+        pf.updatePrimaryPicture(p.getId(), fileSelected);
+        //saves tags
+        pf.deleteTagsForProduct(p.getId());
+        pf.createProductTags(p.getId(), p.getTags());
+        pf.deleteUnusedTags();
+
         return p;
+
     }
 
     /**
