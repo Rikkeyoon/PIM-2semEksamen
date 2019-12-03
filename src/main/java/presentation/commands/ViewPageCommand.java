@@ -1,6 +1,7 @@
 package presentation;
 
 import exception.CommandException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,7 @@ import logic.LogicFacade;
 import logic.Product;
 
 /**
- * The purpose of ViewPageCommand is to get a generic command that can navigate 
+ * The purpose of ViewPageCommand is to get a generic command that can navigate
  * to another view page and get the wanted data for the view page to work
  *
  * @author carol
@@ -27,6 +28,12 @@ public class ViewPageCommand extends Command {
             session.setAttribute("catalog", catalog);
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
+        } else if (view.contains("bulkedit")) {
+            List<Product> catalog = LogicFacade.getProductsByCategory(request.getParameter("category"));
+            session.setAttribute("catalog", catalog);
+            session.setAttribute("category1", request.getParameter("category"));
+        } else if (view.contains("bulkproductsedit")) {
+            session.setAttribute("bulkeditids", Arrays.toString(request.getParameterValues("bulkEditSelected")));
         } else if (view.contains("category")) {
             session.setAttribute("category1", request.getParameter("category"));
         } else if (view.contains("viewproduct")) {
