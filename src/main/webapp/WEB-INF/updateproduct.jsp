@@ -20,34 +20,44 @@
             <input type="hidden" value="${product.getId()}" name="product_id"/>
             <input type="submit" value="Back">
         </form>
-
+        <h1>Edit product</h1>
         <div>
             <form name="update" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="update_product">
-
-                <h1>Edit product</h1>
-                <br><br>
-
+                <input type="hidden" name="product_category" value="${product.getCategory().getCategoryname()}">
+                <br>
+                <c:if test="${error != null}">
+                    <div class="form-alert"><h4>${error}</h4>
+                    </div>
+                </c:if>
+                <h4>Fields marked with <font color="red">*</font> is required.</h4>
                 <label for="product_id"><b>ID</b></label>
-                <p>${product.getId()} </p>
+                <input type="hidden" value="${product.getId()}" name="product_id"/>
+                <p>${product.getId()}</p>
+                <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
                 <br>
-                <label for="item_number"><b>Item Number</b></label>
+                <input type="text" name="item_number" value="${product.getItemnumber()}" required>
                 <br>
-                <input type="text" name="item_name" value="${product.getItemnumber()}" required>
+                <label for="product_name"><b>Product Name<font color="red">*</font></b></label>
                 <br>
-                <label for="product_name"><b>Product Name</b></label>
+                <input type="text" name="product_name" value="${product.getName()}" required>
                 <br>
-                <input type="text" name="product_name" 
-                       value="${product.getName()}" required>
-                <br>
-                <label for="brand"><b>Brand</b></label>
+                <label for="brand"><b>Brand<font color="red">*</font></b></label>
                 <br>
                 <input type="text" name="brand" value="${product.getBrand()}" required>
                 <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" 
-                          style="resize: none; width: 25%;" required="required">${product.getDescription()}</textarea>
+                          style="resize: none; width: 25%;">${product.getDescription()}</textarea>
+                <br><br>
+                <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" value="${product.getSupplier()}" >
+                <br>
+                <label for="seo_text"><b>SEO text</b></label>
+                <br>
+                <input type="text" name="seo_text" value="${product.getSEOText()}" >
                 <br><br>
                 <label for="product_tags"><b>Tags</b></label>
                 <br>
@@ -60,34 +70,20 @@
                     </c:otherwise>
                 </c:choose>
                 <br><br>
-                <label for="product_category"><b>Category</b></label>
+                <h3>Category: ${product.getCategory().getCategoryname()}</h3>
+                <label for="attributes"><b>Attributes</b></label>
                 <br>
-                <input type="text" name="product_category" id="category" 
-                       onkeyup="validateCategory();" 
-                       value="${product.getCategory().getCategoryname()}" required>
-                <div id="divValidateCategory"></div>
-                <br>
-                <h3>Attributes</h3>
-                <c:forEach items="${product.getCategoryAttributes().keySet()}" 
-                           var="key"> 
-                    <div>
-                        <label for="category_attribute"><b>${key}</b></label>
-                        <br>
-                        <input type="text" name="${key}" value="${product.getCategoryAttributes().get(key)}">
-                    </div>
+                <c:forEach items="${product.getCategory().getAttributes()}" var="attr">
                     <br>
+                    <label for="attribute_name"><b>${attr}</b></label>
+                    <br>
+                    <input type="hidden" name="attributename" value ="${attr}">
+                    <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
                 </c:forEach>
-                <label for="supplier"><b>Supplier</b></label>
-                <br>
-                <input type="text" name="supplier" value="${product.getSupplier()}" required>
-                <br>
-                <label for="seo_text"><b>SEO text</b></label>
-                <br>
-                <input type="text" name="seo_text" value="${product.getSEOText()}" required>
-                <br><br>
+                <br><br> 
                 <label for="status"><b>Status</b></label>
                 <br>
-                <input type="text" name="status" value="${product.getStatus()}" required>
+                <input type="text" name="status" value="${product.getStatus()}" >
                 <br><br>
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
@@ -169,7 +165,7 @@
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
-    
+
             function removeThumbnails() {
                 var empty = document.getElementById('list');
                 empty.innerHTML = [' '].join('');
@@ -180,20 +176,19 @@
                 var id = $("#product_id").val();
                 var idformat = /[0-9]/;
 
-                if (!id.match(idformat))
-                {
+                if (!id.match(idformat)) {
                     $("#updatebtn").attr('disabled', 'disabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
                 } else {
                     $("#updatebtn").removeAttr('disabled');
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
-
             }
 
-            function validateCategory(){
+            function validateCategory() {
                 var category = $("#product_category").val();
                 var categoryformat = /[a-z]/;
+
                 if (!category.match(categoryformat)) {
                     $("#updatebtn").attr('disabled', 'disabled');
                     $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
@@ -201,17 +196,8 @@
                     $("#updatebtn").removeAttr('disabled');
                     $("#divValidateCategory").html("").removeClass('form-alert');
                 }
-                var id = $("#product_id").val();
-                var idformat = /[0-9]/;
-                if (!id.match(idformat)) {
-                    $("#updatebtn").attr('disabled', 'diasabled');
-                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
-                } else {
-                    $("#updatebtn").removeAttr('disabled');
-                    $("#divValidateId").html("").removeClass('form-alert');
-                }
             }
-            
+
             function dconfirmation() {
                 if (confirm("You are about to delete a product!")) {
                     document.getElementById("delcmd").value = "delete_product";

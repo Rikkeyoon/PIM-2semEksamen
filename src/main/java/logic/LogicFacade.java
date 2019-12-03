@@ -3,7 +3,6 @@ package logic;
 import exception.CommandException;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 
 /**
@@ -20,27 +19,14 @@ public class LogicFacade {
      * The LogicFacade receives the new product's information from the presentation
      * layer and passes that information on to the LogicController
      *
-     * @param id
-     * @param itemnumber
-     * @param name
-     * @param brand
-     * @param description
-     * @param tags
+     * @param p Product
      * @param category
-     * @param supplier
-     * @param seotext
-     * @param parameterMap
-     * @param status
-     * @param images
      * @return Product
      * @throws CommandException
      */
-    public static Product createProduct(int id, int itemnumber, String name, 
-            String brand, String description, String tags, String supplier, 
-            String seotext, int status, Map<String, String[]> parameterMap, 
-            List<Image> images) throws CommandException {
-        return LogicController.createProduct(id, itemnumber, name, brand, 
-                description, tags, parameterMap, supplier, seotext, status, images);
+     public static Product createProduct(Product p, String category, 
+             String fileSelected, List<Part> parts) throws CommandException {
+        return LogicController.createProduct(p, category, fileSelected, parts);
     }
 
     /**
@@ -54,9 +40,9 @@ public class LogicFacade {
      * @return Product
      * @throws CommandException
      */
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Image> imageURLs) throws CommandException {
-        return LogicController.updateProduct(p, parameterMap, imageURLs);
+     public static Product updateProduct(Product p, String category, String[] picsToDelete,
+             String fileSelected, List<Part> parts) throws CommandException {
+        return LogicController.updateProduct(p, category, picsToDelete, fileSelected, parts);
     }
 
     /**

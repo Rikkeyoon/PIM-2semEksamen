@@ -23,48 +23,46 @@
                 <input type="submit" value="Back">
             </form>
 
+            <h1>Create product for category: ${category1}</h1>
+
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="create_product">
-
-                <h1>Create product for category: ${category1}</h1>
+                <input type="hidden" name="category" value="${category1}">
+                <input type="reset" onclick="removeThumbnails();">
                 <br><br>
-
-                <label for="product_id"><b>ID</b></label>
+                <c:if test="${error != null}">
+                    <div class="form-alert"><h4>${error}</h4></div>
+                </c:if>
+                <h4>Fields marked with <font color="red">*</font> is required.</h4>
+                <label for="item_number"><b>Item Number <font color="red">*</font></b></label>
                 <br>
-                <input type="text" name="product_id" value="0" id="id" onkeyup="validateId();" readonly>
-                <div id="divValidateId"></div>
-                <br>
-                <label for="item_number"><b>Item Number</b></label>
-                <br>
-                <input type="text" name="item_number" required>
-                <br>
-                <label for="product_name"><b>Product Name</b></label>
-                <br>
-                <input type="text" name="product_name" required>
+                <input type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
                 <br><br>
-                <label for="brand"><b>Brand</b></label>
+                <label for="product_name"><b>Product Name <font color="red">*</font></b></label>
                 <br>
-                <input type="text" name="brand" required>
+                <input type="text" name="product_name" value = "<c:if test="${not empty product.getName()}">${product.getName()}</c:if>" required>
+                <br><br>
+                <label for="brand"><b>Brand <font color="red">*</font></b></label>
                 <br>
+                <input type="text" name="brand" value = "<c:if test="${not empty product.getBrand()}">${product.getBrand()}</c:if>"  required>
+                <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
-                <textarea name="product_desc" rows="4" cols="20" required="required"></textarea>
+                <textarea style="resize:none" name="product_desc" rows="4" cols="20"><c:if test="${not empty product.getDescription()}">${product.getDescription()}</c:if></textarea>
                 <br><br>
-                <label for="product_tags"><b>Tags</b></label>
-                <br>
-                <input type="text" name="product_tags" 
-                       placeholder="tag1, tag2, tag3">
-                <br>
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
-                <input type="text" name="supplier" required>
+                <input type="text" name="supplier" value = "<c:if test="${not empty product.getSupplier()}">${product.getSupplier()}</c:if>"  >
                 <br><br>
                 <label for="seo_text"><b>SEO text</b></label>
                 <br>
-                <input type="text" name="seo_text" required>
+                <input type="text" name="seo_text" value = "<c:if test="${not empty product.getSEOText()}">${product.getSEOText()}</c:if>" >
                 <br><br>
-                <input type="hidden" name="category" value="${category1}">
-                <input type="hidden" name="cmd" value="create_product">
+                <label for="product_tags"><b>Tags</b></label>
+                <br>
+                <input type="text" name="product_tags" placeholder="tag1, tag2, tag3" value = "<c:if test="${not empty product.getTags()}">${product.getTagsAsString()}</c:if>"  >
+                <br><br>
+                <h3>Category: ${category1}</h3>
                 <label for="attributes"><b>Attributes</b></label>
                 <br>
                 <c:forEach items="${categories}" var="cat">
@@ -73,7 +71,8 @@
                             <br>
                             <label for="attribute_name"><b>${attr}</b></label>
                             <br>
-                            <input type="text" name="attributes" required>
+                            <input type="hidden" name="attributename" value ="${attr}">
+                            <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
                         </c:forEach>
                     </c:if>
                 </c:forEach>
@@ -85,18 +84,7 @@
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
                 <br>
                 <output id="list"></output>
-                <br>
-                <label for="status"><b>Status</b></label>
-                <br>
-                <input type="text" name="status" required>
                 <br><br>
-                <input type="reset" onclick="removeThumbnails();">
-                <br><br>
-
-                <!-- Exception handling -->
-                <c:if test="${error != null}">
-                    <div class="form-alert">${error}</div>
-                </c:if>
 
                 <input class="createbtn" id="createbtn" type="submit" value="Create">
 
@@ -106,58 +94,58 @@
         <!-- JavaScript functions -->
         <script type="text/javascript">
             function handleFileSelect(evt) {
-                document.getElementById('list').innerHTML = "";
-                var files = evt.target.files;
+            document.getElementById('list').innerHTML = "";
+            var files = evt.target.files;
 
-                // Loop through the FileList and render image files as thumbnails.
-                for (var i = 0, f; f = files[i]; i++) {
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
 
-                    // Only process image files.
-                    if (!f.type.match('image.*')) {
-                        continue;
-                    }
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+            continue;
+            }
 
-                    var reader = new FileReader();
+            var reader = new FileReader();
 
-                    // Closure to capture the file information.
-                    reader.onload = (function (theFile) {
-                        return function (e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                            span.innerHTML =
-                                    [
-                                        '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
-                                    ].join('');
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+            return function (e) {
+            // Render thumbnail.
+            var span = document.createElement('span');
+            span.innerHTML =
+            [
+            '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+            ].join('');
 
-                            document.getElementById('list').insertBefore(span, null);
-                        };
-                    })(f);
+            document.getElementById('list').insertBefore(span, null);
+            };
+            })(f);
 
-                    // Read in the image file as a data URL.
-                    reader.readAsDataURL(f);
-                }
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+            }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
             function removeThumbnails() {
-                var empty = document.getElementById('list');
-                empty.innerHTML = [' '].join('');
-                document.getElementById('list').insertBefore(empty, null);
+            var empty = document.getElementById('list');
+            empty.innerHTML = [' '].join('');
+            document.getElementById('list').insertBefore(empty, null);
             }
             ;
 
             function validateID() {
-                var id = $("#id").val();
-                var idformat = /[0-9]/;
+            var id = $("#id").val();
+            var idformat = /[0-9]/;
 
-                if (!id.match(idformat)) {
-                    $("#createbtn").attr('disabled', 'disabled');
-                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
-                } else {
-                    $("#createbtn").removeAttr('disabled');
-                    $("#divValidateId").html("").removeClass('form-alert');
-                }
+            if (!id.match(idformat)) {
+            $("#createbtn").attr('disabled', 'disabled');
+            $("#divValidateId").html("Invalid Id").addClass('form-alert');
+            } else {
+            $("#createbtn").removeAttr('disabled');
+            $("#divValidateId").html("").removeClass('form-alert');
+            }
             }
         </script>
     </body>

@@ -27,19 +27,19 @@
             <input type="text" name="product_id">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
-            
+
             <label for="product_name"><b>Product Name</b></label>
             <br>
             <input type="text" name="product_name">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
-            
+
             <label for="product_category"><b>Category</b></label>
             <br>
             <input type="text" name="product_category">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
-            
+
             <label for="product_tag"><b>Tag</b></label>
             <br>
             <input type="text" name="product_tag">
@@ -53,22 +53,22 @@
             <input type="submit" value="Reset"/>
             <br>
         </form>
-        
+
         <br><br>
 
-        <table border="1">
+        <table id="catalogTable" border="1">
             <thead>
                 <tr>
                     <th>Picture</th>
-                    <th>ID</th>
-                    <th>Item Number</th>
-                    <th>Name</th>
-                    <th>Brand</th>
+                    <th onclick="sortNumberColumns(1)">ID&#8661;</th>
+                    <th onclick="sortNumberColumns(2)">Item Number&#8661;</th>
+                    <th onclick="sortAlphabeticalTable(3)">Name&#8661;</th>
+                    <th onclick="sortAlphabeticalTable(4)">Brand&#8661;</th>
                     <th>Description</th>
-                    <th>Category</th>
-                    <th>Supplier</th>
+                    <th onclick="sortAlphabeticalTable(6)">Category&#8661;</th>
+                    <th onclick="sortAlphabeticalTable(7)">Supplier&#8661;</th>
                     <th>SEO text</th>
-                    <th>Status</th>
+                    <th onclick="sortNumberColumns(9)">Status&#8661;</th>
                     <th>View Product</th>
                 </tr>
             </thead>
@@ -115,14 +115,14 @@
             </tbody>
         </table>
         <br><br>
-        
+
         <form name="create_category" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="createcategory">
             <input type="submit" value="Create new category" />
         </form>
         <br>
-        
+
         <form name="create" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="createproduct">
@@ -133,7 +133,7 @@
                     </option>
                 </c:forEach>
             </select>
-            
+
             <input type="submit" value="Create new product for category">
         </form>
         <br>
@@ -156,5 +156,120 @@
             <input type="hidden" name="cmd" value="download_catalog">
             <input type="submit" value="Download catalog">
         </form>
+
+        <script>
+            function sortAlphabeticalTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("catalogTable");
+                switching = true;
+                //Set the sorting direction to ascending:
+                dir = "asc";
+                /*Make a loop that will continue until
+                 no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                     first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                         one from current row and one from the next:*/
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        /*check if the two rows should switch place,
+                         based on the direction, asc or desc:*/
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                         and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        //Each time a switch is done, increase this count by 1:
+                        switchcount++;
+                    } else {
+                        /*If no switching has been done AND the direction is "asc",
+                         set the direction to "desc" and run the while loop again.*/
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+
+            function sortNumberColumns(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
+                table = document.getElementById("catalogTable");
+                switching = true;
+                dir = "asc";
+                /*Make a loop that will continue until
+                 no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                     first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                         one from current row and one from the next:*/
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        //check if the two rows should switch place:
+                        if (dir == "asc") {
+                            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                         and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        //Each time a switch is done, increase this count by 1:
+                        switchcount++;
+                    } else {
+                        /*If no switching has been done AND the direction is "asc",
+                         set the direction to "desc" and run the while loop again.*/
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+            $(document).ready(function () {
+                $('#catalogTable').DataTable({
+                    "order": [[3, "asc"]]
+                });
+            });
+        </script>
     </body>
 </html>

@@ -2,12 +2,10 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
 import persistence.IPersistenceFacade;
@@ -30,45 +28,33 @@ public class LogicController {
      * then passes the Product to the PersistenceFacade to get the product's
      * information stored
      *
-     * @param id
-     * @param itemnumber
-     * @param name
-     * @param brand
-     * @param description
-     * @param tags
-     * @param parameterMap
-     * @param supplier
-     * @param seotext
-     * @param status
-     * @param images
+     * @param p
+     * @param category
+     * @param fileSelected
+     * @param parts
      * @return Product
      * @throws CommandException
      */
-    public static Product createProduct(int id, int itemnumber, String name,
-            String brand, String description, String tags, Map<String, String[]> parameterMap,
-            String supplier, String seotext, int status,
-            List<Image> images) throws CommandException {
-        Category category = null;
-        List<String> attributes = null;
-        for (String key : parameterMap.keySet()) {
-            if (key.equalsIgnoreCase("category")) {
-                category = pf.getCategory(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("attributes")) {
-                attributes = new ArrayList<>(Arrays.asList(parameterMap.get(key)));
+    public static Product createProduct(Product p, String category,
+            String fileSelected, List<Part> parts) throws CommandException {
+        List<Image> imageURLs = null;
 
-            }
+        p.setCategory(pf.getCategory(category));
+        //creates product
+        int id = pf.createProduct(p);
+        p.setId(id);
+        //saves attributes
+        pf.createProductAttributes(p);
+        //uploads images
+        if (fileSelected != null) {
+            imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
         }
-        Map<String, String> categoryAttributes = new LinkedHashMap<>();
-        for (String s : category.getAttributes()) {
-            categoryAttributes.put(s, attributes.get(category.getAttributes().indexOf(s)));
-        }
-        Product p = new Product(id, itemnumber, name, brand, description,
-                category, supplier, seotext, status, categoryAttributes, images);
+        p.setImages(imageURLs);
+        //saves images
+        pf.addImages(p);
+        //saves tags
+        pf.createProductTags(p.getId(), p.getTags());
 
-        pf.createProduct(p);
-
-        List<String> tagsList = Arrays.asList(tags.split(",[ ]*"));
-        pf.createProductTags(pf.getProductStorageId(p), tagsList);
         return p;
     }
 
@@ -93,56 +79,41 @@ public class LogicController {
      * product to the PersistenceFacade
      *
      * @param p
-     * @param parameterMap
-     * @param imageURLs
+     * @param category
+     * @param picsToDelete
+     * @param parts
+     * @param fileSelected
      * @return Product
      * @throws CommandException
      */
-    public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Image> imageURLs) throws CommandException {
-        Map<String, String> categoryAttributes = p.getCategoryAttributes();
-
-        List<Image> images = p.getImages();
-        for (Image imageURL : imageURLs) {
-            images.add(imageURL);
-        }
-        p.setImages(images);
-        pf.addImages(p);
-
-        try {
-            categoryAttributes = p.getCategoryAttributes();
-        } catch (NullPointerException e) {
-        }
-        for (String key : parameterMap.keySet()) {
-            if (key.equalsIgnoreCase("product_name")) {
-                p.setName(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("product_desc")) {
-                p.setDescription(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("product_tags")) {
-                String str = parameterMap.get(key)[0];
-                List<String> tags = new ArrayList<>();
-                for (String s : Arrays.asList(str.split(",[ ]*"))) {
-                    if (StringUtils.isNotBlank(s)) {
-                        tags.add(s);
-                    }
-                }
-                p.setTags(tags);
-            } else if (key.equalsIgnoreCase("product_category")) {
-                p.setCategory(pf.getCategory(parameterMap.get(key)[0]));
-            } else if (key.equalsIgnoreCase("fileSelected")) {
-                p.setPrimaryImage(parameterMap.get(key)[0]);
-            } else if (key.equalsIgnoreCase("delete_chosen_pics")) {
-                String[] picsToDelete = parameterMap.get(key);
-                p.removeImages(picsToDelete);
-                pf.deleteImages(picsToDelete);
-            } else {
-                try {
-                    categoryAttributes.replace(key, parameterMap.get(key)[0]);
-                } catch (NullPointerException e) {
-                }
-            }
-        }
+    public static Product updateProduct(Product p, String category, String[] picsToDelete,
+            String fileSelected, List<Part> parts) throws CommandException {
+        p.setCategory(pf.getCategory(category));
         pf.updateProduct(p);
+        //saves attributes
+        pf.updateProductAttributes(p);
+        //uploads images
+        if (fileSelected != null) {
+            List<Image> imageURLs = null;
+            imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
+            p.setImages(imageURLs);
+        }
+        if (picsToDelete != null && picsToDelete.length > 0) {
+            p.removeImages(picsToDelete);
+            pf.deleteImages(picsToDelete);
+        }
+        if (p.getImages() != null && !p.getImages().isEmpty()) {
+            //saves images
+            pf.updatePrimaryPicture(p.getId(), fileSelected);
+            pf.addImages(p);
+            p.setImages(pf.getPicturesForProduct(p.getId()));
+        }
+        if (!p.getTags().isEmpty()) {
+            //saves tags
+            pf.deleteTagsForProduct(p.getId());
+            pf.createProductTags(p.getId(), p.getTags());
+            pf.deleteUnusedTags();
+        }
         return p;
     }
 
@@ -154,6 +125,9 @@ public class LogicController {
      * @throws CommandException
      */
     public static void deleteProduct(Product p) throws CommandException {
+        pf.deleteAllImages(p);
+        pf.deleteTagsForProduct(p.getId());
+        pf.deleteProductAttributes(p.getId());
         pf.deleteProduct(p);
     }
 

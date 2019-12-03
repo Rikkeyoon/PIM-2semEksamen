@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * The purpose of FrontController is to handle all request for the web site It
@@ -28,9 +29,9 @@ public class FrontController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods This method receives the request from the User Interface,
-     * delegates to a command, which carries out the wanted action from the request,
-     * and then forwards the result of the action to a view, or the index page with
-     * a user-friendly error message if an error has occurred
+     * delegates to a command, which carries out the wanted action from the
+     * request, and then forwards the result of the action to a view, or the
+     * index page with a user-friendly error message if an error has occurred
      *
      * @param request servlet request
      * @param response servlet response
@@ -61,7 +62,12 @@ public class FrontController extends HttpServlet {
         } catch (CommandException ex) {
             request.setAttribute("error", ex.getMessage());
             //TODO: Forward to a view or   perhaps an error page instead of index
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            String s = (String) request.getAttribute("returnPage");
+            if (s != null && StringUtils.isNotBlank(s)) {
+                request.getRequestDispatcher("/WEB-INF/" + s + ".jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
         }
     }
 
