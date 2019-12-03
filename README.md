@@ -5,7 +5,6 @@
 - Caroline Høg, Caroline Hoeg, cph-ch465@cphbusiness.dk
 - Søren Due, SoerenDue, cph-sa343@cphbusiness.dk
 - Allan Simonsen, AllanSimonsen789, cph-as484@cphbusiness.dk
-- Rikke Yoon, Rikkeyoon, cph-ry6@cphbusiness.dk
 
 ## Software Arkitektur
 ![Project Arkitektur setup](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/Arkitektur.jpg)
