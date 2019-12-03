@@ -83,12 +83,12 @@
                                             <img width = "100" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
                                         </c:when>
                                         <c:otherwise>
-                                            <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                            <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1575375244/defaut_vignette_carre_efglot.jpg">
                                         </c:otherwise>
                                     </c:choose>
                                 </c:when> 
                                 <c:otherwise>
-                                    <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                    <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1575375244/defaut_vignette_carre_efglot.jpg">
                                 </c:otherwise>
                             </c:choose>
 

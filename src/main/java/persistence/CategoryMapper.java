@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import logic.Category;
@@ -24,16 +25,22 @@ public class CategoryMapper {
      * @param c Category
      * @throws CommandException
      */
-    public void createCategory(Category c) throws CommandException {
+    public int createCategory(Category c) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
+        int id = 0;
         String insertSql = "INSERT INTO categories VALUE(?)";
         try {
             connection = PersistenceFacadeDB.getConnection();
-            pstmt = connection.prepareStatement(insertSql);
+            pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, c.getCategoryname());
 
             int rowsUpdated = pstmt.executeUpdate();
+            
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
 
             if (rowsUpdated == 0) {
                 throw new NullPointerException();
@@ -44,6 +51,7 @@ public class CategoryMapper {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
         }
+        return id;
     }
 
     /**
@@ -64,7 +72,7 @@ public class CategoryMapper {
             pstmt = connection.prepareStatement(insertSql);
             for (Integer id : attributeIds) {
                 try {
-                    pstmt.setString(1, category.getCategoryname());
+                    pstmt.setInt(1, category.getId());
                     pstmt.setInt(2, id);
 
                     int rowsUpdated = pstmt.executeUpdate();
@@ -102,9 +110,11 @@ public class CategoryMapper {
             result = pstmt.executeQuery(selectSql);
 
             while (result.next()) {
-                String name = result.getString(1);
+                int id = result.getInt("id");
+                String name = result.getString("category_name");
+                
 
-                categories.add(getCategory(name));
+                categories.add(new Category(id, name, getCategoryAttributes(id)));
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -126,11 +136,10 @@ public class CategoryMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        String selectSql = "SELECT attribute_name FROM categories_and_attributes "
-                + "WHERE category_name LIKE ?";
+        String selectSql = "SELECT * FROM categories WHERE category_name LIKE ?";
 
         Category category = null;
-        List<String> attributes = new ArrayList<>();
+        int id = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
 
@@ -140,18 +149,80 @@ public class CategoryMapper {
             result = pstmt.executeQuery();
 
             while (result.next()) {
-                attributes.add(result.getString(1));
+                id = result.getInt("id");
+                String name = result.getString("category_name");
 
             }
-            category = new Category(categoryname, attributes);
+            category = new Category(id, categoryname, getCategoryAttributes(id));
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any category with that name");
+            throw new CommandException("getCName: Could not find any category with that name" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return category;
     }
+    
+    public Category getCategory(int categoryid) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        String selectSql = "SELECT * FROM categories "
+                + "WHERE id = ?";
 
+        Category category = null;
+        int id = 0;
+        String name = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, categoryid);
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("category_name");
+
+            }
+            category = new Category(id, name, getCategoryAttributes(id));
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("getCIdCould not find any category with that name " + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return category;
+    }
+        public List<String> getCategoryAttributes(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        String selectSql = "SELECT attribute_name FROM categories_and_attributes "
+                + "WHERE category_id = ?";
+
+        Category category = null;
+        List<String> attributes = new ArrayList<>();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, id);
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                attributes.add(result.getString(1));
+
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any category with that name");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return attributes;
+    }
+    
     public void deleteCategoryAttribute(int i) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
