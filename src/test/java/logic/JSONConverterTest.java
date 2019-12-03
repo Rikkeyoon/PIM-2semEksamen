@@ -12,7 +12,7 @@ import persistence.PersistenceFacadeDB;
  * @author carol
  */
 public class JSONConverterTest {
-
+/*
     @Test
     public void testConvertObjectToJSON_withCategoryObject() 
             throws CommandException {
@@ -36,7 +36,7 @@ public class JSONConverterTest {
         product.setTags(tags);
         JSONConverter.convertObjectToJSON(product);
     }
-    
+   */ 
 //    @Test 
 //    public void testConvertJSONToProductObject() throws CommandException {
 //        String json = "{\"id\":10,\"itemnumber\":10,\"name\":\"Sony Ericsson Xperia\","

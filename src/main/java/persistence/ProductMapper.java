@@ -293,7 +293,7 @@ public class ProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any products");
+            throw new CommandException("Could not find any products" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -367,7 +367,7 @@ public class ProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any products");
+            throw new CommandException("Could not find any products " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }

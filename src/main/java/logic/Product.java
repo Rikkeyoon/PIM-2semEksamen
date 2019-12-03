@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Nina, carol
  */
-@JsonIgnoreProperties(ignoreUnknown=true, value="tagsAsString")
+@JsonIgnoreProperties(ignoreUnknown = true, value = "tagsAsString")
 public class Product {
 
     private int id;
@@ -27,10 +27,9 @@ public class Product {
     private Map<String, String> categoryAttributes;
     private List<Image> images;
     private List<String> tags;
-    
+
     /**
-     * Default constructor
-     * Used when converting from JSON string
+     * Default constructor Used when converting from JSON string
      */
     public Product() {
     }
@@ -122,7 +121,7 @@ public class Product {
         this.images = images;
     }
 
-    public Product(int id, int itemnumber, String name, String brand, 
+    public Product(int id, int itemnumber, String name, String brand,
             String description, String supplier, String seotext, List<String> tags,
             Category category, Map<String, String> categoryAttributes, List<Image> images) {
         this.id = id;
@@ -298,10 +297,7 @@ public class Product {
      */
     public void calculateStatus() {
         int totalAmount = 0, doneAmount = 0;
-        if (id > 0) {
-            doneAmount++;
-        }
-        totalAmount++;
+
         if (itemnumber > 0) {
             doneAmount++;
         }
@@ -334,11 +330,18 @@ public class Product {
             doneAmount++;
         }
         totalAmount++;
-        if (categoryAttributes != null && categoryAttributes.size() > 0) {
-            doneAmount++;
+        for (String s : categoryAttributes.keySet()) {
+            if (categoryAttributes.get(s) != null && StringUtils.isNotBlank(categoryAttributes.get(s))) {
+                doneAmount++;
+            }
+            totalAmount++;
         }
-        totalAmount++;
-        status = (100 / totalAmount) * doneAmount;
+        if(totalAmount == doneAmount){
+            status = 100;
+        }else{
+            status = (100 / totalAmount) * doneAmount;
+        }
+       
     }
 
     /**
@@ -484,9 +487,9 @@ public class Product {
      */
     @Override
     public String toString() {
-        return "Product with id: " + id + itemnumber + ", name: " + name + 
-                ", brand" + brand + ", description: "+ description + ", category:" 
-                + category.getCategoryname() + ", supplier" + supplier 
+        return "Product with id: " + id + itemnumber + ", name: " + name
+                + ", brand" + brand + ", description: " + description + ", category:"
+                + category.getCategoryname() + ", supplier" + supplier
                 + ", SEO text" + SEOText + status;
     }
 

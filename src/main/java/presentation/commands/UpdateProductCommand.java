@@ -91,12 +91,11 @@ public class UpdateProductCommand extends Command {
 
         Product p = new Product(id, itemnumber, name, brand, description, supplier,
                 seotext, tags, null, categoryAttributes, null);
-
         request.getSession().setAttribute("product", p);
 
         p = LogicFacade.updateProduct(p, category, picsToDelete, fileSelected, parts);
 
-        p.calculateStatus();
+        
         session.setAttribute("product", p);
         session.setAttribute("category1", p.getCategory());
 

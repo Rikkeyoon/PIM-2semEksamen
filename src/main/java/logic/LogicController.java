@@ -19,8 +19,8 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    //private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -40,16 +40,17 @@ public class LogicController {
         List<Image> imageURLs = null;
 
         p.setCategory(pf.getCategory(category));
-        //creates product
-        int id = pf.createProduct(p);
-        p.setId(id);
-        //saves attributes
-        pf.createProductAttributes(p);
         //uploads images
         if (fileSelected != null) {
             imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
         }
         p.setImages(imageURLs);
+        p.calculateStatus();
+        //creates product
+        int id = pf.createProduct(p);
+        p.setId(id);
+        //saves attributes
+        pf.createProductAttributes(p);
         //saves images
         pf.addImages(p);
         //saves tags
@@ -89,7 +90,6 @@ public class LogicController {
     public static Product updateProduct(Product p, String category, String[] picsToDelete,
             String fileSelected, List<Part> parts) throws CommandException {
         p.setCategory(pf.getCategory(category));
-        pf.updateProduct(p);
         //saves attributes
         pf.updateProductAttributes(p);
         //uploads images
@@ -106,14 +106,17 @@ public class LogicController {
             //saves images
             pf.updatePrimaryPicture(p.getId(), fileSelected);
             pf.addImages(p);
-            p.setImages(pf.getPicturesForProduct(p.getId()));
         }
+
+        p.setImages(pf.getPicturesForProduct(p.getId()));
         if (!p.getTags().isEmpty()) {
             //saves tags
             pf.deleteTagsForProduct(p.getId());
             pf.createProductTags(p.getId(), p.getTags());
             pf.deleteUnusedTags();
         }
+        p.calculateStatus();
+        pf.updateProduct(p);
         return p;
     }
 
