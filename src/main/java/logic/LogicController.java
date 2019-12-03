@@ -36,7 +36,7 @@ public class LogicController {
      * @param brand
      * @param description
      * @param tags
-     * @param categoryname
+     * @param parameterMap
      * @param supplier
      * @param seotext
      * @param status
@@ -47,7 +47,7 @@ public class LogicController {
     public static Product createProduct(int id, int itemnumber, String name,
             String brand, String description, String tags, Map<String, String[]> parameterMap,
             String supplier, String seotext, int status,
-            List<Pair<String, Boolean>> images) throws CommandException {
+            List<Image> images) throws CommandException {
         Category category = null;
         List<String> attributes = null;
         for (String key : parameterMap.keySet()) {
@@ -82,7 +82,7 @@ public class LogicController {
      * @return List of Pair with String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
+    public static List<Image> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
@@ -99,11 +99,11 @@ public class LogicController {
      * @throws CommandException
      */
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+            List<Image> imageURLs) throws CommandException {
         Map<String, String> categoryAttributes = p.getCategoryAttributes();
 
-        List<Pair<String, Boolean>> images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
+        List<Image> images = p.getImages();
+        for (Image imageURL : imageURLs) {
             images.add(imageURL);
         }
         p.setImages(images);
@@ -142,11 +142,6 @@ public class LogicController {
                 }
             }
         }
-        images = p.getImages();
-        for (Pair<String, Boolean> imageURL : imageURLs) {
-            images.add(imageURL);
-        }
-        p.setImages(images);
         pf.updateProduct(p);
         return p;
     }
@@ -346,6 +341,34 @@ public class LogicController {
 
     public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         pf.deleteAttributeFromCategory(removeAttr);
+    }
+
+    /**
+     * Method for uploading JSON file and converting it to Java Objects
+     *
+     * @param parts List of Part
+     * @throws exception.CommandException
+     */
+    public static void uploadJSON(List<Part> parts) throws CommandException {
+        List<Object> objects = new ArrayList<>();
+        for (Part part : parts) {
+            List<Object> objects1 = JSONConverter.convertPartToObjects(part);
+            objects.add(objects1);
+        }
+        for (Object object : objects) {
+            if (object instanceof Product) {
+                Product product = (Product) object;
+                Map<String, String> categoryAttributes = new LinkedHashMap<>();
+                for (String s : product.getCategory().getAttributes()) {
+                    categoryAttributes.put(s, "");
+                }
+                product.setCategoryAttributes(categoryAttributes);
+                pf.createProduct(product);
+            } else if (object instanceof Category) {
+                Category category = (Category) object;
+                pf.createCategory(category);
+            }
+        }
     }
 
 }

@@ -71,7 +71,7 @@
         <p>${product.getStatus()} </p>
         <br>
         <c:forEach items="${product.getImages()}" var="image"> 
-            <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
+            <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
         </c:forEach>
         <form name="update" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">

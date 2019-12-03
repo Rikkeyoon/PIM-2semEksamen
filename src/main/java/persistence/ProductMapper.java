@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.tuple.Pair;
+import logic.Image;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -55,10 +55,9 @@ public class ProductMapper {
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
-
         }
     }
-
+    
     /**
      * Method to get multiple products from the database that share the same
      * name or have the String as part of their names
@@ -92,7 +91,7 @@ public class ProductMapper {
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
 
-                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
@@ -137,7 +136,7 @@ public class ProductMapper {
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
 
-                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 product = new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images);
@@ -230,7 +229,7 @@ public class ProductMapper {
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
 
-                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
@@ -277,7 +276,7 @@ public class ProductMapper {
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
 
-                List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
@@ -347,7 +346,7 @@ public class ProductMapper {
                     String seotext = result.getString("seo_text");
                     int status = result.getInt("status");
 
-                    List<Pair<String, Boolean>> images = PersistenceFacadeDB.getPicturesWithId(id);
+                    List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
                     product = new Product(id, itemnumber, name, brand, description,
                             cm.getCategory(categoryname), supplier, seotext,
                             status, categoryAttributes, images);

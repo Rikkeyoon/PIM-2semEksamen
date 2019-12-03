@@ -4,10 +4,10 @@ import exception.CommandException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import logic.Product;
 import logic.Category;
+import logic.Image;
 
 /**
  * The purpose of PersistenceFacadeDB is to instantiate a connection to the
@@ -67,7 +67,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return List Pair of String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> getPicturesWithId(int id)
+    public static List<Image> getPicturesWithId(int id)
             throws CommandException {
         return im.getPicturesWithId(id);
     }
@@ -79,7 +79,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return Pair of String and boolean
      * @throws CommandException
      */
-    public static Pair<String, Boolean> getPrimaryImageWithId(int id)
+    public static Image getPrimaryImageWithId(int id)
             throws CommandException {
         return im.getPrimaryPictureWithId(id);
     }
@@ -113,7 +113,10 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         if (p.getImages() != null) {
             im.addPictureURL(pm.getProductDBId(p), p.getImages());
         }
-        pm.createAttributes(p);
+        try {
+            pm.createAttributes(p);
+        } catch (CommandException e) {
+        }
     }
 
     @Override
@@ -158,8 +161,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteProduct(Product p) throws CommandException {
         im.deleteAllImages(p);
-        for (Pair<String, Boolean> image : p.getImages()) {
-            im.removePictureFromCloudinary(image.getKey());
+        for (Image image : p.getImages()) {
+            im.removePictureFromCloudinary(image.getUrl());
         }
         pm.delete(p);
     }
@@ -219,7 +222,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
+    public List<Image> uploadImagesToCloudinary(List<Part> parts, String primaryImage) throws CommandException {
         return im.uploadImages(parts, primaryImage);
     }
 

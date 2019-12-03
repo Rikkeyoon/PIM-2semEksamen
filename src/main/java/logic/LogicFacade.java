@@ -29,6 +29,7 @@ public class LogicFacade {
      * @param category
      * @param supplier
      * @param seotext
+     * @param parameterMap
      * @param status
      * @param images
      * @return Product
@@ -36,8 +37,8 @@ public class LogicFacade {
      */
     public static Product createProduct(int id, int itemnumber, String name, 
             String brand, String description, String tags, String supplier, 
-            String seotext, int status, Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images) 
-            throws CommandException {
+            String seotext, int status, Map<String, String[]> parameterMap, 
+            List<Image> images) throws CommandException {
         return LogicController.createProduct(id, itemnumber, name, brand, 
                 description, tags, parameterMap, supplier, seotext, status, images);
     }
@@ -54,7 +55,7 @@ public class LogicFacade {
      * @throws CommandException
      */
     public static Product updateProduct(Product p, Map<String, String[]> parameterMap,
-            List<Pair<String, Boolean>> imageURLs) throws CommandException {
+            List<Image> imageURLs) throws CommandException {
         return LogicController.updateProduct(p, parameterMap, imageURLs);
     }
 
@@ -188,7 +189,7 @@ public class LogicFacade {
      * @return List of Pair with String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
+    public static List<Image> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         return LogicController.uploadImages(parts, primaryImage);
     }
@@ -201,12 +202,34 @@ public class LogicFacade {
         LogicController.deleteAttributeFromCategory(removeAttr);
     }
 
+    /**
+     * Method for converting a List of Products into a JSON String
+     *
+     * @param catalog List Product
+     * @throws CommandException
+     */
     public static void convertProductsToJSON(List<Product> catalog) throws CommandException {
         JSONConverter.convertProductsToJSON(catalog);
     }
 
+    /**
+     * Method for converting a Java Object into a JSON String
+     *
+     * @param p Product
+     * @throws CommandException
+     */
     public static void convertObjectToJSON(Product p) throws CommandException {
         JSONConverter.convertObjectToJSON(p);
+    }
+
+    /**
+     * Method for uploading JSON file and converting it to Java Objects
+     *
+     * @param parts List of Part
+     * @throws exception.CommandException
+     */
+    public static void uploadJSON(List<Part> parts) throws CommandException {
+        LogicController.uploadJSON(parts);
     }
 
 }

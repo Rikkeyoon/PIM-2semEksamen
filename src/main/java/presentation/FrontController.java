@@ -42,7 +42,8 @@ public class FrontController extends HttpServlet {
         try {
             Command cmd = Command.from(request);
             if (cmd.getClass() == CreateProductCommand.class
-                    || cmd.getClass() == UpdateProductCommand.class) {
+                    || cmd.getClass() == UpdateProductCommand.class
+                    || cmd.getClass() == UploadJSONCommand.class) {
                 request.setAttribute("partList", request.getParts());
             }
             String view = cmd.execute(request, response);

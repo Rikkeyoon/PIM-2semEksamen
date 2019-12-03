@@ -92,14 +92,14 @@
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
                         <c:choose>
-                            <c:when test="${image.getKey().equals(product.getPrimaryImage())}">
-                                <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                                <input type="radio" name="fileSelected" value="${image.getKey()}"
+                            <c:when test="${image.getUrl().equals(product.getPrimaryImage())}">
+                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
                                        checked="checked" required />
                             </c:when>
                             <c:otherwise>
-                                <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                                <input type="radio" name="fileSelected" value="${image.getKey()}"
+                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
                                        required />
                             </c:otherwise>
                         </c:choose>
@@ -116,8 +116,8 @@
                 <div id="div_delete_pics">
                     <c:forEach items="${product.getImages()}" var="image">
                         <span>
-                            <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                            <input type="checkbox" name="delete_chosen_pics" value="${image.getKey()}" />
+                            <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                            <input type="checkbox" name="delete_chosen_pics" value="${image.getUrl()}" />
                         </span>
                     </c:forEach>
                 </div>

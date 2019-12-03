@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import logic.Category;
+import logic.Image;
 import logic.LogicFacade;
 import logic.Product;
 
@@ -34,7 +35,7 @@ public class CreateProductCommand extends Command {
         String seotext = request.getParameter("seo_text");
         int status = Integer.parseInt(request.getParameter("status"));
         Map<String, String[]> parameterMap = request.getParameterMap();
-        List<Pair<String, Boolean>> imageURLs = LogicFacade.uploadImages(
+        List<Image> imageURLs = LogicFacade.uploadImages(
                 (List<Part>) request.getAttribute("partList"),
                 request.getParameter("fileSelected"));
 
