@@ -2,14 +2,10 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.Attributes;
-import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
 import persistence.IPersistenceFacade;
@@ -23,8 +19,8 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    //private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -32,22 +28,16 @@ public class LogicController {
      * then passes the Product to the PersistenceFacade to get the product's
      * information stored
      *
-     * @param id
-     * @param itemnumber
-     * @param name
-     * @param brand
-     * @param description
-     * @param tags
-     * @param categoryname
-     * @param supplier
-     * @param seotext
-     * @param status
-     * @param images
+     * @param p
+     * @param category
+     * @param fileSelected
+     * @param parts
      * @return Product
      * @throws CommandException
      */
-    public static Product createProduct(Product p, String category, String fileSelected, List<Part> parts) throws CommandException {
-        List<Pair<String, Boolean>> imageURLs = null;
+    public static Product createProduct(Product p, String category,
+            String fileSelected, List<Part> parts) throws CommandException {
+        List<Image> imageURLs = null;
 
         p.setCategory(pf.getCategory(category));
         //creates product
@@ -78,7 +68,7 @@ public class LogicController {
      * @return List of Pair with String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> uploadImages(List<Part> parts, String primaryImage)
+    public static List<Image> uploadImages(List<Part> parts, String primaryImage)
             throws CommandException {
         return pf.uploadImagesToCloudinary(parts, primaryImage);
     }
@@ -89,41 +79,42 @@ public class LogicController {
      * product to the PersistenceFacade
      *
      * @param p
-     * @param parameterMap
-     * @param imageURLs
+     * @param category
+     * @param picsToDelete
+     * @param parts
+     * @param fileSelected
      * @return Product
      * @throws CommandException
      */
-    public static Product updateProduct(Product p, String category, String[] picsToDelete, String fileSelected, List<Part> parts) throws CommandException {
-        List<Pair<String, Boolean>> imageURLs = null;
-
+    public static Product updateProduct(Product p, String category, String[] picsToDelete,
+            String fileSelected, List<Part> parts) throws CommandException {
         p.setCategory(pf.getCategory(category));
-        //creates product
         pf.updateProduct(p);
         //saves attributes
         pf.updateProductAttributes(p);
         //uploads images
         if (fileSelected != null) {
+            List<Image> imageURLs = null;
             imageURLs = pf.uploadImagesToCloudinary(parts, fileSelected);
+            p.setImages(imageURLs);
         }
-        p.setImages(imageURLs);
-        //saves images
-        
-        pf.updatePrimaryPicture(p.getId(), fileSelected);
-        
-        pf.addImages(p);
         if (picsToDelete != null && picsToDelete.length > 0) {
             p.removeImages(picsToDelete);
             pf.deleteImages(picsToDelete);
         }
-        p.setImages(pf.getPicturesForProduct(p.getId()));
-        //saves tags
-        pf.deleteTagsForProduct(p.getId());
-        pf.createProductTags(p.getId(), p.getTags());
-        pf.deleteUnusedTags();
-
+        if (p.getImages() != null && !p.getImages().isEmpty()) {
+            //saves images
+            pf.updatePrimaryPicture(p.getId(), fileSelected);
+            pf.addImages(p);
+            p.setImages(pf.getPicturesForProduct(p.getId()));
+        }
+        if (!p.getTags().isEmpty()) {
+            //saves tags
+            pf.deleteTagsForProduct(p.getId());
+            pf.createProductTags(p.getId(), p.getTags());
+            pf.deleteUnusedTags();
+        }
         return p;
-
     }
 
     /**
@@ -165,11 +156,8 @@ public class LogicController {
         try {
             product = pf.getProductWithCategoryAttributes(id);
         } catch (CommandException ex) {
-            //Doesn't need to give this command exception to the user. 
-            //It just means that the product with that id doesn't have any category attributes yet
-        }
-        if (product == null) {
             product = pf.getProduct(id);
+            createCategoryAttributeMap(product);
         }
 
         product.setTags(pf.getTagsForProductWithID(product.getId()));
@@ -327,6 +315,34 @@ public class LogicController {
 
     public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         pf.deleteAttributeFromCategory(removeAttr);
+    }
+
+    /**
+     * Method for uploading JSON file and converting it to Java Objects
+     *
+     * @param parts List of Part
+     * @throws exception.CommandException
+     */
+    public static void uploadJSON(List<Part> parts) throws CommandException {
+        List<Object> objects = new ArrayList<>();
+        for (Part part : parts) {
+            List<Object> objects1 = JSONConverter.convertPartToObjects(part);
+            objects.add(objects1);
+        }
+        for (Object object : objects) {
+            if (object instanceof Product) {
+                Product product = (Product) object;
+                Map<String, String> categoryAttributes = new LinkedHashMap<>();
+                for (String s : product.getCategory().getAttributes()) {
+                    categoryAttributes.put(s, "");
+                }
+                product.setCategoryAttributes(categoryAttributes);
+                pf.createProduct(product);
+            } else if (object instanceof Category) {
+                Category category = (Category) object;
+                pf.createCategory(category);
+            }
+        }
     }
 
 }

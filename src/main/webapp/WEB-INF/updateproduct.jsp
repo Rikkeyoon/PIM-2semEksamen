@@ -85,11 +85,20 @@
                 <br>
                 <input type="text" name="status" value="${product.getStatus()}" >
                 <br><br>
-
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
-                        <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                        <input type="radio" name="fileSelected" value="${image.getKey()}" required>
+                        <c:choose>
+                            <c:when test="${image.getUrl().equals(product.getPrimaryImage())}">
+                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
+                                       checked="checked" required />
+                            </c:when>
+                            <c:otherwise>
+                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
+                                       required />
+                            </c:otherwise>
+                        </c:choose>
                     </span>
                 </c:forEach>
                 <br><br>
@@ -103,8 +112,8 @@
                 <div id="div_delete_pics">
                     <c:forEach items="${product.getImages()}" var="image">
                         <span>
-                            <img width = "100" alt= "Picture not found" src = "${image.getKey()}">
-                            <input type="checkbox" name="delete_chosen_pics" value="${image.getKey()}" />
+                            <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                            <input type="checkbox" name="delete_chosen_pics" value="${image.getUrl()}" />
                         </span>
                     </c:forEach>
                 </div>
@@ -127,82 +136,78 @@
         <!-- JavaScript functions -->
         <script type="text/javascript">
             function handleFileSelect(evt) {
-            document.getElementById('list').innerHTML = "";
-            var files = evt.target.files;
+                document.getElementById('list').innerHTML = "";
+                var files = evt.target.files;
+                // Loop through the FileList and render image files as thumbnails.
+                for (var i = 0, f; f = files[i]; i++) {
 
-            // Loop through the FileList and render image files as thumbnails.
-            for (var i = 0, f; f = files[i]; i++) {
+                    // Only process image files.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
 
-            // Only process image files.
-            if (!f.type.match('image.*')) {
-            continue;
-            }
-
-            var reader = new FileReader();
-
-            // Closure to capture the file information.
-            reader.onload = (function (theFile) {
-            return function (e) {
-            // Render thumbnail.
-            var span = document.createElement('span');
-            span.innerHTML =
-            [
-            '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
-            ].join('');
-
-            document.getElementById('list').insertBefore(span, null);
-            };
-            })(f);
-
-            // Read in the image file as a data URL.
-            reader.readAsDataURL(f);
-            }
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML =
+                                    [
+                                        '<span id="thumbnail" style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
+                                    ].join('');
+                            document.getElementById('list').insertBefore(span, null);
+                        };
+                    })(f);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(f);
+                }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
             function removeThumbnails() {
-            var empty = document.getElementById('list');
-            empty.innerHTML = [' '].join('');
-            document.getElementById('list').insertBefore(empty, null);
+                var empty = document.getElementById('list');
+                empty.innerHTML = [' '].join('');
+                document.getElementById('list').insertBefore(empty, null);
             }
 
             function validateID() {
-            var id = $("#product_id").val();
-            var idformat = /[0-9]/;
+                var id = $("#product_id").val();
+                var idformat = /[0-9]/;
 
-            if (!id.match(idformat)) {
-            $("#updatebtn").attr('disabled', 'disabled');
-            $("#divValidateId").html("Invalid Id").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateId").html("").removeClass('form-alert');
-            }
+                if (!id.match(idformat)) {
+                    $("#updatebtn").attr('disabled', 'disabled');
+                    $("#divValidateId").html("Invalid Id").addClass('form-alert');
+                } else {
+                    $("#updatebtn").removeAttr('disabled');
+                    $("#divValidateId").html("").removeClass('form-alert');
+                }
             }
 
             function validateCategory() {
-            var category = $("#product_category").val();
-            var categoryformat = /[a-z]/;
+                var category = $("#product_category").val();
+                var categoryformat = /[a-z]/;
 
-            if (!category.match(categoryformat)) {
-            $("#updatebtn").attr('disabled', 'disabled');
-            $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
-            } else {
-            $("#updatebtn").removeAttr('disabled');
-            $("#divValidateCategory").html("").removeClass('form-alert');
-            }
+                if (!category.match(categoryformat)) {
+                    $("#updatebtn").attr('disabled', 'disabled');
+                    $("#divValidateCategory").html("Invalid Category").addClass('form-alert');
+                } else {
+                    $("#updatebtn").removeAttr('disabled');
+                    $("#divValidateCategory").html("").removeClass('form-alert');
+                }
             }
 
             function dconfirmation() {
-            if (confirm("You are about to delete a product!")) {
-            document.getElementById("delcmd").value = "delete_product";
-            document.getElementById("delform").submit();
-            alert("Product has been deleted!");
-            } else {
-            alert("Return to Product page!");
+                if (confirm("You are about to delete a product!")) {
+                    document.getElementById("delcmd").value = "delete_product";
+                    document.getElementById("delform").submit();
+                    alert("Product has been deleted!");
+                } else {
+                    alert("Return to Product page!");
+                }
             }
 
-            }
         </script>
     </body>
 </html>

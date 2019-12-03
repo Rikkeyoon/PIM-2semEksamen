@@ -4,8 +4,8 @@ import exception.CommandException;
 import java.util.List;
 import javax.servlet.http.Part;
 import logic.Category;
+import logic.Image;
 import logic.Product;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * The purpose of IPersistenceFacade is to keep low coupling between the logic
@@ -165,7 +165,7 @@ public interface IPersistenceFacade {
      * @return List of Pair of String and boolean
      * @throws CommandException
      */
-    public List<Pair<String, Boolean>> uploadImagesToCloudinary(List<Part> parts, String primaryImage)
+    public List<Image> uploadImagesToCloudinary(List<Part> parts, String primaryImage)
             throws CommandException;
 
     /**
@@ -203,7 +203,7 @@ public interface IPersistenceFacade {
 
     public void updatePrimaryPicture(int productId, String imageURL) throws CommandException;
 
-    public List<Pair<String, Boolean>> getPicturesForProduct(int id) throws CommandException;
+    public List<Image> getPicturesForProduct(int id) throws CommandException;
 
     public void deleteAllImages(Product p)throws CommandException;
 

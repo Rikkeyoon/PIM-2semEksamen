@@ -12,6 +12,13 @@ public class Category {
 
     private String categoryname;
     private List<String> attributes;
+    
+    /**
+     * Default constructor
+     * Used when converting from JSON string
+     */
+    public Category() {
+    }
 
     /**
      * Constructor for Category
@@ -58,5 +65,10 @@ public class Category {
      */
     public List<String> getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" + "categoryname=" + categoryname + ", attributes=" + attributes + '}';
     }
 }

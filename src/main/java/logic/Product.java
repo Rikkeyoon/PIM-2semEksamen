@@ -1,10 +1,10 @@
 package logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * The purpose of the Product class is to represent the product which follows
@@ -12,6 +12,7 @@ import org.codehaus.plexus.util.StringUtils;
  *
  * @author Nina, carol
  */
+@JsonIgnoreProperties(ignoreUnknown=true, value="tagsAsString")
 public class Product {
 
     private int id;
@@ -24,8 +25,15 @@ public class Product {
     private String SEOText;
     private int status;
     private Map<String, String> categoryAttributes;
-    private List<Pair<String, Boolean>> images;
+    private List<Image> images;
     private List<String> tags;
+    
+    /**
+     * Default constructor
+     * Used when converting from JSON string
+     */
+    public Product() {
+    }
 
     /**
      * Constructor for Product without category attributes
@@ -43,7 +51,7 @@ public class Product {
      */
     public Product(int id, int itemnumber, String name, String brand, String description,
             Category category, String supplier, String SEOText,
-            int status, List<Pair<String, Boolean>> images) {
+            int status, List<Image> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
@@ -75,7 +83,7 @@ public class Product {
     public Product(int id, int itemnumber, String name, String brand,
             String description, Category categoryname, String supplier,
             String SEOText, int status, Map<String, String> categoryAttributes,
-            List<Pair<String, Boolean>> images) {
+            List<Image> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
@@ -89,19 +97,19 @@ public class Product {
         this.images = images;
     }
 
-    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext) {
+    public Product(int itemnumber, String name, String brand, String description,
+            String supplier, String seotext) {
         this.itemnumber = itemnumber;
         this.name = name;
         this.brand = brand;
         this.description = description;
         this.supplier = supplier;
-        this.SEOText = SEOText;
-        this.status = status;
-        this.categoryAttributes = categoryAttributes;
-        this.images = images;
+        this.SEOText = seotext;
     }
 
-    public Product(int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+    public Product(int itemnumber, String name, String brand, String description,
+            String supplier, String seotext, List<String> tags, Category category,
+            Map<String, String> categoryAttributes, List<Image> images) {
         this.itemnumber = itemnumber;
         this.name = name;
         this.brand = brand;
@@ -111,10 +119,12 @@ public class Product {
         this.SEOText = seotext;
         this.tags = tags;
         this.categoryAttributes = categoryAttributes;
-        this.images = imageURLs;
+        this.images = images;
     }
 
-    public Product(int id, int itemnumber, String name, String brand, String description, String supplier, String seotext, List<String> tags, Category category, Map<String, String> categoryAttributes, List<Pair<String, Boolean>> imageURLs) {
+    public Product(int id, int itemnumber, String name, String brand, 
+            String description, String supplier, String seotext, List<String> tags,
+            Category category, Map<String, String> categoryAttributes, List<Image> images) {
         this.id = id;
         this.itemnumber = itemnumber;
         this.name = name;
@@ -125,9 +135,14 @@ public class Product {
         this.SEOText = seotext;
         this.tags = tags;
         this.categoryAttributes = categoryAttributes;
-        this.images = imageURLs;
+        this.images = images;
     }
 
+    /**
+     * A method for setting the product's id to the id from the database
+     *
+     * @param id int
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -350,7 +365,7 @@ public class Product {
      *
      * @return images List of Pair String, Boolean
      */
-    public List<Pair<String, Boolean>> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
@@ -360,7 +375,7 @@ public class Product {
      *
      * @param images The new URLs for the images
      */
-    public void setImages(List<Pair<String, Boolean>> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
@@ -371,10 +386,10 @@ public class Product {
      * are to be removed
      */
     public void removeImages(String[] picsToDelete) {
-        List<Pair<String, Boolean>> newImages = new ArrayList<>();
-        for (Pair<String, Boolean> image : this.images) {
+        List<Image> newImages = new ArrayList<>();
+        for (Image image : this.images) {
             for (String string : picsToDelete) {
-                if (!image.getKey().equalsIgnoreCase(string)) {
+                if (!image.getUrl().equalsIgnoreCase(string)) {
                     newImages.add(image);
                 }
             }
@@ -390,9 +405,9 @@ public class Product {
      */
     public String getPrimaryImage() {
         String result = "";
-        for (Pair<String, Boolean> image : images) {
-            if (image.getValue()) {
-                result = image.getKey();
+        for (Image image : images) {
+            if (image.isPrimary()) {
+                result = image.getUrl();
             }
         }
         return result;
@@ -405,11 +420,11 @@ public class Product {
      * @param imageURL The new primary image's URL
      */
     public void setPrimaryImage(String imageURL) {
-        for (Pair<String, Boolean> image : images) {
-            if (image.getKey().equalsIgnoreCase(imageURL)) {
-                image.setValue(true);
+        for (Image image : images) {
+            if (image.getUrl().equalsIgnoreCase(imageURL)) {
+                image.setPrimary(true);
             } else {
-                image.setValue(false);
+                image.setPrimary(false);
             }
         }
     }
@@ -430,8 +445,12 @@ public class Product {
      */
     public String getTagsAsString() {
         StringBuilder sb = new StringBuilder();
-        for (String s : tags) {
-            sb.append(s).append(", ");
+        try {
+            for (String s : tags) {
+                sb.append(s).append(", ");
+            }
+        } catch (NullPointerException e) {
+            sb.append("  ");
         }
         String s = sb.toString();
         return s.substring(0, s.length() - 2);
@@ -465,8 +484,10 @@ public class Product {
      */
     @Override
     public String toString() {
-        return "Product with id: " + id + itemnumber + ", name: " + name + ", brand" + brand + ", description: "
-                + description + ", category:" + category.getCategoryname() + ", supplier" + supplier + ", SEO text" + SEOText + status;
+        return "Product with id: " + id + itemnumber + ", name: " + name + 
+                ", brand" + brand + ", description: "+ description + ", category:" 
+                + category.getCategoryname() + ", supplier" + supplier 
+                + ", SEO text" + SEOText + status;
     }
 
 }

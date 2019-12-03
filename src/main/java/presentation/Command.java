@@ -29,6 +29,9 @@ public abstract class Command {
         commands.put("search_product", new SearchProductCommand());
         commands.put("create_category", new CreateCategoryCommand());
         commands.put("edit_category", new EditCategoryCommand());
+        commands.put("download_catalog", new DownloadCatalogCommand());
+        commands.put("download_product", new DownloadProductCommand());
+        commands.put("upload_json", new UploadJSONCommand());
     }
 
     /**

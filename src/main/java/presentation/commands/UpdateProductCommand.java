@@ -15,7 +15,6 @@ import javax.servlet.http.Part;
 import logic.LogicFacade;
 import logic.Product;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * The purpose of UpdateProductCommand is to receive the information from the
@@ -90,7 +89,8 @@ public class UpdateProductCommand extends Command {
             throw new CommandException(ex.getMessage());
         }
 
-        Product p = new Product(id, itemnumber, name, brand, description, supplier, seotext, tags, null, categoryAttributes, null);
+        Product p = new Product(id, itemnumber, name, brand, description, supplier,
+                seotext, tags, null, categoryAttributes, null);
 
         request.getSession().setAttribute("product", p);
 
