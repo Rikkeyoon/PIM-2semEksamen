@@ -273,6 +273,15 @@ public class Product {
      * @return status int
      */
     public int getStatus() {
+        return status;
+    }
+
+    /**
+     * A method for changing the product's status
+     *
+     * @param status The new status
+     */
+    public void calculateStatus() {
         int totalAmount = 0, doneAmount = 0;
         if (id > 0) {
             doneAmount++;
@@ -302,28 +311,19 @@ public class Product {
             doneAmount++;
         }
         totalAmount++;
-        if(tags != null && tags.size() > 0){
+        if (tags != null && tags.size() > 0) {
             doneAmount++;
         }
-            totalAmount++;
-        if(images != null && images.size() > 0){
+        totalAmount++;
+        if (images != null && images.size() > 0) {
             doneAmount++;
         }
-            totalAmount++;
-        if(categoryAttributes != null && categoryAttributes.size() > 0){
+        totalAmount++;
+        if (categoryAttributes != null && categoryAttributes.size() > 0) {
             doneAmount++;
         }
-            totalAmount++;
-            return (100/totalAmount)*doneAmount;
-    }
-
-    /**
-     * A method for changing the product's status
-     *
-     * @param status The new status
-     */
-    public void setStatus(int status) {
-        this.status = status;
+        totalAmount++;
+        status = (100 / totalAmount) * doneAmount;
     }
 
     /**

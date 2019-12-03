@@ -89,6 +89,7 @@ public class CreateProductCommand extends Command {
 
         p = LogicFacade.createProduct(p, category, fileSelected, parts);
 
+        p.calculateStatus();
         session.setAttribute("product", p);
         session.setAttribute("category1", p.getCategory());
         
