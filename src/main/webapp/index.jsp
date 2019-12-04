@@ -24,12 +24,6 @@
             <input type="submit" value="Product Catalog" />
         </form>
         <br><br>
-        <form name="get_upload_page" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="uploadpage">
-            <input type="submit" value="Go to upload page" />
-        </form>
-        <br><br>
 
         <!-- Exception handling -->
         <c:if test="${error != null}">

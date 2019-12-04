@@ -266,7 +266,7 @@ public class ProductMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
-        List<Product> products = new ArrayList();
+        List<Product> temp = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT * FROM products";
@@ -288,7 +288,7 @@ public class ProductMapper {
 
                 List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
-                products.add(new Product(id, itemnumber, name, brand, description,
+                temp.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
             }
 
@@ -296,6 +296,14 @@ public class ProductMapper {
             throw new CommandException("Could not find any products");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        List<Product> products = new ArrayList();
+        for (Product product : temp) {
+            try {
+                product = getProductWithCategoryAttributes(product.getId());
+            } catch (CommandException e) {
+            }
+            products.add(product);
         }
         return products;
     }
@@ -434,7 +442,7 @@ public class ProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID " + ex.getMessage());
+            throw new CommandException("attr, Could not find a product with the given ID " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -462,10 +470,16 @@ public class ProductMapper {
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, product.getCategoryAttributes().get(key));
 
-                pstmt.executeUpdate();
+                try {
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    if (e.getErrorCode()!=1048) {
+                        throw e;
+                    }
+                }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID " + ex.getMessage());
+            throw new CommandException("Could not find a product with the given ID " + ex);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

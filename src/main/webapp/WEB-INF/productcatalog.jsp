@@ -19,6 +19,13 @@
         <h1>Product Catalog</h1>
         <br>
         
+        <form name="get_upload_page" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="uploadpage">
+            <input type="submit" value="Go to upload page" />
+        </form>
+        <br><br>
+        
         <h3>Search</h3>
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
@@ -91,7 +98,6 @@
                                     <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                 </c:otherwise>
                             </c:choose>
-
                         </td>
                         <td>${product.getId()}</td>
                         <td>${product.getItemnumber()}</td>

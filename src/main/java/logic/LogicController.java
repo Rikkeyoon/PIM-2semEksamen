@@ -19,8 +19,8 @@ import persistence.PersistenceFacadeDB;
  */
 public class LogicController {
 
-//    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+    private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -54,7 +54,6 @@ public class LogicController {
         pf.addImages(p);
         //saves tags
         pf.createProductTags(p.getId(), p.getTags());
-
         return p;
     }
 
@@ -326,18 +325,32 @@ public class LogicController {
     public static void uploadJSON(List<Part> parts) throws CommandException {
         List<Object> objects = new ArrayList<>();
         for (Part part : parts) {
-            List<Object> objects1 = JSONConverter.convertPartToObjects(part);
-            objects.add(objects1);
+            if (part.getContentType() != null && part.getSize() > 0) {
+                List<Object> ob = JSONConverter.convertPartToObjects(part);
+                for (Object object : ob) {
+                    objects.add(object);
+                }
+            }
         }
         for (Object object : objects) {
             if (object instanceof Product) {
                 Product product = (Product) object;
                 Map<String, String> categoryAttributes = new LinkedHashMap<>();
-                for (String s : product.getCategory().getAttributes()) {
-                    categoryAttributes.put(s, "");
+                if (product.getCategoryAttributes() == null 
+                        || product.getCategoryAttributes().isEmpty()) {
+                    for (String s : product.getCategory().getAttributes()) {
+                        categoryAttributes.put(s, "");
+                    }
+                    product.setCategoryAttributes(categoryAttributes);
                 }
-                product.setCategoryAttributes(categoryAttributes);
-                pf.createProduct(product);
+                int dbId = pf.createProduct(product);
+                product.setId(dbId);
+                pf.createProductAttributes(product);
+                pf.addImages(product);
+                try {
+                    pf.createProductTags(dbId, product.getTags());
+                } catch (CommandException e) {
+                }
             } else if (object instanceof Category) {
                 Category category = (Category) object;
                 pf.createCategory(category);

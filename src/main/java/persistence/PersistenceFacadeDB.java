@@ -212,6 +212,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return pm.getProductDBId(p);
     }
 
+    @Override
     public void updateCategoryAttributename(String oldAttr, String newAttr) 
             throws CommandException {
         am.updateCategoryAttributename(oldAttr, newAttr);

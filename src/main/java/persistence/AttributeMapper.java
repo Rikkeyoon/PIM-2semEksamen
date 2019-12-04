@@ -86,7 +86,7 @@ public class AttributeMapper {
                 attributeIds.add(getLastInsertedId(connection));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category attributes");
+            throw new CommandException("Could not create new category attributes"+ ex);
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
