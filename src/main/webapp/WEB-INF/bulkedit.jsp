@@ -9,88 +9,97 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Product catalog</title>
+        <title>Bulk Edit</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
 
     <body>
-        <h1>Bulk edit: ${category1}</h1>
-        <br>
-        <h3>Search</h3>
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
-            <label for="product_id"><b>Product ID</b></label>
-            <br>
-            <input type="text" name="product_id">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="product_name"><b>Product Name</b></label>
-            <br>
-            <input type="text" name="product_name">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="product_category"><b>Category</b></label>
-            <br>
-            <input type="text" name="product_category">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="product_tag"><b>Tag</b></label>
-            <br>
-            <input type="text" name="product_tag">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-        </form>
-
-        <form name="get_product_catalog" action="FrontController" method = "POST">
+        <form name="Back" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
-            <input type="submit" value="Reset"/>
-            <br>
+            <input type="submit" value="Back">
         </form>
-
+        <br>
+        <h1>Bulk edit: ${category1.getCategoryname()}</h1>
         <br><br>
+        <c:if test="${error != null}">
+            <div class="form-alert"><h4>${error}</h4>
+            </div>
+        </c:if>
         <form name="update" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="bulkproductsedit">
-        <table id="catalogTable" border="1">
-            <thead>
-                <tr>
-                    <th onclick="sortNumberColumns(2)">Item Number&#8661;</th>
-                    <th onclick="sortAlphabeticalTable(3)">Name&#8661;</th>
-                    <th onclick="sortAlphabeticalTable(4)">Brand&#8661;</th>
-                    <th>Description</th>
-                    <th onclick="sortAlphabeticalTable(7)">Supplier&#8661;</th>
-                    <th>SEO text</th>
-                    <th onclick="sortNumberColumns(9)">Status&#8661;</th>
-                    <th>Select</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${catalog}" var="product">
+            <input type="hidden" name="cmd" value="bulkedit">
+            <table id="catalogTable" border="1">
+                <thead>
                     <tr>
-                        <td>${product.getItemnumber()}</td>
-                        <td>${product.getName()}</td>
-                        <td>${product.getBrand()}</td>
-                        <td>${product.getDescription()}</td>
-                        <td>${product.getSupplier()}</td>
-                        <td>${product.getSEOText()}</td>
-                        <td>${product.getStatus()}</td>
-                        <td>
-                            <input type="checkbox" name="bulkEditSelected" value ="${product.getId()}">
-                        </td>
+                        <th onclick="sortNumberColumns(2)">Item Number&#8661;</th>
+                        <th onclick="sortAlphabeticalTable(3)">Name&#8661;</th>
+                        <th onclick="sortAlphabeticalTable(4)">Brand&#8661;</th>
+                        <th>Description</th>
+                        <th onclick="sortAlphabeticalTable(7)">Supplier&#8661;</th>
+                        <th>SEO text</th>
+                        <th onclick="sortNumberColumns(9)">Status&#8661;</th>
+                        <th>tags</th>
+                            <c:forEach items="${category1.getAttributes()}" var = "attribute">
+                            <th>Attribute:${attribute}</th>
+                            </c:forEach>
+                        <th>Select</th>
+
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-                 <input type="submit" value="Bulk Edit">
+                </thead>
+                <tbody>
+                    <c:forEach items="${catalog}" var="product">
+                        <tr>
+                            <td>${product.getItemnumber()}</td>
+                            <td>${product.getName()}</td>
+                            <td>${product.getBrand()}</td>
+                            <td>${product.getDescription()}</td>
+                            <td>${product.getSupplier()}</td>
+                            <td>${product.getSEOText()}</td>
+                            <td>${product.getStatus()}</td>
+                            <td>${product.getTagsAsString()}</td>
+                            <c:forEach  items="${category1.getAttributes()}" var = "attributeName">
+                                <td>${product.getCategoryAttributes().get(attributeName)}</td>
+                            </c:forEach>
+                            <td>
+                                <input type="checkbox" name="bulkEditSelected" value ="${product.getId()}">
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <br><br>
+            <h3>New Values</h3>
+            <label for="brand"><b>Brand</b></label>
+            <br>
+            <input type="text" name="brand">
+            <br><br>
+            <label for="supplier"><b>Supplier</b></label>
+            <br>
+            <input type="text" name="supplier">
+            <br><br>
+            <label for="seo_text"><b>SEO text</b></label>
+            <br>
+            <input type="text" name="seo_text">
+            <br><br>
+            <label for="product_tags"><b>Tags</b></label>
+            <br>
+            <input type="text" name="product_tags" size="50">
+            <br><br>
+            <label for="attributes"><b>Attributes</b></label>
+            <br>
+            <c:forEach items="${category1.getAttributes()}" var="attr">
+                <br>
+                <label for="attribute_name"><b>${attr}</b></label>
+                <br>
+                <input type="hidden" name="attributename" value ="${attr}">
+                <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
+            </c:forEach>
+            <br><br>
+            <input type="submit" value="Bulk Edit">
         </form>
-   
+
         <br><br>
         <script>
             function sortAlphabeticalTable(n) {

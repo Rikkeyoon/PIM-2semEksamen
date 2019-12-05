@@ -192,7 +192,11 @@ public class LogicController {
      */
     public static List<Product> getProductsByCategory(String category)
             throws CommandException {
-        return pf.getProductsByCategory(category);
+        List<Product> products = pf.getProductsByCategory(category);
+        for (Product p : products) {
+            p.setTags(pf.getTagsForProductWithID(p.getId()));
+        }
+        return products;
     }
 
     /**
@@ -300,7 +304,7 @@ public class LogicController {
         if (product.getCategoryAttributes() != null) {
             categoryAttributes = product.getCategoryAttributes();
         } else {
-            categoryAttributes = new HashMap<>();
+            categoryAttributes = new LinkedHashMap<>();
             List<String> attributes = category.getAttributes();
 
             for (String attribute : attributes) {
@@ -345,6 +349,25 @@ public class LogicController {
                 Category category = (Category) object;
                 pf.createCategory(category);
             }
+        }
+    }
+
+    public static Category getCategoryFromName(String categoryName) throws CommandException {
+        return pf.getCategory(categoryName);
+    }
+
+    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException{
+
+        for (String s : bulkeditIDs) {
+            p.setId(Integer.parseInt(s));
+            pf.updateProductAttributes(p);
+            if (!p.getTags().isEmpty()) {
+                //saves tags
+                pf.deleteTagsForProduct(p.getId());
+                pf.createProductTags(p.getId(), p.getTags());
+                pf.deleteUnusedTags();
+            }
+            pf.updateProduct_BulkEdit(p);
         }
     }
 

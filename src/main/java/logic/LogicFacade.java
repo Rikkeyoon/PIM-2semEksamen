@@ -217,5 +217,13 @@ public class LogicFacade {
     public static void uploadJSON(List<Part> parts) throws CommandException {
         LogicController.uploadJSON(parts);
     }
+    
+    public static Category getCategoryFromName(String categoryName) throws CommandException{
+        return LogicController.getCategoryFromName(categoryName);
+    }
+
+    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException{
+        LogicController.bulkEdit(p, bulkeditIDs);
+    }
 
 }

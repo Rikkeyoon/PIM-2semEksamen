@@ -137,6 +137,14 @@ public class Product {
         this.images = images;
     }
 
+    public Product(String brand, String supplier, String seotext, List<String> tags, Map<String, String> categoryAttributes) {
+        this.brand = brand;
+        this.supplier = supplier;
+        this.SEOText = seotext;
+        this.tags = tags;
+        this.categoryAttributes = categoryAttributes;
+    }
+
     /**
      * A method for setting the product's id to the id from the database
      *
@@ -336,12 +344,12 @@ public class Product {
             }
             totalAmount++;
         }
-        if(totalAmount == doneAmount){
+        if (totalAmount == doneAmount) {
             status = 100;
-        }else{
+        } else {
             status = (100 / totalAmount) * doneAmount;
         }
-       
+
     }
 
     /**
@@ -447,16 +455,20 @@ public class Product {
      * @return tagAsString String
      */
     public String getTagsAsString() {
-        StringBuilder sb = new StringBuilder();
-        try {
-            for (String s : tags) {
-                sb.append(s).append(", ");
+        if (tags != null && tags.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            try {
+                for (String s : tags) {
+                    sb.append(s).append(", ");
+                }
+            } catch (NullPointerException e) {
+                sb.append("  ");
             }
-        } catch (NullPointerException e) {
-            sb.append("  ");
+            String s = sb.toString();
+            return s.substring(0, s.length() - 2);
+        } else {
+            return "";
         }
-        String s = sb.toString();
-        return s.substring(0, s.length() - 2);
     }
 
     /**

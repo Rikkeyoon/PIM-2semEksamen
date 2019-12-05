@@ -38,7 +38,7 @@ public class ProductMapper {
         try {
             connection = PersistenceFacadeDB.getConnection();
             String insertSql = "INSERT INTO products "
-                    + "(item_number, name, brand, description, category_name, "
+                    + "(item_number, name, brand, description, category_id, "
                     + "supplier, seo_text, status) VALUES"
                     + "(?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -67,7 +67,7 @@ public class ProductMapper {
         }
         return id;
     }
-    
+
     /**
      * Method to get multiple products from the database that share the same
      * name or have the String as part of their names
@@ -221,31 +221,15 @@ public class ProductMapper {
         List<Product> products = new ArrayList();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String selectSql = "SELECT * FROM products WHERE category_id = ?";
+            String selectSql = "SELECT DISTINCT id FROM products_with_categories_and_attributes "
+                    + "WHERE category_id = ?";
             pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
 
             result = pstmt.executeQuery();
 
             while (result.next()) {
-
-                int productId = result.getInt("id");
-                int itemnumber = result.getInt("item_number");
-                String name = result.getString("name");
-                String brand = result.getString("brand");
-                String description = result.getString("description");
-                String supplier = result.getString("supplier");
-                String seotext = result.getString("seo_text");
-                int status = result.getInt("status");
-
-                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
-
-                products.add(new Product(productId, itemnumber, name, brand, description,
-                        cm.getCategory(id), supplier, seotext, status, images));
-            }
-
-            if (products.size() < 1) {
-                throw new SQLException();
+                products.add(getProductWithCategoryAttributes(result.getInt("id")));
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen category");
@@ -253,6 +237,7 @@ public class ProductMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return products;
+
     }
 
     /**
@@ -517,8 +502,7 @@ public class ProductMapper {
             DbUtils.closeQuietly(pstmt);
         }
     }
-    
-    
+
     public void deleteProductAttributes(int i) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -537,6 +521,27 @@ public class ProductMapper {
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
+        }
+    }
+    
+    public void update_BulkEdit(Product product) throws CommandException{
+                Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String updateSql = "UPDATE products SET brand = ?, supplier = ?, seo_text = ? WHERE id = ?";
+            pstmt = connection.prepareStatement(updateSql);
+            pstmt.setString(1, product.getBrand());
+            pstmt.setString(2, product.getSupplier());
+            pstmt.setString(3, product.getSEOText());
+            pstmt.setInt(4, product.getId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(pstmt);
+            DbUtils.closeQuietly(connection);
         }
     }
 }

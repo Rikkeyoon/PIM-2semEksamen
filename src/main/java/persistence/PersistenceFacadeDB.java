@@ -272,4 +272,9 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         pm.deleteProductAttributes(id);
     }
 
+    @Override
+    public void updateProduct_BulkEdit(Product p) throws CommandException {
+        pm.update_BulkEdit(p);
+    }
+
 }
