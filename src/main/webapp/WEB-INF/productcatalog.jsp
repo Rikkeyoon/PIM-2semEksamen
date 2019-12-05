@@ -30,6 +30,12 @@
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
 
+            <label for="item_number"><b>Item number</b></label>
+            <br>
+            <input type="text" name="item_number">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+            <br>
+
             <label for="product_name"><b>Product Name</b></label>
             <br>
             <input type="text" name="product_name">
@@ -42,11 +48,24 @@
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
 
+            <label for="brand"><b>Brand</b></label>
+            <br>
+            <input type="text" name="brand">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+            <br>
+
             <label for="product_tag"><b>Tag</b></label>
             <br>
             <input type="text" name="product_tag">
             <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
             <br>
+
+            <label for="supplier"><b>Supplier</b></label>
+            <br>
+            <input type="text" name="supplier">
+            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
+            <br>
+
         </form>
 
         <form name="get_product_catalog" action="FrontController" method = "POST">
@@ -153,6 +172,13 @@
             <input type="submit" value="Edit category">
         </form>
         <br><br>
+
+        <form name="view_categories" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="viewcategories">
+            <input type="submit" value="View categories" />
+        </form>
+        <br>
 
         <script>
             function sortAlphabeticalTable(n) {
@@ -262,11 +288,6 @@
                     }
                 }
             }
-            $(document).ready(function () {
-                $('#catalogTable').DataTable({
-                    "order": [[3, "asc"]]
-                });
-            });
         </script>
     </body>
 </html>

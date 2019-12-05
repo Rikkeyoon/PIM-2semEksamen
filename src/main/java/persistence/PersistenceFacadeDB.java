@@ -47,8 +47,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public static Connection getConnection() throws CommandException {
         return DBC.getConnection();
     }
-    
-    
+
     /**
      * Method to get multiple products' storage ids from a tag
      *
@@ -60,7 +59,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
             throws CommandException {
         return tm.getProductsIDFromTagNameSearch(tagSearch);
     }
-    
+
     /**
      * Method to get pictures that are associated with a specific product
      *
@@ -68,11 +67,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return List Pair of String and boolean
      * @throws CommandException
      */
-    public static List<Pair<String, Boolean>> getPicturesWithId(int id) 
+    public static List<Pair<String, Boolean>> getPicturesWithId(int id)
             throws CommandException {
         return im.getPicturesWithId(id);
     }
-    
+
     /**
      * Method to get the primary picture for a specific product
      *
@@ -80,7 +79,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
      * @return Pair of String and boolean
      * @throws CommandException
      */
-    public static Pair<String, Boolean> getPrimaryImageWithId(int id) 
+    public static Pair<String, Boolean> getPrimaryImageWithId(int id)
             throws CommandException {
         return im.getPrimaryPictureWithId(id);
     }
@@ -245,6 +244,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return pm.getProductDBId(p);
     }
 
+    @Override
     public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
         am.updateCategoryAttributename(oldAttr, newAttr);
     }
@@ -253,11 +253,26 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         for (String s : removeAttr) {
             int i = am.getAttributeId(s);
-            
+
             cm.deleteCategoryAttribute(i);
             pm.deleteProductAttribute(i);
             am.deleteAttribute(i);
         }
     }
-    
+
+    @Override
+    public List<Product> getProductsByItemNumber(int itemNumber) throws CommandException {
+        return pm.getProductsByItemNumber(itemNumber);
+    }
+
+    @Override
+    public List<Product> getProductsByBrand(String brand) throws CommandException {
+        return pm.getProductsByBrand(brand);
+    }
+
+    @Override
+    public List<Product> getProductsBySupplier(String supplier) throws CommandException {
+        return pm.getProductsBySupplier(supplier);
+    }
+
 }

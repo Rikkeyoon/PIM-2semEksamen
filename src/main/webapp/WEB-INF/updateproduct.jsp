@@ -26,20 +26,23 @@
                 <input type="hidden" name="cmd" value="update_product">
 
                 <h1>Edit product</h1>
-                <br><br>
-
-                <label for="product_id"><b>ID</b></label>
-                <p>${product.getId()} </p>
                 <br>
+                
+                <input type="reset" onclick="removeThumbnails();">
+                <br><br>
+                
+                <label for="product_id"><b>ID</b></label>
+                <p>${product.getId()}</p>
+                
                 <label for="item_number"><b>Item Number</b></label>
                 <br>
                 <input type="text" name="item_name" value="${product.getItemnumber()}" required>
-                <br>
+                <br><br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
                 <input type="text" name="product_name" 
                        value="${product.getName()}" required>
-                <br>
+                <br><br>
                 <label for="brand"><b>Brand</b></label>
                 <br>
                 <input type="text" name="brand" value="${product.getBrand()}" required>
@@ -60,6 +63,14 @@
                     </c:otherwise>
                 </c:choose>
                 <br><br>
+                 <label for="supplier"><b>Supplier</b></label>
+                <br>
+                <input type="text" name="supplier" value="${product.getSupplier()}" required>
+                <br><br>
+                <label for="seo_text"><b>SEO text</b></label>
+                <br>
+                <input type="text" name="seo_text" value="${product.getSEOText()}" required>
+                <br><br>
                 <label for="product_category"><b>Category</b></label>
                 <br>
                 <input type="text" name="product_category" id="category" 
@@ -77,18 +88,6 @@
                     </div>
                     <br>
                 </c:forEach>
-                <label for="supplier"><b>Supplier</b></label>
-                <br>
-                <input type="text" name="supplier" value="${product.getSupplier()}" required>
-                <br>
-                <label for="seo_text"><b>SEO text</b></label>
-                <br>
-                <input type="text" name="seo_text" value="${product.getSEOText()}" required>
-                <br><br>
-                <label for="status"><b>Status</b></label>
-                <br>
-                <input type="text" name="status" value="${product.getStatus()}" required>
-                <br><br>
 
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
@@ -113,9 +112,10 @@
                     </c:forEach>
                 </div>
                 <br><br>
-
-                <input type="reset" onclick="removeThumbnails();">
-                <br><br>
+                
+                <label for="status"><b>Status</b></label>
+                <p>${product.getStatus()} </p>
+                <br>
 
                 <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>

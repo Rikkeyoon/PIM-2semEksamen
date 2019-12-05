@@ -21,30 +21,29 @@
             <input type="submit" value="Back" />
         </form>
         <h1>Edit ${category1}</h1>
-        
+
         <form name="update_attributes" action="FrontController" method="POST">
             <input type="hidden" name="category" value="${category1}">
             <input type="hidden" name="cmd" value="edit_category">
-                <label for="attributes"><b>Attributes</b></label>
-                <br>
-                <c:forEach items="${categories}" var="cat">
-                    <c:if test="${cat.getCategoryname().equals(category1)}">
-                        <c:forEach items="${cat.getAttributes()}" var="attr">
-                            <input type="hidden" name="attr_old" value="${attr}"/>
-                            <input type="text" name="attr_new" value="${attr}"/>
-                            <label>Remove:</label>
-                            <input type="checkbox" name="attr_remove" value="${attr}"/>
-                            <br>
-                        </c:forEach>
-                    </c:if>
-                </c:forEach>
-                   <br><br>
+            <label for="attributes"><b>Attributes</b></label>
+            <br>
+            <c:forEach items="${categories}" var="cat">
+                <c:if test="${cat.getCategoryname().equals(category1)}">
+                    <c:forEach items="${cat.getAttributes()}" var="attr">
+                        <input type="hidden" name="attr_old" value="${attr}"/>
+                        <input type="text" name="attr_new" value="${attr}"/>
+                        <label>Remove:</label>
+                        <input type="checkbox" name="attr_remove" value="${attr}"/>
+                        <br>
+                    </c:forEach>
+                </c:if>
+            </c:forEach>
+            <br><br>
 
             <input type="hidden" name="cmd" value="edit_category">
             <div class="new_attributes">
-                <p>New Attribute Name (Mark if the field is required)</p>
+                <p>New Attribute Name</p>
                 <div><input type="text" name="attribute">
-                    <input type="radio" name="required">
                 </div>
             </div>
 
@@ -52,21 +51,5 @@
             <br><br>
             <input class="updatebtn" type="submit" value="Save Changes"/>
         </form>
-        <script>
-            $(document).ready(function () {
-                var wrapper = $(".new_attributes");
-                var add_button = $("#add_field_button");
-                
-                $(add_button).click(function (e) {
-                    e.preventDefault();
-                    $(wrapper).append('<div><input type="text" name="attribute"/><input type="radio" name"required"/><a href="#" class="remove_field"> Remove</a></div>');
-                });
-
-                $(wrapper).on("click", ".remove_field", function (e) {
-                    e.preventDefault();
-                    $(this).parent('div').remove();
-                });
-            });
-        </script>
     </body>
 </html>

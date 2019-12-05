@@ -3,12 +3,12 @@ package logic;
 import exception.CommandException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.Attributes;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
@@ -238,7 +238,14 @@ public class LogicController {
      * @throws CommandException
      */
     public static List<Product> getProductsByTag(String tag) throws CommandException {
-        return pf.getProductsWithTagSearch(tag);
+        List<Product> productsTag = pf.getProductsWithTagSearch(tag);
+        Collections.sort(productsTag, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p1.getId() - p2.getId();
+            }
+        });
+        return productsTag;
     }
 
     /**
@@ -351,6 +358,46 @@ public class LogicController {
 
     public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         pf.deleteAttributeFromCategory(removeAttr);
+    }
+
+    /**
+     * A method for products by item number The LogicController recieves
+     * products' item number or part of a item number from the LogicFacade and
+     * passes it on to the PersistenceFacade and returns the found products
+     *
+     * @param itemNumber
+     * @return
+     * @throws CommandException
+     */
+    public static List<Product> getProductsByItemNumber(int itemNumber)
+            throws CommandException {
+        return pf.getProductsByItemNumber(itemNumber);
+    }
+
+    /**
+     * A method for products by brand The LogicController recieves products'
+     * brand or part of a brand from the LogicFacade and passes it on to the
+     * PersistenceFacade and returns the found products
+     *
+     * @param brand
+     * @return
+     * @throws CommandException
+     */
+    static List<Product> getProductsByBrand(String brand) throws CommandException {
+        return pf.getProductsByBrand(brand);
+    }
+
+    /**
+     * A method for getting products by supplier The LogicController recieves
+     * products' supplier or part of a suppliername from the LogicFacade and
+     * passes it on to the PersistenceFacade and returns the found products
+     *
+     * @param name
+     * @return List of Products
+     * @throws CommandException
+     */
+    public static List<Product> getProductsBySupplier(String supplier) throws CommandException {
+        return pf.getProductsBySupplier(supplier);
     }
 
 }

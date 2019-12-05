@@ -27,8 +27,11 @@
                 <input type="hidden" name="cmd" value="create_product">
 
                 <h1>Create product for category: ${category1}</h1>
-                <br><br>
-
+                <br>
+                
+                <input type="reset" onclick="removeThumbnails();">
+                <br><br><br>
+                
                 <label for="product_id"><b>ID</b></label>
                 <br>
                 <input type="text" name="product_id" value="0" id="id" onkeyup="validateId();" readonly>
@@ -37,7 +40,7 @@
                 <label for="item_number"><b>Item Number</b></label>
                 <br>
                 <input type="text" name="item_number" required>
-                <br>
+                <br><br>
                 <label for="product_name"><b>Product Name</b></label>
                 <br>
                 <input type="text" name="product_name" required>
@@ -45,7 +48,7 @@
                 <label for="brand"><b>Brand</b></label>
                 <br>
                 <input type="text" name="brand" required>
-                <br>
+                <br><br>
                 <label for="product_desc"><b>Description</b></label>
                 <br>
                 <textarea name="product_desc" rows="4" cols="20" required="required"></textarea>
@@ -54,7 +57,7 @@
                 <br>
                 <input type="text" name="product_tags" 
                        placeholder="tag1, tag2, tag3">
-                <br>
+                <br><br>
                 <label for="supplier"><b>Supplier</b></label>
                 <br>
                 <input type="text" name="supplier" required>
@@ -74,6 +77,7 @@
                             <label for="attribute_name"><b>${attr}</b></label>
                             <br>
                             <input type="text" name="attributes" required>
+                            <br>
                         </c:forEach>
                     </c:if>
                 </c:forEach>
@@ -88,11 +92,9 @@
                 <br>
                 <label for="status"><b>Status</b></label>
                 <br>
-                <input type="text" name="status" required>
+                <input type="text" name="status" value="0" readonly>
                 <br><br>
-                <input type="reset" onclick="removeThumbnails();">
-                <br><br>
-
+                
                 <!-- Exception handling -->
                 <c:if test="${error != null}">
                     <div class="form-alert">${error}</div>

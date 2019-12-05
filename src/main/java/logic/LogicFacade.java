@@ -7,18 +7,18 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.servlet.http.Part;
 
 /**
- * The purpose of LogicFacade is to keep low coupling between the presentation layer
- * and the domainmodel/logic layer by being the first object beyond the
- * presentation layer to receive and coordinate a system operation 
- * 
+ * The purpose of LogicFacade is to keep low coupling between the presentation
+ * layer and the domainmodel/logic layer by being the first object beyond the
+ * presentation layer to receive and coordinate a system operation
+ *
  * @author carol
  */
 public class LogicFacade {
 
     /**
-     * A method for creating a Product
-     * The LogicFacade receives the new product's information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method for creating a Product The LogicFacade receives the new
+     * product's information from the presentation layer and passes that
+     * information on to the LogicController
      *
      * @param id
      * @param itemnumber
@@ -34,22 +34,22 @@ public class LogicFacade {
      * @return Product
      * @throws CommandException
      */
-    public static Product createProduct(int id, int itemnumber, String name, 
-            String brand, String description, String tags, String supplier, 
-            String seotext, int status, Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images) 
+    public static Product createProduct(int id, int itemnumber, String name,
+            String brand, String description, String tags, String supplier,
+            String seotext, int status, Map<String, String[]> parameterMap, List<Pair<String, Boolean>> images)
             throws CommandException {
-        return LogicController.createProduct(id, itemnumber, name, brand, 
+        return LogicController.createProduct(id, itemnumber, name, brand,
                 description, tags, parameterMap, supplier, seotext, status, images);
     }
 
     /**
-     * A method to update a product
-     * The LogicFacade receives the product's information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method to update a product The LogicFacade receives the product's
+     * information from the presentation layer and passes that information on to
+     * the LogicController
      *
      * @param p Product to be updated
      * @param parameterMap The various information from the presentation layer
-     * @param imageURLs 
+     * @param imageURLs
      * @return Product
      * @throws CommandException
      */
@@ -59,9 +59,9 @@ public class LogicFacade {
     }
 
     /**
-     * A method to delete a product
-     * The LogicFacade receives the product's information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method to delete a product The LogicFacade receives the product's
+     * information from the presentation layer and passes that information on to
+     * the LogicController
      *
      * @param p Poduct
      * @throws CommandException
@@ -81,8 +81,8 @@ public class LogicFacade {
     }
 
     /**
-     * A method for getting a specific product by the product's database id
-     * The LogicFacade receives the product's database id from the presentation
+     * A method for getting a specific product by the product's database id The
+     * LogicFacade receives the product's database id from the presentation
      * layer and passes that information on to the LogicController
      *
      * @param id
@@ -95,12 +95,12 @@ public class LogicFacade {
 
     /**
      * A method for getting products that has the same name or that contains the
-     * String in their names
-     * The LogicFacade receives the product's information from the presentation
-     * layer and passes that information on to the LogicController
+     * String in their names The LogicFacade receives the product's information
+     * from the presentation layer and passes that information on to the
+     * LogicController
      *
      * @param name String Part of name or entire name
-     * @return List of Products 
+     * @return List of Products
      * @throws CommandException
      */
     public static List<Product> getProductsByName(String name)
@@ -109,9 +109,9 @@ public class LogicFacade {
     }
 
     /**
-     * A method for getting products that have the same category or products which
-     * have a category that contains the String in the name
-     * The LogicFacade receives the product's information from the presentation
+     * A method for getting products that have the same category or products
+     * which have a category that contains the String in the name The
+     * LogicFacade receives the product's information from the presentation
      * layer and passes that information on to the LogicController
      *
      * @param category Part of a category name or entire name
@@ -124,24 +124,24 @@ public class LogicFacade {
     }
 
     /**
-     * A method for getting products that have the same tag or products which have
-     * a tag which name contains the string
-     * The LogicFacade receives the product's information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method for getting products that have the same tag or products which
+     * have a tag which name contains the string The LogicFacade receives the
+     * product's information from the presentation layer and passes that
+     * information on to the LogicController
      *
      * @param tag Part of a tag name or the entire name
      * @return List of Products
      * @throws CommandException
      */
-    public static List<Product> getProductsByTag(String tag) 
+    public static List<Product> getProductsByTag(String tag)
             throws CommandException {
         return LogicController.getProductsByTag(tag);
     }
 
     /**
-     * A method for creating a new category
-     * The LogicFacade receives the category's name and attributes from the presentation
-     * layer and passes that information on to the LogicController
+     * A method for creating a new category The LogicFacade receives the
+     * category's name and attributes from the presentation layer and passes
+     * that information on to the LogicController
      *
      * @param categoryname
      * @param attributes
@@ -154,9 +154,9 @@ public class LogicFacade {
     }
 
     /**
-     * A method for editing the category
-     * The LogicFacade receives the category's new information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method for editing the category The LogicFacade receives the category's
+     * new information from the presentation layer and passes that information
+     * on to the LogicController
      *
      * @param categoryname
      * @param attributes
@@ -171,7 +171,7 @@ public class LogicFacade {
     /**
      * Method for getting all categories
      *
-     * @return List of Categories 
+     * @return List of Categories
      * @throws CommandException
      */
     public static List<Category> getCategories() throws CommandException {
@@ -179,9 +179,9 @@ public class LogicFacade {
     }
 
     /**
-     * A method for uploading images
-     * The LogicFacade receives the product's images' information from the presentation
-     * layer and passes that information on to the LogicController
+     * A method for uploading images The LogicFacade receives the product's
+     * images' information from the presentation layer and passes that
+     * information on to the LogicController
      *
      * @param parts
      * @param primaryImage
@@ -201,4 +201,48 @@ public class LogicFacade {
         LogicController.deleteAttributeFromCategory(removeAttr);
     }
 
+    /**
+     * A method for getting products that have the same item number or products
+     * which have an item number that contains the int in the number The
+     * LogicFacade receives the product's information from the presentation
+     * layer and passes that information on to the LogicController
+     *
+     * @param itemNumber Part of a category name or entire name
+     * @return List of Products
+     * @throws CommandException
+     */
+    public static List<Product> getProductsByItemNumber(int itemNumber)
+            throws CommandException {
+        return LogicController.getProductsByItemNumber(itemNumber);
+    }
+
+    /**
+     * A method for getting products that have the same brand or products which
+     * have a brand that contains the String in the name The LogicFacade
+     * receives the product's information from the presentation layer and passes
+     * that information on to the LogicController
+     *
+     * @param brand Part of a brand name or entire name
+     * @return List of Products
+     * @throws CommandException
+     */
+    public static List<Product> getProductsByBrand(String brand)
+            throws CommandException {
+        return LogicController.getProductsByBrand(brand);
+    }
+
+    /**
+     * A method for getting products that have the same supplier or products which
+     * have a supplier that contains the String in the name The LogicFacade
+     * receives the product's information from the presentation layer and passes
+     * that information on to the LogicController
+     *
+     * @param supplier Part of a supplier name or entire name
+     * @return List of Products
+     * @throws CommandException
+     */
+    public static List<Product> getProductsBySupplier(String supplier)
+            throws CommandException {
+        return LogicController.getProductsBySupplier(supplier);
+    }
 }

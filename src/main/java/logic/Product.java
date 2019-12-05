@@ -368,9 +368,6 @@ public class Product {
      * @param product
      * @return boolean
      */
-    public boolean compareTo(Product product) {
-        return this.id == product.getId();
-    }
 
     /**
      * A method for converting the Product class to a String, which contains the
