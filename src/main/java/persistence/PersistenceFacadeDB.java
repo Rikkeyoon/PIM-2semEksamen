@@ -19,11 +19,11 @@ import logic.Image;
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
     private static IDatabaseConnection DBC;
-    private static ProductMapper pm = new ProductMapper();
-    private static CategoryMapper cm = new CategoryMapper();
-    private static TagMapper tm = new TagMapper();
-    private static AttributeMapper am = new AttributeMapper();
-    private static ImageMapper im = new ImageMapper();
+    private static final ProductMapper pm = new ProductMapper();
+    private static final CategoryMapper cm = new CategoryMapper();
+    private static final TagMapper tm = new TagMapper();
+    private static final AttributeMapper am = new AttributeMapper();
+    private static final ImageMapper im = new ImageMapper();
 
     /**
      * Constructor for PersistenceFacadeDB where the connection can be set

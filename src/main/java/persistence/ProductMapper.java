@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import logic.Image;
+import logic.LogicFacade;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -568,7 +569,7 @@ public class ProductMapper {
                 String updateSql = "UPDATE products SET status = ? WHERE id = ?";
                 pstmt = connection.prepareStatement(updateSql);
                 for (Integer i : idList) {
-                    Product p = getProductWithCategoryAttributes(i);
+                    Product p = LogicFacade.getProduct(i);
                     p.calculateStatus();
                     pstmt.setInt(1, p.getStatus());
                     pstmt.setInt(2, p.getId());
@@ -578,7 +579,7 @@ public class ProductMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("could not bulk edit" + ex.getMessage());
+            throw new CommandException("could not bulk edit " + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
