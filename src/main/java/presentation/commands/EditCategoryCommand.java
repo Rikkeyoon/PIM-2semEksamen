@@ -56,9 +56,10 @@ public class EditCategoryCommand extends Command {
             }
         }
         String categoryname = request.getParameter("category");
+        String[] attributes = request.getParameterValues("attribute");
         List<String> gAttr = new ArrayList();
-        for (String s: oldAttr){
-        if (oldAttr != null && StringUtils.isNotBlank(s)) {
+        for (String s: attributes){
+        if (attributes != null && StringUtils.isNotBlank(s)) {
             gAttr.add(s);
             }
         }
