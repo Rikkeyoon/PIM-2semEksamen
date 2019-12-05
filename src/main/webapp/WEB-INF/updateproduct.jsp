@@ -82,8 +82,9 @@
                 </c:forEach>
                 <br><br> 
                 <label for="status"><b>Status</b></label>
-                <br>
-                <input type="text" name="status" value="${product.getStatus()}" >
+                <input type="hidden" value="${product.getStatus()}" name="status"/>
+                <p>${product.getStatus()}</p>
+                
                 <br><br>
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>

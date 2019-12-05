@@ -38,13 +38,6 @@
             <br>
             <h1>Product Catalog</h1>
 
-            <form name="get_product_catalog" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Reset"/>
-                <br>
-            </form>
-
             <!-- Grid and list view -->
             <div class="row">
                 <c:forEach items="${catalog}" var="product">
