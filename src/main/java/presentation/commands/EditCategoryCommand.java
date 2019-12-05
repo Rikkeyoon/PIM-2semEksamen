@@ -61,12 +61,11 @@ public class EditCategoryCommand extends Command {
         for (String s: attributes){
         if (attributes != null && StringUtils.isNotBlank(s)) {
             gAttr.add(s);
-     
             }
         }
         String[] cAttr = new String[gAttr.size()];
-        Category c = LogicFacade.editCategory(categoryname, gAttr.toArray(cAttr));
-            request.getSession().setAttribute("category", c);
+        LogicFacade.editCategory(categoryname, gAttr.toArray(cAttr));
+            request.getSession().setAttribute("categories", LogicFacade.getCategories());
         return "productcatalog";
     }
 

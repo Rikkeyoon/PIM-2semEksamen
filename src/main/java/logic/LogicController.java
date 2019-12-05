@@ -76,7 +76,7 @@ public class LogicController {
 
     /**
      * A method to upload images to an extern service The LogicController
-     * recieves information from the LogicFacade and passes it on to the
+     * receives information from the LogicFacade and passes it on to the
      * PersistenceFacade
      *
      * @param parts
@@ -202,7 +202,7 @@ public class LogicController {
     }
 
     /**
-     * A method for getting products by name The LogicController recieves
+     * A method for getting products by name The LogicController receives
      * products' name or part of a name from the LogicFacade and passes it on to
      * the PersistenceFacade and returns the found products
      *
@@ -215,7 +215,7 @@ public class LogicController {
     }
 
     /**
-     * A method for products by category The LogicController recieves products'
+     * A method for products by category The LogicController receives products'
      * category or part of a category from the LogicFacade and passes it on to
      * the PersistenceFacade and returns the found products
      *
@@ -243,7 +243,7 @@ public class LogicController {
 
     /**
      * A method for getting a specific category by its name The LogicController
-     * recieves information from the LogicFacade and passes it on to the
+     * receives information from the LogicFacade and passes it on to the
      * PersistenceFacade and returns the found category
      *
      * @param categoryname
@@ -255,7 +255,7 @@ public class LogicController {
     }
 
     /**
-     * A method for creating a new category The LogicController recieves
+     * A method for creating a new category The LogicController receives
      * information from the LogicFacade, creates a new Category Object and
      * passes it on to the PersistenceFacade to be stored
      *
@@ -278,7 +278,7 @@ public class LogicController {
     }
 
     /**
-     * A method for editing a category's data The LogicController recieves
+     * A method for editing a category's data The LogicController receives
      * information from the LogicFacade, updates the category's data based on
      * the given information and passes it on to the PersistenceFacade to be
      * changed in the storage
@@ -293,9 +293,9 @@ public class LogicController {
         Category c = pf.getCategory(categoryname);
         List<String> oldAttributes = c.getAttributes();
         List<String> newAttributes = new ArrayList<>();
-        for (String attribute : oldAttributes) {
-            newAttributes.add(attribute);
-        }
+//        for (String attribute : oldAttributes) {
+//            newAttributes.add(attribute);
+//        }
 
         for (String attribute : attributes) {
             newAttributes.add(attribute);
@@ -306,7 +306,7 @@ public class LogicController {
     }
 
     /**
-     * A method for getting all categories The LogicController recieves
+     * A method for getting all categories The LogicController receives
      * information from the LogicFacade and passes it on to the
      * PersistenceFacade which returns all stored categories
      *
