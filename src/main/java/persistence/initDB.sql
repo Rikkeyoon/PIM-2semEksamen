@@ -33,7 +33,7 @@ CREATE TABLE products (
     seo_text VARCHAR(45),
     status INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (category_id) REFERENCES categories (id)
+    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE images (
@@ -41,7 +41,7 @@ CREATE TABLE images (
     url VARCHAR(255) NOT NULL,
     primaryImage BIT NOT NULL,
     PRIMARY KEY(product_id, URL),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE tags(
@@ -55,7 +55,7 @@ CREATE TABLE product_tags (
     product_id INT NOT NULL,
     PRIMARY KEY(tag_id, product_id),
 	FOREIGN KEY(tag_id) REFERENCES tags(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE attributes (
@@ -70,13 +70,13 @@ CREATE TABLE attribute_values(
 	attribute_value VARCHAR(200) NOT NULL,
     PRIMARY KEY(attribute_id, product_id),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE category_attributes (
 	category_id INT NOT NULL,
     attribute_id INT NOT NULL,
-    FOREIGN KEY(category_id) REFERENCES categories(id),
+    FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE,
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

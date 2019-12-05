@@ -222,10 +222,6 @@ public class ImageMapper {
                 images.add(new Image(URL, bool));
             }
 
-            if (images.size() <= 0) {
-                throw new SQLException();
-            }
-
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not fetch URLs to images");
         } finally {
@@ -346,7 +342,7 @@ public class ImageMapper {
      * @return String
      */
     private String getPublicIDFromURL(String url) {
-        return url.substring(62, url.length() - 4);
+        return url.substring(61, url.length() - 4);
     }
     
     private Cloudinary getCloudinaryConnection()throws CommandException{

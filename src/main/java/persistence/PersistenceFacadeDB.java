@@ -261,10 +261,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
 
     @Override
     public void deleteAllImages(Product p) throws CommandException {
-        im.deleteAllImages(p);
-          for (Image image : p.getImages()) {
+        for (Image image : im.getPicturesForProduct(p.getId())) {
+            System.out.println(image.getUrl());
             im.removePictureFromCloudinary(image.getUrl());
         }
+        im.deleteAllImages(p);
     }
 
     @Override
