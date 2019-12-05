@@ -29,9 +29,17 @@ public class SearchProductCommand extends Command {
                     Product product = LogicFacade.getProduct(id);
                     catalog.add(product);
                     break;
+                case "product_itemnumber":
+                    int itemNumber = Integer.parseInt(request.getParameter("search"));
+                    catalog = LogicFacade.getProductsByItemNumber(itemNumber);
+                    break;
                 case "product_name":
                     String name = request.getParameter("search");
                     catalog = LogicFacade.getProductsByName(name);
+                    break;
+                case "product_brand":
+                    String brand = request.getParameter("search");
+                    catalog = LogicFacade.getProductsByBrand(brand);
                     break;
                 case "product_category":
                     String category = request.getParameter("search");
@@ -41,10 +49,15 @@ public class SearchProductCommand extends Command {
                     String tag = request.getParameter("search");
                     catalog = LogicFacade.getProductsByTag(tag);
                     break;
+                case "product_supplier":
+                    String supplier = request.getParameter("search");
+                    catalog = LogicFacade.getProductsBySupplier(supplier);
+                    break;
                 default:
                     break;
             }
         } catch (NumberFormatException | CommandException | NullPointerException e) {
+            //Doesn't have to throw an exception, it will just return an empty array
         }
         request.getSession().setAttribute("catalog", catalog);
         return "productcatalog";

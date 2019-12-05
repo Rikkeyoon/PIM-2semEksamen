@@ -208,4 +208,31 @@ public interface IPersistenceFacade {
     public void deleteAllImages(Product p)throws CommandException;
 
     public void deleteProductAttributes(int id)throws CommandException;
+    /**
+     * Method to get products by an item number or part of the item number
+     *
+     * @param itemNumber
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsByItemNumber(int itemNumber) throws CommandException;
+
+    /**
+     * Method to get products by a brand or part of the brands's name
+     *
+     * @param brand
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsByBrand(String brand) throws CommandException;
+
+    /**
+     * Method to get products by a supplier or part of the suppliers name
+     *
+     * @param supplier
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsBySupplier(String supplier) throws CommandException;
+
 }

@@ -10,7 +10,7 @@ import logic.LogicFacade;
 import logic.Product;
 
 /**
- * The purpose of ViewPageCommand is to get a generic command that can navigate 
+ * The purpose of ViewPageCommand is to get a generic command that can navigate
  * to another view page and get the wanted data for the view page to work
  *
  * @author carol
@@ -27,6 +27,9 @@ public class ViewPageCommand extends Command {
             session.setAttribute("catalog", catalog);
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
+        } else if (view.contains("categories")) {
+            List<Category> categories = LogicFacade.getCategories();
+            session.setAttribute("categories", categories);
         } else if (view.contains("category")) {
             session.setAttribute("category1", request.getParameter("category"));
         } else if (view.contains("viewproduct")) {
@@ -36,7 +39,7 @@ public class ViewPageCommand extends Command {
             session.setAttribute("product", product);
         } else if (view.contains("createproduct")) {
             session.setAttribute("category1", request.getParameter("category"));
-        }
+        } 
         return view;
     }
 

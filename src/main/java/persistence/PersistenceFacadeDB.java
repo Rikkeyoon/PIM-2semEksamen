@@ -128,7 +128,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteProduct(Product p) throws CommandException {
         pm.delete(p);
-        
+
     }
 
     @Override
@@ -213,13 +213,13 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void updateCategoryAttributename(String oldAttr, String newAttr) 
+    public void updateCategoryAttributename(String oldAttr, String newAttr)
             throws CommandException {
         am.updateCategoryAttributename(oldAttr, newAttr);
     }
 
     @Override
-    public void deleteAttributeFromCategory(List<String> removeAttr) 
+    public void deleteAttributeFromCategory(List<String> removeAttr)
             throws CommandException {
         for (String s : removeAttr) {
             int i = am.getAttributeId(s);
@@ -234,24 +234,24 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void createProductAttributes(Product product) throws CommandException {
         pm.createAttributes(product);
     }
-    
+
     @Override
-    public void updateProductAttributes(Product product) throws CommandException{
+    public void updateProductAttributes(Product product) throws CommandException {
         pm.updateAttributes(product);
     }
-    
+
     @Override
-    public void deleteTagsForProduct(int id) throws CommandException{
+    public void deleteTagsForProduct(int id) throws CommandException {
         tm.deleteTagsForProduct(id);
     }
-    
+
     @Override
-    public void deleteUnusedTags() throws CommandException{
+    public void deleteUnusedTags() throws CommandException {
         tm.deleteUnusedTags();
     }
-    
+
     @Override
-    public void updatePrimaryPicture(int productId, String imageURL) throws CommandException{
+    public void updatePrimaryPicture(int productId, String imageURL) throws CommandException {
         im.updatePrimaryPicture(productId, imageURL);
     }
 
@@ -263,14 +263,29 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteAllImages(Product p) throws CommandException {
         im.deleteAllImages(p);
-          for (Image image : p.getImages()) {
+        for (Image image : p.getImages()) {
             im.removePictureFromCloudinary(image.getUrl());
         }
     }
 
     @Override
-    public void deleteProductAttributes(int id)throws CommandException{
+    public void deleteProductAttributes(int id) throws CommandException {
         pm.deleteProductAttributes(id);
+    }
+
+    @Override
+    public List<Product> getProductsByItemNumber(int itemNumber) throws CommandException {
+        return pm.getProductsByItemNumber(itemNumber);
+    }
+
+    @Override
+    public List<Product> getProductsByBrand(String brand) throws CommandException {
+        return pm.getProductsByBrand(brand);
+    }
+
+    @Override
+    public List<Product> getProductsBySupplier(String supplier) throws CommandException {
+        return pm.getProductsBySupplier(supplier);
     }
 
 }

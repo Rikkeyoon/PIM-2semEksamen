@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -321,6 +322,7 @@ public class ProductMapper {
         for (Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)) {
             products.add(getProduct(i));
         }
+        
         return products;
     }
 
@@ -442,7 +444,7 @@ public class ProductMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("attr, Could not find a product with the given ID " + ex.getMessage());
+            throw new CommandException("Could not find a product with the given ID ");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -554,4 +556,151 @@ public class ProductMapper {
             DbUtils.closeQuietly(pstmt);
         }
     }
+
+    /**
+     * Method to get all products that share a item number or share a part of
+     * the item number
+     *
+     * @param itemNumber
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsByItemNumber(int itemNumber) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Product> products = new ArrayList();
+
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM products WHERE item_number = ?;";
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, itemNumber);
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("id");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
+
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
+
+                products.add(new Product(id, itemNumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
+            }
+
+            if (products.size() < 1) {
+                throw new SQLException();
+            }
+
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any product with that item number");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return products;
+    }
+
+    /**
+     * Method to get all products that share a brand or share the String as part
+     * of their brands names
+     *
+     * @param brandname
+     * @return List of Products
+     * @throws CommandException
+     */
+    public List<Product> getProductsByBrand(String brandname) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Product> products = new ArrayList();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM products WHERE brand LIKE ?";
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + brandname + '%');
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+
+                int id = result.getInt("id");
+                int itemnumber = result.getInt("Item_number");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
+
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
+
+                products.add(new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any products with the chosen brand");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+
+        return products;
+    }
+    
+    /**
+     * Method to get all products that share a supplier or share the String as part
+     * of their suppliers names
+     *
+     * @param suppliername
+     * @return List of Products
+     * @throws CommandException
+     */
+    List<Product> getProductsBySupplier(String suppliername) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        List<Product> products = new ArrayList();
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            String selectSql = "SELECT * FROM products WHERE supplier LIKE ?";
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + suppliername + '%');
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+
+                int id = result.getInt("id");
+                int itemnumber = result.getInt("Item_number");
+                String name = result.getString("name");
+                String brand = result.getString("brand");
+                String description = result.getString("description");
+                String categoryname = result.getString("category_name");
+                String supplier = result.getString("supplier");
+                String seotext = result.getString("seo_text");
+                int status = result.getInt("status");
+
+                List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
+
+                products.add(new Product(id, itemnumber, name, brand, description,
+                        cm.getCategory(categoryname), supplier, seotext, status, images));
+
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("Could not find any products with the chosen supplier");
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+
+        return products;
+    }
+
 }

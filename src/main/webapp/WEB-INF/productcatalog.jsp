@@ -37,7 +37,13 @@
         <div id="main">
             <br>
             <h1>Product Catalog</h1>
-            <br>
+
+            <form name="get_product_catalog" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="productcatalog">
+                <input type="submit" value="Reset"/>
+                <br>
+            </form>
 
             <!-- Grid and list view -->
             <div class="row">
@@ -86,6 +92,12 @@
         <input type="hidden" name="view" value="editcategory">
         <input type="submit" value="Edit category">
     </form> -->
+            <form name="view_categories" action="FrontController" method="POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="viewcategories">
+                <input type="submit" value="View categories" />
+            </form>
+            <br>
         </div>
         <script>
             // Get the elements with class="column"

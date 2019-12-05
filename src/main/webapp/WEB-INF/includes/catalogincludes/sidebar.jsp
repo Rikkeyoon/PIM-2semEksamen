@@ -24,9 +24,12 @@
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
             <input type="radio" name="searchType" value="product_id" checked="checked"/> Id
+            <input type="radio" name="searchType" value="product_itemnumber"/> Itemnumber
             <input type="radio" name="searchType" value="product_name"/> Name
+            <input type="radio" name="searchType" value="product_brand"/> Brand
             <input type="radio" name="searchType" value="product_category"/> Category
             <input type="radio" name="searchType" value="product_tag"/> Tag
+            <input type="radio" name="searchType" value="product_supplier"/> Supplier
             <br><br>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="search">
