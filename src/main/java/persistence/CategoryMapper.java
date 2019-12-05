@@ -216,7 +216,7 @@ public class CategoryMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any category with that name");
+            throw new CommandException("Could not find any category with that name" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }

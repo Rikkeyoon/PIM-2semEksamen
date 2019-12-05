@@ -273,8 +273,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void updateProduct_BulkEdit(Product p) throws CommandException {
-        pm.update_BulkEdit(p);
+    public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
+        pm.update_BulkEdit(p, bulkeditIDs);
     }
 
 }

@@ -209,5 +209,5 @@ public interface IPersistenceFacade {
 
     public void deleteProductAttributes(int id)throws CommandException;
 
-    public void updateProduct_BulkEdit(Product p) throws CommandException ;
+    public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException ;
 }

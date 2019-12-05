@@ -356,18 +356,20 @@ public class LogicController {
         return pf.getCategory(categoryName);
     }
 
-    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException{
-
-        for (String s : bulkeditIDs) {
-            p.setId(Integer.parseInt(s));
-            pf.updateProductAttributes(p);
-            if (!p.getTags().isEmpty()) {
-                //saves tags
-                pf.deleteTagsForProduct(p.getId());
-                pf.createProductTags(p.getId(), p.getTags());
+    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
+        if (bulkeditIDs != null) {
+            for (String s : bulkeditIDs) {
+                p.setId(Integer.parseInt(s));
+                pf.updateProductAttributes(p);
+                if (!p.getTags().isEmpty()) {
+                    //saves tags
+                    pf.deleteTagsForProduct(p.getId());
+                    pf.createProductTags(p.getId(), p.getTags());
+                }
                 pf.deleteUnusedTags();
+
             }
-            pf.updateProduct_BulkEdit(p);
+            pf.updateProduct_BulkEdit(p, bulkeditIDs);
         }
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import logic.Image;
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * The purpose of the ProductMapper is to save the products in the database and
@@ -408,14 +409,14 @@ public class ProductMapper {
                         + "WHERE product_id = ? AND attribute_id = "
                         + "(SELECT id FROM attributes WHERE attribute_name LIKE ?)";
                 pstmt = connection.prepareStatement(updateSql);
-                pstmt.setString(1, product.getCategoryAttributes().get(key));
+                String attributeValue = product.getCategoryAttributes().get(key);
+                pstmt.setString(1, attributeValue);
                 pstmt.setInt(2, product.getId());
                 pstmt.setString(3, key);
-
-                int rowsUpdated = pstmt.executeUpdate();
-                if (rowsUpdated == 0) {
-                    //createAttributes(product);
+                if (StringUtils.isNotEmpty(attributeValue) && StringUtils.isNotBlank(attributeValue)) {
+                    pstmt.executeUpdate();
                 }
+
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find a product with the given ID " + ex.getMessage());
@@ -523,22 +524,61 @@ public class ProductMapper {
             DbUtils.closeQuietly(pstmt);
         }
     }
-    
-    public void update_BulkEdit(Product product) throws CommandException{
-                Connection connection = null;
+
+    public void update_BulkEdit(Product product, List<String> bulkeditIDs) throws CommandException {
+        Connection connection = null;
         PreparedStatement pstmt = null;
+        List<Integer> idList = new ArrayList<>();
+        for (String s : bulkeditIDs) {
+            idList.add(Integer.valueOf(s));
+        }
         try {
             connection = PersistenceFacadeDB.getConnection();
-            String updateSql = "UPDATE products SET brand = ?, supplier = ?, seo_text = ? WHERE id = ?";
-            pstmt = connection.prepareStatement(updateSql);
-            pstmt.setString(1, product.getBrand());
-            pstmt.setString(2, product.getSupplier());
-            pstmt.setString(3, product.getSEOText());
-            pstmt.setInt(4, product.getId());
+            if (StringUtils.isNotBlank(product.getBrand()) || StringUtils.isNotBlank(product.getSupplier()) || StringUtils.isNotBlank(product.getSEOText())) {
+                if (StringUtils.isNotBlank(product.getBrand())) {
+                    String updateSql = "UPDATE products SET brand = ? WHERE id = ?";
+                    pstmt = connection.prepareStatement(updateSql);
+                    for (Integer i : idList) {
+                        pstmt.setString(1, product.getBrand());
+                        pstmt.setInt(2, i);
+                        pstmt.addBatch();
+                    }
+                    pstmt.executeBatch();
+                }
+                if (StringUtils.isNotBlank(product.getSupplier())) {
+                    String updateSql = "UPDATE products SET  supplier = ? WHERE id = ?";
+                    pstmt = connection.prepareStatement(updateSql);
+                    for (Integer i : idList) {
+                        pstmt.setString(1, product.getSupplier());
+                        pstmt.setInt(2, i);
+                        pstmt.addBatch();
+                    }
+                    pstmt.executeBatch();
+                }
+                if (StringUtils.isNotBlank(product.getSEOText())) {
+                    String updateSql = "UPDATE products SET seo_text = ? WHERE id = ?";
+                    pstmt = connection.prepareStatement(updateSql);
+                    for (Integer i : idList) {
+                        pstmt.setString(1, product.getSEOText());
+                        pstmt.setInt(2, i);
+                        pstmt.addBatch();
+                    }
+                    pstmt.executeBatch();
+                }
+                String updateSql = "UPDATE products SET status = ? WHERE id = ?";
+                pstmt = connection.prepareStatement(updateSql);
+                for (Integer i : idList) {
+                    Product p = getProductWithCategoryAttributes(i);
+                    p.calculateStatus();
+                    pstmt.setInt(1, p.getStatus());
+                    pstmt.setInt(2, p.getId());
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
 
-            pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
+            throw new CommandException("could not bulk edit" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
