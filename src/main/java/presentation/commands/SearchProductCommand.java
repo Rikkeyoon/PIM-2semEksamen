@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logic.LogicFacade;
 import logic.Product;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * The purpose of SearchProductCommand is to be able to handle receiving
@@ -22,27 +21,30 @@ public class SearchProductCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
         List<Product> catalog = new ArrayList<>();
+        String parameter = request.getParameter("searchType");
         try {
-            try {
-                int id = Integer.parseInt(request.getParameter("product_id"));
-                Product product = LogicFacade.getProduct(id);
-                catalog.add(product);
-            } catch (NumberFormatException e) {
-                String name = request.getParameter("product_name");
-                if (name != null && StringUtils.isNotBlank(name)) {
+            switch (parameter) {
+                case "product_id":
+                    int id = Integer.parseInt(request.getParameter("search"));
+                    Product product = LogicFacade.getProduct(id);
+                    catalog.add(product);
+                    break;
+                case "product_name":
+                    String name = request.getParameter("search");
                     catalog = LogicFacade.getProductsByName(name);
-                } else {
-                    String category = request.getParameter("product_category");
-                    if (category != null && StringUtils.isNotBlank(category)) {
-                        catalog = LogicFacade.getProductsByCategory(category);
-                    } else {
-                        String tag = request.getParameter("product_tag");
-                        catalog = LogicFacade.getProductsByTag(tag);
-                    }
-                }
+                    break;
+                case "product_category":
+                    String category = request.getParameter("search");
+                    catalog = LogicFacade.getProductsByCategory(category);
+                    break;
+                case "product_tag":
+                    String tag = request.getParameter("search");
+                    catalog = LogicFacade.getProductsByTag(tag);
+                    break;
+                default:
+                    break;
             }
-        } catch (CommandException ex) {
-            //Doesn't have to throw an exception, it will just return an empty array
+        } catch (NumberFormatException | CommandException | NullPointerException e) {
         }
         request.getSession().setAttribute("catalog", catalog);
         return "productcatalog";
