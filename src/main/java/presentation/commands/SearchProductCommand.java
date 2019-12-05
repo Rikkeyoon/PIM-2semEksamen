@@ -23,28 +23,49 @@ public class SearchProductCommand extends Command {
             throws CommandException {
         List<Product> catalog = new ArrayList<>();
         try {
-            try {
-                int id = Integer.parseInt(request.getParameter("product_id"));
-                Product product = LogicFacade.getProduct(id);
-                catalog.add(product);
-            } catch (NumberFormatException e) {
-                String name = request.getParameter("product_name");
-                if (name != null && StringUtils.isNotBlank(name)) {
-                    catalog = LogicFacade.getProductsByName(name);
-                } else {
-                    String category = request.getParameter("product_category");
-                    if (category != null && StringUtils.isNotBlank(category)) {
-                        catalog = LogicFacade.getProductsByCategory(category);
-                    } else {
-                        String tag = request.getParameter("product_tag");
-                        catalog = LogicFacade.getProductsByTag(tag);
-                    }
-                }
+//            int id = Integer.parseInt(request.getParameter("product_id"));
+//            Product product = LogicFacade.getProduct(id);
+//            catalog.add(product);
+            String name = request.getParameter("product_name");
+            if (name != null && StringUtils.isNotBlank(name)) {
+                catalog = LogicFacade.getProductsByName(name);
             }
+            String category = request.getParameter("product_category");
+            if (category != null && StringUtils.isNotBlank(category)) {
+                catalog = LogicFacade.getProductsByCategory(category);
+            }
+            String tag = request.getParameter("product_tag");
+            if (tag != null && StringUtils.isNotBlank(tag)) {
+                catalog = LogicFacade.getProductsByTag(tag);
+            }
+            String brand = request.getParameter("brand");
+            if (brand != null && StringUtils.isNotBlank(brand)) {
+                catalog = LogicFacade.getProductsByBrand(brand);
+            }
+            String supplier = request.getParameter("supplier");
+            if (supplier != null && StringUtils.isNotBlank(supplier)) {
+                catalog = LogicFacade.getProductsBySupplier(supplier);
+            }
+
+//            try {
+//                int itemNumber = Integer.parseInt(request.getParameter("item_number"));
+//                catalog = LogicFacade.getProductsByItemNumber(itemNumber);
+//            } catch (NumberFormatException e) {
+//                String brand = request.getParameter("brand");
+//                if (brand != null && StringUtils.isNotBlank(brand)) {
+//                    catalog = LogicFacade.getProductsByBrand(brand);
+//                }
+//                String supplier = request.getParameter("supplier");
+//                if (supplier != null && StringUtils.isNotBlank(supplier)) {
+//                    catalog = LogicFacade.getProductsBySupplier(supplier);
+//                }
+//            }
         } catch (CommandException ex) {
             //Doesn't have to throw an exception, it will just return an empty array
         }
-        request.getSession().setAttribute("catalog", catalog);
+        request.getSession()
+                .setAttribute("catalog", catalog);
+
         return "productcatalog";
     }
 

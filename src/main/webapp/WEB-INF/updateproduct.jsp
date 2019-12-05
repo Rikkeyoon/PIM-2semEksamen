@@ -121,7 +121,7 @@
 
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
-
+                
                 <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>
             <br>

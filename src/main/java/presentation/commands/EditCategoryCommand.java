@@ -1,6 +1,5 @@
 package presentation;
 
-import com.sun.org.apache.xpath.internal.compiler.Keywords;
 import exception.CommandException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +7,9 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import logic.Category;
 import logic.LogicFacade;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.artifact.ArtifactUtils;
 
 /**
  * The purpose of EditCategoryCommand is to receive the new information from the
@@ -46,7 +43,7 @@ public class EditCategoryCommand extends Command {
                 newAttr.remove(i);
                 oldAttr.remove(i);
             } catch (Exception e) {
-                throw new CommandException("blæh" + e);
+                throw new CommandException(e.getMessage());
             }
             LogicFacade.deleteAttributeFromCategory(removeAttr);
         }
