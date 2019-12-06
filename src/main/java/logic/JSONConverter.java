@@ -78,6 +78,36 @@ public class JSONConverter {
     }
 
     /**
+     * Method to convert Java Objects into JSON Strings using the jackson
+     * ObjectMapper
+     *
+     * @param categories List of Products
+     * @throws exception.CommandException
+     */
+    public static void convertCategoriesToJSON(List<Category> categories)
+            throws CommandException {
+        try {
+            String fileName = "categories.json";
+            File file = getFile(fileName);
+
+            /*BufferedWriter bliver brugt for at slippe for String format med \"
+             *Dog er der en known bug ved brug af BufferedWriter, men det er den 
+             *bedste løsning, vi har fundet frem til
+             */
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                for (Category category : categories) {
+                    // Java objects to JSON string - compact-print
+                    writer.append(mapper.writeValueAsString(category));
+                    writer.newLine();
+                }
+                mapper.writeValue(file, writer.toString());
+            }
+        } catch (IOException ex) {
+            throw new CommandException("Could not convert the categories to JSON" + ex);
+        }
+    }
+    
+    /**
      * Method to convert a file, containing a JSON String, into a Category
      * Object or Product Object
      *

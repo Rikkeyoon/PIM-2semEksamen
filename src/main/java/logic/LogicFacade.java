@@ -189,13 +189,23 @@ public class LogicFacade {
     }
 
     /**
-     * <<<<<<< HEAD Method for converting a List of Products into a JSON String
+     * Method for converting a List of Products into a JSON String
      *
      * @param catalog List Product
      * @throws CommandException
      */
     public static void convertProductsToJSON(List<Product> catalog) throws CommandException {
         JSONConverter.convertProductsToJSON(catalog);
+    }
+    
+    /**
+     * Method for converting a List of Categories into a JSON String
+     *
+     * @param categories List Category
+     * @throws CommandException
+     */
+    public static void convertCategoriesToJSON(List<Category> categories) throws CommandException {
+        JSONConverter.convertCategoriesToJSON(categories);
     }
 
     /**
@@ -262,4 +272,5 @@ public class LogicFacade {
             throws CommandException {
         return LogicController.getProductsBySupplier(supplier);
     }
+
 }

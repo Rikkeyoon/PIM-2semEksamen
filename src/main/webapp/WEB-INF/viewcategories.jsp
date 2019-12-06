@@ -38,7 +38,7 @@
                 <br>
 
                 <form name="download" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="download_catalog">
+                    <input type="hidden" name="cmd" value="download_categories">
                     <div class="input-group" style="position: absolute;
                          bottom: 20px!important;margin-right: 10px;">
                         <div class="form-control">Download categories</div>
