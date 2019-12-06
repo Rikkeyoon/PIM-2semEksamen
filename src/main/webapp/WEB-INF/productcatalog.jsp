@@ -12,284 +12,139 @@
         <title>Product catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
+        <script src="https://kit.fontawesome.com/6341639fb9.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
-        <h1>Product Catalog</h1>
-        <br>
-        
-        <h3>Search</h3>
-        <form name="search" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="search_product">
-            <label for="product_id"><b>Product ID</b></label>
-            <br>
-            <input type="text" name="product_id">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
+        <!-- Navigation bar -->
+        <%@include file="includes/navigationbar.jsp" %>
+        <!-- View navigation bar (specific to this page) -->
+        <nav class="view-nav">
+            <div id="btnContainer" style="float: right;">
+                <button class="btn" onclick="listView()"><i class="glyphicon glyphicon-th-list"></i> List</button> 
+                <button class="btn active" onclick="gridView()"><i class="glyphicon glyphicon-th-large"></i> Grid</button>
+                <button class="btn" onclick="tableView()"><i class="fas fa-table"></i> Table</button>
+            </div>
+        </nav>
 
-            <label for="item_number"><b>Item number</b></label>
-            <br>
-            <input type="text" name="item_number">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
+        <!-- Sidebar with search (hidden by default) -->
+        <%@include file="includes/catalogincludes/sidebar.jsp" %>
 
-            <label for="product_name"><b>Product Name</b></label>
+        <!-- Main content of the page -->
+        <div id="main">
             <br>
-            <input type="text" name="product_name">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
+            <h1>Product Catalog</h1>
 
-            <label for="product_category"><b>Category</b></label>
-            <br>
-            <input type="text" name="product_category">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="brand"><b>Brand</b></label>
-            <br>
-            <input type="text" name="brand">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="product_tag"><b>Tag</b></label>
-            <br>
-            <input type="text" name="product_tag">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-            <label for="supplier"><b>Supplier</b></label>
-            <br>
-            <input type="text" name="supplier">
-            <input class="searchbtn" id="searchbtn" type="submit" value="Search"/>
-            <br>
-
-        </form>
-
-        <form name="get_product_catalog" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="productcatalog">
-            <input type="submit" value="Reset"/>
-            <br>
-        </form>
-
-        <br><br>
-
-        <table id="catalogTable" border="1">
-            <thead>
-                <tr>
-                    <th>Picture</th>
-                    <th onclick="sortNumberColumns(1)">ID&#8661;</th>
-                    <th onclick="sortNumberColumns(2)">Item Number&#8661;</th>
-                    <th onclick="sortAlphabeticalTable(3)">Name&#8661;</th>
-                    <th onclick="sortAlphabeticalTable(4)">Brand&#8661;</th>
-                    <th>Description</th>
-                    <th onclick="sortAlphabeticalTable(6)">Category&#8661;</th>
-                    <th onclick="sortAlphabeticalTable(7)">Supplier&#8661;</th>
-                    <th>SEO text</th>
-                    <th onclick="sortNumberColumns(9)">Status&#8661;</th>
-                    <th>View Product</th>
-                </tr>
-            </thead>
-            <tbody>
+            <!-- Grid and list view -->
+            <div class="row">
                 <c:forEach items="${catalog}" var="product">
-                    <tr>
-                        <td>
-                            <c:choose>
-                                <c:when test="${not empty product.getImages()}">
-                                    <c:choose>
-                                        <c:when test="${!product.getPrimaryImage().equals('')}">
-                                            <img width = "100" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when> 
-                                <c:otherwise>
-                                    <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                                </c:otherwise>
-                            </c:choose>
-
-                        </td>
-                        <td>${product.getId()}</td>
-                        <td>${product.getItemnumber()}</td>
-                        <td>${product.getName()}</td>
-                        <td>${product.getBrand()}</td>
-                        <td>${product.getDescription()}</td>
-                        <td>${product.getCategory().getCategoryname()}</td>
-                        <td>${product.getSupplier()}</td>
-                        <td>${product.getSEOText()}</td>
-                        <td>${product.getStatus()}</td>
-                        <td>
-                            <form name="view_product" action="FrontController" method = "POST">
-                                <input type="hidden" name="cmd" value="get_view">
-                                <input type="hidden" name="view" value="viewproduct">
-                                <input type="hidden" value="${product.getId()}" name="product_id"/>
-                                <input type="submit" value="View product">
-                            </form>
-                        </td>
-                    </tr>
+                    <div class="column">
+                        <p>Product info</p>
+                    </div>
                 </c:forEach>
-            </tbody>
-        </table>
-        <br><br>
+            </div>
 
-        <form name="create_category" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="createcategory">
-            <input type="submit" value="Create new category" />
-        </form>
-        <br>
+            <!-- Table view (hidden by default) -->
+            <%@include file="includes/catalogincludes/tableview.jsp" %>
+            <br><br>
+            <!--
+                        <form name="create_category" action="FrontController" method="POST">
+                            <input type="hidden" name="cmd" value="get_view">
+                            <input type="hidden" name="view" value="createcategory">
+                            <input type="submit" value="Create new category" />
+                        </form>
+                        <br>
+            
+                        <form name="create" action="FrontController" method="POST">
+                            <input type="hidden" name="cmd" value="get_view">
+                            <input type="hidden" name="view" value="createproduct">
+                            <select name="category">
+            <c:forEach items="${categories}" var="cat">
+                <option value="${cat.getCategoryname()}">
+                ${cat.getCategoryname()}
+            </option>
+            </c:forEach>
+        </select>
 
-        <form name="create" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="createproduct">
-            <select name="category">
-                <c:forEach items="${categories}" var="cat">
-                    <option value="${cat.getCategoryname()}">
-                        ${cat.getCategoryname()}
-                    </option>
-                </c:forEach>
-            </select>
+        <input type="submit" value="Create new product for category">
+    </form>
+    <br>
 
-            <input type="submit" value="Create new product for category">
-        </form>
-        <br>
-
-        <form name="edit_category" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <select name="category">
-                <c:forEach items="${categories}" var="cat">
-                    <option value="${cat.getCategoryname()}">
-                        ${cat.getCategoryname()}
-                    </option>
-                </c:forEach>
-            </select>
-            <input type="hidden" name="view" value="editcategory">
-            <input type="submit" value="Edit category">
-        </form>
-        <br><br>
-        
-        <form name="download" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="download_catalog">
-            <input type="submit" value="Download catalog">
-        </form>
-
-        <form name="view_categories" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="viewcategories">
-            <input type="submit" value="View categories" />
-        </form>
-        <br>
-
+    <form name="edit_category" action="FrontController" method="POST">
+        <input type="hidden" name="cmd" value="get_view">
+        <select name="category">
+            <c:forEach items="${categories}" var="cat">
+                <option value="${cat.getCategoryname()}">
+                ${cat.getCategoryname()}
+            </option>
+            </c:forEach>
+        </select>
+        <input type="hidden" name="view" value="editcategory">
+        <input type="submit" value="Edit category">
+    </form> -->
+            <form name="view_categories" action="FrontController" method="POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="viewcategories">
+                <input type="submit" value="View categories" />
+            </form>
+            <br>
+        </div>
         <script>
-            function sortAlphabeticalTable(n) {
-                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                table = document.getElementById("catalogTable");
-                switching = true;
-                //Set the sorting direction to ascending:
-                dir = "asc";
-                /*Make a loop that will continue until
-                 no switching has been done:*/
-                while (switching) {
-                    //start by saying: no switching is done:
-                    switching = false;
-                    rows = table.rows;
-                    /*Loop through all table rows (except the
-                     first, which contains table headers):*/
-                    for (i = 1; i < (rows.length - 1); i++) {
-                        //start by saying there should be no switching:
-                        shouldSwitch = false;
-                        /*Get the two elements you want to compare,
-                         one from current row and one from the next:*/
-                        x = rows[i].getElementsByTagName("TD")[n];
-                        y = rows[i + 1].getElementsByTagName("TD")[n];
-                        /*check if the two rows should switch place,
-                         based on the direction, asc or desc:*/
-                        if (dir == "asc") {
-                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                                //if so, mark as a switch and break the loop:
-                                shouldSwitch = true;
-                                break;
-                            }
-                        } else if (dir == "desc") {
-                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                                //if so, mark as a switch and break the loop:
-                                shouldSwitch = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (shouldSwitch) {
-                        /*If a switch has been marked, make the switch
-                         and mark that a switch has been done:*/
-                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                        switching = true;
-                        //Each time a switch is done, increase this count by 1:
-                        switchcount++;
-                    } else {
-                        /*If no switching has been done AND the direction is "asc",
-                         set the direction to "desc" and run the while loop again.*/
-                        if (switchcount == 0 && dir == "asc") {
-                            dir = "desc";
-                            switching = true;
-                        }
-                    }
+            // Get the elements with class="column"
+            var elements = document.getElementsByClassName("column");
+            var table = document.getElementById("catalogTable");
+            var i;
+
+            // List View
+            function listView() {
+                for (i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "block";
+                    elements[i].style.width = "100%";
                 }
+                table.style.display = "none";
             }
 
-            function sortNumberColumns(n) {
-                var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-                table = document.getElementById("catalogTable");
-                switching = true;
-                dir = "asc";
-                /*Make a loop that will continue until
-                 no switching has been done:*/
-                while (switching) {
-                    //start by saying: no switching is done:
-                    switching = false;
-                    rows = table.rows;
-                    /*Loop through all table rows (except the
-                     first, which contains table headers):*/
-                    for (i = 1; i < (rows.length - 1); i++) {
-                        //start by saying there should be no switching:
-                        shouldSwitch = false;
-                        /*Get the two elements you want to compare,
-                         one from current row and one from the next:*/
-                        x = rows[i].getElementsByTagName("TD")[n];
-                        y = rows[i + 1].getElementsByTagName("TD")[n];
-                        //check if the two rows should switch place:
-                        if (dir == "asc") {
-                            if (Number(x.innerHTML) > Number(y.innerHTML)) {
-                                //if so, mark as a switch and break the loop:
-                                shouldSwitch = true;
-                                break;
-                            }
-                        } else if (dir == "desc") {
-                            if (Number(x.innerHTML) < Number(y.innerHTML)) {
-                                //if so, mark as a switch and break the loop:
-                                shouldSwitch = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (shouldSwitch) {
-                        /*If a switch has been marked, make the switch
-                         and mark that a switch has been done:*/
-                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                        switching = true;
-                        //Each time a switch is done, increase this count by 1:
-                        switchcount++;
-                    } else {
-                        /*If no switching has been done AND the direction is "asc",
-                         set the direction to "desc" and run the while loop again.*/
-                        if (switchcount == 0 && dir == "asc") {
-                            dir = "desc";
-                            switching = true;
-                        }
-                    }
+            // Grid View
+            function gridView() {
+                for (i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "block";
+                    elements[i].style.width = "50%";
                 }
+                table.style.display = "none";
+            }
+
+            function tableView() {
+                for (i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "none";
+                }
+                table.style.display = "block";
+            }
+
+            /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+            function openNav() {
+                document.getElementById("sidebar").style.width = "250px";
+                document.getElementById("main").style.marginLeft = "250px";
+                document.getElementByClass("navbar-content").style.marginLeft = "250px";
+            }
+
+            /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+            function closeNav() {
+                document.getElementById("sidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+                document.getElementByClass("navbar-content").style.marginLeft = "0";
+            }
+
+            var container = document.getElementById("btnContainer");
+            var btns = container.getElementsByClassName("btn");
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].addEventListener("click", function () {
+                    var current = document.getElementsByClassName("active");
+                    current[0].className = current[0].className.replace(" active", "");
+                    this.className += " active";
+                });
             }
         </script>
     </body>

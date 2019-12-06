@@ -273,6 +273,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         pm.deleteProductAttributes(id);
     }
 
+    @Override
     public List<Product> getProductsByItemNumber(int itemNumber) throws CommandException {
         return pm.getProductsByItemNumber(itemNumber);
     }

@@ -77,8 +77,8 @@ public class TagMapper {
                     }
                 }
             }
-        } catch (SQLException ex) {
-            throw new CommandException(ex.getMessage() + " " + ex.getErrorCode());
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException(ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

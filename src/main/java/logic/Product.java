@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Nina, carol
  */
-@JsonIgnoreProperties(ignoreUnknown=true, value="tagsAsString")
+@JsonIgnoreProperties(value="tagsAsString")
 public class Product {
 
     private int id;
