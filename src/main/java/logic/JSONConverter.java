@@ -60,7 +60,10 @@ public class JSONConverter {
             String fileName = "catalog.json";
             File file = getFile(fileName);
 
-            //BufferedWriter bliver brugt for at slippe for String format med \"
+            /*BufferedWriter bliver brugt for at slippe for String format med \"
+             *Dog er der en known bug ved brug af BufferedWriter, men det er den 
+             *bedste løsning, vi har fundet frem til
+             */
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (Product product : products) {
                     // Java objects to JSON string - compact-print
