@@ -80,11 +80,6 @@
                     <input type="hidden" name="attributename" value ="${attr}">
                     <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
                 </c:forEach>
-                <br><br> 
-                <label for="status"><b>Status</b></label>
-                <input type="hidden" value="${product.getStatus()}" name="status"/>
-                <p>${product.getStatus()}</p>
-                
                 <br><br>
                 <c:forEach items="${product.getImages()}" var="image"> 
                     <span>
@@ -103,6 +98,11 @@
                     </span>
                 </c:forEach>
                 <br><br>
+                <label for="status"><b>Status</b></label>
+                <input type="hidden" value="${product.getStatus()}" name="status"/>
+                <p>${product.getStatus()}</p>
+                <br><br> 
+
                 <label for="file"><b>Add more pictures</b></label>
                 <br>
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
@@ -122,7 +122,7 @@
 
                 <input type="reset" onclick="removeThumbnails();">
                 <br><br>
-                
+
                 <input class="updatebtn" type="submit" value="Save Changes"/>
             </form>
             <br>

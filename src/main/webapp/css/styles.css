@@ -148,3 +148,18 @@ tr:nth-child(even){
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
 }
+.block {
+    column-count: 2;
+    column-width: 30%;
+    /*position: relative-flex;
+    justify-content: center;*/
+    text-align: center;
+    top: 50%;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.update .download {
+    display: flex;
+    position: absolute;
+}
