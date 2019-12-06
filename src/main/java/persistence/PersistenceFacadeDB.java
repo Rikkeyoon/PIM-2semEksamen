@@ -19,11 +19,11 @@ import logic.Image;
 public class PersistenceFacadeDB implements IPersistenceFacade {
 
     private static IDatabaseConnection DBC;
-    private static ProductMapper pm = new ProductMapper();
-    private static CategoryMapper cm = new CategoryMapper();
-    private static TagMapper tm = new TagMapper();
-    private static AttributeMapper am = new AttributeMapper();
-    private static ImageMapper im = new ImageMapper();
+    private static final ProductMapper pm = new ProductMapper();
+    private static final CategoryMapper cm = new CategoryMapper();
+    private static final TagMapper tm = new TagMapper();
+    private static final AttributeMapper am = new AttributeMapper();
+    private static final ImageMapper im = new ImageMapper();
 
     /**
      * Constructor for PersistenceFacadeDB where the connection can be set
@@ -126,15 +126,14 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void deleteProduct(Product p) throws CommandException {
-        pm.delete(p);
-
+    public void deleteProduct(int id) throws CommandException {
+        pm.delete(id);
     }
 
     @Override
     public List<Product> getProductsByCategory(String category)
             throws CommandException {
-        return pm.getProductsByCategory(category);
+        return pm.getProductsByCategoryID(cm.getCategory(category).getId());
 
     }
 
@@ -243,6 +242,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteTagsForProduct(int id) throws CommandException {
         tm.deleteTagsForProduct(id);
+        tm.deleteUnusedTags();
     }
 
     @Override
@@ -261,11 +261,11 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void deleteAllImages(Product p) throws CommandException {
-        im.deleteAllImages(p);
-        for (Image image : p.getImages()) {
+    public void deleteAllImages(int id) throws CommandException {
+        for (Image image : im.getPicturesForProduct(id)) {
             im.removePictureFromCloudinary(image.getUrl());
         }
+        im.deleteAllImages(id);
     }
 
     @Override
@@ -288,4 +288,23 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
         return pm.getProductsBySupplier(supplier);
     }
 
+    @Override
+    public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
+        pm.update_BulkEdit(p, bulkeditIDs);
+    }
+    
+    @Override
+    public void deleteCategory(int id) throws CommandException{
+        cm.deleteCategory(id);
+    }
+
+    @Override
+    public List<String> getCategoryAttributes(int id) throws CommandException {
+        return cm.getCategoryAttributes(id);
+    }
+
+    @Override
+    public void deleteAttribute(String name) throws CommandException{
+        am.deleteAttribute(name);
+    }
 }

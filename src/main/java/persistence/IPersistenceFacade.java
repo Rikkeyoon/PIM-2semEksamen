@@ -82,7 +82,7 @@ public interface IPersistenceFacade {
      * @param p Product
      * @throws CommandException
      */
-    public void deleteProduct(Product p) throws CommandException;
+    public void deleteProduct(int id) throws CommandException;
 
     /**
      * Method to get products by a category or part of the category's name
@@ -205,7 +205,7 @@ public interface IPersistenceFacade {
 
     public List<Image> getPicturesForProduct(int id) throws CommandException;
 
-    public void deleteAllImages(Product p)throws CommandException;
+    public void deleteAllImages(int id)throws CommandException;
 
     public void deleteProductAttributes(int id)throws CommandException;
     /**
@@ -235,4 +235,18 @@ public interface IPersistenceFacade {
      */
     public List<Product> getProductsBySupplier(String supplier) throws CommandException;
 
+
+    public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException ;
+
+    /**
+     *
+     * @param id
+     * @throws CommandException
+     */
+    public void deleteCategory(int id) throws CommandException;
+    
+    public List<String> getCategoryAttributes(int id) throws CommandException;
+    
+    public void deleteAttribute(String name) throws CommandException;
 }
+

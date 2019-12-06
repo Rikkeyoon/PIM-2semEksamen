@@ -1,6 +1,7 @@
 package presentation;
 
 import exception.CommandException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +31,12 @@ public class ViewPageCommand extends Command {
         } else if (view.contains("categories")) {
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
+        } else if (view.contains("bulkedit")) {
+            List<Product> catalog = LogicFacade.getProductsByCategory(request.getParameter("category"));
+            session.setAttribute("catalog", catalog);
+            session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
         } else if (view.contains("category")) {
-            session.setAttribute("category1", request.getParameter("category"));
+            session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
         } else if (view.contains("viewproduct")) {
             session.setAttribute("category1", request.getParameter("category"));
             int id = Integer.parseInt(request.getParameter("product_id"));

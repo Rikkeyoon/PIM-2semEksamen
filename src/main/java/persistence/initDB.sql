@@ -33,7 +33,7 @@ CREATE TABLE products (
     seo_text VARCHAR(45),
     status INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (category_id) REFERENCES categories (id)
+    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE images (
@@ -41,7 +41,7 @@ CREATE TABLE images (
     url VARCHAR(255) NOT NULL,
     primaryImage BIT NOT NULL,
     PRIMARY KEY(product_id, URL),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE tags(
@@ -55,7 +55,7 @@ CREATE TABLE product_tags (
     product_id INT NOT NULL,
     PRIMARY KEY(tag_id, product_id),
 	FOREIGN KEY(tag_id) REFERENCES tags(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE attributes (
@@ -70,53 +70,16 @@ CREATE TABLE attribute_values(
 	attribute_value VARCHAR(200) NOT NULL,
     PRIMARY KEY(attribute_id, product_id),
     FOREIGN KEY(attribute_id) REFERENCES attributes(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE category_attributes (
 	category_id INT NOT NULL,
     attribute_id INT NOT NULL,
-    FOREIGN KEY(category_id) REFERENCES categories(id),
+    FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE,
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< HEAD
-INSERT INTO categories VALUES ("Bicycle");
-INSERT INTO categories VALUES ("Mobile Phone");
-INSERT INTO categories VALUES ("Alcohol");
-INSERT INTO categories VALUES ("Computer");
-INSERT INTO categories VALUES ("Bed");
-
-INSERT INTO products VALUES (1,1, "Red Bicycle", "Winther", "A Bicycle that is red", "Bicycle","Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (2,2, "Green Bicycle", "Winther", "A Bicycle that is green", "Bicycle","Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (3,3, "Blue Bicycle", "Winther", "A Bicycle that is blue", "Bicycle","Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (4,4, "Pink Bicycle", "Winther", "A Bicycle that is pink", "Bicycle","Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (5,5, "Black Bicycle", "Winther", "A Bicycle that is black", "Bicycle","Jupiter", "Bicycle, Bike, Transport, Sport",100);
-
-INSERT INTO products VALUES (6,6, "Samsung Galaxy S10", "Samsung", "Samsungs newest mobile phone with a powerful processor", "Mobile Phone","Samsung Electronics", "Smartphone, Android",100);
-INSERT INTO products VALUES (7,7, "Apple iphone 11", "Apple", "Apples newest mobile phone with a fantastic camera.", "Mobile Phone","Apple Corp", "Smartphone, IOS",100);
-INSERT INTO products VALUES (8,8, "Huawei P30", "Huawei", "Powerful and cheap phone with a lot of smart features", "Mobile Phone","Huawei Util", "Smartphone, Android",100);
-INSERT INTO products VALUES (9,9, "Xiaomi redmi note 5", "Xiaomi", "Average performance phone from Xiaomi", "Mobile Phone","Xiome Tech", "Smartphone, Android",100);
-INSERT INTO products VALUES (10,10, "Sony Ericsson Xperia", "Sony Ericson", "Revolutionizing phone from Sony Erricson", "Mobile Phone","Ericsson Manufacturing", "Smartphone, Android",100);
-
-INSERT INTO products VALUES (11,11, "Tuborg Classic 6 pack", "Tuborg", "Classic great taste for every occasion", "Alcohol","Tuborg Bryghus","Beer, Party",100);
-INSERT INTO products VALUES (12,12, "Carlsberg 6 pack", "Carlsberg", "Probably the best beer in the world", "Alcohol","Carlsberg Aps","Beer, Party",100);
-INSERT INTO products VALUES (13,13, "Sierra Silver Tequila", "Sierra Silver", "Tequila is a Mexican brandy, produced by the juice from blue agave.", "Alcohol","Navada Lakeview brewery","Tequila, Party",100);
-INSERT INTO products VALUES (14,14, "Smirnoff Vodka 37,5%", "Smirnoff", "The classic vodka for every party, can be mixed with almost everything", "Alcohol","Smirnoff AS","Vodka, Party",100);
-INSERT INTO products VALUES (15,15, "Bornholmer Honningsyp", "Bornholm", "Honningsyp is a schnapps from Bornholm, after 2008 it experienced a renaissance due to sales in food- and specialityshops to tourists and Bornholmers.", "Alcohol","Bornholmers","Bornholm, Love",100);
-
-INSERT INTO products VALUES (16,16, "Huawei R5", "Huawei", "Powerful and stylish computer from Huawei", "Computer","Huawei Util","Laptop, Windows",100);
-INSERT INTO products VALUES (17,17, "Apple Pro", "Apple", "Appples flagship laptop has everything a laptop requires", "Computer","Apple Corp","Laptop, MAC OSx",100);
-INSERT INTO products VALUES (18,18, "Asus Zenbook", "Asus", "Powerful computer for work with many smart features from Asus", "Computer","Asus Inc","Laptop, Windows",100);
-INSERT INTO products VALUES (19,19, "Acer Chromebook", "Acer", "Acer's chromebook with a long battery life and secure anti virus", "Computer","Acer Corp","Laptop, Windows",100);
-INSERT INTO products VALUES (20,20, "Lenovo thinkpad L590", "Lenovo", "Lenovo's thinkpad serie delivers a reliable performance for a good price", "Computer","IBM","Laptop, Windows",100);
-
-INSERT INTO products VALUES (21,21, "Auping Royal", "Auping", "Fantastic bed from fra Auping with 5 motors in each bottom as well as a classy bed frame", "Bed","Royal Bed Import","Motor Bed, Special Bed",100);
-INSERT INTO products VALUES (22,22, "Viking Birka", "Viking", "Continental bed from Viking, with 7 zones and 2 pocketspings mattress", "Bed","Nordic Bedcompany","Continental Bed",100);
-INSERT INTO products VALUES (23,23, "Jensen Prestige", "Jensen", "Continental bed with elevation, 5 zoned mattress with a softline top mattress", "Bed","Nordic Becompany","Continental Bed",100);
-INSERT INTO products VALUES (24,24, "Carpe Diem Harmano", "Carpe Diem", "Carpe Diem Harmano delivers the best from Carpe Diem.", "Bed","Carpe Diem me Hombre","Continental Seng",100);
-INSERT INTO products VALUES (25,25, "Tempur Fusion", "Tempur", "TEMPUR® Fusion Box makes the choice easy. You get both the pressure relieving advantages and the spring mattresses mobility.", "Bed","Royal Bed Import","Spring Mattress",100);
-=======
 INSERT INTO categories(category_name) VALUES ("Bicycle");
 INSERT INTO categories(category_name)  VALUES ("Mobile Phone");
 INSERT INTO categories(category_name)  VALUES ("Alcohol");
@@ -152,19 +115,18 @@ INSERT INTO products VALUES (22,2248, "Viking Birka", "Viking", "Continental bed
 INSERT INTO products VALUES (23,2302, "Jensen Prestige", "Jensen", "Continental bed with elevation, 5 zoned mattress with a softline top mattress", 5,"Nordic Becompany","Continental Bed",100);
 INSERT INTO products VALUES (24,2412, "Carpe Diem Harmano", "Carpe Diem", "Carpe Diem Harmano delivers the best from Carpe Diem.", 5,"Carpe Diem me Hombre","Continental Seng",100);
 INSERT INTO products VALUES (25,2583, "Tempur Fusion", "Tempur", "TEMPUR® Fusion Box makes the choice easy. You get both the pressure relieving advantages and the spring mattresses mobility.", 5,"Royal Bed Import","Spring Mattress",100);
->>>>>>> branchen
 
 CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
 SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_id, 
 p.supplier, p.seo_text, p.status, a.attribute_name, av.attribute_value
 FROM products p JOIN category_attributes c 
-ON p.id = c.category_id
+ON p.category_id = c.category_id
 JOIN attributes a ON c.attribute_id = a.id 
 LEFT JOIN attribute_values av ON p.id = av.product_id AND av.attribute_id = a.id
 ORDER BY p.id ASC;
 
 CREATE OR REPLACE VIEW categories_and_attributes AS
-SELECT c.id, attribute_name FROM categories c
+SELECT c.id AS category_id, attribute_name FROM categories c
 JOIN category_attributes ca ON c.id = ca.category_id
 JOIN attributes a ON ca.attribute_id = a.id;
 
@@ -183,12 +145,7 @@ INSERT INTO attributes(attribute_name) VALUE ("Volume");
 INSERT INTO attributes(attribute_name) VALUE ("Gluten");
 INSERT INTO attributes(attribute_name) VALUE ("Protein");
 INSERT INTO attributes(attribute_name) VALUE ("Carbs");
-
 INSERT INTO attributes(attribute_name) VALUE ("Processor");
-<<<<<<< HEAD
-INSERT INTO attributes(attribute_name) VALUE ("Screen size");
-=======
->>>>>>> branchen
 INSERT INTO attributes(attribute_name) VALUE ("Computer feel");
 INSERT INTO attributes(attribute_name) VALUE ("Ram");
 INSERT INTO attributes(attribute_name) VALUE ("Mattressheight");
@@ -201,6 +158,7 @@ INSERT INTO category_attributes VALUES (1, 2);
 INSERT INTO category_attributes VALUES (1, 3);
 INSERT INTO category_attributes VALUES (1, 4);
 INSERT INTO category_attributes VALUES (1, 5);
+INSERT INTO category_attributes VALUES (1, 10);
 INSERT INTO category_attributes VALUES (2, 6);
 INSERT INTO category_attributes VALUES (2, 7);
 INSERT INTO category_attributes VALUES (2, 8);
@@ -214,7 +172,6 @@ INSERT INTO category_attributes VALUES (3, 15);
 INSERT INTO category_attributes VALUES (4, 16);
 INSERT INTO category_attributes VALUES (4, 17);
 INSERT INTO category_attributes VALUES (4, 18);
-INSERT INTO category_attributes VALUES (4, 19);
 INSERT INTO category_attributes VALUES (5, 20);
 INSERT INTO category_attributes VALUES (5, 21);
 INSERT INTO category_attributes VALUES (5, 22);
@@ -244,6 +201,11 @@ INSERT INTO attribute_values VALUES (5, 2, "Yes");
 INSERT INTO attribute_values VALUES (5, 3, "Yes");
 INSERT INTO attribute_values VALUES (5, 4, "Yes");
 INSERT INTO attribute_values VALUES (5, 5, "Yes");
+INSERT INTO attribute_values VALUES (10, 1, "red");
+INSERT INTO attribute_values VALUES (10, 2, "Green");
+INSERT INTO attribute_values VALUES (10, 3, "Blue");
+INSERT INTO attribute_values VALUES (10, 4, "Pink");
+INSERT INTO attribute_values VALUES (10, 5, "Sort");
 INSERT INTO attribute_values VALUES (6, 6, "12 MP camera with Dual Pixel technologi");
 INSERT INTO attribute_values VALUES (6, 7, "10 MP camera");
 INSERT INTO attribute_values VALUES (6, 8, "10 MP camera");
@@ -274,48 +236,31 @@ INSERT INTO attribute_values VALUES (11, 11, "4,6 %");
 INSERT INTO attribute_values VALUES (11, 12, "4,6 %");
 INSERT INTO attribute_values VALUES (11, 14, " 37,5%");
 INSERT INTO attribute_values VALUES (11, 15, "32 %");
-INSERT INTO attribute_values VALUES (12, 6, "6 x 33cl");
-INSERT INTO attribute_values VALUES (12, 7, "6 x 33cl");
-INSERT INTO attribute_values VALUES (12, 8, "1 L");
-INSERT INTO attribute_values VALUES (12, 9, "1 L");
-INSERT INTO attribute_values VALUES (12, 10, "1 L");
-INSERT INTO attribute_values VALUES (13, 6, "Yes");
-INSERT INTO attribute_values VALUES (13, 7, "Yes");
-INSERT INTO attribute_values VALUES (13, 8, "No");
-INSERT INTO attribute_values VALUES (13, 9, "No");
-INSERT INTO attribute_values VALUES (13, 10, "No");
-INSERT INTO attribute_values VALUES (14, 6, "No");
-INSERT INTO attribute_values VALUES (14, 7, "No");
-INSERT INTO attribute_values VALUES (14, 8, "No");
-INSERT INTO attribute_values VALUES (14, 9, "No");
-INSERT INTO attribute_values VALUES (14, 10, "No");
-INSERT INTO attribute_values VALUES (15, 6, "A lot");
-INSERT INTO attribute_values VALUES (15, 7, "A lot");
-INSERT INTO attribute_values VALUES (15, 8, "A lot");
-INSERT INTO attribute_values VALUES (15, 9, "A lot");
-INSERT INTO attribute_values VALUES (15, 10, "Way to many");
+INSERT INTO attribute_values VALUES (12, 11, "6 x 33cl");
+INSERT INTO attribute_values VALUES (12, 12, "6 x 33cl");
+INSERT INTO attribute_values VALUES (12, 13, "1 L");
+INSERT INTO attribute_values VALUES (12, 14, "1 L");
+INSERT INTO attribute_values VALUES (12, 15, "1 L");
+INSERT INTO attribute_values VALUES (13, 11, "Yes");
+INSERT INTO attribute_values VALUES (13, 12, "Yes");
+INSERT INTO attribute_values VALUES (13, 13, "No");
+INSERT INTO attribute_values VALUES (13, 14, "No");
+INSERT INTO attribute_values VALUES (13, 15, "No");
+INSERT INTO attribute_values VALUES (14, 11, "No");
+INSERT INTO attribute_values VALUES (14, 12, "No");
+INSERT INTO attribute_values VALUES (14, 13, "No");
+INSERT INTO attribute_values VALUES (14, 14, "No");
+INSERT INTO attribute_values VALUES (14, 15, "No");
+INSERT INTO attribute_values VALUES (15, 11, "A lot");
+INSERT INTO attribute_values VALUES (15, 12, "A lot");
+INSERT INTO attribute_values VALUES (15, 13, "A lot");
+INSERT INTO attribute_values VALUES (15, 14, "A lot");
+INSERT INTO attribute_values VALUES (15, 15, "Way to many");
 INSERT INTO attribute_values VALUES (16, 16, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (16, 17, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (16, 18, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (16, 19, "High-end octa-core processor");
 INSERT INTO attribute_values VALUES (16, 20, "High-end octa-core processor");
-<<<<<<< HEAD
-INSERT INTO attribute_values VALUES (17, 16, "13");
-INSERT INTO attribute_values VALUES (17, 17, "13");
-INSERT INTO attribute_values VALUES (17, 18, "15");
-INSERT INTO attribute_values VALUES (17, 19, "11");
-INSERT INTO attribute_values VALUES (17, 20, "15");
-INSERT INTO attribute_values VALUES (18, 16, "Aluminium");
-INSERT INTO attribute_values VALUES (18, 17, "Aluminium");
-INSERT INTO attribute_values VALUES (18, 18, "Plastic");
-INSERT INTO attribute_values VALUES (18, 19, "Plastic");
-INSERT INTO attribute_values VALUES (18, 20, "Plastic");
-INSERT INTO attribute_values VALUES (19, 16, "4GB");
-INSERT INTO attribute_values VALUES (19, 17, "8GB");
-INSERT INTO attribute_values VALUES (19, 18, "8GB");
-INSERT INTO attribute_values VALUES (19, 19, "4GB");
-INSERT INTO attribute_values VALUES (19, 20, "4GB");
-=======
 INSERT INTO attribute_values VALUES (7, 16, "13");
 INSERT INTO attribute_values VALUES (7, 17, "13");
 INSERT INTO attribute_values VALUES (7, 18, "15");
@@ -356,7 +301,6 @@ INSERT INTO attribute_values VALUES (6, 17, "Yes");
 INSERT INTO attribute_values VALUES (6, 18, "Yes");
 INSERT INTO attribute_values VALUES (6, 19, "Yes");
 INSERT INTO attribute_values VALUES (6, 20, "Yes");
->>>>>>> branchen
 
 
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/roedCykel.jpg", 1);

@@ -22,7 +22,7 @@ import persistence.PersistenceFacadeDB;
 public class LogicController {
 
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
-    //private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new
@@ -129,10 +129,10 @@ public class LogicController {
      * @throws CommandException
      */
     public static void deleteProduct(Product p) throws CommandException {
-        pf.deleteAllImages(p);
+        pf.deleteAllImages(p.getId());
         pf.deleteTagsForProduct(p.getId());
         pf.deleteProductAttributes(p.getId());
-        pf.deleteProduct(p);
+        pf.deleteProduct(p.getId());
     }
 
     /**
@@ -193,7 +193,11 @@ public class LogicController {
      */
     public static List<Product> getProductsByCategory(String category)
             throws CommandException {
-        return pf.getProductsByCategory(category);
+        List<Product> products = pf.getProductsByCategory(category);
+        for (Product p : products) {
+            p.setTags(pf.getTagsForProductWithID(p.getId()));
+        }
+        return products;
     }
 
     /**
@@ -308,7 +312,7 @@ public class LogicController {
         if (product.getCategoryAttributes() != null) {
             categoryAttributes = product.getCategoryAttributes();
         } else {
-            categoryAttributes = new HashMap<>();
+            categoryAttributes = new LinkedHashMap<>();
             List<String> attributes = category.getAttributes();
 
             for (String attribute : attributes) {
@@ -408,6 +412,46 @@ public class LogicController {
      */
     public static List<Product> getProductsBySupplier(String supplier) throws CommandException {
         return pf.getProductsBySupplier(supplier);
+    }
+    
+    public static Category getCategoryFromName(String categoryName) throws CommandException {
+        return pf.getCategory(categoryName);
+    }
+
+    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
+        if (bulkeditIDs != null) {
+            for (String s : bulkeditIDs) {
+                p.setId(Integer.parseInt(s));
+                pf.updateProductAttributes(p);
+                if (!p.getTags().isEmpty()) {
+                    //saves tags
+                    pf.deleteTagsForProduct(p.getId());
+                    pf.createProductTags(p.getId(), p.getTags());
+                }
+                pf.deleteUnusedTags();
+
+            }
+            pf.updateProduct_BulkEdit(p, bulkeditIDs);
+        }
+    }
+
+    public static void bulkDelete(String[] bulkDelete) throws CommandException {
+
+        for (String stringID : bulkDelete) {
+            int id = Integer.parseInt(stringID);
+            pf.deleteAllImages(id);
+            pf.deleteTagsForProduct(id);
+            pf.deleteProductAttributes(id);
+            pf.deleteProduct(id);
+        }
+    }
+    
+    public static void deleteCategory(int id) throws CommandException{
+        List<String> removeAttr = pf.getCategoryAttributes(id);
+        pf.deleteCategory(id);
+        for(String name : removeAttr){
+            pf.deleteAttribute(name);
+        }
     }
 
 }

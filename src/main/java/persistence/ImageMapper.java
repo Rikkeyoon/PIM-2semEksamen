@@ -222,10 +222,6 @@ public class ImageMapper {
                 images.add(new Image(URL, bool));
             }
 
-            if (images.size() <= 0) {
-                throw new SQLException();
-            }
-
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not fetch URLs to images");
         } finally {
@@ -306,14 +302,14 @@ public class ImageMapper {
      * @param p Product
      * @throws CommandException
      */
-    public void deleteAllImages(Product p) throws CommandException {
+    public void deleteAllImages(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String deleteSql = "DELETE FROM images WHERE product_id = ?";
             pstmt = connection.prepareStatement(deleteSql);
-            pstmt.setInt(1, p.getId());
+            pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
@@ -346,7 +342,7 @@ public class ImageMapper {
      * @return String
      */
     private String getPublicIDFromURL(String url) {
-        return url.substring(62, url.length() - 4);
+        return url.substring(61, url.length() - 4);
     }
     
     private Cloudinary getCloudinaryConnection()throws CommandException{

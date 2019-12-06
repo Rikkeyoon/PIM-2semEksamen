@@ -33,6 +33,7 @@ public abstract class Command {
         commands.put("download_categories", new DownloadCategoriesCommand());
         commands.put("download_product", new DownloadProductCommand());
         commands.put("upload_json", new UploadJSONCommand());
+        commands.put("bulkedit", new BulkEditCommand());
     }
 
     /**

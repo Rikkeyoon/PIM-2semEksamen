@@ -227,6 +227,14 @@ public class LogicFacade {
     public static void uploadJSON(List<Part> parts) throws CommandException {
         LogicController.uploadJSON(parts);
     }
+    
+    public static Category getCategoryFromName(String categoryName) throws CommandException{
+        return LogicController.getCategoryFromName(categoryName);
+    }
+
+    public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException{
+        LogicController.bulkEdit(p, bulkeditIDs);
+    }
 
     /**
      * A method for getting products that have the same item number or products
@@ -273,4 +281,11 @@ public class LogicFacade {
         return LogicController.getProductsBySupplier(supplier);
     }
 
+    public static void bulkDelete(String[] bulkDelete) throws CommandException{
+        LogicController.bulkDelete(bulkDelete);
+    }
+    
+    public static void deleteCategory(int id) throws CommandException{
+        LogicController.deleteCategory(id);
+    }
 }

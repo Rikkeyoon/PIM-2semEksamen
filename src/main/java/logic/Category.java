@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class Category {
 
+    private int id;
     private String categoryname;
     private List<String> attributes;
     
@@ -31,6 +32,20 @@ public class Category {
         this.attributes = attributes;
     }
 
+    public Category(int id, String categoryname, List<String> attributes) {
+        this.id = id;
+        this.categoryname = categoryname;
+        this.attributes = attributes;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     /**
      * A method for changing the category's name
      *
@@ -67,6 +82,8 @@ public class Category {
         return attributes;
     }
 
+    
+    
     @Override
     public String toString() {
         return "Category{" + "categoryname=" + categoryname + ", attributes=" + attributes + '}';
