@@ -6,20 +6,19 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="sidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
     <div class="padded">
         <form name="get_product_catalog" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
-            <button type="submit">Products</button>
+            <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
         </form>
-        <br><br>
         <form name="view_categories" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="viewcategories">
-            <button type="submit">Categories</button>
+            <button type="submit" class="viewcatalogbtn">Categories</button>
         </form>
-        <br>
+        <br><br>
         <h4>Search for: </h4>
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">

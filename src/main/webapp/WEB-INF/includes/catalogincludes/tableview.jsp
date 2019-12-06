@@ -49,7 +49,7 @@
                 <tbody>
                     <c:forEach items="${catalog}" var="product">
                         <tr>
-                            <td>
+                            <td style="text-align: center;">
                                 <c:choose>
                                     <c:when test="${not empty product.getImages()}">
                                         <c:choose>

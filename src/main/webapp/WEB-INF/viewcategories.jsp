@@ -23,18 +23,17 @@
 
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
             <div class="padded">
                 <form name="get_product_catalog" action="FrontController" method = "POST">
                     <input type="hidden" name="cmd" value="get_view">
                     <input type="hidden" name="view" value="productcatalog">
-                    <button type="submit">Products</button>
+                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
                 </form>
-                <br><br>
                 <form name="view_categories" action="FrontController" method="POST">
                     <input type="hidden" name="cmd" value="get_view">
                     <input type="hidden" name="view" value="viewcategories">
-                    <button type="submit">Categories</button>
+                    <button type="submit" class="viewcatalogbtn">Categories</button>
                 </form>
                 <br>
 
@@ -42,7 +41,7 @@
                     <input type="hidden" name="cmd" value="download_catalog">
                     <div class="input-group" style="position: absolute;
                          bottom: 20px!important;margin-right: 10px;">
-                        <div class="form-control">Download catalog</div>
+                        <div class="form-control">Download categories</div>
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <i class="glyphicon glyphicon-download"></i>
@@ -63,7 +62,7 @@
 
             <h1>View categories</h1>
 
-            <div class="container-table">
+            <div class="container-table" style="display:flex;">
                 <div class="wrap-table1">
                     <div class="table" style="border: 1px solid black;border-radius: 10px;">
                         <table id="categoriesTable" border="1" >
@@ -160,14 +159,19 @@
                 }
             }
 
-            function openNav() {
-                document.getElementById("sidebar").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
             }
 
-            function closeNav() {
-                document.getElementById("sidebar").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
             }
         </script>
     </body>

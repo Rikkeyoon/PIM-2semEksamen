@@ -22,7 +22,7 @@
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
         <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav">
+        <nav class="view-nav" id="view-nav">
             <div id="btnContainer" style="float: right;">
                 <button class="btn" onclick="listView()"><i class="glyphicon glyphicon-th-list"></i> List</button> 
                 <button class="btn active" onclick="gridView()"><i class="glyphicon glyphicon-th-large"></i> Grid</button>
@@ -37,6 +37,9 @@
         <div id="main">
             <br>
             <h1>Product Catalog</h1>
+
+            <!-- Table view (hidden by default) -->
+            <%@include file="includes/catalogincludes/tableview.jsp" %> 
 
             <!-- Grid and list view -->
             <div class="row">
@@ -63,51 +66,13 @@
                 </c:forEach>
             </div>
 
-            <!-- Table view (hidden by default) -->
-            <%@include file="includes/catalogincludes/tableview.jsp" %>
-            
             <br><br>
-            <!--
-                        <form name="create_category" action="FrontController" method="POST">
-                            <input type="hidden" name="cmd" value="get_view">
-                            <input type="hidden" name="view" value="createcategory">
-                            <input type="submit" value="Create new category" />
-                        </form>
-                        <br>
-            
-                        <form name="create" action="FrontController" method="POST">
-                            <input type="hidden" name="cmd" value="get_view">
-                            <input type="hidden" name="view" value="createproduct">
-                            <select name="category">
-            <c:forEach items="${categories}" var="cat">
-                <option value="${cat.getCategoryname()}">
-                ${cat.getCategoryname()}
-            </option>
-            </c:forEach>
-        </select>
-
-        <input type="submit" value="Create new product for category">
-    </form>
-    <br>
-
-    <form name="edit_category" action="FrontController" method="POST">
-        <input type="hidden" name="cmd" value="get_view">
-        <select name="category">
-            <c:forEach items="${categories}" var="cat">
-                <option value="${cat.getCategoryname()}">
-                ${cat.getCategoryname()}
-            </option>
-            </c:forEach>
-        </select>
-        <input type="hidden" name="view" value="editcategory">
-        <input type="submit" value="Edit category">
-    </form> -->
-            <br>
         </div>
         <script>
             // Get the elements with class="column"
             var elements = document.getElementsByClassName("column");
             var table = document.getElementById("catalogTable");
+            var tcontainer = document.getElementsByClassName("container-table")[0];
             var i;
 
             // List View
@@ -117,6 +82,7 @@
                     elements[i].style.width = "100%";
                 }
                 table.style.display = "none";
+                tcontainer.style.display = "none";
             }
 
             // Grid View
@@ -126,27 +92,16 @@
                     elements[i].style.width = "25%";
                 }
                 table.style.display = "none";
+                tcontainer.style.display = "none";
             }
 
+            // Table View
             function tableView() {
                 for (i = 0; i < elements.length; i++) {
                     elements[i].style.display = "none";
                 }
                 table.style.display = "block";
-            }
-
-            /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-            function openNav() {
-                document.getElementById("sidebar").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
-                document.getElementByClass("navbar-content").style.marginLeft = "250px";
-            }
-
-            /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-            function closeNav() {
-                document.getElementById("sidebar").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
-                document.getElementByClass("navbar-content").style.marginLeft = "0";
+                tcontainer.style.display = "flex";
             }
 
             var container = document.getElementById("btnContainer");
@@ -157,6 +112,36 @@
                     current[0].className = current[0].className.replace(" active", "");
                     this.className += " active";
                 });
+            }
+
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
+            }
+
+            window.onscroll = function () {
+                myFunction();
+            };
+
+            var viewnav = document.getElementById("view-nav");
+            var sticky = viewnav.offsetTop;
+
+            function myFunction() {
+                if (window.pageYOffset >= sticky) {
+                    viewnav.classList.add("sticky");
+                } else {
+                    viewnav.classList.remove("sticky");
+                }
             }
         </script>
     </body>

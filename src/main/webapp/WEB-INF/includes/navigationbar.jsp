@@ -7,7 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <nav class="nav">
     <div class="navbar-content">
-        <button class="openbtn" onclick="openNav()">&#9776;</button>
+        <button class="openbtn" onclick="openSidebar()">&#9776;</button>
+        <h1>PIM System</h1>
     </div>
-    <h1>PIM System</h1>
+    
 </nav>

@@ -30,7 +30,17 @@ body {
     color: white;
 }
 
+.navbar-content {
+    transition: margin-left .5s;
+    float: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: monospace, Courier New;
+}
+
 .view-nav {
+    overflow: hidden;
     width: 100%;
     flex-wrap: wrap;
     border: none;
@@ -38,6 +48,17 @@ body {
     padding: 8px 10px;
     background-color: #f1f1f1;
     float: right;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+.sticky + #main {
+  padding-top: 102px;
 }
 
 .column {
@@ -82,6 +103,44 @@ body {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
 }
 
+.viewcatalogbtn {
+  color: #fff;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  text-align: center;
+  font-size: 28px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.viewcatalogbtn{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.viewcatalogbtn:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;  
+  right: -20px;
+  transition: 0.5s;
+}
+
+.viewcatalogbtn:hover{
+  padding-right: 24px;
+  padding-left:8px;
+}
+
+.viewcatalogbtn:hover:after {
+  opacity: 1;
+  right: 10px;
+}
+
 .sidebar label, .sidebar a, .sidebar h3  {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -94,7 +153,7 @@ body {
     color: #818181!important;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, sidebar a .closebtn:hover {
     color: #232528;
     text-decoration: none;
 }
@@ -129,55 +188,45 @@ body {
     padding: 20px;
 }
 
-@media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
-}
-
 #catalogTable {
     display: none;
 }
 
 .container-table {
-  width: 100%;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 33px 30px;
+    width: 100%;
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 33px 30px;
 }
 
 .wrap-table1 {
-  width: 1170px;
+    width: 1170px;
 }
 
 .wrap-table2 {
-  width: 1500px;
+    width: 1500px;
 }
 
 table {
-  border-spacing: 1;
-  border-collapse: collapse;
-  background: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  overflow: hidden;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
 }
 
 table * {
-  position: relative;
+    position: relative;
 }
 
 table td, table th {
-  padding-left: 8px;
+    padding-left: 8px;
 }
 
 th {
@@ -189,88 +238,93 @@ th {
 }
 
 table thead tr {
-  height: 60px;
-  background: #36304a;
+    height: 60px;
+    background: #36304a;
 }
 
 table tbody tr {
-  height: 50px;
+    height: 50px;
 }
 
 table td, table th {
-  text-align: left;
+    text-align: left;
 }
 
 table td.l, table th.l {
-  text-align: right;
+    text-align: right;
 }
 
 table td.c, table th.c {
-  text-align: center;
+    text-align: center;
 }
 
 table td.r, table th.r {
-  text-align: center;
+    text-align: center;
 }
 
 .table-head th{
-  font-family: OpenSans-Regular;
-  font-size: 18px;
-  color: #fff;
-  line-height: 1.2;
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 tbody tr {
-  font-family: OpenSans-Regular;
-  font-size: 15px;
-  color: #808080;
-  line-height: 1.2;
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    color: #808080;
+    line-height: 1.2;
 }
 
 @media screen and (max-width: 992px) {
-  table {
-    display: block;
-  }
-  table > *, table tr, table td, table th {
-    display: block;
-  }
-  table thead {
-    display: none;
-  }
-  table tbody tr {
-    height: auto;
-    padding: 37px 0;
-  }
-  table tbody tr td {
-    padding-left: 40% !important;
-    margin-bottom: 24px;
-  }
-  table tbody tr td:last-child {
-    margin-bottom: 0;
-  }
-  table tbody tr td:before {
-    font-family: OpenSans-Regular;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1.2;
-    position: absolute;
-    width: 40%;
-    left: 30px;
-    top: 0;
-  }
+    table {
+        display: block;
+    }
+    table > *, table tr, table td, table th {
+        display: block;
+    }
+    table thead {
+        display: none;
+    }
+    table tbody tr {
+        height: auto;
+        padding: 37px 0;
+    }
+    table tbody tr td {
+        padding-left: 40% !important;
+        margin-bottom: 24px;
+    }
+    table tbody tr td:last-child {
+        margin-bottom: 0;
+    }
+    table tbody tr td:before {
+        font-family: OpenSans-Regular;
+        font-size: 14px;
+        color: #999999;
+        line-height: 1.2;
+        position: absolute;
+        width: 40%;
+        left: 30px;
+        top: 0;
+    }
 
-  tbody tr {
-    font-size: 14px;
-  }
+    tbody tr {
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 576px) {
-  .container-table {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+    .container-table {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
 }
