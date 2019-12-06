@@ -37,19 +37,13 @@ public class JSONConverter {
     public static void convertObjectToJSON(Object o) throws CommandException {
         try {
             String fileName = "product.json";
+            File file = getFile(fileName);
 
-            File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
-            if (!uploadFolder.exists()) {
-                uploadFolder.mkdirs();
-            }
-
-            File file = new File(WORKING_DIR + File.separator
-                    + UPLOAD_DIR + File.separator + fileName);
             // Java objects to JSON string - compact-print
             mapper.writeValue(file, o);
 //            file.delete();
         } catch (IOException ex) {
-            throw new CommandException("" + ex);
+            throw new CommandException("Could not convert the product to JSON" + ex);
         }
     }
 
@@ -64,29 +58,55 @@ public class JSONConverter {
             throws CommandException {
         try {
             String fileName = "catalog.json";
+            File file = getFile(fileName);
 
-            File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
-            if (!uploadFolder.exists()) {
-                uploadFolder.mkdirs();
-            }
-
-            File file = new File(WORKING_DIR + File.separator
-                    + UPLOAD_DIR + File.separator + fileName);
-
-            //BufferedWriter bliver brugt for at slippe for String format med \"
+            /*BufferedWriter bliver brugt for at slippe for String format med \"
+             *Dog er der en known bug ved brug af BufferedWriter, men det er den 
+             *bedste løsning, vi har fundet frem til
+             */
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (Product product : products) {
                     // Java objects to JSON string - compact-print
                     writer.append(mapper.writeValueAsString(product));
-                    writer.append("\n");
+                    writer.newLine();
                 }
                 mapper.writeValue(file, writer.toString());
             }
         } catch (IOException ex) {
-            throw new CommandException("" + ex);
+            throw new CommandException("Could not convert the products to JSON" + ex);
         }
     }
 
+    /**
+     * Method to convert Java Objects into JSON Strings using the jackson
+     * ObjectMapper
+     *
+     * @param categories List of Products
+     * @throws exception.CommandException
+     */
+    public static void convertCategoriesToJSON(List<Category> categories)
+            throws CommandException {
+        try {
+            String fileName = "categories.json";
+            File file = getFile(fileName);
+
+            /*BufferedWriter bliver brugt for at slippe for String format med \"
+             *Dog er der en known bug ved brug af BufferedWriter, men det er den 
+             *bedste løsning, vi har fundet frem til
+             */
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                for (Category category : categories) {
+                    // Java objects to JSON string - compact-print
+                    writer.append(mapper.writeValueAsString(category));
+                    writer.newLine();
+                }
+                mapper.writeValue(file, writer.toString());
+            }
+        } catch (IOException ex) {
+            throw new CommandException("Could not convert the categories to JSON" + ex);
+        }
+    }
+    
     /**
      * Method to convert a file, containing a JSON String, into a Category
      * Object or Product Object
@@ -97,53 +117,53 @@ public class JSONConverter {
      */
     public static List<Object> convertPartToObjects(Part part) throws CommandException {
         List<Object> objects = new ArrayList<>();
-        if (part.getContentType() != null && part.getSize() > 0) {
-            String fileName = part.getSubmittedFileName();
-            String contentType = part.getContentType();
+        String fileName = part.getSubmittedFileName();
+        String contentType = part.getContentType();
 
-            if (contentType != null && contentType.equalsIgnoreCase("application/json")) {
-                try {
-                    part.write(WORKING_DIR + File.separator + UPLOAD_DIR
-                            + File.separator + fileName);
-                    File file = new File(WORKING_DIR + File.separator
-                            + UPLOAD_DIR + File.separator + fileName);
+        if (contentType != null && contentType.equalsIgnoreCase("application/json")) {
+            try {
+                String filePath = WORKING_DIR + File.separator + UPLOAD_DIR
+                        + File.separator + fileName;
+                part.write(filePath);
+                File file = new File(filePath);
 
-                    InputStream is = new FileInputStream(file);
-                    BufferedReader bw = new BufferedReader(new InputStreamReader(is));
-                    String line = bw.readLine();
-//                    StringBuilder sb = new StringBuilder();
+                InputStream is = new FileInputStream(file);
+                BufferedReader bw = new BufferedReader(new InputStreamReader(is));
+                String line = bw.readLine();
 
-                    while (line != null) {
-//                        sb.append(line);
-//                        if (line.charAt(line.length() - 1) == '}') {
-//                            String fileAsString = sb.toString();
-
-                            try {
-//                                c = mapper.readValue(fileAsString, Category.class);
-                                Category c = mapper.readValue(line, Category.class);
-                                objects.add(c);
-                            } catch (UnrecognizedPropertyException e) {
-                            }
-                            try {
-//                                p = mapper.readValue(fileAsString, Product.class);
-                                Product p = mapper.readValue(line, Product.class);
-                                objects.add(p);
-                            } catch (UnrecognizedPropertyException e) {
-                            }
-//                        }
-                        line = bw.readLine();
+                while (line != null) {
+                    try {
+                        Category c = mapper.readValue(line, Category.class);
+                        objects.add(c);
+                    } catch (UnrecognizedPropertyException e) {
                     }
-
-                } catch (IOException ex) {
-                    throw new CommandException("Could not upload JSON file. Please try again! " + ex);
+                    try {
+                        Product p = mapper.readValue(line, Product.class);
+                        objects.add(p);
+                    } catch (UnrecognizedPropertyException e) {
+                    }
+                    line = bw.readLine();
                 }
+            } catch (IOException ex) {
+                throw new CommandException("Could not upload JSON file. Please try again! " + ex);
             }
         }
-//        if (p != null) {
-//            return p;
-//        } else if (objects != null) {
-//            return objects;
-//        }
         return objects;
+    }
+
+    /**
+     * Private method to create a file, made to reduce some duplicate code
+     *
+     * @param fileName
+     * @return File
+     */
+    private static File getFile(String fileName) {
+        File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+        File file = new File(WORKING_DIR + File.separator
+                + UPLOAD_DIR + File.separator + fileName);
+        return file;
     }
 }

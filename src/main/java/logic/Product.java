@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Nina, carol
  */
-@JsonIgnoreProperties(ignoreUnknown = true, value = "tagsAsString")
+@JsonIgnoreProperties(value="tagsAsString")
 public class Product {
 
     private int id;
@@ -475,9 +475,6 @@ public class Product {
      * @param product
      * @return boolean
      */
-    public boolean compareTo(Product product) {
-        return this.id == product.getId();
-    }
 
     /**
      * A method for converting the Product class to a String, which contains the

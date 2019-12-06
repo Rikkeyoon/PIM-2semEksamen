@@ -2,6 +2,8 @@ package logic;
 
 import exception.CommandException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -55,13 +57,12 @@ public class LogicController {
         pf.addImages(p);
         //saves tags
         pf.createProductTags(p.getId(), p.getTags());
-
         return p;
     }
 
     /**
      * A method to upload images to an extern service The LogicController
-     * recieves information from the LogicFacade and passes it on to the
+     * receives information from the LogicFacade and passes it on to the
      * PersistenceFacade
      *
      * @param parts
@@ -169,7 +170,7 @@ public class LogicController {
     }
 
     /**
-     * A method for getting products by name The LogicController recieves
+     * A method for getting products by name The LogicController receives
      * products' name or part of a name from the LogicFacade and passes it on to
      * the PersistenceFacade and returns the found products
      *
@@ -182,7 +183,7 @@ public class LogicController {
     }
 
     /**
-     * A method for products by category The LogicController recieves products'
+     * A method for products by category The LogicController receives products'
      * category or part of a category from the LogicFacade and passes it on to
      * the PersistenceFacade and returns the found products
      *
@@ -205,12 +206,19 @@ public class LogicController {
      * @throws CommandException
      */
     public static List<Product> getProductsByTag(String tag) throws CommandException {
-        return pf.getProductsWithTagSearch(tag);
+        List<Product> productsTag = pf.getProductsWithTagSearch(tag);
+        Collections.sort(productsTag, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p1.getId() - p2.getId();
+            }
+        });
+        return productsTag;
     }
 
     /**
      * A method for getting a specific category by its name The LogicController
-     * recieves information from the LogicFacade and passes it on to the
+     * receives information from the LogicFacade and passes it on to the
      * PersistenceFacade and returns the found category
      *
      * @param categoryname
@@ -222,7 +230,7 @@ public class LogicController {
     }
 
     /**
-     * A method for creating a new category The LogicController recieves
+     * A method for creating a new category The LogicController receives
      * information from the LogicFacade, creates a new Category Object and
      * passes it on to the PersistenceFacade to be stored
      *
@@ -245,7 +253,7 @@ public class LogicController {
     }
 
     /**
-     * A method for editing a category's data The LogicController recieves
+     * A method for editing a category's data The LogicController receives
      * information from the LogicFacade, updates the category's data based on
      * the given information and passes it on to the PersistenceFacade to be
      * changed in the storage
@@ -260,9 +268,9 @@ public class LogicController {
         Category c = pf.getCategory(categoryname);
         List<String> oldAttributes = c.getAttributes();
         List<String> newAttributes = new ArrayList<>();
-        for (String attribute : oldAttributes) {
-            newAttributes.add(attribute);
-        }
+//        for (String attribute : oldAttributes) {
+//            newAttributes.add(attribute);
+//        }
 
         for (String attribute : attributes) {
             newAttributes.add(attribute);
@@ -273,7 +281,7 @@ public class LogicController {
     }
 
     /**
-     * A method for getting all categories The LogicController recieves
+     * A method for getting all categories The LogicController receives
      * information from the LogicFacade and passes it on to the
      * PersistenceFacade which returns all stored categories
      *
@@ -329,23 +337,77 @@ public class LogicController {
     public static void uploadJSON(List<Part> parts) throws CommandException {
         List<Object> objects = new ArrayList<>();
         for (Part part : parts) {
-            List<Object> objects1 = JSONConverter.convertPartToObjects(part);
-            objects.add(objects1);
+            if (part.getContentType() != null && part.getSize() > 0) {
+                List<Object> ob = JSONConverter.convertPartToObjects(part);
+                for (Object object : ob) {
+                    objects.add(object);
+                }
+            }
         }
         for (Object object : objects) {
             if (object instanceof Product) {
                 Product product = (Product) object;
                 Map<String, String> categoryAttributes = new LinkedHashMap<>();
-                for (String s : product.getCategory().getAttributes()) {
-                    categoryAttributes.put(s, "");
+                if (product.getCategoryAttributes() == null 
+                        || product.getCategoryAttributes().isEmpty()) {
+                    for (String s : product.getCategory().getAttributes()) {
+                        categoryAttributes.put(s, "");
+                    }
+                    product.setCategoryAttributes(categoryAttributes);
                 }
-                product.setCategoryAttributes(categoryAttributes);
-                pf.createProduct(product);
+                int dbId = pf.createProduct(product);
+                product.setId(dbId);
+                pf.createProductAttributes(product);
+                pf.addImages(product);
+                try {
+                    pf.createProductTags(dbId, product.getTags());
+                } catch (CommandException e) {
+                }
             } else if (object instanceof Category) {
                 Category category = (Category) object;
                 pf.createCategory(category);
             }
         }
+    }
+
+    /**
+     * A method for products by item number The LogicController recieves
+     * products' item number or part of a item number from the LogicFacade and
+     * passes it on to the PersistenceFacade and returns the found products
+     *
+     * @param itemNumber
+     * @return
+     * @throws CommandException
+     */
+    public static List<Product> getProductsByItemNumber(int itemNumber)
+            throws CommandException {
+        return pf.getProductsByItemNumber(itemNumber);
+    }
+
+    /**
+     * A method for products by brand The LogicController recieves products'
+     * brand or part of a brand from the LogicFacade and passes it on to the
+     * PersistenceFacade and returns the found products
+     *
+     * @param brand
+     * @return
+     * @throws CommandException
+     */
+    public static List<Product> getProductsByBrand(String brand) throws CommandException {
+        return pf.getProductsByBrand(brand);
+    }
+
+    /**
+     * A method for getting products by supplier The LogicController recieves
+     * products' supplier or part of a suppliername from the LogicFacade and
+     * passes it on to the PersistenceFacade and returns the found products
+     *
+     * @param supplier
+     * @return List of Products
+     * @throws CommandException
+     */
+    public static List<Product> getProductsBySupplier(String supplier) throws CommandException {
+        return pf.getProductsBySupplier(supplier);
     }
 
 }
