@@ -29,3 +29,7 @@
 
 ## Tag Struktur 
 ![Tag Struktur](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/tagstruktur.jpg)
+
+## Create/view/update 
+![liste](https://github.com/Rikkeyoon/PIM-2semEksamen/blob/master/Illustrationer/IMG_20191205_160735.jpg)
+

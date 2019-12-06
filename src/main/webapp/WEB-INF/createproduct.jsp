@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Product catalog</title>
+        <title>Create product</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
@@ -50,10 +50,6 @@
                     <br>
                     <textarea style="resize:none" name="product_desc" rows="4" cols="20"><c:if test="${not empty product.getDescription()}">${product.getDescription()}</c:if></textarea>
                     <br><br>
-                    <label for="product_tags"><b>Tags</b></label>
-                    <br>
-                    <input type="text" name="product_tags" placeholder="tag1, tag2, tag3" value = "<c:if test="${not empty product.getTags()}">${product.getTagsAsString()}</c:if>"  >
-                    <br><br>
                     <label for="supplier"><b>Supplier</b></label>
                     <br>
                     <input type="text" name="supplier" value = "<c:if test="${not empty product.getSupplier()}">${product.getSupplier()}</c:if>"  >
@@ -61,6 +57,10 @@
                     <label for="seo_text"><b>SEO text</b></label>
                     <br>
                     <input type="text" name="seo_text" value = "<c:if test="${not empty product.getSEOText()}">${product.getSEOText()}</c:if>" >
+                    <br><br>
+                    <label for="product_tags"><b>Tags</b></label>
+                    <br>
+                    <input type="text" name="product_tags" placeholder="tag1, tag2, tag3" value = "<c:if test="${not empty product.getTags()}">${product.getTagsAsString()}</c:if>"  >
                     <br><br>
                     <h3>Category: ${category1}</h3>
                 <label for="attributes"><b>Attributes</b></label>
@@ -77,8 +77,6 @@
                     </c:if>
                 </c:forEach>
                 <br><br>
-
-
                 <label for="file"><b>Picture</b></label>
                 <br>
                 <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
