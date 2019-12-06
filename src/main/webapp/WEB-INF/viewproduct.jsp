@@ -20,7 +20,7 @@
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
         <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav">
+        <nav class="view-nav" id="view-nav">
             <form name="back" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="get_view">
                 <input type="hidden" name="view" value="productcatalog">
@@ -100,5 +100,21 @@
                 <input type="submit" value="Download product">
             </form>
         </div>
+        <script>
+            window.onscroll = function () {
+                myFunction();
+            };
+
+            var viewnav = document.getElementById("view-nav");
+            var sticky = viewnav.offsetTop;
+
+            function myFunction() {
+                if (window.pageYOffset >= sticky) {
+                    viewnav.classList.add("sticky");
+                } else {
+                    viewnav.classList.remove("sticky");
+                }
+            }
+        </script>
     </body>
 </html>

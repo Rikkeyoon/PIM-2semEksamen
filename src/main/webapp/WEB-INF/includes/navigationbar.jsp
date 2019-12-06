@@ -10,5 +10,4 @@
         <button class="openbtn" onclick="openSidebar()">&#9776;</button>
         <h1>PIM System</h1>
     </div>
-    
 </nav>

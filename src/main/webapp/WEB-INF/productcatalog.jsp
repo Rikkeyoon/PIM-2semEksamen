@@ -45,41 +45,44 @@
             <div class="row">
                 <c:forEach items="${catalog}" var="product">
                     <div class="column">
-                        <c:choose>
-                            <c:when test="${not empty product.getImages()}">
-                                <c:choose>
-                                    <c:when test="${!product.getPrimaryImage().equals('')}">
-                                        <img style="image-resolution: 300dpi; max-height: 300px; max-width: 300px;" 
-                                             alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:when> 
-                            <c:otherwise>
-                                <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                            </c:otherwise>
-                        </c:choose>
+                        <div class="imgcontainer" style="max-height: 300px; max-width: 300px;">
+                            <c:choose>
+                                <c:when test="${not empty product.getImages()}">
+                                    <c:choose>
+                                        <c:when test="${!product.getPrimaryImage().equals('')}">
+                                            <img style="image-resolution: 300dpi; width:100%" 
+                                                 alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when> 
+                                <c:otherwise>
+                                    <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="bottom-left">Bottom Left</div>
+                        </div>
                         <p>Product info</p>
                     </div>
 
                 </c:forEach>
             </div>
-            
+
             <br><br>
             <form name="bulkedit" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="bulkedit">
-            <select name="category">
-                <c:forEach items="${categories}" var="cat">
-                    <option value="${cat.getCategoryname()}">
-                        ${cat.getCategoryname()}
-                    </option>
-                </c:forEach>
-            </select>
-            <input type="submit" value="bulk edit">
-        </form>
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="bulkedit">
+                <select name="category">
+                    <c:forEach items="${categories}" var="cat">
+                        <option value="${cat.getCategoryname()}">
+                            ${cat.getCategoryname()}
+                        </option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="bulk edit">
+            </form>
         </div>
         <script>
             // Get the elements with class="column"

@@ -46,7 +46,8 @@
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
             <button class="btn btn-default" type="submit" style="float:right;">
-                Reset</button>
+                <i class="glyphicon glyphicon-repeat" style="margin-right: 10px;"></i>Reset   
+            </button>
         </form>
 
         <br><br>
