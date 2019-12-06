@@ -302,14 +302,14 @@ public class ImageMapper {
      * @param p Product
      * @throws CommandException
      */
-    public void deleteAllImages(Product p) throws CommandException {
+    public void deleteAllImages(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String deleteSql = "DELETE FROM images WHERE product_id = ?";
             pstmt = connection.prepareStatement(deleteSql);
-            pstmt.setInt(1, p.getId());
+            pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {

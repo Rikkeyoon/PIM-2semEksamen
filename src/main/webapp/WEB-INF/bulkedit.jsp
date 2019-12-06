@@ -29,7 +29,6 @@
             </div>
         </c:if>
         <form name="update" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="bulkedit">
             <table id="catalogTable" border="1">
                 <thead>
                     <tr>
@@ -97,7 +96,9 @@
                 <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
             </c:forEach>
             <br><br>
-            <input type="submit" value="Bulk Edit">
+            <input type="hidden" name="delcmd" value="bulkdelete">
+            <button type="submit" name ="cmd" value ="bulkedit">Bulk Edit</button>
+            <button type="submit" name="cmd" value ="delete_product">Delete Products</button>
         </form>
 
         <br><br>

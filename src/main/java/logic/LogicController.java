@@ -128,10 +128,10 @@ public class LogicController {
      * @throws CommandException
      */
     public static void deleteProduct(Product p) throws CommandException {
-        pf.deleteAllImages(p);
+        pf.deleteAllImages(p.getId());
         pf.deleteTagsForProduct(p.getId());
         pf.deleteProductAttributes(p.getId());
-        pf.deleteProduct(p);
+        pf.deleteProduct(p.getId());
     }
 
     /**
@@ -370,6 +370,17 @@ public class LogicController {
 
             }
             pf.updateProduct_BulkEdit(p, bulkeditIDs);
+        }
+    }
+
+    static void bulkDelete(String[] bulkDelete) throws CommandException {
+
+        for (String stringID : bulkDelete) {
+            int id = Integer.parseInt(stringID);
+            pf.deleteAllImages(id);
+            pf.deleteTagsForProduct(id);
+            pf.deleteProductAttributes(id);
+            pf.deleteProduct(id);
         }
     }
 

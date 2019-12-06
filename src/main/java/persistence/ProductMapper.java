@@ -464,14 +464,14 @@ public class ProductMapper {
      * @param product
      * @throws CommandException
      */
-    public void delete(Product product) throws CommandException {
+    public void delete(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
             connection = PersistenceFacadeDB.getConnection();
             String deleteSql = "DELETE FROM products WHERE id = ?";
             pstmt = connection.prepareStatement(deleteSql);
-            pstmt.setInt(1, product.getId());
+            pstmt.setInt(1, id);
             int rowsUpdated = pstmt.executeUpdate();
             if (rowsUpdated == 0) {
                 throw new SQLException("No rows updated");

@@ -82,7 +82,7 @@ public interface IPersistenceFacade {
      * @param p Product
      * @throws CommandException
      */
-    public void deleteProduct(Product p) throws CommandException;
+    public void deleteProduct(int id) throws CommandException;
 
     /**
      * Method to get products by a category or part of the category's name
@@ -205,7 +205,7 @@ public interface IPersistenceFacade {
 
     public List<Image> getPicturesForProduct(int id) throws CommandException;
 
-    public void deleteAllImages(Product p)throws CommandException;
+    public void deleteAllImages(int id)throws CommandException;
 
     public void deleteProductAttributes(int id)throws CommandException;
 

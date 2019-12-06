@@ -226,4 +226,8 @@ public class LogicFacade {
         LogicController.bulkEdit(p, bulkeditIDs);
     }
 
+    public static void bulkDelete(String[] bulkDelete) throws CommandException{
+        LogicController.bulkDelete(bulkDelete);
+    }
+
 }

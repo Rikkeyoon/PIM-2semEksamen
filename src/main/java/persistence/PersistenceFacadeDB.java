@@ -126,8 +126,8 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void deleteProduct(Product p) throws CommandException {
-        pm.delete(p);
+    public void deleteProduct(int id) throws CommandException {
+        pm.delete(id);
         
     }
 
@@ -242,6 +242,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteTagsForProduct(int id) throws CommandException{
         tm.deleteTagsForProduct(id);
+        tm.deleteUnusedTags();
     }
     
     @Override
@@ -260,12 +261,12 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     }
 
     @Override
-    public void deleteAllImages(Product p) throws CommandException {
-        for (Image image : im.getPicturesForProduct(p.getId())) {
+    public void deleteAllImages(int id) throws CommandException {
+        for (Image image : im.getPicturesForProduct(id)) {
             System.out.println(image.getUrl());
             im.removePictureFromCloudinary(image.getUrl());
         }
-        im.deleteAllImages(p);
+        im.deleteAllImages(id);
     }
 
     @Override

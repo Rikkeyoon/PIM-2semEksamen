@@ -20,9 +20,17 @@ public class DeleteProductCommand extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
         HttpSession session = request.getSession();
-        Product p = (Product) session.getAttribute("product");
-        LogicFacade.deleteProduct(p);
-        return "index";
+        String delcmd = request.getParameter("delcmd");
+        if (delcmd.equals("deleteProduct")) {
+            Product p = (Product) session.getAttribute("product");
+            LogicFacade.deleteProduct(p);
+        }
+        if(delcmd.equals("bulkdelete")){
+            LogicFacade.bulkDelete(request.getParameterValues("bulkEditSelected"));
+        }
+
+        request.getSession().setAttribute("catalog", LogicFacade.getCatalog());
+        return "productcatalog";
     }
 
 }

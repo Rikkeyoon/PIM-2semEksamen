@@ -127,7 +127,7 @@
             <br>
             <form name="update" id="delform" action="FrontController" method = "POST"> 
                 <input type="hidden" name="cmd" id="delcmd" value="">
-
+                <input type="hidden" name="delcmd" value ="deleteProduct">
                 <input class="deletebtn" type="button" value="Delete Product" 
                        onclick="dconfirmation()"/>
             </form>
