@@ -278,5 +278,19 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
         pm.update_BulkEdit(p, bulkeditIDs);
     }
+    
+    @Override
+    public void deleteCategory(int id) throws CommandException{
+        cm.deleteCategory(id);
+    }
 
+    @Override
+    public List<String> getCategoryAttributes(int id) throws CommandException {
+        return cm.getCategoryAttributes(id);
+    }
+
+    @Override
+    public void deleteAttribute(String name) throws CommandException{
+        am.deleteAttribute(name);
+    }
 }

@@ -33,7 +33,7 @@ public class ViewPageCommand extends Command {
             session.setAttribute("catalog", catalog);
             session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
         } else if (view.contains("category")) {
-            session.setAttribute("category1", request.getParameter("category"));
+            session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
         } else if (view.contains("viewproduct")) {
             session.setAttribute("category1", request.getParameter("category"));
             int id = Integer.parseInt(request.getParameter("product_id"));

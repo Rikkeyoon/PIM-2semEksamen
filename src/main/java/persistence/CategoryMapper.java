@@ -36,7 +36,7 @@ public class CategoryMapper {
             pstmt.setString(1, c.getCategoryname());
 
             int rowsUpdated = pstmt.executeUpdate();
-            
+
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 id = rs.getInt(1);
@@ -112,7 +112,6 @@ public class CategoryMapper {
             while (result.next()) {
                 int id = result.getInt("id");
                 String name = result.getString("category_name");
-                
 
                 categories.add(new Category(id, name, getCategoryAttributes(id)));
             }
@@ -161,7 +160,7 @@ public class CategoryMapper {
         }
         return category;
     }
-    
+
     public Category getCategory(int categoryid) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -193,7 +192,8 @@ public class CategoryMapper {
         }
         return category;
     }
-        public List<String> getCategoryAttributes(int id) throws CommandException {
+
+    public List<String> getCategoryAttributes(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
@@ -222,7 +222,7 @@ public class CategoryMapper {
         }
         return attributes;
     }
-    
+
     public void deleteCategoryAttribute(int i) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -238,6 +238,27 @@ public class CategoryMapper {
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not delete attribute from category");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+
+    public void deleteCategory(int id) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String deleteSQL = "DELETE FROM categories WHERE id = ?;";
+
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(deleteSQL);
+
+            pstmt.setInt(1, id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new CommandException("Could not delete category");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

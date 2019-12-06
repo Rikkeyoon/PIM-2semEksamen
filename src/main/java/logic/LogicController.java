@@ -373,7 +373,7 @@ public class LogicController {
         }
     }
 
-    static void bulkDelete(String[] bulkDelete) throws CommandException {
+    public static void bulkDelete(String[] bulkDelete) throws CommandException {
 
         for (String stringID : bulkDelete) {
             int id = Integer.parseInt(stringID);
@@ -381,6 +381,14 @@ public class LogicController {
             pf.deleteTagsForProduct(id);
             pf.deleteProductAttributes(id);
             pf.deleteProduct(id);
+        }
+    }
+    
+    public static void deleteCategory(int id) throws CommandException{
+        List<String> removeAttr = pf.getCategoryAttributes(id);
+        pf.deleteCategory(id);
+        for(String name : removeAttr){
+            pf.deleteAttribute(name);
         }
     }
 

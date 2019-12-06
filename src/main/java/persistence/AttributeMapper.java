@@ -25,7 +25,6 @@ public class AttributeMapper {
      * @return int
      * @throws CommandException
      */
-
     public int getAttributeId(String attributename) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -174,6 +173,33 @@ public class AttributeMapper {
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not delete attribute from attributes");
+        } finally {
+            DbUtils.closeQuietly(connection);
+            DbUtils.closeQuietly(pstmt);
+        }
+    }
+
+    public void deleteAttribute(String name) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        String insertSql = "DELETE FROM attributes WHERE attribute_name = ?";
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+            pstmt = connection.prepareStatement(insertSql);
+
+            pstmt.setString(1, name);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new SQLException();
+
+            }
+        } catch (SQLException ex) {
+            if (ex.getErrorCode() != 1451) {
+                throw new CommandException("Could not delete attribute from attributes" + ex.getMessage());
+            }
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

@@ -28,6 +28,10 @@ public class DeleteProductCommand extends Command {
         if(delcmd.equals("bulkdelete")){
             LogicFacade.bulkDelete(request.getParameterValues("bulkEditSelected"));
         }
+        
+        if(delcmd.equals("deleteCategory")){
+            LogicFacade.deleteCategory(Integer.parseInt(request.getParameter("categoryID")));
+        }
 
         request.getSession().setAttribute("catalog", LogicFacade.getCatalog());
         return "productcatalog";

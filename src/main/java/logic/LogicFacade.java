@@ -229,5 +229,8 @@ public class LogicFacade {
     public static void bulkDelete(String[] bulkDelete) throws CommandException{
         LogicController.bulkDelete(bulkDelete);
     }
-
+    
+    public static void deleteCategory(int id) throws CommandException{
+        LogicController.deleteCategory(id);
+    }
 }

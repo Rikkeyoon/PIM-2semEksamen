@@ -20,25 +20,21 @@
             <input type="hidden" name="view" value="productcatalog">
             <input type="submit" value="Back" />
         </form>
-        <h1>Edit ${category1}</h1>
-        
+        <h1>Edit ${category1.getCategoryname()}</h1>
+
         <form name="update_attributes" action="FrontController" method="POST">
-            <input type="hidden" name="category" value="${category1}">
+            <input type="hidden" name="category" value="${category1.getCategoryname()}">
             <input type="hidden" name="cmd" value="edit_category">
-                <label for="attributes"><b>Attributes</b></label>
+            <label for="attributes"><b>Attributes</b></label>
+            <br>
+            <c:forEach items="${category1.getAttributes()}" var="attr">
+                <input type="hidden" name="attr_old" value="${attr}"/>
+                <input type="text" name="attr_new" value="${attr}"/>
+                <label>Remove:</label>
+                <input type="checkbox" name="attr_remove" value="${attr}"/>
                 <br>
-                <c:forEach items="${categories}" var="cat">
-                    <c:if test="${cat.getCategoryname().equals(category1)}">
-                        <c:forEach items="${cat.getAttributes()}" var="attr">
-                            <input type="hidden" name="attr_old" value="${attr}"/>
-                            <input type="text" name="attr_new" value="${attr}"/>
-                            <label>Remove:</label>
-                            <input type="checkbox" name="attr_remove" value="${attr}"/>
-                            <br>
-                        </c:forEach>
-                    </c:if>
-                </c:forEach>
-                   <br><br>
+            </c:forEach>
+            <br><br>
 
             <input type="hidden" name="cmd" value="edit_category">
             <div class="new_attributes">
@@ -52,20 +48,27 @@
             <br><br>
             <input class="updatebtn" type="submit" value="Save Changes"/>
         </form>
+            <br>
+        <form>
+            <input type="hidden" name="delcmd" value="deleteCategory">
+            <input type="hidden" name="cmd" value ="delete_product">
+            <input type="hidden" name="categoryID" value="${category1.getId()}">
+            <input type="submit" value="Delete Category">
+        </form>
         <script>
             $(document).ready(function () {
-                var wrapper = $(".new_attributes");
-                var add_button = $("#add_field_button");
-                
-                $(add_button).click(function (e) {
-                    e.preventDefault();
-                    $(wrapper).append('<div><input type="text" name="attribute"/><input type="radio" name"required"/><a href="#" class="remove_field"> Remove</a></div>');
-                });
+            var wrapper = $(".new_attributes");
+            var add_button = $("#add_field_button");
 
-                $(wrapper).on("click", ".remove_field", function (e) {
-                    e.preventDefault();
-                    $(this).parent('div').remove();
-                });
+            $(add_button).click(function (e) {
+            e.preventDefault();
+            $(wrapper).append('<div><input type="text" name="attribute"/><input type="radio" name"required"/><a href="#" class="remove_field"> Remove</a></div>');
+            });
+
+            $(wrapper).on("click", ".remove_field", function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            });
             });
         </script>
     </body>
