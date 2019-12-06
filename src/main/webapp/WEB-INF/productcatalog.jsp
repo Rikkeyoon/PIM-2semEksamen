@@ -38,17 +38,26 @@
             <br>
             <h1>Product Catalog</h1>
 
-            <form name="get_product_catalog" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Reset"/>
-                <br>
-            </form>
-
             <!-- Grid and list view -->
             <div class="row">
                 <c:forEach items="${catalog}" var="product">
                     <div class="column">
+                        <c:choose>
+                            <c:when test="${not empty product.getImages()}">
+                                <c:choose>
+                                    <c:when test="${!product.getPrimaryImage().equals('')}">
+                                        <img style="image-resolution: 300dpi; max-height: 300px; max-width: 300px;" 
+                                             alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when> 
+                            <c:otherwise>
+                                <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                            </c:otherwise>
+                        </c:choose>
                         <p>Product info</p>
                     </div>
                 </c:forEach>
@@ -56,6 +65,7 @@
 
             <!-- Table view (hidden by default) -->
             <%@include file="includes/catalogincludes/tableview.jsp" %>
+            
             <br><br>
             <!--
                         <form name="create_category" action="FrontController" method="POST">
@@ -92,11 +102,6 @@
         <input type="hidden" name="view" value="editcategory">
         <input type="submit" value="Edit category">
     </form> -->
-            <form name="view_categories" action="FrontController" method="POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="viewcategories">
-                <input type="submit" value="View categories" />
-            </form>
             <br>
         </div>
         <script>
@@ -118,7 +123,7 @@
             function gridView() {
                 for (i = 0; i < elements.length; i++) {
                     elements[i].style.display = "block";
-                    elements[i].style.width = "50%";
+                    elements[i].style.width = "25%";
                 }
                 table.style.display = "none";
             }

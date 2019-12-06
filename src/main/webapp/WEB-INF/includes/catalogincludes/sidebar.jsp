@@ -14,23 +14,25 @@
             <button type="submit">Products</button>
         </form>
         <br><br>
-        <form name="get_product_catalog" action="FrontController" method = "POST">
+        <form name="view_categories" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!">
+            <input type="hidden" name="view" value="viewcategories">
             <button type="submit">Categories</button>
         </form>
         <br>
         <h4>Search for: </h4>
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
-            <input type="radio" name="searchType" value="product_id" checked="checked"/> Id
-            <input type="radio" name="searchType" value="product_itemnumber"/> Itemnumber
-            <input type="radio" name="searchType" value="product_name"/> Name
-            <input type="radio" name="searchType" value="product_brand"/> Brand
-            <input type="radio" name="searchType" value="product_category"/> Category
-            <input type="radio" name="searchType" value="product_tag"/> Tag
-            <input type="radio" name="searchType" value="product_supplier"/> Supplier
-            <br><br>
+            <div class="radiobtns" style="text-align: center;">
+                <input type="radio" name="searchType" value="product_id" checked="checked"/> Id
+                <input type="radio" name="searchType" value="product_itemnumber"/> Item number
+                <input type="radio" name="searchType" value="product_name"/> Name <br>
+                <input type="radio" name="searchType" value="product_brand"/> Brand
+                <input type="radio" name="searchType" value="product_category"/> Category
+                <input type="radio" name="searchType" value="product_tag"/> Tag <br>
+                <input type="radio" name="searchType" value="product_supplier"/> Supplier
+            </div>
+            <br>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="search">
                 <div class="input-group-btn">
@@ -48,6 +50,13 @@
                 Reset</button>
         </form>
 
+        <br><br>
+
+        <form name="get_upload_page" action="FrontController" method = "POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="uploadpage">
+            <input type="submit" value="Go to upload page" />
+        </form>
         <br><br>
         <!--
         <form name="upload" action="FrontController" method = "POST" enctype = "multipart/form-data">

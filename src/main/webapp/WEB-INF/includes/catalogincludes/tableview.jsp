@@ -5,77 +5,92 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<table id="catalogTable" border="1">
-    <thead>
-        <tr>
-            <th>Picture</th>
-            <th onclick="sortNumberColumns(1)">ID
-                <i class="glyphicon glyphicon-triangle-top" style="cursor: pointer;"></i>
-            </th>
-            <th onclick="sortNumberColumns(2)">Item Number
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th onclick="sortAlphabeticalTable(3)">Name
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th onclick="sortAlphabeticalTable(4)">Brand
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th>Description</th>
-            <th onclick="sortAlphabeticalTable(6)">Category
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th onclick="sortAlphabeticalTable(7)">Supplier
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th>SEO text</th>
-            <th onclick="sortNumberColumns(9)">Status
-                <i class="glyphicon glyphicon-triangle-bottom" style="cursor: pointer;"></i>
-            </th>
-            <th>View Product</th>
-        </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${catalog}" var="product">
-        <tr>
-            <td>
-        <c:choose>
-            <c:when test="${not empty product.getImages()}">
-                <c:choose>
-                    <c:when test="${!product.getPrimaryImage().equals('')}">
-                        <img width = "100" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
-                    </c:when>
-                    <c:otherwise>
-                        <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                    </c:otherwise>
-                </c:choose>
-            </c:when> 
-            <c:otherwise>
-                <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-            </c:otherwise>
-        </c:choose>
-        </td>
-        <td>${product.getId()}</td>
-        <td>${product.getItemnumber()}</td>
-        <td>${product.getName()}</td>
-        <td>${product.getBrand()}</td>
-        <td>${product.getDescription()}</td>
-        <td>${product.getCategory().getCategoryname()}</td>
-        <td>${product.getSupplier()}</td>
-        <td>${product.getSEOText()}</td>
-        <td>${product.getStatus()}</td>
-        <td>
-            <form name="view_product" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="viewproduct">
-                <input type="hidden" value="${product.getId()}" name="product_id"/>
-                <input type="submit" value="View product">
-            </form>
-        </td>
-        </tr>
-    </c:forEach>
-</tbody>
-</table>
+<%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<div class="container-table">
+    <div class="wrap-table2">
+        <div class="table">
+            <table id="catalogTable" border="1">
+                <thead>
+                    <tr class="table-head">
+                        <th>Picture</th>
+                        <th onclick="sortNumberColumns(1)">ID
+                            <i class="glyphicon glyphicon-triangle-top" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th onclick="sortNumberColumns(2)">Item Number
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th onclick="sortAlphabeticalTable(3)">Name
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th onclick="sortAlphabeticalTable(4)">Brand
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th>Description</th>
+                        <th onclick="sortAlphabeticalTable(6)">Category
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th onclick="sortAlphabeticalTable(7)">Supplier
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th>SEO text</th>
+                        <th onclick="sortNumberColumns(9)">Status
+                            <i class="glyphicon glyphicon-triangle-bottom" 
+                               style="cursor: pointer; font-size: 14px;"></i>
+                        </th>
+                        <th>View Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${catalog}" var="product">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty product.getImages()}">
+                                        <c:choose>
+                                            <c:when test="${!product.getPrimaryImage().equals('')}">
+                                                <img style="image-resolution: 300dpi; max-height: 100px; max-width: 100px;" 
+                                                     alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when> 
+                                    <c:otherwise>
+                                        <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${product.getId()}</td>
+                            <td>${product.getItemnumber()}</td>
+                            <td>${product.getName()}</td>
+                            <td>${product.getBrand()}</td>
+                            <td>${product.getDescription()}</td>
+                            <td>${product.getCategory().getCategoryname()}</td>
+                            <td>${product.getSupplier()}</td>
+                            <td>${product.getSEOText()}</td>
+                            <td>${product.getStatus()}</td>
+                            <td>
+                                <form name="view_product" action="FrontController" method = "POST">
+                                    <input type="hidden" name="cmd" value="get_view">
+                                    <input type="hidden" name="view" value="viewproduct">
+                                    <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                    <input type="submit" value="View product">
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <script>
     function sortAlphabeticalTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
