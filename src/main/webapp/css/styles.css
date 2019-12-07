@@ -51,14 +51,14 @@ body {
 }
 
 .sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 5;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
 }
 
 .sticky + #main {
-  padding-top: 102px;
+    padding-top: 102px;
 }
 
 .column {
@@ -104,41 +104,41 @@ body {
 }
 
 .viewcatalogbtn {
-  color: #fff;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  text-align: center;
-  font-size: 28px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 20px;
+    color: #fff;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    text-align: center;
+    font-size: 28px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 20px;
 }
 
 .viewcatalogbtn{
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 .viewcatalogbtn:after {
-  content: '»';
-  position: absolute;
-  opacity: 0;  
-  right: -20px;
-  transition: 0.5s;
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    right: -20px;
+    transition: 0.5s;
 }
 
 .viewcatalogbtn:hover{
-  padding-right: 24px;
-  padding-left:8px;
+    padding-right: 24px;
+    padding-left:8px;
 }
 
 .viewcatalogbtn:hover:after {
-  opacity: 1;
-  right: 10px;
+    opacity: 1;
+    right: 10px;
 }
 
 .sidebar label, .sidebar a, .sidebar h3  {
@@ -331,15 +331,18 @@ tbody tr {
 .block {
     column-count: 2;
     column-width: 30%;
-    /*position: relative-flex;
-    justify-content: center;*/
+    position: relative-flex;
+    justify-content: center;
     text-align: center;
     top: 50%;
     margin-left: auto;
     margin-right: auto
 }
 
-.update .download {
-    display: flex;
-    position: absolute;
+.block-dwl-btn .block-upd-btn {
+    position: relative-flex;
+    bottom: 0; 
+    left: 50%; 
+    display: table-cell; 
+    vertical-align: bottom;
 }
