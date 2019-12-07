@@ -66,11 +66,24 @@
 
                 </c:forEach>
             </div>
-            
+
             <br><br>
             <form name="bulkedit" action="FrontController" method="POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="bulkedit">
+                <select name="category">
+                    <c:forEach items="${categories}" var="cat">
+                        <option value="${cat.getCategoryname()}">
+                            ${cat.getCategoryname()}
+                        </option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="bulk edit">
+            </form>
+        </div>
+        <form name="create" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="bulkedit">
+            <input type="hidden" name="view" value="createproduct">
             <select name="category">
                 <c:forEach items="${categories}" var="cat">
                     <option value="${cat.getCategoryname()}">
@@ -78,9 +91,9 @@
                     </option>
                 </c:forEach>
             </select>
-            <input type="submit" value="bulk edit">
+
+            <input type="submit" value="Create new product for category">
         </form>
-        </div>
         <script>
             // Get the elements with class="column"
             var elements = document.getElementsByClassName("column");
@@ -90,73 +103,76 @@
 
             // List View
             function listView() {
-                for (i = 0; i < elements.length; i++) {
-                    elements[i].style.display = "block";
-                    elements[i].style.width = "100%";
-                }
-                table.style.display = "none";
-                tcontainer.style.display = "none";
+            for (i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+            elements[i].style.width = "100%";
+            }
+            table.style.display = "none";
+            tcontainer.style.display = "none";
             }
 
 
             // Grid View
             function gridView() {
-                for (i = 0; i < elements.length; i++) {
-                    elements[i].style.display = "block";
-                    elements[i].style.width = "25%";
-                }
-                table.style.display = "none";
-                tcontainer.style.display = "none";
+            for (i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+            elements[i].style.width = "25%";
+            }
+            table.style.display = "none";
+            tcontainer.style.display = "none";
             }
 
             // Table View
             function tableView() {
-                for (i = 0; i < elements.length; i++) {
-                    elements[i].style.display = "none";
-                }
-                table.style.display = "block";
-                tcontainer.style.display = "flex";
+            for (i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+            }
+            table.style.display = "block";
+            tcontainer.style.display = "flex";
             }
 
             var container = document.getElementById("btnContainer");
             var btns = container.getElementsByClassName("btn");
             for (var i = 0; i < btns.length; i++) {
-                btns[i].addEventListener("click", function () {
-                    var current = document.getElementsByClassName("active");
-                    current[0].className = current[0].className.replace(" active", "");
-                    this.className += " active";
-                });
+            btns[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+            });
             }
 
             var sidebar = document.getElementById("sidebar");
             var main = document.getElementById("main");
             var navbar = document.getElementsByClassName("navbar-content")[0];
             function openSidebar() {
-                sidebar.style.width = "250px";
-                main.style.marginLeft = "250px";
-                navbar.style.marginLeft = "250px";
+            sidebar.style.width = "250px";
+            main.style.marginLeft = "250px";
+            navbar.style.marginLeft = "250px";
             }
 
             function closeSidebar() {
-                sidebar.style.width = "0";
-                main.style.marginLeft = "0";
-                navbar.style.marginLeft = "0";
+            sidebar.style.width = "0";
+            main.style.marginLeft = "0";
+            navbar.style.marginLeft = "0";
             }
 
             window.onscroll = function () {
-                myFunction();
+            myFunction();
             };
 
             var viewnav = document.getElementById("view-nav");
             var sticky = viewnav.offsetTop;
 
             function myFunction() {
-                if (window.pageYOffset >= sticky) {
-                    viewnav.classList.add("sticky");
-                } else {
-                    viewnav.classList.remove("sticky");
-                }
+            if (window.pageYOffset >= sticky) {
+            viewnav.classList.add("sticky");
+            } else {
+            viewnav.classList.remove("sticky");
+            }
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>
