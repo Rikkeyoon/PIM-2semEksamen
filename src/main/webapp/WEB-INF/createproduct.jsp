@@ -83,10 +83,6 @@
                 <br>
                 <output id="list"></output>
                 <br><br>
-                <label for="status"><b>Status</b></label>
-                <br>
-                <input type="text" name="status" value="0" readonly>
-                <br><br>
                 <input class="createbtn" id="createbtn" type="submit" value="Create">
 
             </form>
