@@ -20,3 +20,19 @@
         <button class="btn" onclick="tableView()"><i class="fas fa-table"></i> Table</button>
     </div>
 </nav>
+<script>
+    window.onscroll = function () {
+        myFunction();
+    };
+
+    var viewnav = document.getElementById("view-nav");
+    var sticky = viewnav.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            viewnav.classList.add("sticky");
+        } else {
+            viewnav.classList.remove("sticky");
+        }
+    }
+</script>

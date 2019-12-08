@@ -18,7 +18,7 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
-        
+
         <!-- Main content -->
         <div id="main">
             <h1 style="text-align: center;">View product</h1>
@@ -147,22 +147,5 @@
                 </form>
             </div>
         </div>
-    </div>
-    <script>
-        window.onscroll = function () {
-            myFunction();
-        };
-
-        var viewnav = document.getElementById("view-nav");
-        var sticky = viewnav.offsetTop;
-
-        function myFunction() {
-            if (window.pageYOffset >= sticky) {
-                viewnav.classList.add("sticky");
-            } else {
-                viewnav.classList.remove("sticky");
-            }
-        }
-    </script>
-</body>
+    </body>
 </html>

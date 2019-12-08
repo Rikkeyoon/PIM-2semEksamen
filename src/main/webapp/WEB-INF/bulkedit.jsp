@@ -22,20 +22,12 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
-        <!-- View navigation bar -->
-        <nav class="view-nav" id="view-nav">
-            <form name="back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Back" />
-            </form>
-        </nav>
 
         <!-- Main content -->
         <div id="main">
             <br><br>
-            <h1 style="text-align: center;">Bulk Edit</h1>
-            <h2 style="text-align: center;">Category: ${category1.getCategoryname()}</h2>
+            <h1>Bulk Edit</h1>
+            <h2>Category: ${category1.getCategoryname()}</h2>
             <c:if test="${error != null}">
                 <div class="form-alert"><h4>${error}</h4></div>
                     </c:if>
@@ -296,21 +288,6 @@
         "order": [[3, "asc"]]
         });
         });
-
-        window.onscroll = function () {
-        myFunction();
-        };
-
-        var viewnav = document.getElementById("view-nav");
-        var sticky = viewnav.offsetTop;
-
-        function myFunction() {
-        if (window.pageYOffset >= sticky) {
-        viewnav.classList.add("sticky");
-        } else {
-        viewnav.classList.remove("sticky");
-        }
-        }
     </script>
 </body>
 </html>

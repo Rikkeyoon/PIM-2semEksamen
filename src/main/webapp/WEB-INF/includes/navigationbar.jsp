@@ -13,12 +13,24 @@
 </nav>
 <nav class="view-nav" id="view-nav">
     <div class="view-nav-content">
-    <form name="back" action="FrontController" method = "POST">
-        <input type="hidden" name="cmd" value="get_view">
-        <input type="hidden" name="view" value="productcatalog">
-        <button class="btn" type="submit">
+        <button class="btn" onclick="window.history.back();">
             <i class="fas fa-long-arrow-alt-left" style="font-size: 20px;"></i><b>   Go back</b>
         </button>
-    </form>
     </div>
 </nav>
+<script>
+    window.onscroll = function () {
+        myFunction();
+    };
+
+    var viewnav = document.getElementById("view-nav");
+    var sticky = viewnav.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            viewnav.classList.add("sticky");
+        } else {
+            viewnav.classList.remove("sticky");
+        }
+    }
+</script>

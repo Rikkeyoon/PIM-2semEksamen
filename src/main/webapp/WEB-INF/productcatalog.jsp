@@ -150,21 +150,6 @@
                 main.style.marginLeft = "0";
                 navbar.style.marginLeft = "0";
             }
-
-            window.onscroll = function () {
-                myFunction();
-            };
-
-            var viewnav = document.getElementById("view-nav");
-            var sticky = viewnav.offsetTop;
-
-            function myFunction() {
-                if (window.pageYOffset >= sticky) {
-                    viewnav.classList.add("sticky");
-                } else {
-                    viewnav.classList.remove("sticky");
-                }
-            }
         </script>
     </body>
 </html>
