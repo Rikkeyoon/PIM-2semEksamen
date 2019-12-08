@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * The purpose of JSONConverter is to convert Java Objects into JavaScript
@@ -25,16 +26,16 @@ public class JSONConverter {
 
     private static ObjectMapper mapper = new ObjectMapper();
     private static final String UPLOAD_DIR = "json";
-    private static String OS = System.getProperty("os.name").toLowerCase();
-    private static String WORKING_DIR = "";
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static String working_dir = "";
 
-    public static void workingDirSetup() {
+    private static void workingDirSetup() {
         if (OS.contains("win")) {
-            WORKING_DIR = System.getProperty("user.dir");
+            working_dir = System.getProperty("user.dir");
         } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
-            WORKING_DIR = System.getProperty("catalina.base");
+            working_dir = System.getProperty("catalina.base");
         } else {
-            WORKING_DIR = "";
+            working_dir = "";
         }
     }
 
@@ -133,7 +134,7 @@ public class JSONConverter {
 
         if (contentType != null && contentType.equalsIgnoreCase("application/json")) {
             try {
-                String filePath = WORKING_DIR + File.separator + UPLOAD_DIR
+                String filePath = working_dir + File.separator + UPLOAD_DIR
                         + File.separator + fileName;
                 part.write(filePath);
                 File file = new File(filePath);
@@ -169,11 +170,14 @@ public class JSONConverter {
      * @return File
      */
     private static File getFile(String fileName) {
-        File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
+        if (StringUtils.isBlank(working_dir)) {
+            workingDirSetup();
+        }
+        File uploadFolder = new File(working_dir + File.separator + UPLOAD_DIR);
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
-        File file = new File(WORKING_DIR + File.separator
+        File file = new File(working_dir + File.separator
                 + UPLOAD_DIR + File.separator + fileName);
         return file;
     }

@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * The purpose of DownloadServlet is to create a downloadable (json) file the
@@ -23,7 +24,18 @@ import javax.servlet.http.HttpServletResponse;
 public class DownloadServlet extends HttpServlet {
 
     private static final String DOWNLOAD_DIR = "json";
-    private static final String WORKING_DIR = System.getProperty("user.dir");
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static String working_dir = "";
+
+    private void workingDirSetup() {
+        if (OS.contains("win")) {
+            working_dir = System.getProperty("user.dir");
+        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+            working_dir = System.getProperty("catalina.base");
+        } else {
+            working_dir = "";
+        }
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,8 +53,12 @@ public class DownloadServlet extends HttpServlet {
         //the default Content-Disposition is “inline”, but we need “attachment” for a downloadable file.
         response.setHeader("Content-disposition", "attachment; filename=" 
                 + fileName);
+        
+        if (StringUtils.isBlank(working_dir)) {
+            workingDirSetup();
+        }
 
-        String filePlacement = WORKING_DIR + File.separator + DOWNLOAD_DIR
+        String filePlacement = working_dir + File.separator + DOWNLOAD_DIR
                 + File.separator + fileName;
         File file = new File(filePlacement);
 
