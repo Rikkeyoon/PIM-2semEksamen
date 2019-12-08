@@ -22,29 +22,36 @@
                         <th onclick="sortAlphabeticalTable(7)">Supplier</th>
                         <th>SEO text</th>
                         <th onclick="sortNumberColumns(9)">Status</th>
-                        <th>View Product</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${catalog}" var="product">
                         <tr>
                             <td style="text-align: center;">
-                                <c:choose>
-                                    <c:when test="${not empty product.getImages()}">
+                                <form name="view_product" action="FrontController" method = "POST">
+                                    <input type="hidden" name="cmd" value="get_view">
+                                    <input type="hidden" name="view" value="viewproduct">
+                                    <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                    <button type="submit" class="imgbtn">
                                         <c:choose>
-                                            <c:when test="${!product.getPrimaryImage().equals('')}">
-                                                <img style="image-resolution: 300dpi; max-height: 100px; max-width: 100px;" 
-                                                     alt= "Picture not found" src = "${product.getPrimaryImage()}?resize=480:*"> 
-                                            </c:when>
+                                            <c:when test="${not empty product.getImages()}">
+                                                <c:choose>
+                                                    <c:when test="${!product.getPrimaryImage().equals('')}">
+                                                        <img style="image-resolution: 300dpi; max-height: 100px; max-width: 100px;" 
+                                                             alt= "Picture not found" src = "${product.getPrimaryImage()}?resize=480:*"> 
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when> 
                                             <c:otherwise>
                                                 <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                             </c:otherwise>
                                         </c:choose>
-                                    </c:when> 
-                                    <c:otherwise>
-                                        <img width = "100" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                                    </c:otherwise>
-                                </c:choose>
+                                    </button>
+                                </form>
                             </td>
                             <td>${product.getId()}</td>
                             <td>${product.getItemnumber()}</td>
@@ -55,12 +62,13 @@
                             <td>${product.getSupplier()}</td>
                             <td>${product.getSEOText()}</td>
                             <td>${product.getStatus()}</td>
-                            <td>
-                                <form name="view_product" action="FrontController" method = "POST">
+                            <td><form name="update" action="FrontController" method = "POST">
                                     <input type="hidden" name="cmd" value="get_view">
-                                    <input type="hidden" name="view" value="viewproduct">
+                                    <input type="hidden" name="view" value="updateproduct">
                                     <input type="hidden" value="${product.getId()}" name="product_id"/>
-                                    <input type="submit" value="View product">
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-edit" style="cursor: pointer"></i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>

@@ -1,7 +1,7 @@
 <%-- 
     Document   : viewcategories
     Created on : 3. dec. 2019, 09.29.41
-    Author     : Nina
+    Author     : Nina, carol
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,12 +14,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
         <script src="https://kit.fontawesome.com/6341639fb9.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
+        <nav class="view-nav" id="view-nav" >
+            <form name="back" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="productcatalog">
+                <input type="submit" value="Back" />
+            </form>
+        </nav>
 
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar">
@@ -54,17 +62,12 @@
 
         <!-- Main content -->
         <div id="main">
-            <form name="back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Back" />
-            </form>
-
+            <br>
             <h1>View categories</h1>
 
             <div class="container-table" style="display:flex;">
                 <div class="wrap-table1">
-                    <div class="table" style="border: 1px solid black;border-radius: 10px;">
+                    <div class="table">
                         <table id="categoriesTable" border="1" >
                             <thead>
                                 <tr class="table-head">
@@ -73,7 +76,7 @@
                                            style="cursor: pointer; font-size: 14px;"></i>
                                     </th>
                                     <th>Attributes</th>
-                                    <th>Edit category</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,7 +94,9 @@
                                                 <input type="hidden" name="cmd" value="get_view">
                                                 <input type="hidden" name="view" value="editcategory">
                                                 <input type="hidden" value="${cat.getCategoryname()}" name="category"/>
-                                                <input type="submit" value="Edit category">
+                                                <button type="submit" class="imgbtn">
+                                                    <i class="far fa-edit" style="cursor: pointer"></i>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -103,7 +108,14 @@
                 </div>
             </div>
         </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript"  src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript"  src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script>
+            $(document).ready(function () {
+            $('#categoriesTable').dataTable({"searching": false});
+            });
+            
             function sortAlphabeticalTable(n) {
                 var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
                 table = document.getElementById("categoriesTable");
@@ -172,6 +184,21 @@
                 sidebar.style.width = "0";
                 main.style.marginLeft = "0";
                 navbar.style.marginLeft = "0";
+            }
+
+            window.onscroll = function () {
+                myFunction();
+            };
+
+            var viewnav = document.getElementById("view-nav");
+            var sticky = viewnav.offsetTop;
+
+            function myFunction() {
+                if (window.pageYOffset >= sticky) {
+                    viewnav.classList.add("sticky");
+                } else {
+                    viewnav.classList.remove("sticky");
+                }
             }
         </script>
     </body>

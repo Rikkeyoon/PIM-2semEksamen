@@ -39,6 +39,7 @@
         <div id="main">
             <br>
             <h1>Product Catalog</h1>
+            <br><br>
 
             <!-- Table view (hidden by default) -->
             <%@include file="includes/catalogincludes/tableview.jsp" %> 
@@ -57,15 +58,15 @@
                                         <c:when test="${not empty product.getImages()}">
                                             <c:choose>
                                                 <c:when test="${!product.getPrimaryImage().equals('')}">
-                                                    <img class="cropped" width="300" height="300" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                                    <img class="cropped" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img class="cropped" width="300" height="300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                                    <img class="cropped" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:when> 
                                         <c:otherwise>
-                                            <img class="cropped" width="300" height="300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                            <img class="cropped" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                         </c:otherwise>
                                     </c:choose>
                                 </button>
@@ -91,7 +92,6 @@
                         </div>
                         <br>
                     </div>
-
                 </c:forEach>
             </div>
 

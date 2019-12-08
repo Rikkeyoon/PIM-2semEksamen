@@ -71,6 +71,8 @@ body {
 
 .cropped {
     object-fit: contain;
+    width:300px;
+    height:300px;
 }
 
 .imgcontainer {
@@ -305,7 +307,7 @@ table td.r, table th.r {
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5!important;
 }
 
 tbody tr {
