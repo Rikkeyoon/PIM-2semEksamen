@@ -98,7 +98,7 @@
 <script>
     // Basic example
    $(document).ready(function(){
-    $('#catalogTable').dataTable({"searching": false});
+    $('#catalogTable').dataTable({"searching": false, "ordering": false});
 });
     
     function sortAlphabeticalTable(n) {

@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
         <script src="https://kit.fontawesome.com/6341639fb9.js" crossorigin="anonymous"></script>
@@ -170,11 +171,19 @@
                 <input type="hidden" name="delcmd" value="bulkdelete"/>
                 <button class="btn btn-default" type="submit" name="cmd" value ="delete_product"><i class="glyphicon glyphicon-trash" style="margin-right: 10px;"></i>Delete Products</button>
                 <button class="btn btn-default" type="submit" name ="cmd" value ="bulkedit"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Save Changes</button>
+                <br><br>
             </form>
-            <br><br>
         </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"  src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     <script>
+        $(document).ready(function(){
+        $('#bulkTable').dataTable({"searching": false, "ordering": false});
+        });
+
         function sortAlphabeticalTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("bulkTable");

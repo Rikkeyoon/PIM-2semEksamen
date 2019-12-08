@@ -18,6 +18,12 @@
             <input type="hidden" name="view" value="viewcategories">
             <button type="submit" class="viewcatalogbtn">Categories</button>
         </form>
+        <form name="bulkEdit" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="chooseBulkEdit">
+            <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
+        </form>
+        
         <br><br>
         <h4>Search for: </h4>
         <form name="search" action="FrontController" method = "POST">

@@ -72,18 +72,6 @@
             </div>
 
             <br><br>
-            <form name="bulkedit" action="FrontController" method="POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="bulkedit">
-                <select name="category">
-                    <c:forEach items="${categories}" var="cat">
-                        <option value="${cat.getCategoryname()}">
-                            ${cat.getCategoryname()}
-                        </option>
-                    </c:forEach>
-                </select>
-                <input type="submit" value="bulk edit">
-            </form>
         </div>
         <script>
             // Get the elements with class="column"

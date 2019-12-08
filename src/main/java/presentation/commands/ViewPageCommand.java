@@ -31,6 +31,9 @@ public class ViewPageCommand extends Command {
         } else if (view.contains("categories")) {
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
+        } else if (view.contains("chooseBulk")){
+            List<Category> categories = LogicFacade.getCategories();
+            session.setAttribute("categories", categories);
         } else if (view.contains("bulkedit")) {
             List<Product> catalog = LogicFacade.getProductsByCategory(request.getParameter("category"));
             session.setAttribute("catalog", catalog);

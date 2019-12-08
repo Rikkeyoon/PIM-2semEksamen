@@ -34,7 +34,7 @@
             </select>
 
             <input type="submit" value="Create new product for category">
-        </form>
+        </form> 
         <br>
     </body>
 </html>
