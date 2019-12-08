@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Properties;
 import javax.servlet.http.Part;
 import logic.Image;
-import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -33,11 +32,11 @@ public class ImageMapper {
     private static Cloudinary cloudinary = null;
 
     public ImageMapper() {
-        if(OS.contains("win")){
+        if(OS.contains("win") || OS.contains("mac")){
             working_dir = System.getProperty("user.dir");
         }else if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix")){
             working_dir = System.getProperty("catalina.base");
-        }else {
+        } else {
             working_dir = "";
         }
     }
