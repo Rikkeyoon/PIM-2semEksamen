@@ -23,9 +23,9 @@
             <input type="hidden" name="view" value="chooseBulkEdit">
             <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
         </form>
-        
+
         <br><br>
-        <h4>Search for: </h4>
+        <h4 align="center">Search for: </h4>
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
             <div class="radiobtns" style="text-align: center;">
@@ -83,7 +83,15 @@
             </div>
         </form>
         -->
-
+        <div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
+            </div>
+            <div class="input-group-append">
+                <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+            </div>
+        </div>
         <form name="download" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="download_catalog">
             <div class="input-group" style="position: absolute;
