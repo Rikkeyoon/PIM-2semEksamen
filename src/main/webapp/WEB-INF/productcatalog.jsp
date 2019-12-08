@@ -22,15 +22,7 @@
 
     <body>
         <!-- Navigation bar -->
-        <%@include file="includes/navigationbar.jsp" %>
-        <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav" id="view-nav" >
-            <div id="btnContainer" style="float: right;">
-                <button class="btn" onclick="listView()"><i class="glyphicon glyphicon-th-list"></i> List</button> 
-                <button class="btn active" onclick="gridView()"><i class="glyphicon glyphicon-th-large"></i> Grid</button>
-                <button class="btn" onclick="tableView()"><i class="fas fa-table"></i> Table</button>
-            </div>
-        </nav>
+        <%@include file="includes/catalogincludes/navigationbar.jsp" %>
 
         <!-- Sidebar with search (hidden by default) -->
         <%@include file="includes/catalogincludes/sidebar.jsp" %>

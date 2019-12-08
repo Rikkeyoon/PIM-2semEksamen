@@ -19,15 +19,8 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
-        <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav" id="view-nav">
-            <form name="back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Back" />
-            </form>
-        </nav>
-
+        
+        <br>
         <h1>View product</h1>
         <br><br>
         <div class="block" style="width:50%">

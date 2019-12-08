@@ -50,6 +50,10 @@ body {
     float: right;
 }
 
+.view-nav-content {
+    transition: margin-left .5s;
+}
+
 .sticky {
     position: fixed;
     top: 0;

@@ -21,13 +21,6 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
-        <nav class="view-nav" id="view-nav" >
-            <form name="back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Back" />
-            </form>
-        </nav>
 
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar">
@@ -174,16 +167,19 @@
             var sidebar = document.getElementById("sidebar");
             var main = document.getElementById("main");
             var navbar = document.getElementsByClassName("navbar-content")[0];
+            var viewbar = document.getElementsByClassName("view-nav-content")[0];
             function openSidebar() {
                 sidebar.style.width = "250px";
                 main.style.marginLeft = "250px";
                 navbar.style.marginLeft = "250px";
+                viewbar.style.marginLeft = "250px";
             }
 
             function closeSidebar() {
                 sidebar.style.width = "0";
                 main.style.marginLeft = "0";
                 navbar.style.marginLeft = "0";
+                viewbar.style.marginLeft = "0";
             }
 
             window.onscroll = function () {
