@@ -335,24 +335,6 @@ tbody tr {
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
 }
-.block {
-    column-count: 2;
-    column-width: 30%;
-    position: relative-flex;
-    justify-content: center;
-    text-align: center;
-    top: 50%;
-    margin-left: auto;
-    margin-right: auto
-}
-
-.block-dwl-btn .block-upd-btn {
-    position: relative-flex;
-    bottom: 0; 
-    left: 50%; 
-    display: table-cell; 
-    vertical-align: bottom;
-}
 
 #bulkTable{
     margin: 0 auto !important;
