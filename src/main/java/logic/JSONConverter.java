@@ -29,8 +29,8 @@ public class JSONConverter {
     private static final String OS = System.getProperty("os.name").toLowerCase();
     private static String working_dir = "";
 
-    private static void workingDirSetup() {
-        if (OS.contains("win")) {
+    public static void workingDirSetup() {
+        if (OS.contains("win") || OS.contains("mac")) {
             working_dir = System.getProperty("user.dir");
         } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
             working_dir = System.getProperty("catalina.base");

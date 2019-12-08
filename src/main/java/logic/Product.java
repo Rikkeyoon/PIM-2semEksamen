@@ -301,7 +301,6 @@ public class Product {
     /**
      * A method for changing the product's status
      *
-     * @param status The new status
      */
     public void calculateStatus() {
         int totalAmount = 0, doneAmount = 0;

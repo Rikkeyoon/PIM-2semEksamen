@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
@@ -21,15 +22,7 @@
 
     <body>
         <!-- Navigation bar -->
-        <%@include file="includes/navigationbar.jsp" %>
-        <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav" id="view-nav" >
-            <div id="btnContainer" style="float: right;">
-                <button class="btn" onclick="listView()"><i class="glyphicon glyphicon-th-list"></i> List</button> 
-                <button class="btn active" onclick="gridView()"><i class="glyphicon glyphicon-th-large"></i> Grid</button>
-                <button class="btn" onclick="tableView()"><i class="fas fa-table"></i> Table</button>
-            </div>
-        </nav>
+        <%@include file="includes/catalogincludes/navigationbar.jsp" %>
 
         <!-- Sidebar with search (hidden by default) -->
         <%@include file="includes/catalogincludes/sidebar.jsp" %>
@@ -38,6 +31,7 @@
         <div id="main">
             <br>
             <h1>Product Catalog</h1>
+            <br><br>
 
             <!-- Table view (hidden by default) -->
             <%@include file="includes/catalogincludes/tableview.jsp" %> 
@@ -46,28 +40,50 @@
             <div class="row">
                 <c:forEach items="${catalog}" var="product">
                     <div class="column">
-                        <div class="imgcontainer" style="max-height: 300px; max-width: 300px;">
-                            <c:choose>
-                                <c:when test="${not empty product.getImages()}">
+                        <div class="imgcontainer">
+                            <form name="view_product" action="FrontController" method = "POST">
+                                <input type="hidden" name="cmd" value="get_view">
+                                <input type="hidden" name="view" value="viewproduct">
+                                <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                <button type="submit" class="imgbtn">
                                     <c:choose>
-                                        <c:when test="${!product.getPrimaryImage().equals('')}">
-                                            <img style="image-resolution: 300dpi; width:100%" 
-                                                 alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
-                                        </c:when>
+                                        <c:when test="${not empty product.getImages()}">
+                                            <c:choose>
+                                                <c:when test="${!product.getPrimaryImage().equals('')}">
+                                                    <img class="cropped" alt= "Picture not found" src = "${product.getPrimaryImage()}"> 
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img class="cropped" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when> 
                                         <c:otherwise>
-                                            <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
+                                            <img class="cropped" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
                                         </c:otherwise>
                                     </c:choose>
-                                </c:when> 
-                                <c:otherwise>
-                                    <img width = "300" alt= "Picture not found" src = "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574764086/defaut_vignette_carre_xavv98.jpg">
-                                </c:otherwise>
-                            </c:choose>
-                            <div class="bottom-left">Bottom Left</div>
+                                </button>
+                            </form>
+                            <div class="bottom-center">
+                                <div class="product-name">${product.getName()}</div>
+                                <p style="background-color: white">${product.getBrand()}</p>
+                            </div>
+                            <div class="top-left">${product.getItemnumber()}
+                                <br>
+                                ${product.getCategory().getCategoryname()}
+                            </div>
+                            <div class="top-right">
+                                <form name="update" action="FrontController" method = "POST">
+                                    <input type="hidden" name="cmd" value="get_view">
+                                    <input type="hidden" name="view" value="updateproduct">
+                                    <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-edit" style="cursor: pointer"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <p>Product info</p>
+                        <br>
                     </div>
-
                 </c:forEach>
             </div>
 
