@@ -203,12 +203,12 @@ body {
 
 .container-table {
     width: 100%;
-    min-height: 100vh;
     display: none;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
     padding: 33px 30px;
+    margin: 0 auto;
 }
 
 .wrap-table1 {
@@ -350,4 +350,11 @@ tbody tr {
 .update .download {
     display: flex;
     position: absolute;
+}
+
+#bulkTable{
+    margin: 0 auto !important;
+    text-align: center !important;
+    border: 1px solid black;
+    border-collapse: separate !important;
 }
