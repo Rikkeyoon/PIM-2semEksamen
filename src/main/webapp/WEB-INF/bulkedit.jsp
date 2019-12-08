@@ -1,7 +1,7 @@
 <%-- 
-    Document   : productcatalog
-    Created on : 10. nov. 2019, 13.10.28
-    Author     : Rikke, carol, Nina
+    Document   : Bulkedit
+    Created on : 01. dec. 2019, 13.10.28
+    Author     : ALLAN!
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

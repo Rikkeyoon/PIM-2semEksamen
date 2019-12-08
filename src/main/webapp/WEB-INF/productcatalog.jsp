@@ -23,7 +23,7 @@
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
         <!-- View navigation bar (specific to this page) -->
-        <nav class="view-nav" id="view-nav">
+        <nav class="view-nav" id="view-nav" >
             <div id="btnContainer" style="float: right;">
                 <button class="btn" onclick="listView()"><i class="glyphicon glyphicon-th-list"></i> List</button> 
                 <button class="btn active" onclick="gridView()"><i class="glyphicon glyphicon-th-large"></i> Grid</button>
