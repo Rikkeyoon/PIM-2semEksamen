@@ -28,8 +28,19 @@ import org.apache.commons.dbutils.DbUtils;
 public class ImageMapper {
 
     private static final String UPLOAD_DIR = "img";
-    private static final String WORKING_DIR = System.getProperty("user.dir");
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static String WORKING_DIR = null;
     private static Cloudinary CLOUDINARY = null;
+
+    public ImageMapper() {
+        if(OS.contains("win")){
+            WORKING_DIR = System.getProperty("user.dir");
+        }else if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix")){
+            WORKING_DIR = System.getProperty("catalina.base");
+        }else {
+            WORKING_DIR = "";
+        }
+    }
 
     /**
      * Method to upload the images to cloudinary
@@ -81,7 +92,7 @@ public class ImageMapper {
             }
         } catch (IOException e) {
             throw new CommandException("Could not upload the chosen pictures. "
-                    + "Please make sure they are JPEG or PNG and try again.");
+                    + "Please make sure they are JPEG or PNG and try again." + e.getMessage() + " " + WORKING_DIR);
         }
         return images;
     }

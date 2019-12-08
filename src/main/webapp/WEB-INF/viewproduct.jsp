@@ -82,23 +82,23 @@
                 <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
             </c:forEach>
             <br><br>
-            <label for="status"><b>Status</b></label>
+            <label  for="status"><b>Status</b></label>
             <p>${product.getStatus()} </p>
             <br>
-        </div>
-        <div class="update">
-            <form name="update" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="updateproduct">
-                <input type="submit" value="Edit">
-            </form>
-        </div>
-        <br><br>
-        <div class="download" style="margin-left:auto;margin-right:auto;">
-            <form name="download" action="FrontController" method="POST">
-                <input type="hidden" name="cmd" value="download_product">
-                <input type="submit" value="Download product">
-            </form>
+            <div class="block-upd-btn">
+                <form name="update" action="FrontController" method = "POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="updateproduct">
+                    <input type="submit" value="Edit">
+                </form>
+            </div>
+            <br><br>
+            <div class="block-dwl-btn">
+                <form name="download" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="download_product">
+                    <input type="submit" value="Download product">
+                </form>
+            </div>
         </div>
         <script>
             window.onscroll = function () {

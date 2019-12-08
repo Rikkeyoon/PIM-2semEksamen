@@ -25,7 +25,18 @@ public class JSONConverter {
 
     private static ObjectMapper mapper = new ObjectMapper();
     private static final String UPLOAD_DIR = "json";
-    private static final String WORKING_DIR = System.getProperty("user.dir");
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static String WORKING_DIR = "";
+
+    public static void workingDirSetup() {
+        if (OS.contains("win")) {
+            WORKING_DIR = System.getProperty("user.dir");
+        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+            WORKING_DIR = System.getProperty("catalina.base");
+        } else {
+            WORKING_DIR = "";
+        }
+    }
 
     /**
      * Method to convert Java Objects into JSON Strings using the jackson
@@ -106,7 +117,7 @@ public class JSONConverter {
             throw new CommandException("Could not convert the categories to JSON" + ex);
         }
     }
-    
+
     /**
      * Method to convert a file, containing a JSON String, into a Category
      * Object or Product Object
