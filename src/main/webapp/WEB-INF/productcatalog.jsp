@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Product catalog</title>
+        <title>INFOMERGE | Product Catalog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
@@ -39,7 +39,7 @@
             <!-- Grid and list view -->
             <div class="row">
                 <c:forEach items="${catalog}" var="product">
-                    <div class="column">
+                    <div class="column-25">
                         <div class="imgcontainer">
                             <form name="view_product" action="FrontController" method = "POST">
                                 <input type="hidden" name="cmd" value="get_view">

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Bulk Edit</title>
+        <title>INFOMERGE | Bulk Edit</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/styles.css">
@@ -23,11 +23,34 @@
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
 
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+            <div class="padded">
+                <form name="get_product_catalog" action="FrontController" method = "POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="productcatalog">
+                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
+                </form>
+                <form name="view_categories" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="viewcategories">
+                    <button type="submit" class="viewcatalogbtn">Categories</button>
+                </form>
+                <form name="bulkEdit" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="choosebulkedit">
+                    <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
+                </form>
+                <br>
+            </div>
+        </div>
+
         <!-- Main content -->
         <div id="main">
             <br><br>
-            <h1>Bulk Edit</h1>
-            <h2>Category: ${category1.getCategoryname()}</h2>
+            <h1 style="text-align: center;">Bulk Edit</h1>
+            <h2 style="text-align: center;">Category: ${category1.getCategoryname()}</h2>
             <c:if test="${error != null}">
                 <div class="form-alert"><h4>${error}</h4></div>
                     </c:if>
@@ -43,11 +66,12 @@
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
-                                        <th onclick="sortAlphabeticalTable(2)">Name
+                                        <!-- Name virker! -->
+                                        <th onclick="sortAlphabeticalTable(3)">Name
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
-                                        <th onclick="sortAlphabeticalTable()">Brand
+                                        <th onclick="sortAlphabeticalTable(4)">Brand
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
@@ -56,11 +80,11 @@
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
-                                        <th onclick="sortAlphabeticalTable(3)">Supplier
+                                        <th onclick="sortAlphabeticalTable(6)">Supplier
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
-                                        <th onclick="sortNumberColumns(7)">Status
+                                        <th onclick="sortNumberColumns()">Status
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
@@ -166,128 +190,146 @@
                 <br><br>
             </form>
         </div>
-    </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript"  src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"  src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript"  src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript"  src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <script>
-        $(document).ready(function(){
-        $('#bulkTable').dataTable({"searching": false, "ordering": false});
-        });
+        <script>
+                                                $(document).ready(function () {
+                                                    $('#bulkTable').dataTable({"searching": false, "ordering": false});
+                                                });
 
-        function sortAlphabeticalTable(n) {
-        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = document.getElementById("bulkTable");
-        switching = true;
-        //Set the sorting direction to ascending:
-        dir = "asc";
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-        //start by saying there should be no switching:
-        shouldSwitch = false;
-        /*Get the two elements you want to compare,
-        one from current row and one from the next:*/
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        /*check if the two rows should switch place,
-        based on the direction, asc or desc:*/
-        if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-        }
-        } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-        }
-        }
-        }
-        if (shouldSwitch) {
-        /*If a switch has been marked, make the switch
-        and mark that a switch has been done:*/
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        //Each time a switch is done, increase this count by 1:
-        switchcount++;
-        } else {
-        /*If no switching has been done AND the direction is "asc",
-        set the direction to "desc" and run the while loop again.*/
-        if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-        }
-        }
-        }
-        }
+                                                function sortAlphabeticalTable(n) {
+                                                    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                                                    table = document.getElementById("bulkTable");
+                                                    switching = true;
+                                                    //Set the sorting direction to ascending:
+                                                    dir = "asc";
+                                                    /*Make a loop that will continue until
+                                                     no switching has been done:*/
+                                                    while (switching) {
+                                                        //start by saying: no switching is done:
+                                                        switching = false;
+                                                        rows = table.rows;
+                                                        /*Loop through all table rows (except the
+                                                         first, which contains table headers):*/
+                                                        for (i = 1; i < (rows.length - 1); i++) {
+                                                            //start by saying there should be no switching:
+                                                            shouldSwitch = false;
+                                                            /*Get the two elements you want to compare,
+                                                             one from current row and one from the next:*/
+                                                            x = rows[i].getElementsByTagName("TD")[n];
+                                                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                                                            /*check if the two rows should switch place,
+                                                             based on the direction, asc or desc:*/
+                                                            if (dir == "asc") {
+                                                                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                                                    //if so, mark as a switch and break the loop:
+                                                                    shouldSwitch = true;
+                                                                    break;
+                                                                }
+                                                            } else if (dir == "desc") {
+                                                                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                                                    //if so, mark as a switch and break the loop:
+                                                                    shouldSwitch = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (shouldSwitch) {
+                                                            /*If a switch has been marked, make the switch
+                                                             and mark that a switch has been done:*/
+                                                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                            switching = true;
+                                                            //Each time a switch is done, increase this count by 1:
+                                                            switchcount++;
+                                                        } else {
+                                                            /*If no switching has been done AND the direction is "asc",
+                                                             set the direction to "desc" and run the while loop again.*/
+                                                            if (switchcount == 0 && dir == "asc") {
+                                                                dir = "desc";
+                                                                switching = true;
+                                                            }
+                                                        }
+                                                    }
+                                                }
 
-        function sortNumberColumns(n) {
-        var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-        table = document.getElementById("bulkTable");
-        switching = true;
-        dir = "asc";
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-        //start by saying there should be no switching:
-        shouldSwitch = false;
-        /*Get the two elements you want to compare,
-        one from current row and one from the next:*/
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        //check if the two rows should switch place:
-        if (dir == "asc") {
-        if (Number(x.innerHTML) > Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-        }
-        } else if (dir == "desc") {
-        if (Number(x.innerHTML) < Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-        }
-        }
-        }
-        if (shouldSwitch) {
-        /*If a switch has been marked, make the switch
-        and mark that a switch has been done:*/
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        //Each time a switch is done, increase this count by 1:
-        switchcount++;
-        } else {
-        /*If no switching has been done AND the direction is "asc",
-        set the direction to "desc" and run the while loop again.*/
-        if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-        }
-        }
-        }
-        }
-        $(document).ready(function () {
-        $('#bulkTable').DataTable({
-        "order": [[3, "asc"]]
-        });
-        });
-    </script>
-</body>
+                                                function sortNumberColumns(n) {
+                                                    var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
+                                                    table = document.getElementById("bulkTable");
+                                                    switching = true;
+                                                    dir = "asc";
+                                                    /*Make a loop that will continue until
+                                                     no switching has been done:*/
+                                                    while (switching) {
+                                                        //start by saying: no switching is done:
+                                                        switching = false;
+                                                        rows = table.rows;
+                                                        /*Loop through all table rows (except the
+                                                         first, which contains table headers):*/
+                                                        for (i = 1; i < (rows.length - 1); i++) {
+                                                            //start by saying there should be no switching:
+                                                            shouldSwitch = false;
+                                                            /*Get the two elements you want to compare,
+                                                             one from current row and one from the next:*/
+                                                            x = rows[i].getElementsByTagName("TD")[n];
+                                                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                                                            //check if the two rows should switch place:
+                                                            if (dir == "asc") {
+                                                                if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                                                                    //if so, mark as a switch and break the loop:
+                                                                    shouldSwitch = true;
+                                                                    break;
+                                                                }
+                                                            } else if (dir == "desc") {
+                                                                if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                                                                    //if so, mark as a switch and break the loop:
+                                                                    shouldSwitch = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (shouldSwitch) {
+                                                            /*If a switch has been marked, make the switch
+                                                             and mark that a switch has been done:*/
+                                                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                            switching = true;
+                                                            //Each time a switch is done, increase this count by 1:
+                                                            switchcount++;
+                                                        } else {
+                                                            /*If no switching has been done AND the direction is "asc",
+                                                             set the direction to "desc" and run the while loop again.*/
+                                                            if (switchcount == 0 && dir == "asc") {
+                                                                dir = "desc";
+                                                                switching = true;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                $(document).ready(function () {
+                                                    $('#bulkTable').DataTable({
+                                                        "order": [[3, "asc"]]
+                                                    });
+                                                });
+                                                
+                                                
+                                        var sidebar = document.getElementById("sidebar");
+                                        var main = document.getElementById("main");
+                                        var navbar = document.getElementsByClassName("navbar-content")[0];
+                                        var viewbar = document.getElementsByClassName("view-nav-content")[0];
+                                        function openSidebar() {
+                                            sidebar.style.width = "250px";
+                                            main.style.marginLeft = "250px";
+                                            navbar.style.marginLeft = "250px";
+                                            viewbar.style.marginLeft = "250px";
+                                        }
+
+                                        function closeSidebar() {
+                                            sidebar.style.width = "0";
+                                            main.style.marginLeft = "0";
+                                            navbar.style.marginLeft = "0";
+                                            viewbar.style.marginLeft = "0";
+                                        }
+        </script>
+    </body>
 </html>

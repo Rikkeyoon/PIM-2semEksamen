@@ -1,7 +1,7 @@
 <%-- 
     Document   : index.jsp
     Created on : 10. nov. 2019, 11.57.38
-    Author     : Rikke
+    Author     : Rikke, carol
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,11 +13,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
+        <style type="text/css">
+            body{
+                background-color: #2a2a72;
+                color: white;
+            }
+        </style>
     </head>
-
     <body>
-
-        <h1>Pim system</h1>
+        <img alt="" src="https://res.cloudinary.com/dmk5yii3m/image/upload/v1575766331/LogoMakr_19Hf5O_exndwi.png" width="800">
         <form name="get_product_catalog" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">

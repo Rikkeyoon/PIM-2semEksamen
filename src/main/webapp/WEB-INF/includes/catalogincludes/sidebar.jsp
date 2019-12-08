@@ -20,8 +20,13 @@
         </form>
         <form name="bulkEdit" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="chooseBulkEdit">
-            <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
+            <input type="hidden" name="view" value="choosebulkedit">
+            <button type="submit" class="viewcatalogbtn">Bulk edit</button>
+        </form>
+        <form name="bulkEdit" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="choosecreate">
+            <button type="submit" class="viewcatalogbtn">Create</button>
         </form>
         
         <br><br>
@@ -87,7 +92,7 @@
         <form name="download" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="download_catalog">
             <div class="input-group" style="position: absolute;
-                 bottom: 20px!important;margin-right: 10px;">
+                 bottom: 20px!important;margin-right: 50px;">
                 <div class="form-control">Download catalog</div>
                 <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
