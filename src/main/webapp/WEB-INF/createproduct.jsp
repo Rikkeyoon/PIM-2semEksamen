@@ -12,6 +12,7 @@
         <title>INFOMERGE | Create Product</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
@@ -20,13 +21,13 @@
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
 
+        <!-- Sidebar -->
+        <%@include file="includes/sidebar.jsp" %>
+
         <!-- Main content -->
         <div id="main">
             <br><br>
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
-                <input type="hidden" name="cmd" value="create_product">
-                <input type="hidden" name="category" value="${category1}">
-                <input type="reset" onclick="removeThumbnails();">
                 <h1 style="text-align: center">Create product for category: ${category1}</h1>
                 <div class="container text-center">
                     <div class="row">
@@ -40,13 +41,13 @@
                     <div class="row">
                         <div class="col col-lg-2"></div>
                         <div class="col col-lg-4">
-                            <label for="item_number"><b>Item Number <font color="red">*</font></b></label>
+                            <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
                             <br>
                             <input class="form-control input-sm" type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
                                 <br><br>
                             </div>
                             <div class="col col-lg-4">
-                                <label for="product_name"><b>Product Name <font color="red">*</font></b></label>
+                                <label for="product_name"><b>Product Name<font color="red">*</font></b></label>
                                 <br>
                                 <input class="form-control input-sm" type="text" name="product_name" value = "<c:if test="${not empty product.getName()}">${product.getName()}</c:if>" required>
                                 <br><br>
@@ -55,7 +56,7 @@
                         <div class="row">
                             <div class="col col-lg-2"></div>
                             <div class="col col-lg-4">
-                                <label for="brand"><b>Brand <font color="red">*</font></b></label>
+                                <label for="brand"><b>Brand<font color="red">*</font></b></label>
                                 <br>
                                 <input class="form-control input-sm" type="text" name="brand" value = "<c:if test="${not empty product.getBrand()}">${product.getBrand()}</c:if>"  required>
                                 <br><br>
@@ -95,8 +96,12 @@
                                 <h3>Category: ${category1}</h3>
                         </div>
                     </div>
-                    <label for="attributes"><b>Attributes</b></label>
-                    <br>
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <label for="attributes"><b>Attributes</b></label>
+                            <br>
+                        </div>
+                    </div>
                     <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
                     <c:forEach items="${categories}" var="cat">
                         <c:if test="${cat.getCategoryname().equals(category1)}">
@@ -112,29 +117,35 @@
                                         <input type="hidden" name="attributename" value ="${attr}">
                                         <input class="form-control input-sm" type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
                                         </div>
-                                </c:forEach>
-                                <c:choose>
-                                    <c:when test="${firstOrSecond == '0'}">
-                                    </div>
-                                    <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
-                                </c:otherwise>
-                            </c:choose>
+                                    <c:choose>
+                                        <c:when test="${firstOrSecond == '0'}">
+                                        </div>
+                                        <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
                         </c:if>
                     </c:forEach>
                     <br><br>
-                    <label for="file"><b>Picture</b></label>
-                    <br>
-                    <div style="text-align:center; margin: auto; width: 200px;">
-                        <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <br><br>
+                            <label for="file"><b>Picture</b></label>
+                            <br>
+                            <div style="text-align:center; margin: auto; width: 200px;">
+                                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                                <br><br>
+                            </div>
+                        </div>
                     </div>
-                    <br>
 
                     <output id="list"></output>
                     <br><br>
-                    <button class="btn btn-default" type="reset" onclick="removeThumbnails(  );"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
+                    <button class="btn btn-default" type="reset" onclick="removeThumbnails();"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
                     <br><br>
                     <button class="btn btn-default" type="submit" name ="cmd" value ="createproduct"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create</button>
                     <br><br>
@@ -147,7 +158,6 @@
             function handleFileSelect(evt) {
                 document.getElementById('list').innerHTML = "";
                 var files = evt.target.files;
-
                 // Loop through the FileList and render image files as thumbnails.
                 for (var i = 0, f; f = files[i]; i++) {
 
@@ -157,7 +167,6 @@
                     }
 
                     var reader = new FileReader();
-
                     // Closure to capture the file information.
                     reader.onload = (function (theFile) {
                         return function (e) {
@@ -167,29 +176,24 @@
                                     [
                                         '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
                                     ].join('');
-
                             document.getElementById('list').insertBefore(span, null);
                         };
                     })(f);
-
                     // Read in the image file as a data URL.
                     reader.readAsDataURL(f);
                 }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
             function removeThumbnails() {
                 var empty = document.getElementById('list');
                 empty.innerHTML = [' '].join('');
                 document.getElementById('list').insertBefore(empty, null);
             }
             ;
-
             function validateID() {
                 var id = $("#id").val();
                 var idformat = /[0-9]/;
-
                 if (!id.match(idformat)) {
                     $("#createbtn").attr('disabled', 'disabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
@@ -197,6 +201,24 @@
                     $("#createbtn").removeAttr('disabled');
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
+            }
+
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            var viewbar = document.getElementsByClassName("view-nav-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
+                viewbar.style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
+                viewbar.style.marginLeft = "0";
             }
         </script>
     </body>

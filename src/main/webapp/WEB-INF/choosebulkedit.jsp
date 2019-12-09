@@ -23,62 +23,41 @@
         <%@include file="includes/navigationbar.jsp" %>
 
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
-            <div class="padded">
-                <form name="get_product_catalog" action="FrontController" method = "POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="productcatalog">
-                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
-                </form>
-                <form name="view_categories" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="viewcategories">
-                    <button type="submit" class="viewcatalogbtn">Categories</button>
-                </form>
-                <form name="bulkEdit" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="choosebulkedit">
-                    <button type="submit" class="viewcatalogbtn">Bulk edit</button>
-                </form>
-                <form name="bulkEdit" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="choosecreate">
-                    <button type="submit" class="viewcatalogbtn">Create</button>
-                </form>
-            </div>
-        </div>
+        <%@include file="includes/sidebar.jsp" %>
 
-        <!-- Main content -->
+        <!-- Main content of the page -->
         <div id="main">
             <br><br>
-            <div class="container text-center" >
-                <div class="row">
-                    <div class="full-color">
-                        <form name="bulkedit" action="FrontController" method="POST">
-                            <input type="hidden" name="cmd" value="get_view">
-                            <input type="hidden" name="view" value="bulkedit">
-                            <div class="full-color-content">
-                                <button class="full-color-btn" type="submit">
-                                    Bulk edit
-                                </button>
-                            </div>
-                            <div class="input-group">
-                                <select class="custom-select" name="category" style="width: 260px;">
-                                    <option selected disabled>Choose...</option>
-                                    <c:forEach items="${categories}" var="cat">
-                                        <option value="${cat.getCategoryname()}">
-                                            ${cat.getCategoryname()}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </form> 
+            <div class="container text-center">
+                <div class="row" style="display: flex; justify-content: center;">
+                    <div class="column-50">
+                        <div class="full-color">
+                            <form name="bulkedit" action="FrontController" method="POST">
+                                <input type="hidden" name="cmd" value="get_view">
+                                <input type="hidden" name="view" value="bulkedit">
+                                <div class="full-color-content">
+                                    <button class="full-color-btn" type="submit">
+                                        Bulk edit
+                                    </button>
+                                </div>
+                                <div class="input-group">
+                                    <select class="custom-select" name="category" style="width: 260px;margin-left: 150px;">
+                                        <option selected disabled>Choose...</option>
+                                        <c:forEach items="${categories}" var="cat">
+                                            <option value="${cat.getCategoryname()}">
+                                                ${cat.getCategoryname()}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </form> 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <script>
+
             var sidebar = document.getElementById("sidebar");
             var main = document.getElementById("main");
             var navbar = document.getElementsByClassName("navbar-content")[0];
@@ -98,5 +77,4 @@
             }
         </script>
     </body>
-
 </html>

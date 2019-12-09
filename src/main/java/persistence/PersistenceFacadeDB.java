@@ -151,9 +151,9 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void createCategory(Category c) throws CommandException {
         try {
-            cm.createCategory(c);
+            c.setId(cm.createCategory(c));
         } catch (CommandException e) {
-            throw new CommandException("The category already exists.");
+            throw new CommandException("The category already exists." + e.getMessage());
         }
         List<Integer> attributeIds = new ArrayList<>();
         attributeIds = am.createAttributes(c.getAttributes());

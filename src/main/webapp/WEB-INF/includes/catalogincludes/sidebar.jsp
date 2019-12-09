@@ -8,25 +8,28 @@
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
     <div class="padded">
+        <form name="bulkEdit" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="choosecreate">
+            <button type="submit" class="viewcatalogbtn">Create</button>
+        </form>
+        
         <form name="get_product_catalog" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
-            <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
+            <button type="submit" class="viewcatalogbtn"><span>Catalog</span></button>
         </form>
+        
         <form name="view_categories" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="viewcategories">
             <button type="submit" class="viewcatalogbtn">Categories</button>
         </form>
+        
         <form name="bulkEdit" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="choosebulkedit">
             <button type="submit" class="viewcatalogbtn">Bulk edit</button>
-        </form>
-        <form name="bulkEdit" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="choosecreate">
-            <button type="submit" class="viewcatalogbtn">Create</button>
         </form>
 
         <br><br>
@@ -63,9 +66,19 @@
         <br><br><br>
         <form name="upload" action="FrontController" method = "POST" enctype = "multipart/form-data">
             <input type="hidden" name="cmd" value="upload_json">
-            <input  type="file" id="files" name = "file" accept=".json" multiple />
-            <br>
-            <input type="submit" value="Submit">
+            <div class="input-group" style="cursor: pointer;">
+                <div class="form-control">
+                    <div class="upload-btn-wrapper">
+                        <input  type="file" id="files" name = "file" accept=".json" multiple />
+                        Upload a JSON file
+                    </div>
+                </div>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </button>
+                </div>
+            </div>
         </form>
 
         <br>

@@ -77,18 +77,24 @@ public class AttributeMapper {
             pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             for (String name : attributeNames) {
                 pstmt.setString(1, name);
-
+                try{
                 pstmt.executeUpdate();
-
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
                     id = rs.getInt(1);
                 }
+                }catch(SQLException ex){
+                    if(ex.getErrorCode() != 1062){
+                        throw ex;
+                    }else{
+                        id = getAttributeId(name);
+                    }
+                }
 
                 attributeIds.add(id);
             }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category attributes" + ex);
+        } catch (SQLException ex) {
+            throw new CommandException("Could not create new category attributes" + ex + ex.getErrorCode());
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);

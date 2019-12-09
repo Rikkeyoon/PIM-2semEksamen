@@ -22,31 +22,7 @@
         <%@include file="includes/navigationbar.jsp" %>
 
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
-            <div class="padded">
-                <form name="get_product_catalog" action="FrontController" method = "POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="productcatalog">
-                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
-                </form>
-                <form name="view_categories" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="viewcategories">
-                    <button type="submit" class="viewcatalogbtn">Categories</button>
-                </form>
-                <form name="bulkEdit" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="choosebulkedit">
-                    <button type="submit" class="viewcatalogbtn">Bulk edit</button>
-                </form>
-                <form name="bulkEdit" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="choosecreate">
-                    <button type="submit" class="viewcatalogbtn">Create</button>
-                </form>
-            </div>
-        </div>
+        <%@include file="includes/sidebar.jsp" %>
 
         <!-- Main content -->
         <div id="main">
@@ -220,6 +196,7 @@
                     <br><br>
 
                     <button class="btn btn-default" type="submit" name ="cmd" value ="update_product"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Save Changes</button>
+                    <br><br>
                 </form>
                 <form name="update" id="delform" action="FrontController" method = "POST"> 
                     <input type="hidden" name="cmd" id="delcmd" value="">

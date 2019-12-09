@@ -29,13 +29,14 @@ public class CategoryMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         int id = 0;
-        String insertSql = "INSERT INTO categories VALUE(?)";
+        
+        String insertSql = "INSERT INTO categories (category_name) VALUES (?);";
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, c.getCategoryname());
 
-            int rowsUpdated = pstmt.executeUpdate();
+            pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
@@ -43,7 +44,7 @@ public class CategoryMapper {
             }
             
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category");
+            throw new CommandException("Could not create new category" + ex.getMessage() + pstmt);
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -72,7 +73,7 @@ public class CategoryMapper {
                     pstmt.setInt(1, category.getId());
                     pstmt.setInt(2, id);
 
-                    int rowsUpdated = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                 } catch (SQLException e) {
                     if (e.getErrorCode() != 1062) {
                         throw e;
