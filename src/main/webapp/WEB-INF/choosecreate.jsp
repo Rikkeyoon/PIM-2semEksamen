@@ -54,7 +54,7 @@
         <div id="main">
             <br><br>
             <div class="container text-center" >
-                <div class="row">
+                <div class="row" style="display: flex; justify-content: center;">
                     <div class="column-50">
                         <div class="full-color">
                             <div class="full-color-content">
