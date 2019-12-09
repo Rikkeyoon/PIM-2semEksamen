@@ -43,6 +43,19 @@
                     <input type="hidden" name="view" value="choosecreate">
                     <button type="submit" class="viewcatalogbtn">Create</button>
                 </form>
+
+                <form name="download" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="download_categories">
+                    <div class="input-group" style="position: absolute;
+                         bottom: 20px!important;margin-right: 10px;">
+                        <div class="form-control">Download product</div>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="glyphicon glyphicon-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -51,6 +64,10 @@
             <h1 style="text-align: center;">View product</h1>
             <br><br>
             <div class="container text-center">
+                <c:forEach items="${product.getImages()}" var="image"> 
+                    <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                </c:forEach>
+                <br><br>
                 <div class="row">
                     <div class="col col-lg-2"></div>
                     <div class="col col-lg-4">
@@ -154,25 +171,15 @@
                 </div>
             </c:if>
 
-            <c:forEach items="${product.getImages()}" var="image"> 
-                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
-            </c:forEach>
             <br><br>
-
-            <div class="block-upd-btn">
-                <form name="update" action="FrontController" method = "POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="updateproduct">
-                    <input type="submit" value="Edit">
-                </form>
-            </div>
+            <form name="update" action="FrontController" method = "POST">
+                <input type="hidden" name="cmd" value="get_view">
+                <input type="hidden" name="view" value="updateproduct">
+                <button class="btn btn-default" type="submit" class="btn">
+                    <i class="glyphicon glyphicon-edit" style="margin-right: 10px;"></i>Edit product
+                </button>
+            </form>
             <br><br>
-            <div class="block-dwl-btn">
-                <form name="download" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="download_product">
-                    <input type="submit" value="Download product">
-                </form>
-            </div>
         </div>
         <script>
             var sidebar = document.getElementById("sidebar");
