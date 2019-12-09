@@ -9,42 +9,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Category Page</title>
+        <title>INFOMERGE | Create Category</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
     <body>
-        <form name="back" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="productcatalog">
-            <input type="submit" value="Back" />
-        </form>
+        <!-- Main content of page -->
+        <div id="main">
+            <form name="create_category" action="FrontController" method="POST">
+                <input type="hidden" name="cmd" value="create_category">
 
-        <form name="create_category" action="FrontController" method="POST">
-            <input type="hidden" name="cmd" value="create_category">
-
-            <h1>Create Category</h1>
-            <br>
-
-            <label for="category_name">Category Name</label>
-            <br>
-            <input type="text" name="category_name" id="category_name" required>
-            <br><br>
-
-            <div class="new_attributes">
-                <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
+                <h1>Create Category</h1>
                 <br>
-                <div><input type="text" name="attribute">
-                    <input type="radio" name="required">
+
+                <label for="category_name">Category Name</label>
+                <br>
+                <input type="text" name="category_name" id="category_name" required>
+                <br><br>
+
+                <div class="new_attributes">
+                    <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
+                    <br>
+                    <div><input type="text" name="attribute">
+                        <input type="radio" name="required">
+                    </div>
                 </div>
-            </div>
 
-            <button class="add_field_button">Add</button>
-            <br><br>
+                <button class="add_field_button">Add</button>
+                <br><br>
 
-            <input class="crtbtn" id="crtbtn" type="submit" value="Create Category"/>
-        </form>
+                <input class="crtbtn" id="crtbtn" type="submit" value="Create Category"/>
+            </form>
+        </div>
         <script>
             $(document).ready(function () {
                 var wrapper = $(".new_attributes");

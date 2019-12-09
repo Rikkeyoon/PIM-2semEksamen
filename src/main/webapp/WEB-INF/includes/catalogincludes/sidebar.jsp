@@ -18,8 +18,19 @@
             <input type="hidden" name="view" value="viewcategories">
             <button type="submit" class="viewcatalogbtn">Categories</button>
         </form>
+        <form name="bulkEdit" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="choosebulkedit">
+            <button type="submit" class="viewcatalogbtn">Bulk edit</button>
+        </form>
+        <form name="bulkEdit" action="FrontController" method="POST">
+            <input type="hidden" name="cmd" value="get_view">
+            <input type="hidden" name="view" value="choosecreate">
+            <button type="submit" class="viewcatalogbtn">Create</button>
+        </form>
+
         <br><br>
-        <h4>Search for: </h4>
+        <h4 align="center">Search for: </h4>
         <form name="search" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="search_product">
             <div class="radiobtns" style="text-align: center;">
@@ -41,46 +52,26 @@
                 </div>
             </div>
         </form>
-        <br>
         <form name="get_product_catalog" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
             <button class="btn btn-default" type="submit" style="float:right;">
-                Reset</button>
+                <i class="glyphicon glyphicon-repeat" style="margin-right: 10px;"></i>Reset   
+            </button>
         </form>
 
-        <br><br>
-
-        <form name="get_upload_page" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="uploadpage">
-            <input type="submit" value="Go to upload page" />
-        </form>
-        <br><br>
-        <!--
+        <br><br><br>
         <form name="upload" action="FrontController" method = "POST" enctype = "multipart/form-data">
             <input type="hidden" name="cmd" value="upload_json">
-            <div class="input-group" style="position: absolute;
-                 bottom: 100px!important;margin-right: 10px;">
-                <div class="form-control">Upload JSON</div>
-                <input class="btn btn-default" type="file" 
-                       id="files" name = "file" accept=".json" multiple />
-                <br><br>
-                <div class="input-group-btn" style="position: absolute;
-                 bottom: 100px!important;margin-right: 10px;">
-                    <button class="btn btn-default" type="submit">
-                        <i class="glyphicon glyphicon-upload"></i>
-                    </button>
-                </div>
-                <br>
-            </div>
+            <input  type="file" id="files" name = "file" accept=".json" multiple />
+            <br>
+            <input type="submit" value="Submit">
         </form>
-        -->
 
+        <br>
         <form name="download" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="download_catalog">
-            <div class="input-group" style="position: absolute;
-                 bottom: 20px!important;margin-right: 10px;">
+            <div class="input-group">
                 <div class="form-control">Download catalog</div>
                 <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">

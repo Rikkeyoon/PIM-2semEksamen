@@ -9,82 +9,136 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Create product</title>
+        <title>INFOMERGE | Create Product</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
 
     <body>
-        <div>
-            <form name="Back" action="FrontController" method = "POST">
-                <input type="hidden" name="cmd" value="get_view">
-                <input type="hidden" name="view" value="productcatalog">
-                <input type="submit" value="Back">
-            </form>
+        <!-- Navigation bar -->
+        <%@include file="includes/navigationbar.jsp" %>
 
-            <h1>Create product for category: ${category1}</h1>
-
+        <!-- Main content -->
+        <div id="main">
+            <br><br>
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
                 <input type="hidden" name="cmd" value="create_product">
                 <input type="hidden" name="category" value="${category1}">
                 <input type="reset" onclick="removeThumbnails();">
-                <br><br>
-                <c:if test="${error != null}">
-                    <div class="form-alert"><h4>${error}</h4></div>
+                <h1 style="text-align: center">Create product for category: ${category1}</h1>
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <c:if test="${error != null}">
+                                <div class="form-alert"><h4>${error}</h4></div>
+                                    </c:if>
+                        </div>
+                    </div>
+                    <h4>Fields marked with <font color="red">*</font> is required.</h4>
+                    <div class="row">
+                        <div class="col col-lg-2"></div>
+                        <div class="col col-lg-4">
+                            <label for="item_number"><b>Item Number <font color="red">*</font></b></label>
+                            <br>
+                            <input class="form-control input-sm" type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
+                                <br><br>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label for="product_name"><b>Product Name <font color="red">*</font></b></label>
+                                <br>
+                                <input class="form-control input-sm" type="text" name="product_name" value = "<c:if test="${not empty product.getName()}">${product.getName()}</c:if>" required>
+                                <br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2"></div>
+                            <div class="col col-lg-4">
+                                <label for="brand"><b>Brand <font color="red">*</font></b></label>
+                                <br>
+                                <input class="form-control input-sm" type="text" name="brand" value = "<c:if test="${not empty product.getBrand()}">${product.getBrand()}</c:if>"  required>
+                                <br><br>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label for="supplier"><b>Supplier</b></label>
+                                <br>
+                                <input class="form-control input-sm" type="text" name="supplier" value = "<c:if test="${not empty product.getSupplier()}">${product.getSupplier()}</c:if>"  >
+                                <br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2"></div>
+                            <div class="col col-lg-4">
+                                <label for="seo_text"><b>SEO text</b></label>
+                                <br>
+                                <input class="form-control input-sm" type="text" name="seo_text" value = "<c:if test="${not empty product.getSEOText()}">${product.getSEOText()}</c:if>" >
+                                <br><br>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label for="product_tags"><b>Tags</b></label>
+                                <br>
+                                <input class="form-control input-sm" type="text" name="product_tags" placeholder="tag1, tag2, tag3" value = "<c:if test="${not empty product.getTags()}">${product.getTagsAsString()}</c:if>"  >
+                                <br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                <label for="product_desc"><b>Description</b></label>
+                                <br>
+                                <textarea style="resize:none; width: 50%;" name="product_desc" rows="4" cols="20"><c:if test="${not empty product.getDescription()}">${product.getDescription()}</c:if></textarea>
+                                <br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                <h3>Category: ${category1}</h3>
+                        </div>
+                    </div>
+                    <label for="attributes"><b>Attributes</b></label>
+                    <br>
+                    <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                    <c:forEach items="${categories}" var="cat">
+                        <c:if test="${cat.getCategoryname().equals(category1)}">
+                            <c:forEach items="${cat.getAttributes()}" var="attr">
+                                <c:if test="${firstOrSecond == '1'}">
+                                    <div class="row">
+                                        <div class="col col-lg-2"></div>
+                                    </c:if>
+                                    <div class="col col-lg-4">
+                                        <br>
+                                        <label for="attribute_name"><b>${attr}</b></label>
+                                        <br>
+                                        <input type="hidden" name="attributename" value ="${attr}">
+                                        <input class="form-control input-sm" type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
+                                        </div>
+                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${firstOrSecond == '0'}">
+                                    </div>
+                                    <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
-                <h4>Fields marked with <font color="red">*</font> is required.</h4>
-                <label for="item_number"><b>Item Number <font color="red">*</font></b></label>
-                <br>
-                <input type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
+                    </c:forEach>
                     <br><br>
-                    <label for="product_name"><b>Product Name <font color="red">*</font></b></label>
+                    <label for="file"><b>Picture</b></label>
                     <br>
-                    <input type="text" name="product_name" value = "<c:if test="${not empty product.getName()}">${product.getName()}</c:if>" required>
-                    <br><br>
-                    <label for="brand"><b>Brand <font color="red">*</font></b></label>
+                    <div style="text-align:center; margin: auto; width: 200px;">
+                        <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                    </div>
                     <br>
-                    <input type="text" name="brand" value = "<c:if test="${not empty product.getBrand()}">${product.getBrand()}</c:if>"  required>
-                    <br><br>
-                    <label for="product_desc"><b>Description</b></label>
-                    <br>
-                    <textarea style="resize:none" name="product_desc" rows="4" cols="20"><c:if test="${not empty product.getDescription()}">${product.getDescription()}</c:if></textarea>
-                    <br><br>
-                    <label for="supplier"><b>Supplier</b></label>
-                    <br>
-                    <input type="text" name="supplier" value = "<c:if test="${not empty product.getSupplier()}">${product.getSupplier()}</c:if>"  >
-                    <br><br>
-                    <label for="seo_text"><b>SEO text</b></label>
-                    <br>
-                    <input type="text" name="seo_text" value = "<c:if test="${not empty product.getSEOText()}">${product.getSEOText()}</c:if>" >
-                    <br><br>
-                    <label for="product_tags"><b>Tags</b></label>
-                    <br>
-                    <input type="text" name="product_tags" placeholder="tag1, tag2, tag3" value = "<c:if test="${not empty product.getTags()}">${product.getTagsAsString()}</c:if>"  >
-                    <br><br>
-                    <h3>Category: ${category1}</h3>
-                <label for="attributes"><b>Attributes</b></label>
-                <br>
-                <c:forEach items="${categories}" var="cat">
-                    <c:if test="${cat.getCategoryname().equals(category1)}">
-                        <c:forEach items="${cat.getAttributes()}" var="attr">
-                            <br>
-                            <label for="attribute_name"><b>${attr}</b></label>
-                            <br>
-                            <input type="hidden" name="attributename" value ="${attr}">
-                            <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
-                        </c:forEach>
-                    </c:if>
-                </c:forEach>
-                <br><br>
-                <label for="file"><b>Picture</b></label>
-                <br>
-                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
-                <br>
-                <output id="list"></output>
-                <br><br>
-                <input class="createbtn" id="createbtn" type="submit" value="Create">
 
+                    <output id="list"></output>
+                    <br><br>
+                    <button class="btn btn-default" type="reset" onclick="removeThumbnails(  );"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
+                    <br><br>
+                    <button class="btn btn-default" type="submit" name ="cmd" value ="createproduct"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create</button>
+                    <br><br>
+                </div>
             </form>
         </div>
 

@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Properties;
 import javax.servlet.http.Part;
 import logic.Image;
-import logic.Product;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -28,18 +27,18 @@ import org.apache.commons.dbutils.DbUtils;
 public class ImageMapper {
 
     private static final String UPLOAD_DIR = "img";
-    private static String OS = System.getProperty("os.name").toLowerCase();
-    private static String WORKING_DIR = null;
-    private static Cloudinary CLOUDINARY = null;
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static String working_dir = null;
+    private static Cloudinary cloudinary = null;
 
    
     public ImageMapper() {
-        if(OS.contains("win")){
-            WORKING_DIR = System.getProperty("user.dir");
+        if(OS.contains("win") || OS.contains("mac")){
+            working_dir = System.getProperty("user.dir");
         }else if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix")){
-            WORKING_DIR = System.getProperty("catalina.base");
-        }else {
-            WORKING_DIR = "";
+            working_dir = System.getProperty("catalina.base");
+        } else {
+            working_dir = "";
         }
     }
 
@@ -56,7 +55,7 @@ public class ImageMapper {
         List<Image> images = new ArrayList<>();
         try {
             //Creates img folder if none exist(temporary storage for image before uploaded to cloudinary)
-            File uploadFolder = new File(WORKING_DIR + File.separator + UPLOAD_DIR);
+            File uploadFolder = new File(working_dir + File.separator + UPLOAD_DIR);
             if (!uploadFolder.exists()) {
                 uploadFolder.mkdirs();
             }
@@ -69,9 +68,9 @@ public class ImageMapper {
                     // allows JPEG & PNG files to be uploaded
                     if (contentType != null && (contentType.equalsIgnoreCase("image/jpeg")
                             || contentType.equalsIgnoreCase("image/png"))) {
-                        part.write(WORKING_DIR + File.separator + UPLOAD_DIR
+                        part.write(working_dir + File.separator + UPLOAD_DIR
                                 + File.separator + fileName);
-                        File file = new File(WORKING_DIR + File.separator
+                        File file = new File(working_dir + File.separator
                                 + UPLOAD_DIR + File.separator + fileName);
 
                         Map uploadResult = null;
@@ -93,7 +92,7 @@ public class ImageMapper {
             }
         } catch (IOException e) {
             throw new CommandException("Could not upload the chosen pictures. "
-                    + "Please make sure they are JPEG or PNG and try again." + e.getMessage() + " " + WORKING_DIR);
+                    + "Please make sure they are JPEG or PNG and try again." + e.getMessage() + " " + working_dir);
         }
         return images;
     }
@@ -356,12 +355,12 @@ public class ImageMapper {
     }
     
     private Cloudinary getCloudinaryConnection()throws CommandException{
-        if(CLOUDINARY == null){
+        if(cloudinary == null){
             try (InputStream prob = ImageMapper.class.getResourceAsStream("/cloudinary.properties");) {
             Properties pros = new Properties();
             pros.load(prob);
             
-            CLOUDINARY = new Cloudinary(ObjectUtils.asMap(
+            cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", pros.getProperty("cloud_name"),
             "api_key", pros.getProperty("api_key"),
             "api_secret", pros.getProperty("api_secret")));
@@ -369,6 +368,6 @@ public class ImageMapper {
                 throw new CommandException("Could not read Cloudinary Properties.");
             }
         }    
-        return CLOUDINARY;
+        return cloudinary;
     }
 }

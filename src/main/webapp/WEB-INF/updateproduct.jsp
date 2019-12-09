@@ -10,128 +10,226 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product Editor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://kit.fontawesome.com/6341639fb9.js" crossorigin="anonymous"></script>
+        <title>INFOMERGE | Edit Product</title>
     </head>
 
     <body>
-        <form name="Back" action="FrontController" method = "POST">
-            <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="viewproduct">
-            <input type="hidden" value="${product.getId()}" name="product_id"/>
-            <input type="submit" value="Back">
-        </form>
-        <h1>Edit product</h1>
-        <div>
-            <form name="update" action="FrontController" method = "POST" enctype = "multipart/form-data">
-                <input type="hidden" name="cmd" value="update_product">
-                <input type="hidden" name="product_category" value="${product.getCategory().getCategoryname()}">
-                <br>
-                <c:if test="${error != null}">
-                    <div class="form-alert"><h4>${error}</h4>
-                    </div>
-                </c:if>
-                <h4>Fields marked with <font color="red">*</font> is required.</h4>
-                <label for="product_id"><b>ID</b></label>
-                <input type="hidden" value="${product.getId()}" name="product_id"/>
-                <p>${product.getId()}</p>
-                <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
-                <br>
-                <input type="text" name="item_number" value="${product.getItemnumber()}" required>
-                <br>
-                <label for="product_name"><b>Product Name<font color="red">*</font></b></label>
-                <br>
-                <input type="text" name="product_name" value="${product.getName()}" required>
-                <br>
-                <label for="brand"><b>Brand<font color="red">*</font></b></label>
-                <br>
-                <input type="text" name="brand" value="${product.getBrand()}" required>
-                <br><br>
-                <label for="product_desc"><b>Description</b></label>
-                <br>
-                <textarea name="product_desc" rows="4" cols="20" 
-                          style="resize: none; width: 25%;">${product.getDescription()}</textarea>
-                <br><br>
-                <label for="supplier"><b>Supplier</b></label>
-                <br>
-                <input type="text" name="supplier" value="${product.getSupplier()}" >
-                <br>
-                <label for="seo_text"><b>SEO text</b></label>
-                <br>
-                <input type="text" name="seo_text" value="${product.getSEOText()}" >
-                <br><br>
-                <label for="product_tags"><b>Tags</b></label>
-                <br>
-                <c:choose>
-                    <c:when test="${not empty product.getTags()}">
-                        <input type="text" name="product_tags" size="50" value = "${product.getTagsAsString()}">
-                    </c:when>
-                    <c:otherwise>
-                        <input type="text" name="product_tags" size="50">
-                    </c:otherwise>
-                </c:choose>
-                <br><br>
-                <h3>Category: ${product.getCategory().getCategoryname()}</h3>
-                <label for="attributes"><b>Attributes</b></label>
-                <br>
-                <c:forEach items="${product.getCategory().getAttributes()}" var="attr">
-                    <br>
-                    <label for="attribute_name"><b>${attr}</b></label>
-                    <br>
-                    <input type="hidden" name="attributename" value ="${attr}">
-                    <input type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
-                </c:forEach>
-                <br><br>
-                <c:forEach items="${product.getImages()}" var="image"> 
-                    <span>
-                        <c:choose>
-                            <c:when test="${image.getUrl().equals(product.getPrimaryImage())}">
-                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
-                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
-                                       checked="checked" required />
-                            </c:when>
-                            <c:otherwise>
-                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
-                                <input type="radio" name="fileSelected" value="${image.getUrl()}"
-                                       required />
-                            </c:otherwise>
-                        </c:choose>
-                    </span>
-                </c:forEach>
-                <br><br>
-                <label for="status"><b>Status</b></label>
-                <input type="hidden" value="${product.getStatus()}" name="status"/>
-                <p>${product.getStatus()}</p>
-                <br><br> 
+        <!-- Navigation bar -->
+        <%@include file="includes/navigationbar.jsp" %>
 
-                <label for="file"><b>Add more pictures</b></label>
-                <br>
-                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
-                <output id="list"></output>
-                <br>
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+            <div class="padded">
+                <form name="get_product_catalog" action="FrontController" method = "POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="productcatalog">
+                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
+                </form>
+                <form name="view_categories" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="viewcategories">
+                    <button type="submit" class="viewcatalogbtn">Categories</button>
+                </form>
+                <form name="bulkEdit" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="choosebulkedit">
+                    <button type="submit" class="viewcatalogbtn">Bulk edit</button>
+                </form>
+                <form name="bulkEdit" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="choosecreate">
+                    <button type="submit" class="viewcatalogbtn">Create</button>
+                </form>
+            </div>
+        </div>
 
-                <label><b>Delete pictures</b></label>
-                <div id="div_delete_pics">
-                    <c:forEach items="${product.getImages()}" var="image">
+        <!-- Main content -->
+        <div id="main">
+            <div class="container text-center" >   
+                <form name="update" action="FrontController" method = "POST" enctype = "multipart/form-data">
+                    <input type="hidden" name="cmd" value="update_product">
+                    <input type="hidden" name="product_category" value="${product.getCategory().getCategoryname()}">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <h1 style="text-align: center;">Edit product</h1>
+                        </div>
+
+                        <div>
+                            <br>
+                            <div class="row">
+                                <div class="col col-lg-12">
+                                    <input type="hidden" value="${product.getId()}" name="product_id"/>
+                                    <h5> <b>ID: </b>${product.getId()}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-lg-12">
+                                    <c:if test="${error != null}">
+                                        <div class="form-alert"><h4>${error}</h4>
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </div>
+
+                            <h4>Fields marked with <font color="red">*</font> is required.</h4>
+                            <div class="row">
+                                <div class="col col-lg-2"></div>
+                                <div class="col col-lg-4">
+                                    <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
+                                    <br>
+                                    <input class="form-control input-sm" type="text" name="item_number" value="${product.getItemnumber()}" required>
+                                    <br>
+                                </div>
+                                <div class="col col-lg-4">
+                                    <label for="product_name"><b>Product Name<font color="red">*</font></b></label>
+                                    <br>
+                                    <input class="form-control input-sm" type="text" name="product_name" value="${product.getName()}" required>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-lg-2"></div>
+                                <div class="col col-lg-4">
+                                    <label for="brand"><b>Brand<font color="red">*</font></b></label>
+                                    <br>
+                                    <input class="form-control input-sm" type="text" name="brand" value="${product.getBrand()}" required>
+                                    <br><br>
+                                </div>
+                                <div class="col col-lg-4">
+                                    <label for="supplier"><b>Supplier</b></label>
+                                    <br>
+                                    <input class="form-control input-sm" type="text" name="supplier" value="${product.getSupplier()}" >
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-lg-2"></div>
+                                <div class="col col-lg-4">
+                                    <label for="seo_text"><b>SEO text</b></label>
+                                    <br>
+                                    <input class="form-control input-sm" type="text" name="seo_text" value="${product.getSEOText()}" >
+                                    <br><br>
+                                </div>
+                                <div class="col col-lg-4">
+                                    <label for="product_tags"><b>Tags</b></label>
+                                    <br>
+                                    <c:choose>
+                                        <c:when test="${not empty product.getTags()}">
+                                            <input class="form-control input-sm" type="text" name="product_tags" size="50" value = "${product.getTagsAsString()}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input class="form-control input-sm" type="text" name="product_tags" size="50">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-12">      
+                                <label for="product_desc"><b>Description</b></label>
+                                <br>
+                                <textarea name="product_desc" rows="4" cols="20" 
+                                          style="resize: none; width: 50%;">${product.getDescription()}</textarea>
+                                <br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                <h3>Category: ${product.getCategory().getCategoryname()}</h3>
+                            </div>
+                        </div>
+                        <label for="attributes"><b>Attributes</b></label>
+                        <br>
+                        <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                        <c:forEach items="${product.getCategory().getAttributes()}" var="attr">
+                            <c:if test="${firstOrSecond == '1'}">
+                                <div class="row">
+                                    <div class="col col-lg-2"></div>
+                                </c:if>
+                                <div class="col col-lg-4">
+                                    <br>
+                                    <label for="attribute_name"><b>${attr}</b></label>
+                                    <br>
+                                    <input type="hidden" name="attributename" value ="${attr}">
+                                    <input class="form-control input-sm" type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
+                                    </div>
+                                <c:choose>
+                                    <c:when test="${firstOrSecond == '0'}">
+                                    </div>
+                                    <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <c:if test="${firstOrSecond == '0'}">
+                        </div>
+                    </c:if>
+                    <br><br>
+                    <c:forEach items="${product.getImages()}" var="image"> 
                         <span>
-                            <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
-                            <input type="checkbox" name="delete_chosen_pics" value="${image.getUrl()}" />
+                            <c:choose>
+                                <c:when test="${image.getUrl().equals(product.getPrimaryImage())}">
+                                    <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                    <input type="radio" name="fileSelected" value="${image.getUrl()}"
+                                           checked="checked" required />
+                                </c:when>
+                                <c:otherwise>
+                                    <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                    <input type="radio" name="fileSelected" value="${image.getUrl()}"
+                                           required />
+                                </c:otherwise>
+                            </c:choose>
                         </span>
                     </c:forEach>
-                </div>
-                <br><br>
+                    <br><br>
+                    <br><br> 
 
-                <input type="reset" onclick="removeThumbnails();">
-                <br><br>
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <label for="file"><b>Add more pictures</b></label>
+                            <br>
+                            <div style="text-align:center; margin: auto; width: 200px;">
+                                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                                <output id="list"></output>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
 
-                <input class="updatebtn" type="submit" value="Save Changes"/>
-            </form>
-            <br>
-            <form name="update" id="delform" action="FrontController" method = "POST"> 
-                <input type="hidden" name="cmd" id="delcmd" value="">
-                <input type="hidden" name="delcmd" value ="deleteProduct">
-                <input class="deletebtn" type="button" value="Delete Product" 
-                       onclick="dconfirmation()"/>
-            </form>
+
+                    <label><b>Delete pictures</b></label>
+                    <div id="div_delete_pics">
+                        <c:forEach items="${product.getImages()}" var="image">
+                            <span>
+                                <img width = "100" alt= "Picture not found" src = "${image.getUrl()}">
+                                <input type="checkbox" name="delete_chosen_pics" value="${image.getUrl()}"/>
+                            </span>
+                        </c:forEach>
+                    </div>
+                    <br><br>
+
+                    <button class="btn btn-default" type="reset" onclick="removeThumbnails(  );"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
+                    <br><br>
+
+                    <button class="btn btn-default" type="submit" name ="cmd" value ="update_product"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Save Changes</button>
+                </form>
+                <form name="update" id="delform" action="FrontController" method = "POST"> 
+                    <input type="hidden" name="cmd" id="delcmd" value="">
+                    <input type="hidden" name="delcmd" value ="deleteProduct">
+                    <button class="btn btn-default" type="submit" name="cmd" value ="delete_product" onclick="dconfirmation()">
+                        <i class="glyphicon glyphicon-trash" style="margin-right: 10px;"></i>Delete Product</button>
+                </form>
+                <br><br>
+                <br>
+            </div>
         </div>
 
         <!-- JavaScript functions -->
@@ -209,6 +307,23 @@
                 }
             }
 
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            var viewbar = document.getElementsByClassName("view-nav-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
+                viewbar.style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
+                viewbar.style.marginLeft = "0";
+            }
         </script>
     </body>
 </html>

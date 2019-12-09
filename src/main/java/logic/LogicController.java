@@ -22,7 +22,7 @@ import persistence.PersistenceFacadeDB;
 public class LogicController {
 
     private static IPersistenceFacade pf = new PersistenceFacadeDB(false);
- //   private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
+//    private static IPersistenceFacade pf = new PersistenceFacadeDB(true);
 
     /**
      * A method to create a product The LogicController receives the new

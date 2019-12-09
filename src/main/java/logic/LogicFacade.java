@@ -195,7 +195,6 @@ public class LogicFacade {
      * @throws CommandException
      */
     public static void convertProductsToJSON(List<Product> catalog) throws CommandException {
-        JSONConverter.workingDirSetup();
         JSONConverter.convertProductsToJSON(catalog);
     }
     
@@ -206,7 +205,6 @@ public class LogicFacade {
      * @throws CommandException
      */
     public static void convertCategoriesToJSON(List<Category> categories) throws CommandException {
-        JSONConverter.workingDirSetup();
         JSONConverter.convertCategoriesToJSON(categories);
     }
 
@@ -217,7 +215,6 @@ public class LogicFacade {
      * @throws CommandException
      */
     public static void convertObjectToJSON(Product p) throws CommandException {
-        JSONConverter.workingDirSetup();
         JSONConverter.convertObjectToJSON(p);
     }
 
