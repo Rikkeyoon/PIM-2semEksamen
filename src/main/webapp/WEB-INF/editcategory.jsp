@@ -21,6 +21,30 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
+        
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+            <div class="padded">
+                <form name="get_product_catalog" action="FrontController" method = "POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="productcatalog">
+                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
+                </form>
+                <form name="view_categories" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="viewcategories">
+                    <button type="submit" class="viewcatalogbtn">Categories</button>
+                </form>
+                <form name="bulkEdit" action="FrontController" method="POST">
+                    <input type="hidden" name="cmd" value="get_view">
+                    <input type="hidden" name="view" value="choosebulkedit">
+                    <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
+                </form>
+                <br>
+            </div>
+        </div>
+        
         <!-- Main content of page -->
         <div id="main">
             <div style="padding-left: 4%; padding-top: 5%;width: 500px;">
