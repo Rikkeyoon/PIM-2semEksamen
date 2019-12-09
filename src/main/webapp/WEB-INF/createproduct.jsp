@@ -20,7 +20,7 @@
     <body>
         <!-- Navigation bar -->
         <%@include file="includes/navigationbar.jsp" %>
-        
+
         <!-- Sidebar -->
         <%@include file="includes/sidebar.jsp" %>
 
@@ -145,7 +145,7 @@
 
                     <output id="list"></output>
                     <br><br>
-                    <button class="btn btn-default" type="reset" onclick="removeThumbnails(  );"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
+                    <button class="btn btn-default" type="reset" onclick="removeThumbnails();"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
                     <br><br>
                     <button class="btn btn-default" type="submit" name ="cmd" value ="createproduct"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create</button>
                     <br><br>
@@ -158,7 +158,6 @@
             function handleFileSelect(evt) {
                 document.getElementById('list').innerHTML = "";
                 var files = evt.target.files;
-
                 // Loop through the FileList and render image files as thumbnails.
                 for (var i = 0, f; f = files[i]; i++) {
 
@@ -168,7 +167,6 @@
                     }
 
                     var reader = new FileReader();
-
                     // Closure to capture the file information.
                     reader.onload = (function (theFile) {
                         return function (e) {
@@ -178,29 +176,24 @@
                                     [
                                         '<span style="height: 75px; border: 1px solid #000; margin: 5px"><img style="height: 75px; border: 1px solid #000; margin: 5px" src="', e.target.result, '" title="', escape(theFile.name), '"/><input type="radio" name="fileSelected" value="', escape(theFile.name), '" required></span>'
                                     ].join('');
-
                             document.getElementById('list').insertBefore(span, null);
                         };
                     })(f);
-
                     // Read in the image file as a data URL.
                     reader.readAsDataURL(f);
                 }
             }
 
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
             function removeThumbnails() {
                 var empty = document.getElementById('list');
                 empty.innerHTML = [' '].join('');
                 document.getElementById('list').insertBefore(empty, null);
             }
             ;
-
             function validateID() {
                 var id = $("#id").val();
                 var idformat = /[0-9]/;
-
                 if (!id.match(idformat)) {
                     $("#createbtn").attr('disabled', 'disabled');
                     $("#divValidateId").html("Invalid Id").addClass('form-alert');
@@ -208,6 +201,24 @@
                     $("#createbtn").removeAttr('disabled');
                     $("#divValidateId").html("").removeClass('form-alert');
                 }
+            }
+
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            var viewbar = document.getElementsByClassName("view-nav-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
+                viewbar.style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
+                viewbar.style.marginLeft = "0";
             }
         </script>
     </body>

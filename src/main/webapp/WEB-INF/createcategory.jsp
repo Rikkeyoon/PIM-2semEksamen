@@ -17,7 +17,7 @@
     <body>
         <!-- Sidebar -->
         <%@include file="includes/sidebar.jsp" %>
-        
+
         <!-- Main content of page -->
         <div id="main">
             <form name="create_category" action="FrontController" method="POST">
@@ -60,6 +60,24 @@
                     $(this).parent('div').remove();
                 });
             });
+
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            var navbar = document.getElementsByClassName("navbar-content")[0];
+            var viewbar = document.getElementsByClassName("view-nav-content")[0];
+            function openSidebar() {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+                navbar.style.marginLeft = "250px";
+                viewbar.style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+                navbar.style.marginLeft = "0";
+                viewbar.style.marginLeft = "0";
+            }
         </script>
     </body>
 </html>
