@@ -23,35 +23,29 @@ public class SearchProductCommand extends Command {
         List<Product> catalog = new ArrayList<>();
         String parameter = request.getParameter("searchType");
         try {
+            String search = request.getParameter("search");
             switch (parameter) {
                 case "product_id":
-                    int id = Integer.parseInt(request.getParameter("search"));
-                    Product product = LogicFacade.getProduct(id);
+                    Product product = LogicFacade.getProduct(Integer.parseInt(search));
                     catalog.add(product);
                     break;
                 case "product_itemnumber":
-                    int itemNumber = Integer.parseInt(request.getParameter("search"));
-                    catalog = LogicFacade.getProductsByItemNumber(itemNumber);
+                    catalog = LogicFacade.getProductsByItemNumber(Integer.parseInt(search));
                     break;
                 case "product_name":
-                    String name = request.getParameter("search");
-                    catalog = LogicFacade.getProductsByName(name);
+                    catalog = LogicFacade.getProductsByName(search);
                     break;
                 case "product_brand":
-                    String brand = request.getParameter("search");
-                    catalog = LogicFacade.getProductsByBrand(brand);
+                    catalog = LogicFacade.getProductsByBrand(search);
                     break;
                 case "product_category":
-                    String category = request.getParameter("search");
-                    catalog = LogicFacade.getProductsByCategory(category);
+                    catalog = LogicFacade.getProductsByCategory(search);
                     break;
                 case "product_tag":
-                    String tag = request.getParameter("search");
-                    catalog = LogicFacade.getProductsByTag(tag);
+                    catalog = LogicFacade.getProductsByTag(search);
                     break;
                 case "product_supplier":
-                    String supplier = request.getParameter("search");
-                    catalog = LogicFacade.getProductsBySupplier(supplier);
+                    catalog = LogicFacade.getProductsBySupplier(search);
                     break;
                 default:
                     break;

@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import logic.Category;
 import logic.Image;
 import logic.LogicFacade;
 import org.apache.commons.dbutils.DbUtils;
@@ -216,7 +217,7 @@ public class ProductMapper {
      * @return List of Products
      * @throws CommandException
      */
-    public List<Product> getProductsByCategoryID(int id)
+    public List<Product> getProductsByCategoryID(List<Category> categories)
             throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -225,14 +226,16 @@ public class ProductMapper {
         try {
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT DISTINCT id FROM products_with_categories_and_attributes "
-                    + "WHERE category_id = ?";
-            pstmt = connection.prepareStatement(selectSql);
-            pstmt.setInt(1, id);
+                        + "WHERE category_id = ?";
+                pstmt = connection.prepareStatement(selectSql);
+            for (Category cat : categories) {
+                pstmt.setInt(1, cat.getId());
 
-            result = pstmt.executeQuery();
+                result = pstmt.executeQuery();
 
-            while (result.next()) {
-                products.add(getProductWithCategoryAttributes(result.getInt("id")));
+                while (result.next()) {
+                    products.add(getProductWithCategoryAttributes(result.getInt("id")));
+                }
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products with the chosen category");
@@ -309,7 +312,7 @@ public class ProductMapper {
         for (Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)) {
             products.add(getProduct(i));
         }
-        
+
         return products;
     }
 
@@ -462,7 +465,7 @@ public class ProductMapper {
                 try {
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
-                    if (e.getErrorCode()!=1048) {
+                    if (e.getErrorCode() != 1048) {
                         throw e;
                     }
                 }
@@ -567,7 +570,7 @@ public class ProductMapper {
                 String name = result.getString("name");
                 String brand = result.getString("brand");
                 String description = result.getString("description");
-                String categoryname = result.getString("category_name");
+                int categoryid = result.getInt("category_id");
                 String supplier = result.getString("supplier");
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
@@ -575,7 +578,7 @@ public class ProductMapper {
                 List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemNumber, name, brand, description,
-                        cm.getCategory(categoryname), supplier, seotext, status, images));
+                        cm.getCategory(categoryid), supplier, seotext, status, images));
             }
 
         } catch (SQLException | NullPointerException ex) {
@@ -614,7 +617,7 @@ public class ProductMapper {
                 String name = result.getString("name");
                 String brand = result.getString("brand");
                 String description = result.getString("description");
-                String categoryname = result.getString("category_name");
+                int categoryid = result.getInt("category_id");
                 String supplier = result.getString("supplier");
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
@@ -622,7 +625,7 @@ public class ProductMapper {
                 List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemnumber, name, brand, description,
-                        cm.getCategory(categoryname), supplier, seotext, status, images));
+                        cm.getCategory(categoryid), supplier, seotext, status, images));
 
             }
         } catch (SQLException | NullPointerException ex) {
@@ -633,10 +636,10 @@ public class ProductMapper {
 
         return products;
     }
-    
+
     /**
-     * Method to get all products that share a supplier or share the String as part
-     * of their suppliers names
+     * Method to get all products that share a supplier or share the String as
+     * part of their suppliers names
      *
      * @param suppliername
      * @return List of Products
@@ -662,7 +665,7 @@ public class ProductMapper {
                 String name = result.getString("name");
                 String brand = result.getString("brand");
                 String description = result.getString("description");
-                String categoryname = result.getString("category_name");
+                int categoryid = result.getInt("category_id");
                 String supplier = result.getString("supplier");
                 String seotext = result.getString("seo_text");
                 int status = result.getInt("status");
@@ -670,7 +673,7 @@ public class ProductMapper {
                 List<Image> images = PersistenceFacadeDB.getPicturesWithId(id);
 
                 products.add(new Product(id, itemnumber, name, brand, description,
-                        cm.getCategory(categoryname), supplier, seotext, status, images));
+                        cm.getCategory(categoryid), supplier, seotext, status, images));
 
             }
         } catch (SQLException | NullPointerException ex) {

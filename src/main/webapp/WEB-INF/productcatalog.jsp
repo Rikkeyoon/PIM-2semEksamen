@@ -31,11 +31,15 @@
         <div id="main">
             <br>
             <h1>Product Catalog</h1>
+              <c:if test="${error != null}">
+                <div class="form-alert"><h4>${error}</h4></div>
+                    </c:if>
             <br><br>
 
             <!-- Table view (hidden by default) -->
             <%@include file="includes/catalogincludes/tableview.jsp" %> 
 
+            
             <!-- Grid and list view -->
             <div class="row">
                 <c:forEach items="${catalog}" var="product">

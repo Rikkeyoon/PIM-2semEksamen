@@ -140,7 +140,7 @@ public class CategoryMapper {
             connection = PersistenceFacadeDB.getConnection();
 
             pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, categoryname);
+            pstmt.setString(1, '%' + categoryname + '%');
 
             result = pstmt.executeQuery();
 
@@ -156,6 +156,35 @@ public class CategoryMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return category;
+    }
+    
+    public List<Category> getCategoriesFromSearch(String categoryname) throws CommandException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet result = null;
+        String selectSql = "SELECT * FROM categories WHERE category_name LIKE ?";
+
+        List<Category> categories = new ArrayList<>();
+        int id = 0;
+        try {
+            connection = PersistenceFacadeDB.getConnection();
+
+            pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + categoryname + '%');
+
+            result = pstmt.executeQuery();
+
+            while (result.next()) {
+                id = result.getInt("id");
+                String name = result.getString("category_name");
+                categories.add(new Category(id, categoryname, getCategoryAttributes(id)));
+            }
+        } catch (SQLException | NullPointerException ex) {
+            throw new CommandException("getCName: Could not find any category with that name" + ex.getMessage());
+        } finally {
+            DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        return categories;
     }
 
     public Category getCategory(int categoryid) throws CommandException {

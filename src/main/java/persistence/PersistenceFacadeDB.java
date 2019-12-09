@@ -133,7 +133,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Product> getProductsByCategory(String category)
             throws CommandException {
-        return pm.getProductsByCategoryID(cm.getCategory(category).getId());
+        return pm.getProductsByCategoryID(cm.getCategoriesFromSearch(category));
 
     }
 
