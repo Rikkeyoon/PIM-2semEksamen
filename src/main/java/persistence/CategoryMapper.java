@@ -41,10 +41,7 @@ public class CategoryMapper {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
-
-            if (rowsUpdated == 0) {
-                throw new NullPointerException();
-            }
+            
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not create new category");
         } finally {

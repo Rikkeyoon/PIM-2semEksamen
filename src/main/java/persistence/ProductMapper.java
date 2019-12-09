@@ -490,9 +490,6 @@ public class ProductMapper {
             pstmt = connection.prepareStatement(deleteSql);
             pstmt.setInt(1, id);
             int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated == 0) {
-                throw new SQLException("No rows updated");
-            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
         } finally {
@@ -579,10 +576,6 @@ public class ProductMapper {
 
                 products.add(new Product(id, itemNumber, name, brand, description,
                         cm.getCategory(categoryname), supplier, seotext, status, images));
-            }
-
-            if (products.size() < 1) {
-                throw new SQLException();
             }
 
         } catch (SQLException | NullPointerException ex) {

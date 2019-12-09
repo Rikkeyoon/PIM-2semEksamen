@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
@@ -70,62 +71,29 @@ public class AttributeMapper {
 
         String insertSql = "INSERT INTO attributes(attribute_name) VALUE(?)";
         List<Integer> attributeIds = new ArrayList<>();
+        int id = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
-            pstmt = connection.prepareStatement(insertSql);
+            pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             for (String name : attributeNames) {
                 pstmt.setString(1, name);
 
-                int rowsUpdated = pstmt.executeUpdate();
+                pstmt.executeUpdate();
 
-                if (rowsUpdated == 0) {
-                    throw new SQLException();
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getInt(1);
                 }
 
-                attributeIds.add(getLastInsertedId(connection));
+                attributeIds.add(id);
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category attributes"+ ex);
+            throw new CommandException("Could not create new category attributes" + ex);
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
         }
         return attributeIds;
-    }
-
-    /**
-     * Private method to get the last inserted id in the database, since the id
-     * is auto incremented
-     *
-     * @param connection It uses the same connection, as the method which calls
-     * this method so it can get the correct id
-     * @return int The unique database id
-     * @throws CommandException
-     */
-    private int getLastInsertedId(Connection connection) throws CommandException {
-        PreparedStatement pstmt = null;
-        ResultSet result = null;
-
-        int id = 0;
-        String selectSql = "SELECT last_insert_id() FROM attributes LIMIT 1";
-        try {
-            pstmt = connection.prepareStatement(selectSql);
-
-            result = pstmt.executeQuery(selectSql);
-
-            while (result.next()) {
-                id = result.getInt(1);
-            }
-            if (id == 0) {
-                throw new SQLException();
-            }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not get newest id");
-        } finally {
-            DbUtils.closeQuietly(pstmt);
-            DbUtils.closeQuietly(result);
-        }
-        return id;
     }
 
     public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
@@ -140,12 +108,8 @@ public class AttributeMapper {
             pstmt.setString(1, newAttr);
             pstmt.setString(2, oldAttr);
 
-            int rowsUpdated = pstmt.executeUpdate();
+            pstmt.executeUpdate();
 
-            if (rowsUpdated == 0) {
-                throw new SQLException();
-
-            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not update name on attribute");
         } finally {
@@ -165,12 +129,8 @@ public class AttributeMapper {
 
             pstmt.setInt(1, i);
 
-            int rowsUpdated = pstmt.executeUpdate();
+            pstmt.executeUpdate();
 
-            if (rowsUpdated == 0) {
-                throw new SQLException();
-
-            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not delete attribute from attributes");
         } finally {
@@ -190,12 +150,8 @@ public class AttributeMapper {
 
             pstmt.setString(1, name);
 
-            int rowsUpdated = pstmt.executeUpdate();
+            pstmt.executeUpdate();
 
-            if (rowsUpdated == 0) {
-                throw new SQLException();
-
-            }
         } catch (SQLException ex) {
             if (ex.getErrorCode() != 1451) {
                 throw new CommandException("Could not delete attribute from attributes" + ex.getMessage());

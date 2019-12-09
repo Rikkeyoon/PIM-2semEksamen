@@ -32,6 +32,7 @@ public class ImageMapper {
     private static String WORKING_DIR = null;
     private static Cloudinary CLOUDINARY = null;
 
+   
     public ImageMapper() {
         if(OS.contains("win")){
             WORKING_DIR = System.getProperty("user.dir");
@@ -201,9 +202,7 @@ public class ImageMapper {
                 image = new Image(URL, bool);
             }
 
-            if (image == null) {
-                throw new SQLException();
-            }
+            
 
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not fetch URLs to images" + ex.getMessage());

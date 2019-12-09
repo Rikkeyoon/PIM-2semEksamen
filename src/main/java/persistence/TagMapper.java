@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import logic.Product;
@@ -169,17 +170,18 @@ public class TagMapper {
         List<Integer> tagIds = new ArrayList<>();
         try {
             connection = PersistenceFacadeDB.getConnection();
-            pstmt = connection.prepareStatement(insertSql);
+            pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             for (String tag : p.getTags()) {
                 pstmt.setString(1, tag);
 
-                int rowsUpdated = pstmt.executeUpdate();
+                pstmt.executeUpdate();
 
-                if (rowsUpdated == 0) {
-                    throw new SQLException();
+                int id = 0;
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getInt(1);
                 }
-
-                tagIds.add(getLastInsertedId(connection));
+                tagIds.add(id);
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not create new tags ");
@@ -309,41 +311,6 @@ public class TagMapper {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
         }
-    }
-    
-    /**
-     * Private method to get the last inserted id in the database, since the id
-     * is auto incremented
-     *
-     * @param connection It uses the same connection, as the method which calls
-     * this method so it can get the correct id
-     * @return int The unique database id
-     * @throws CommandException
-     */
-    private int getLastInsertedId(Connection connection) throws CommandException {
-        PreparedStatement pstmt = null;
-        ResultSet result = null;
-
-        int id = 0;
-        String selectSql = "SELECT last_insert_id() FROM tags LIMIT 1";
-        try {
-            pstmt = connection.prepareStatement(selectSql);
-
-            result = pstmt.executeQuery(selectSql);
-
-            while (result.next()) {
-                id = result.getInt(1);
-            }
-            if (id == 0) {
-                throw new SQLException();
-            }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not get newest id");
-        } finally {
-            DbUtils.closeQuietly(pstmt);
-            DbUtils.closeQuietly(result);
-        }
-        return id;
     }
 
 }
