@@ -63,9 +63,19 @@
         <br><br><br>
         <form name="upload" action="FrontController" method = "POST" enctype = "multipart/form-data">
             <input type="hidden" name="cmd" value="upload_json">
-            <input  type="file" id="files" name = "file" accept=".json" multiple />
-            <br>
-            <input type="submit" value="Submit">
+            <div class="input-group" style="cursor: pointer;">
+                <div class="form-control">
+                    <div class="upload-btn-wrapper">
+                        <input  type="file" id="files" name = "file" accept=".json" multiple />
+                        Upload a file
+                    </div>
+                </div>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </button>
+                </div>
+            </div>
         </form>
 
         <br>
