@@ -175,6 +175,7 @@
             <form name="update" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="get_view">
                 <input type="hidden" name="view" value="updateproduct">
+                <input type="hidden" value="${product.getId()}" name="product_id"/>
                 <button class="btn btn-default" type="submit" class="btn">
                     <i class="glyphicon glyphicon-edit" style="margin-right: 10px;"></i>Edit product
                 </button>
