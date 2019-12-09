@@ -21,6 +21,7 @@ public class ViewPageCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
+        request.getSession().removeAttribute("product");
         String view = request.getParameter("view");
         HttpSession session = request.getSession();
         if (view.contains("catalog")) {
@@ -47,7 +48,9 @@ public class ViewPageCommand extends Command {
             session.setAttribute("product", product);
         } else if (view.contains("createproduct")) {
             session.setAttribute("category1", request.getParameter("category"));
-        } 
+        } else if(view.contains("updateproduct")){
+            session.setAttribute("product", LogicFacade.getProduct(Integer.parseInt(request.getParameter("product_id"))));
+        }
         return view;
     }
 
