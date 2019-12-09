@@ -141,7 +141,7 @@ public class CategoryMapper {
             connection = PersistenceFacadeDB.getConnection();
 
             pstmt = connection.prepareStatement(selectSql);
-            pstmt.setString(1, '%' + categoryname + '%');
+            pstmt.setString(1, categoryname);
 
             result = pstmt.executeQuery();
 
@@ -151,6 +151,9 @@ public class CategoryMapper {
 
             }
             category = new Category(id, categoryname, getCategoryAttributes(id));
+            if(id == 0){
+                throw new CommandException("WTF" + pstmt);
+            }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("getCName: Could not find any category with that name" + ex.getMessage());
         } finally {

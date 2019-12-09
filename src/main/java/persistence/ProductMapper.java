@@ -64,7 +64,7 @@ public class ProductMapper {
             }
 
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!" + e.getMessage());
+            throw new CommandException("Could not create product. Try again!" + e.getMessage() + pstmt);
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

@@ -43,7 +43,7 @@
                         <div class="col col-lg-4">
                             <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
                             <br>
-                            <input class="form-control input-sm" type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
+                            <input class="form-control input-sm" type="number" name="item_number" min = "0" max = "2147483647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required/>
                                 <br><br>
                             </div>
                             <div class="col col-lg-4">
@@ -93,6 +93,7 @@
                         </div>
                         <div class="row">
                             <div class="col col-lg-12">
+                                <input type ="hidden" name="category" value="${category1}">
                                 <h3>Category: ${category1}</h3>
                         </div>
                     </div>
@@ -147,7 +148,7 @@
                     <br><br>
                     <button class="btn btn-default" type="reset" onclick="removeThumbnails();"><i class="glyphicon glyphicon-refresh" style="margin-right: 10px;"></i>Reset</button>
                     <br><br>
-                    <button class="btn btn-default" type="submit" name ="cmd" value ="createproduct"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create</button>
+                    <button class="btn btn-default" type="submit" name ="cmd" value ="create_product"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create</button>
                     <br><br>
                 </div>
             </form>
