@@ -59,6 +59,7 @@
         <br><br>
                 <br><br>
 
+                
 
         <form name="get_upload_page" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
