@@ -19,11 +19,12 @@ public class CreateCategoryCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) 
             throws CommandException {
+        request.setAttribute("returnPage", "createcategory");    
         String categoryName = request.getParameter("category_name");
         String[] attributes = request.getParameterValues("attribute");
         Category c = LogicFacade.createCategory(categoryName, attributes);
         request.getSession().setAttribute("category", c);
-        return "index";
+        return "productcatalog";
     }
 
    
