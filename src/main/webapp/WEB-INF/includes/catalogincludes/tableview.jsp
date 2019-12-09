@@ -83,9 +83,11 @@
 <script type="text/javascript"  src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 <script>
+    if(document.getElementById("#catalogTable") != null){
     $(document).ready(function(){
     $('#catalogTable').dataTable({"searching": false, "ordering": false});
     });
+    }
 
     function sortAlphabeticalTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

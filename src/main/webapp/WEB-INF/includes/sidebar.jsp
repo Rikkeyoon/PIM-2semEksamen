@@ -29,7 +29,7 @@
         
         <form name="bulkEdit" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="choosebulkedit">
+            <input type="hidden" name="view" value="chooseBulkedit">
             <button type="submit" class="viewcatalogbtn">Bulk edit</button>
         </form>
     </div>

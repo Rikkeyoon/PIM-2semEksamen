@@ -307,4 +307,14 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     public void deleteAttribute(String name) throws CommandException{
         am.deleteAttribute(name);
     }
+
+    @Override
+    public void createEmptyAttribute(int id, List<String> attributes) throws CommandException {
+        pm.createEmptyAttribute(id, attributes);
+    }
+
+    @Override
+    public void updateProductStatus(int id, int status) throws CommandException {
+       pm.updateProductStatus(id, status);
+    }
 }

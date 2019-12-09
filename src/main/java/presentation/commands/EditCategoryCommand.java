@@ -24,6 +24,7 @@ public class EditCategoryCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
+        request.setAttribute("returnPage", "categories");
         Map<String, String[]> parameterMap = request.getParameterMap();
         List<String> removeAttr = new ArrayList();
         List<String> newAttr = new ArrayList();
@@ -55,15 +56,17 @@ public class EditCategoryCommand extends Command {
         String categoryname = request.getParameter("category");
         String[] attributes = request.getParameterValues("attribute");
         List<String> gAttr = new ArrayList();
-        for (String s: attributes){
-        if (attributes != null && StringUtils.isNotBlank(s)) {
-            gAttr.add(s);
+        if (attributes != null) {
+            for (String s : attributes) {
+                if (StringUtils.isNotBlank(s)) {
+                    gAttr.add(s);
+                }
             }
         }
         String[] cAttr = new String[gAttr.size()];
         LogicFacade.editCategory(categoryname, gAttr.toArray(cAttr));
-            request.getSession().setAttribute("categories", LogicFacade.getCategories());
-        return "productcatalog";
+        request.getSession().setAttribute("categories", LogicFacade.getCategories());
+        return "viewcategories";
     }
 
 }

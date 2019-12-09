@@ -29,7 +29,7 @@ public class CreateProductCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
-        request.setAttribute("returnPage", "createproduct");
+            request.setAttribute("returnPage", "createproduct");
         Map<String, String[]> parameterMap = request.getParameterMap();
         List<Part> parts = null;
         int itemnumber = -1;

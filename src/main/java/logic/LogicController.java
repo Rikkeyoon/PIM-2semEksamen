@@ -283,6 +283,18 @@ public class LogicController {
         }
         c.setAttributes(newAttributes);
         pf.editCategory(c);
+        List<Product> products = pf.getProductsByCategory(c.getCategoryname());
+        for (Product product : products) {
+            pf.createEmptyAttribute(product.getId(), newAttributes);
+            Map<String, String> categoryAttributes = product.getCategoryAttributes();
+            for (String attribute : attributes) {
+                categoryAttributes.put(attribute, "");
+            }
+            product.setCategoryAttributes(categoryAttributes);
+            product.calculateStatus();
+            pf.updateProductStatus(product.getId(), product.getStatus());
+        }
+        
         return c;
     }
 
@@ -434,6 +446,8 @@ public class LogicController {
 
             }
             pf.updateProduct_BulkEdit(p, bulkeditIDs);
+        }else{
+            throw new CommandException("no products choosen");
         }
     }
 
