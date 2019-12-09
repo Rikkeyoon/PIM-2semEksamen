@@ -67,7 +67,7 @@
                 <div class="form-control">
                     <div class="upload-btn-wrapper">
                         <input  type="file" id="files" name = "file" accept=".json" multiple />
-                        Upload a file
+                        Upload a JSON file
                     </div>
                 </div>
                 <div class="input-group-btn">

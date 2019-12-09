@@ -91,7 +91,7 @@
         </div>
         <script>
             // Get the elements with class="column"
-            var elements = document.getElementsByClassName("column");
+            var elements = document.getElementsByClassName("column-25");
             var table = document.getElementById("catalogTable");
             var tcontainer = document.getElementsByClassName("container-table")[0];
             var i;
