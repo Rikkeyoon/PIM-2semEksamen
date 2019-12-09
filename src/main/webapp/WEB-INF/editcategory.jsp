@@ -23,27 +23,7 @@
         <%@include file="includes/navigationbar.jsp" %>
         
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
-            <div class="padded">
-                <form name="get_product_catalog" action="FrontController" method = "POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="productcatalog">
-                    <button type="submit" class="viewcatalogbtn"><span>Products</span></button>
-                </form>
-                <form name="view_categories" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="viewcategories">
-                    <button type="submit" class="viewcatalogbtn">Categories</button>
-                </form>
-                <form name="bulkEdit" action="FrontController" method="POST">
-                    <input type="hidden" name="cmd" value="get_view">
-                    <input type="hidden" name="view" value="choosebulkedit">
-                    <button type="submit" class="viewcatalogbtn">Bulk Edit</button>
-                </form>
-                <br>
-            </div>
-        </div>
+        <%@include file="includes/sidebar.jsp" %>
         
         <!-- Main content of page -->
         <div id="main">
@@ -72,15 +52,11 @@
                     <br>
                     <div class="new_attributes">
                         <h3>Add New Attributes</h3>
-
                         <button type="button" class="btn btn-primary btn-sm" id="add_field_button">Add Attribute</button>
                         <br><br>
-
-
                     </div>
                     <br>
                     <button class="btn btn-primary btn-sm" type="submit"><span class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></span>Save Changes</button>
-
                 </form>
                 <br>
                 <form>
