@@ -12,6 +12,7 @@
         <title>INFOMERGE | Create Product</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
@@ -27,9 +28,6 @@
         <div id="main">
             <br><br>
             <form name="create" action="FrontController" method = "POST" enctype = "multipart/form-data">
-                <input type="hidden" name="cmd" value="create_product">
-                <input type="hidden" name="category" value="${category1}">
-                <input type="reset" onclick="removeThumbnails();">
                 <h1 style="text-align: center">Create product for category: ${category1}</h1>
                 <div class="container text-center">
                     <div class="row">
@@ -43,13 +41,13 @@
                     <div class="row">
                         <div class="col col-lg-2"></div>
                         <div class="col col-lg-4">
-                            <label for="item_number"><b>Item Number <font color="red">*</font></b></label>
+                            <label for="item_number"><b>Item Number<font color="red">*</font></b></label>
                             <br>
                             <input class="form-control input-sm" type="number" name="item_number" min = "0" max = "2,147,483,647" value = "<c:if test="${not empty product.getItemnumber()}">${product.getItemnumber()}</c:if>" required>
                                 <br><br>
                             </div>
                             <div class="col col-lg-4">
-                                <label for="product_name"><b>Product Name <font color="red">*</font></b></label>
+                                <label for="product_name"><b>Product Name<font color="red">*</font></b></label>
                                 <br>
                                 <input class="form-control input-sm" type="text" name="product_name" value = "<c:if test="${not empty product.getName()}">${product.getName()}</c:if>" required>
                                 <br><br>
@@ -58,7 +56,7 @@
                         <div class="row">
                             <div class="col col-lg-2"></div>
                             <div class="col col-lg-4">
-                                <label for="brand"><b>Brand <font color="red">*</font></b></label>
+                                <label for="brand"><b>Brand<font color="red">*</font></b></label>
                                 <br>
                                 <input class="form-control input-sm" type="text" name="brand" value = "<c:if test="${not empty product.getBrand()}">${product.getBrand()}</c:if>"  required>
                                 <br><br>
@@ -98,8 +96,12 @@
                                 <h3>Category: ${category1}</h3>
                         </div>
                     </div>
-                    <label for="attributes"><b>Attributes</b></label>
-                    <br>
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <label for="attributes"><b>Attributes</b></label>
+                            <br>
+                        </div>
+                    </div>
                     <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
                     <c:forEach items="${categories}" var="cat">
                         <c:if test="${cat.getCategoryname().equals(category1)}">
@@ -115,25 +117,31 @@
                                         <input type="hidden" name="attributename" value ="${attr}">
                                         <input class="form-control input-sm" type="text" name="attributes" value = "<c:if test="${not empty product.getCategoryAttributes()}">${product.getCategoryAttributes().get(attr)}</c:if>">
                                         </div>
-                                </c:forEach>
-                                <c:choose>
-                                    <c:when test="${firstOrSecond == '0'}">
-                                    </div>
-                                    <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
-                                </c:otherwise>
-                            </c:choose>
+                                    <c:choose>
+                                        <c:when test="${firstOrSecond == '0'}">
+                                        </div>
+                                        <c:set var = "firstOrSecond" scope = "session" value = "${1}"></c:set>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var = "firstOrSecond" scope = "session" value = "${0}"></c:set>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
                         </c:if>
                     </c:forEach>
                     <br><br>
-                    <label for="file"><b>Picture</b></label>
-                    <br>
-                    <div style="text-align:center; margin: auto; width: 200px;">
-                        <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <br><br>
+                            <label for="file"><b>Picture</b></label>
+                            <br>
+                            <div style="text-align:center; margin: auto; width: 200px;">
+                                <input type="file" id="files" name = "file" multiple accept=".jpg, .png"/><br>
+                                <br><br>
+                            </div>
+                        </div>
                     </div>
-                    <br>
 
                     <output id="list"></output>
                     <br><br>
