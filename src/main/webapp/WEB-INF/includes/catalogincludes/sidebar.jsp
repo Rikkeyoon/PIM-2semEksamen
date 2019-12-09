@@ -64,6 +64,8 @@
         <form name="upload" action="FrontController" method = "POST" enctype = "multipart/form-data">
             <input type="hidden" name="cmd" value="upload_json">
             <input  type="file" id="files" name = "file" accept=".json" multiple />
+            <br>
+            <input type="submit" value="Submit">
         </form>
 
         <br>
