@@ -196,6 +196,7 @@
                     <br><br>
 
                     <button class="btn btn-default" type="submit" name ="cmd" value ="update_product"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Save Changes</button>
+                    <br><br>
                 </form>
                 <form name="update" id="delform" action="FrontController" method = "POST"> 
                     <input type="hidden" name="cmd" id="delcmd" value="">

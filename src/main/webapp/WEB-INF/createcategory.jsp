@@ -12,9 +12,14 @@
         <title>INFOMERGE | Create Category</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
     <body>
+        <!-- Navigation bar -->
+        <%@include file="includes/navigationbar.jsp" %>
+
         <!-- Sidebar -->
         <%@include file="includes/sidebar.jsp" %>
 
@@ -22,27 +27,31 @@
         <div id="main">
             <form name="create_category" action="FrontController" method="POST">
                 <input type="hidden" name="cmd" value="create_category">
-
-                <h1>Create Category</h1>
-                <br>
-
-                <label for="category_name">Category Name</label>
-                <br>
-                <input type="text" name="category_name" id="category_name" required>
-                <br><br>
-
-                <div class="new_attributes">
-                    <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
+                <div class="container text-center" >
+                    <h1 style="text-align: center">Create Category</h1>
                     <br>
-                    <div><input type="text" name="attribute">
-                        <input type="radio" name="required">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <label for="category_name">Category Name</label>
+                            <br>
+                            <input type="text" name="category_name" id="category_name" required>
+                            <br><br>
+                        </div>
                     </div>
-                </div>
 
-                <button class="add_field_button">Add</button>
-                <br><br>
-
-                <input class="crtbtn" id="crtbtn" type="submit" value="Create Category"/>
+                    <div class="new_attributes">
+                        <label for="attribute_name">Attribute Name (Mark if the field is required)</label>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="add_field_button"><i class="glyphicon glyphicon-plus-sign" style="margin-right: 10px;"></i>Add</button>
+                    <br><br>
+                    <button class="crtbtn" type="submit"><i class="glyphicon glyphicon-floppy-disk" style="margin-right: 10px;"></i>Create category</button>
+                    </div>
             </form>
         </div>
         <script>
