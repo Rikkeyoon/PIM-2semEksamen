@@ -133,7 +133,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public List<Product> getProductsByCategory(String category)
             throws CommandException {
-        return pm.getProductsByCategoryID(cm.getCategory(category).getId());
+        return pm.getProductsByCategoryID(cm.getCategoriesFromSearch(category));
 
     }
 
@@ -151,9 +151,9 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void createCategory(Category c) throws CommandException {
         try {
-            cm.createCategory(c);
+            c.setId(cm.createCategory(c));
         } catch (CommandException e) {
-            throw new CommandException("The category already exists.");
+            throw new CommandException("The category already exists." + e.getMessage());
         }
         List<Integer> attributeIds = new ArrayList<>();
         attributeIds = am.createAttributes(c.getAttributes());
@@ -306,5 +306,15 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void deleteAttribute(String name) throws CommandException{
         am.deleteAttribute(name);
+    }
+
+    @Override
+    public void createEmptyAttribute(int id, List<String> attributes) throws CommandException {
+        pm.createEmptyAttribute(id, attributes);
+    }
+
+    @Override
+    public void updateProductStatus(int id, int status) throws CommandException {
+       pm.updateProductStatus(id, status);
     }
 }

@@ -246,9 +246,11 @@ public class LogicController {
     public static Category createCategory(String categoryname, String[] attributes)
             throws CommandException {
         List<String> attributeList = new ArrayList<>();
-        for (String attribute : attributes) {
-            if (StringUtils.isNotBlank(attribute)) {
-                attributeList.add(attribute);
+        if (attributes != null) {
+            for (String attribute : attributes) {
+                if (StringUtils.isNotBlank(attribute)) {
+                    attributeList.add(attribute);
+                }
             }
         }
         Category c = new Category(categoryname, attributeList);
@@ -281,6 +283,18 @@ public class LogicController {
         }
         c.setAttributes(newAttributes);
         pf.editCategory(c);
+        List<Product> products = pf.getProductsByCategory(c.getCategoryname());
+        for (Product product : products) {
+            pf.createEmptyAttribute(product.getId(), newAttributes);
+            Map<String, String> categoryAttributes = product.getCategoryAttributes();
+            for (String attribute : attributes) {
+                categoryAttributes.put(attribute, "");
+            }
+            product.setCategoryAttributes(categoryAttributes);
+            product.calculateStatus();
+            pf.updateProductStatus(product.getId(), product.getStatus());
+        }
+        
         return c;
     }
 
@@ -352,7 +366,7 @@ public class LogicController {
             if (object instanceof Product) {
                 Product product = (Product) object;
                 Map<String, String> categoryAttributes = new LinkedHashMap<>();
-                if (product.getCategoryAttributes() == null 
+                if (product.getCategoryAttributes() == null
                         || product.getCategoryAttributes().isEmpty()) {
                     for (String s : product.getCategory().getAttributes()) {
                         categoryAttributes.put(s, "");
@@ -413,7 +427,7 @@ public class LogicController {
     public static List<Product> getProductsBySupplier(String supplier) throws CommandException {
         return pf.getProductsBySupplier(supplier);
     }
-    
+
     public static Category getCategoryFromName(String categoryName) throws CommandException {
         return pf.getCategory(categoryName);
     }
@@ -432,6 +446,8 @@ public class LogicController {
 
             }
             pf.updateProduct_BulkEdit(p, bulkeditIDs);
+        }else{
+            throw new CommandException("no products choosen");
         }
     }
 
@@ -445,11 +461,11 @@ public class LogicController {
             pf.deleteProduct(id);
         }
     }
-    
-    public static void deleteCategory(int id) throws CommandException{
+
+    public static void deleteCategory(int id) throws CommandException {
         List<String> removeAttr = pf.getCategoryAttributes(id);
         pf.deleteCategory(id);
-        for(String name : removeAttr){
+        for (String name : removeAttr) {
             pf.deleteAttribute(name);
         }
     }

@@ -248,5 +248,10 @@ public interface IPersistenceFacade {
     public List<String> getCategoryAttributes(int id) throws CommandException;
     
     public void deleteAttribute(String name) throws CommandException;
+    
+    public void createEmptyAttribute(int id, List<String> attributes) throws CommandException;
+    
+    public void updateProductStatus(int id, int status) throws CommandException;
+
 }
 

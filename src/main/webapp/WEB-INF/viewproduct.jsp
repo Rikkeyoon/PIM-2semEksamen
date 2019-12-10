@@ -124,7 +124,8 @@
                             <c:forEach items="${product.getTags()}" var="key">
                                 <form name="search" action="FrontController" method = "POST">
                                     <input type="hidden" name="cmd" value="search_product">
-                                    <input type="hidden" name="product_tag" value = "${key}">
+                                    <input type="hidden" name="searchType" value = "product_tag">
+                                    <input type="hidden" name="search" value="${key}">
                                     <input style = "  background:none; border:none; font-size:1em; color:black;" class="searchbtn" id="searchbtn" type="submit" value="${key}"/>
                                 </form>
                             </c:forEach>
@@ -178,6 +179,7 @@
             <form name="update" action="FrontController" method = "POST">
                 <input type="hidden" name="cmd" value="get_view">
                 <input type="hidden" name="view" value="updateproduct">
+                <input type="hidden" value="${product.getId()}" name="product_id"/>
                 <button class="btn btn-default" type="submit" class="btn">
                     <i class="glyphicon glyphicon-edit" style="margin-right: 10px;"></i>Edit product
                 </button>

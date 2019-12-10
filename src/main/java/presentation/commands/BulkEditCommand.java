@@ -71,8 +71,7 @@ public class BulkEditCommand extends Command {
         LogicFacade.bulkEdit(p, bulkeditIDs);
         request.getSession().setAttribute("catalog", LogicFacade.getCatalog());
         request.getSession().setAttribute("categories", LogicFacade.getCategories());
-            
-        return "productcatalog";
+       return "productcatalog";
 
     }
 }

@@ -21,6 +21,7 @@ public class ViewPageCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
+        request.getSession().removeAttribute("product");
         String view = request.getParameter("view");
         HttpSession session = request.getSession();
         if (view.contains("catalog")) {
@@ -31,13 +32,17 @@ public class ViewPageCommand extends Command {
         } else if (view.contains("categories")) {
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
-        } else if (view.contains("chooseBulk")){
+        } else if (view.contains("choosebulk")) {
             List<Category> categories = LogicFacade.getCategories();
             session.setAttribute("categories", categories);
         } else if (view.contains("bulkedit")) {
             List<Product> catalog = LogicFacade.getProductsByCategory(request.getParameter("category"));
             session.setAttribute("catalog", catalog);
             session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
+        } else if (view.contains("createcategory")) {
+        } else if (view.contains("choosecreate")) {
+            List<Category> categories = LogicFacade.getCategories();
+            session.setAttribute("categories", categories);
         } else if (view.contains("category")) {
             session.setAttribute("category1", LogicFacade.getCategoryFromName(request.getParameter("category")));
         } else if (view.contains("viewproduct")) {
@@ -47,7 +52,9 @@ public class ViewPageCommand extends Command {
             session.setAttribute("product", product);
         } else if (view.contains("createproduct")) {
             session.setAttribute("category1", request.getParameter("category"));
-        } 
+        } else if (view.contains("updateproduct")) {
+            session.setAttribute("product", LogicFacade.getProduct(Integer.parseInt(request.getParameter("product_id"))));
+        }
         return view;
     }
 
