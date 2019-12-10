@@ -10,7 +10,7 @@
     <div class="padded">
         <form name="bulkEdit" action="FrontController" method="POST">
             <input type="hidden" name="cmd" value="get_view">
-            <input type="hidden" name="view" value="choosecreate">
+                    <input type="hidden" name="view" value="choosecreate">
             <button type="submit" class="viewcatalogbtn">Create</button>
         </form>
         

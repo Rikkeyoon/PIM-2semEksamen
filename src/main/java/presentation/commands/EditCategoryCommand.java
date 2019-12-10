@@ -24,7 +24,7 @@ public class EditCategoryCommand extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException {
-        request.setAttribute("returnPage", "categories");
+        request.setAttribute("returnPage", "viewcategories");
         Map<String, String[]> parameterMap = request.getParameterMap();
         List<String> removeAttr = new ArrayList();
         List<String> newAttr = new ArrayList();

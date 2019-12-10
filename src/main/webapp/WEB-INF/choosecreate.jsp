@@ -49,10 +49,12 @@
                                 <input type="hidden" name="cmd" value="get_view">
                                 <input type="hidden" name="view" value="createproduct">
                                 <div class="full-color-content">
-                                    <input class="full-color-btn" type="submit" value="Create new product" />
+                                    <input class="full-color-btn" type="submit" id='createbtn'
+                                           value="Create new product" disabled="disabled"/>
                                 </div>
                                 <div class="input-group">
-                                    <select class="custom-select" name="category" style="width: 260px;">
+                                    <select class="custom-select" name="category" id="category" style="width: 260px;"
+                                            onchange="validateCategory();">
                                         <option selected disabled>Choose...</option>
                                         <c:forEach items="${categories}" var="cat">
                                             <option value="${cat.getCategoryname()}">
@@ -61,6 +63,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
+                                <div id='divValidateCategory' style="color:white;"></div>
                             </form> 
                         </div>
                     </div>
@@ -85,6 +88,20 @@
                 main.style.marginLeft = "0";
                 navbar.style.marginLeft = "0";
                 viewbar.style.marginLeft = "0";
+            }
+
+
+            function validateCategory() {
+                var sel = document.getElementById("category");
+                var opt = sel.options[sel.selectedIndex];
+
+                if (opt.value == "Choose...") {
+                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#divValidateCategory").html("Please choose a category!");
+                } else {
+                    $("#createbtn").removeAttr('disabled');
+                    $("#divValidateCategory").html("");
+                }
             }
         </script>
     </body>
