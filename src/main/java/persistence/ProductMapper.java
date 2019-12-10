@@ -675,7 +675,7 @@ public class ProductMapper {
      * @return List of Products
      * @throws CommandException
      */
-    List<Product> getProductsBySupplier(String suppliername) throws CommandException {
+    public List<Product> getProductsBySupplier(String suppliername) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;

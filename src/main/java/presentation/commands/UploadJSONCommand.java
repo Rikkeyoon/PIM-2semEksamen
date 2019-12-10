@@ -18,7 +18,8 @@ public class UploadJSONCommand extends Command {
             throws CommandException {
         List<Part> parts = (List<Part>) request.getAttribute("partList");
         LogicFacade.uploadJSON(parts);
-        return "index";
+        request.getSession().setAttribute("catalog", LogicFacade.getCatalog());
+        return "productcatalog";
     }
     
 }

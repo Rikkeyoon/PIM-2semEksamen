@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Nina, carol
  */
-@JsonIgnoreProperties(value="tagsAsString")
+@JsonIgnoreProperties(value = "tagsAsString")
 public class Product {
 
     private int id;
@@ -94,16 +94,6 @@ public class Product {
         this.status = status;
         this.categoryAttributes = categoryAttributes;
         this.images = images;
-    }
-
-    public Product(int itemnumber, String name, String brand, String description,
-            String supplier, String seotext) {
-        this.itemnumber = itemnumber;
-        this.name = name;
-        this.brand = brand;
-        this.description = description;
-        this.supplier = supplier;
-        this.SEOText = seotext;
     }
 
     public Product(int itemnumber, String name, String brand, String description,
@@ -302,33 +292,28 @@ public class Product {
      * A method for changing the product's status
      *
      */
+    
     public void calculateStatus() {
         int totalAmount = 0, doneAmount = 0;
+        ArrayList<String> list = new ArrayList<>();
+        list.add(name);
+        list.add(brand);
+        list.add(description);
+        list.add(SEOText);
+        list.add(supplier);
 
         if (itemnumber > 0) {
             doneAmount++;
         }
         totalAmount++;
-        if (StringUtils.isNotBlank(name)) {
-            doneAmount++;
+
+        for (String string : list) {
+            if (StringUtils.isNotBlank(string)) {
+                doneAmount++;
+            }
+            totalAmount++;
         }
-        totalAmount++;
-        if (StringUtils.isNotBlank(brand)) {
-            doneAmount++;
-        }
-        totalAmount++;
-        if (StringUtils.isNotBlank(description)) {
-            doneAmount++;
-        }
-        totalAmount++;
-        if (StringUtils.isNotBlank(SEOText)) {
-            doneAmount++;
-        }
-        totalAmount++;
-        if (StringUtils.isNotBlank(supplier)) {
-            doneAmount++;
-        }
-        totalAmount++;
+
         if (tags != null && tags.size() > 0) {
             doneAmount++;
         }
@@ -456,13 +441,10 @@ public class Product {
     public String getTagsAsString() {
         if (tags != null && tags.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            try {
-                for (String s : tags) {
-                    sb.append(s).append(", ");
-                }
-            } catch (NullPointerException e) {
-                sb.append("  ");
+            for (String s : tags) {
+                sb.append(s).append(", ");
             }
+
             String s = sb.toString();
             return s.substring(0, s.length() - 2);
         } else {
@@ -486,7 +468,6 @@ public class Product {
      * @param product
      * @return boolean
      */
-
     /**
      * A method for converting the Product class to a String, which contains the
      * various data that the Product class has

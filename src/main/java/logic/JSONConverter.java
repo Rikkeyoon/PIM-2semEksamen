@@ -68,6 +68,7 @@ public class JSONConverter {
      */
     public static void convertProductsToJSON(List<Product> products)
             throws CommandException {
+        workingDirSetup();
         try {
             String fileName = "catalog.json";
             File file = getFile(fileName);
@@ -98,6 +99,7 @@ public class JSONConverter {
      */
     public static void convertCategoriesToJSON(List<Category> categories)
             throws CommandException {
+        workingDirSetup();
         try {
             String fileName = "categories.json";
             File file = getFile(fileName);
@@ -131,6 +133,7 @@ public class JSONConverter {
         List<Object> objects = new ArrayList<>();
         String fileName = part.getSubmittedFileName();
         String contentType = part.getContentType();
+        workingDirSetup();
 
         if (contentType != null && contentType.equalsIgnoreCase("application/json")) {
             try {
