@@ -36,12 +36,14 @@
                                 <input type="hidden" name="cmd" value="get_view">
                                 <input type="hidden" name="view" value="bulkedit">
                                 <div class="full-color-content">
-                                    <button class="full-color-btn" type="submit">
+                                    <button class="full-color-btn" type="submit"
+                                            id="createbtn" disabled="disabled">
                                         Bulk edit
                                     </button>
                                 </div>
                                 <div class="input-group">
-                                    <select class="custom-select" name="category" style="width: 260px;margin-left: 150px;">
+                                         <select class="custom-select" name="category" id="category" 
+                                                 style="width: 260px;margin-left: 150px;" onchange="validateCategory();">
                                         <option selected disabled>Choose...</option>
                                         <c:forEach items="${categories}" var="cat">
                                             <option value="${cat.getCategoryname()}">
@@ -74,6 +76,20 @@
                 main.style.marginLeft = "0";
                 navbar.style.marginLeft = "0";
                 viewbar.style.marginLeft = "0";
+            }
+            
+            
+            function validateCategory() {
+                var sel = document.getElementById("category");
+                var opt = sel.options[sel.selectedIndex];
+
+                if (opt.value == "Choose...") {
+                    $("#createbtn").attr('disabled', 'disabled');
+                    $("#divValidateCategory").html("Please choose a category!");
+                } else {
+                    $("#createbtn").removeAttr('disabled');
+                    $("#divValidateCategory").html("");
+                }
             }
         </script>
     </body>
