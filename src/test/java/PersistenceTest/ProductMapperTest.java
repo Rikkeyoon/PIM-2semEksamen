@@ -1,4 +1,3 @@
-//<<<<<<< HEAD
 //package PersistenceTest;
 //
 //import exception.CommandException;
@@ -9,7 +8,6 @@
 //import java.util.List;
 //import logic.Category;
 //import logic.Product;
-//import logic.TemporaryProduct;
 //import org.junit.Test;
 //import static org.junit.Assert.*;
 //import org.junit.Before;
@@ -63,7 +61,7 @@
 //    @Test //getProductTest, Tests that we can get a product from each category with the correct ID when using name search
 //    public void getProductWithNameTest_GetOneProductFromEachCategory() throws CommandException {
 //        //Arrange
-//        TemporaryProduct[] products = new TemporaryProduct[5];
+//        Product[] products = new Product[5];
 //
 //        //Act
 //        products[0] = pf.getProduct("Rød Cykel");
@@ -818,4 +816,3 @@
 //    }
 //
 //}
-//>>>>>>> imageFeature

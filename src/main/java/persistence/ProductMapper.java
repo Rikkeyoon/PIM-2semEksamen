@@ -63,7 +63,7 @@ public class ProductMapper {
             }
 
         } catch (SQLException | NullPointerException e) {
-            throw new CommandException("Could not create product. Try again!" + e.getMessage());
+            throw new CommandException("Could not create product. Try again!");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -108,14 +108,15 @@ public class ProductMapper {
 
                 products.add(new Product(id, itemnumber, name, brand, description,
                         cm.getCategory(categoryid), supplier, seotext, status, images));
-
             }
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find any product with that name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
-
+        if (products.isEmpty()) {
+            throw new CommandException("Could not find any product with that name");
+        }
         return products;
     }
 
@@ -194,16 +195,15 @@ public class ProductMapper {
             pstmt.setString(7, p.getSEOText());
             result = pstmt.executeQuery();
 
-            if (result == null) {
-                returnInt = 0;
-            } else {
-                result.next();
-                returnInt = result.getInt("id");
-            }
+            result.next();
+            returnInt = result.getInt("id");
         } catch (SQLException | NullPointerException ex) {
             throw new CommandException("Could not find the products database id");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
+        }
+        if (returnInt == 0) {
+            throw new CommandException("Could not find the products database id");
         }
         return returnInt;
     }
@@ -279,12 +279,15 @@ public class ProductMapper {
                         cm.getCategory(categoryid), supplier, seotext, status, images));
 
             }
-
+            if (temp.isEmpty()) {
+                throw new SQLException();
+            }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any products" + ex.getMessage());
+            throw new CommandException("Could not find any products");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
+        
         List<Product> products = new ArrayList();
         for (Product product : temp) {
             try {
@@ -309,7 +312,7 @@ public class ProductMapper {
         for (Integer i : PersistenceFacadeDB.getProductsIDFromTagNameSearch(tagSearch)) {
             products.add(getProduct(i));
         }
-        
+
         return products;
     }
 
@@ -398,7 +401,7 @@ public class ProductMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID" + ex.getMessage());
+            throw new CommandException("Could not find a product with the given ID");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -462,7 +465,7 @@ public class ProductMapper {
                 try {
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
-                    if (e.getErrorCode()!=1048) {
+                    if (e.getErrorCode() != 1048) {
                         throw e;
                     }
                 }
@@ -509,7 +512,6 @@ public class ProductMapper {
         try {
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
-
             pstmt.setInt(1, i);
 
             pstmt.executeUpdate();
@@ -640,10 +642,10 @@ public class ProductMapper {
 
         return products;
     }
-    
+
     /**
-     * Method to get all products that share a supplier or share the String as part
-     * of their suppliers names
+     * Method to get all products that share a supplier or share the String as
+     * part of their suppliers names
      *
      * @param suppliername
      * @return List of Products
