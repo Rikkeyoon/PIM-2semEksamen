@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS attributes;
 
 CREATE TABLE categories (
     id INT auto_increment,
-    category_name VARCHAR(45) NOT NULL,
+    category_name VARCHAR(45) NOT NULL unique,
     PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

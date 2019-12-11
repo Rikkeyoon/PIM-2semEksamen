@@ -47,16 +47,18 @@ public class ProductMapperTest {
             stmt.execute("create table pimTest.product_tags like pimTest_template.product_tags;");
             stmt.execute("create table pimTest.attributes like pimTest_template.attributes;");
             stmt.execute("create table pimTest.attribute_values like pimTest_template.attribute_values;");
-            stmt.execute("create table pimTest.tags like pimTest_template.tags;");
+                stmt.execute("create table pimTest.tags like pimTest_template.tags;");
             stmt.execute("create table pimTest.images like pimTest_template.images;");
+            stmt.execute("CREATE OR REPLACE VIEW pimTest.categories_and_attributes AS SELECT c.id AS category_id, attribute_name FROM pimTest.categories c JOIN pimTest.category_attributes ca ON c.id = ca.category_id JOIN pimTest.attributes a ON ca.attribute_id = a.id;");
+            stmt.execute("CREATE OR REPLACE VIEW pimTest.products_with_categories_and_attributes AS SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_id, p.supplier, p.seo_text, p.status, a.attribute_name, av.attribute_value FROM pimTest.products p JOIN pimTest.category_attributes c ON p.category_id = c.category_id JOIN pimTest.attributes a ON c.attribute_id = a.id LEFT JOIN pimTest.attribute_values av ON p.id = av.product_id AND av.attribute_id = a.id ORDER BY p.id ASC;");
             stmt.execute("insert into pimTest.categories select * from pimTest_template.categories;");
             stmt.execute("insert into pimTest.products select * from pimTest_template.products;");
-            stmt.execute("insert into pimTest.category_attributes select * pimTest_template.category_attributes;");
-            stmt.execute("insert into pimTest.product_tags select * pimTest_template.product_tags;");
-            stmt.execute("insert into pimTest.attributes select * pimTest_template.attributes;");
-            stmt.execute("insert into pimTest.attribute_values select * pimTest_template.attribute_values;");
-            stmt.execute("insert into pimTest.tags select * pimTest_template.tags;");
-            stmt.execute("insert into pimTest.images select * pimTest_template.images;");
+            stmt.execute("insert into pimTest.category_attributes select * from pimTest_template.category_attributes;");
+            stmt.execute("insert into pimTest.product_tags select * from pimTest_template.product_tags;");
+            stmt.execute("insert into pimTest.attributes select * from pimTest_template.attributes;");
+            stmt.execute("insert into pimTest.attribute_values select * from pimTest_template.attribute_values;");
+            stmt.execute("insert into pimTest.tags select * from pimTest_template.tags;");
+            stmt.execute("insert into pimTest.images select * from pimTest_template.images;");
             stmt.execute("USE pimtest;");
         } catch (SQLException ex) {
         }
@@ -325,7 +327,7 @@ public class ProductMapperTest {
                 "Tequila is a Mexican brandy, produced by the juice from blue agave.",
                 category2, "Navada Lakeview brewery", "Tequila, Party", 100,
                 categoryAttrs, images);
-        Product p3 = new Product(14, 1419, "Smirnoff Vodka 37,5%", "Smirnoff", 
+        Product p3 = new Product(14, 1419, "Smirnoff Vodka 37,5%", "Smirnoff",
                 "The classic vodka for every party, can be mixed with almost everything",
                 category2, "Smirnoff AS", "Vodka, Party", 100, categoryAttrs, images);
         expProducts.add(p1);
@@ -333,7 +335,7 @@ public class ProductMapperTest {
         expProducts.add(p3);
 
         List<Product> resultProducts = instance.getProductsWithTagSearch("Red");
-        
+
         Product expected;
         for (int i = 0; i < resultProducts.size(); i++) {
             Product result = resultProducts.get(i);
@@ -350,7 +352,7 @@ public class ProductMapperTest {
             assertEquals(expected.getStatus(), result.getStatus());
         }
     }
-    
+
     @Test //(expected = CommandException.class)
     public void testGetProductsWithTagSearch_UnknownTag() throws CommandException {
         instance.getProductsWithTagSearch("ThisTagDoesn'tExist");
@@ -366,10 +368,10 @@ public class ProductMapperTest {
         expected.setId(productId);
         expected.setDescription("This is the new description");
         expected.setName("This is the new name");
-        
+
         instance.updateProduct(expected);
         Product result = instance.getProduct(productId);
-        
+
         assertEquals(expected.getId(), result.getId());
         assertEquals(expected.getItemnumber(), result.getItemnumber());
         assertEquals(expected.getName(), result.getName());
@@ -381,14 +383,14 @@ public class ProductMapperTest {
         assertEquals(expected.getSEOText(), result.getSEOText());
         assertEquals(expected.getStatus(), result.getStatus());
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testUpdate_UnknownProduct() throws CommandException {
         Product p = new Product();
         instance.updateProduct(p);
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testUpdate_NullProduct() throws CommandException {
         instance.updateProduct(null);
     }
@@ -403,10 +405,10 @@ public class ProductMapperTest {
         expected.setId(productId);
         categoryAttrs.put("1st attribute", "new attribute value");
         expected.setCategoryAttributes(categoryAttrs);
-        
+
         instance.updateProductAttributes(expected);
         Product result = instance.getProduct(productId);
-        
+
         assertEquals(expected.getId(), result.getId());
         assertEquals(expected.getItemnumber(), result.getItemnumber());
         assertEquals(expected.getName(), result.getName());
@@ -422,14 +424,14 @@ public class ProductMapperTest {
             assertTrue(result.getCategoryAttributes().containsValue(categoryAttrs.get(key)));
         }
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testUpdateAttributes_UnknownProduct() throws CommandException {
         Product p = new Product();
         instance.updateProductAttributes(p);
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testUpdateAttributes_NullProduct() throws CommandException {
         instance.updateProductAttributes(null);
     }
@@ -446,10 +448,10 @@ public class ProductMapperTest {
         c.setAttributes(attrs);
         categoryAttrs.put("2nd attribute", "2nd attribute value");
         expected.setCategoryAttributes(categoryAttrs);
-        
+
         instance.createProductAttributes(expected);
         Product result = instance.getProduct(productId);
-        
+
         assertEquals(expected.getId(), result.getId());
         assertEquals(expected.getItemnumber(), result.getItemnumber());
         assertEquals(expected.getName(), result.getName());
@@ -465,32 +467,32 @@ public class ProductMapperTest {
             assertTrue(result.getCategoryAttributes().containsValue(categoryAttrs.get(key)));
         }
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testCreateAttributes_UnknownProduct() throws CommandException {
         Product p = new Product();
         instance.createProductAttributes(p);
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testCreateAttributes_NullProduct() throws CommandException {
         instance.createProductAttributes(null);
     }
 
-    @Test (expected = CommandException.class)
+    @Test(expected = CommandException.class)
     public void testDelete() throws CommandException {
         c = new Category("Test Category", attrs);
         Product expected = new Product(0, 3011, "Test Name", "Test Brand",
                 "Test Description", c, "Test Supllier", "Test SEO-text", 100,
                 categoryAttrs, images);
         int productId = instance.createProduct(expected);
-        
+
         instance.deleteProduct(productId);
-        
+
         instance.getProduct(productId);
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testDelete_UnknownProduct() throws CommandException {
         instance.deleteProduct(0);
     }
@@ -507,9 +509,9 @@ public class ProductMapperTest {
         categoryAttrs.put("2nd attribute", "2nd attribute value");
         expected.setCategoryAttributes(categoryAttrs);
         ProductMapper instance1 = new ProductMapper();
-        
+
         instance1.deleteProductAttribute(c.getId());
-        
+
         Product result = instance.getProduct(productId);
         assertEquals(expected.getItemnumber(), result.getItemnumber());
         assertEquals(expected.getName(), result.getName());
@@ -525,7 +527,7 @@ public class ProductMapperTest {
             assertTrue(result.getCategoryAttributes().containsValue(categoryAttrs.get(key)));
         }
     }
-    
+
     @Test //(expected = CommandException.class)
     public void testDeleteProductAttribute_UnknownAtrributeId() throws CommandException {
         ProductMapper instance1 = new ProductMapper();
@@ -543,9 +545,9 @@ public class ProductMapperTest {
         categoryAttrs.put("1st attribute", "");
         categoryAttrs.put("2nd attribute", "");
         expected.setCategoryAttributes(categoryAttrs);
-        
+
         instance.deleteProductAttributes(productId);
-        
+
         Product result = instance.getProduct(productId);
         assertEquals(expected.getItemnumber(), result.getItemnumber());
         assertEquals(expected.getName(), result.getName());
@@ -561,7 +563,7 @@ public class ProductMapperTest {
             assertTrue(result.getCategoryAttributes().containsValue(categoryAttrs.get(key)));
         }
     }
-    
+
     @Test //(expected = CommandException.class)
     public void testDeleteProductAttributes_UnknownProduct() throws CommandException {
         instance.deleteProductAttributes(0);
@@ -573,9 +575,9 @@ public class ProductMapperTest {
         Product expected = new Product(1, 132, "Red Bicycle", "Winther",
                 "A Bicycle that is red", category1, "Jupiter",
                 "Bicycle, Bike, Transport, Sport", 100, categoryAttrs, images);
-        
+
         List<Product> resultList = instance.getProductsByItemNumber(132);
-        
+
         Product result = resultList.get(0);
         assertEquals(expected.getId(), result.getId());
         assertEquals(expected.getItemnumber(), result.getItemnumber());
@@ -589,11 +591,11 @@ public class ProductMapperTest {
         assertEquals(expected.getStatus(), result.getStatus());
     }
 
-    @Test (expected = CommandException.class)
+    @Test(expected = CommandException.class)
     public void testGetProductsByItemNumber_UnknownItemNumber() throws CommandException {
         instance.getProductsByItemNumber(0);
     }
-    
+
     @Test
     public void testGetProductsByBrand() throws CommandException {
     }
@@ -604,6 +606,6 @@ public class ProductMapperTest {
 
     @Test
     public void testUpdate_BulkEdit() throws CommandException {
-    }*/
-
+    }
+*/
 }
