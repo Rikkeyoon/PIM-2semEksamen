@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.DbUtils;
 public class TagMapper {
 
     /**
-     * Method to store new tags for a specific product in the database
+     * Method to tie new tags to specific products in the database
      *
      * @param productId
      * @param tags
@@ -112,7 +112,7 @@ public class TagMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch tags to product");
+            throw new CommandException("Could not fetch tags to product" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -152,42 +152,6 @@ public class TagMapper {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return productIDs;
-    }
-
-    /**
-     * Method to update the stored tags for a specific product
-     *
-     * @param p Product
-     * @return List of ints
-     * @throws CommandException
-     */
-    public List<Integer> updateTags(Product p) throws CommandException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-
-        String insertSql = "INSERT INTO tags(name) VALUE(?)";
-        List<Integer> tagIds = new ArrayList<>();
-        try {
-            connection = PersistenceFacadeDB.getConnection();
-            pstmt = connection.prepareStatement(insertSql);
-            for (String tag : p.getTags()) {
-                pstmt.setString(1, tag);
-
-                int rowsUpdated = pstmt.executeUpdate();
-
-                if (rowsUpdated == 0) {
-                    throw new SQLException();
-                }
-
-                tagIds.add(getLastInsertedId(connection));
-            }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new tags ");
-        } finally {
-            DbUtils.closeQuietly(connection);
-            DbUtils.closeQuietly(pstmt);
-        }
-        return tagIds;
     }
 
     /**
@@ -310,40 +274,4 @@ public class TagMapper {
             DbUtils.closeQuietly(connection);
         }
     }
-    
-    /**
-     * Private method to get the last inserted id in the database, since the id
-     * is auto incremented
-     *
-     * @param connection It uses the same connection, as the method which calls
-     * this method so it can get the correct id
-     * @return int The unique database id
-     * @throws CommandException
-     */
-    private int getLastInsertedId(Connection connection) throws CommandException {
-        PreparedStatement pstmt = null;
-        ResultSet result = null;
-
-        int id = 0;
-        String selectSql = "SELECT last_insert_id() FROM tags LIMIT 1";
-        try {
-            pstmt = connection.prepareStatement(selectSql);
-
-            result = pstmt.executeQuery(selectSql);
-
-            while (result.next()) {
-                id = result.getInt(1);
-            }
-            if (id == 0) {
-                throw new SQLException();
-            }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not get newest id");
-        } finally {
-            DbUtils.closeQuietly(pstmt);
-            DbUtils.closeQuietly(result);
-        }
-        return id;
-    }
-
 }
