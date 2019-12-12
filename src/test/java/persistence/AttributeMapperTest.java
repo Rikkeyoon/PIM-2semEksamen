@@ -38,6 +38,8 @@ public class AttributeMapperTest {
             stmt.execute("create table pimTest.attribute_values like pimTest_template.attribute_values;");
             stmt.execute("create table pimTest.tags like pimTest_template.tags;");
             stmt.execute("create table pimTest.images like pimTest_template.images;");
+            stmt.execute("CREATE OR REPLACE VIEW pimTest.categories_and_attributes AS SELECT c.id AS category_id, attribute_name FROM pimTest.categories c JOIN pimTest.category_attributes ca ON c.id = ca.category_id JOIN pimTest.attributes a ON ca.attribute_id = a.id;");
+            stmt.execute("CREATE OR REPLACE VIEW pimTest.products_with_categories_and_attributes AS SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_id, p.supplier, p.seo_text, p.status, a.attribute_name, av.attribute_value FROM pimTest.products p JOIN pimTest.category_attributes c ON p.category_id = c.category_id JOIN pimTest.attributes a ON c.attribute_id = a.id LEFT JOIN pimTest.attribute_values av ON p.id = av.product_id AND av.attribute_id = a.id ORDER BY p.id ASC;");
             stmt.execute("insert into pimTest.categories select * from pimTest_template.categories;");
             stmt.execute("insert into pimTest.products select * from pimTest_template.products;");
             stmt.execute("insert into pimTest.category_attributes select * pimTest_template.category_attributes;");
