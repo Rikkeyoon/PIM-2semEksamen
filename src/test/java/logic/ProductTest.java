@@ -384,5 +384,35 @@ public class ProductTest {
         assertEquals(0, p4.getStatus());
 
     }
+    
+    @Test
+    public void testSetters() {
+        Product p = new Product(0, "", "", "", "", "", null, null, null, null);
+        Category category = new Category(1, "Category", new ArrayList<String>());
+        Map<String, String> categoryAttributes = new LinkedHashMap<>();
+        List<String> tags = new ArrayList<>();
+        
+        p.setBrand("Brand");
+        p.setCategory(category);
+        p.setCategoryAttributes(categoryAttributes);
+        p.setDescription("Description");
+        p.setId(1);
+        p.setItemnumber(2);
+        p.setName("Name");
+        p.setSEOText("SEOText");
+        p.setSupplier("supplier");
+        p.setTags(tags);
+        
+        assertEquals("Brand", p.getBrand());
+        assertEquals(category, p.getCategory());
+        assertEquals(categoryAttributes, p.getCategoryAttributes());
+        assertEquals("Description", p.getDescription());
+        assertEquals(1, p.getId());
+        assertEquals(2, p.getItemnumber());
+        assertEquals("Name", p.getName());
+        assertEquals("SEOText", p.getSEOText());
+        assertEquals("supplier", p.getSupplier());
+        assertEquals(tags, p.getTags());
+    }
 
 }
