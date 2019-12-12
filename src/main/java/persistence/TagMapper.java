@@ -1,5 +1,6 @@
 package persistence;
 
+import com.cloudinary.utils.StringUtils;
 import exception.CommandException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +48,7 @@ public class TagMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create tag relation " + ex.getMessage());
+            throw new CommandException("Could not create tag relation");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -79,7 +80,7 @@ public class TagMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException(ex.getMessage());
+            throw new CommandException("could not create tags");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -135,6 +136,7 @@ public class TagMapper {
         ResultSet result = null;
         List<Integer> productIDs = new ArrayList<>();
         try {
+            if(StringUtils.isBlank(tagSearch)|| tagSearch == null) throw new NullPointerException();
             connection = PersistenceFacadeDB.getConnection();
             String selectSql = "SELECT DISTINCT product_id FROM product_tags "
                     + "WHERE tag_id IN (SELECT id FROM tags WHERE name LIKE ?);";
@@ -148,49 +150,13 @@ public class TagMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch tags to product");
+            throw new CommandException("Could not fetch productIds for tag");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
         return productIDs;
     }
 
-    /**
-     * Method to update the stored tags for a specific product
-     *
-     * @param p Product
-     * @return List of ints
-     * @throws CommandException
-     */
-    public List<Integer> updateTags(Product p) throws CommandException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-
-        String insertSql = "INSERT INTO tags(name) VALUE(?)";
-        List<Integer> tagIds = new ArrayList<>();
-        try {
-            connection = PersistenceFacadeDB.getConnection();
-            pstmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
-            for (String tag : p.getTags()) {
-                pstmt.setString(1, tag);
-
-                pstmt.executeUpdate();
-
-                int id = 0;
-                ResultSet rs = pstmt.getGeneratedKeys();
-                if (rs.next()) {
-                    id = rs.getInt(1);
-                }
-                tagIds.add(id);
-            }
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new tags ");
-        } finally {
-            DbUtils.closeQuietly(connection);
-            DbUtils.closeQuietly(pstmt);
-        }
-        return tagIds;
-    }
 
     /**
      * Method to get the unique database id for a specific tag
@@ -218,7 +184,7 @@ public class TagMapper {
                 throw new SQLException();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any product with that name");
+            throw new CommandException("could not fetch tag id from tag name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -236,6 +202,7 @@ public class TagMapper {
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
+            if(id <= 0) throw new NullPointerException();
             connection = PersistenceFacadeDB.getConnection();
             String deleteSql = "DELETE FROM product_tags WHERE product_id = ?";
             pstmt = connection.prepareStatement(deleteSql);
@@ -243,7 +210,7 @@ public class TagMapper {
             pstmt.executeUpdate();
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
+            throw new CommandException("Could not delete tags for product");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

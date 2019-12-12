@@ -44,7 +44,7 @@ public class CategoryMapper {
             }
             
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category" + ex.getMessage() + pstmt);
+            throw new CommandException("Could not create new category");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -81,7 +81,7 @@ public class CategoryMapper {
                 }
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("CreateCategoryAttributes Could not create new attributes" + ex.getMessage() + category.toString());
+            throw new CommandException("Could not create new attributes");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -152,10 +152,10 @@ public class CategoryMapper {
             }
             category = new Category(id, categoryname, getCategoryAttributes(id));
             if(id == 0){
-                throw new CommandException("WTF" + pstmt);
+                throw new CommandException("ID was not accepted" + pstmt);
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("getCName: Could not find any category with that name" + ex.getMessage());
+            throw new CommandException("Could not find any category with that name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -184,7 +184,7 @@ public class CategoryMapper {
                 categories.add(new Category(id, categoryname, getCategoryAttributes(id)));
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("getCName: Could not find any category with that name" + ex.getMessage());
+            throw new CommandException("Could not find any category with that name");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -216,7 +216,7 @@ public class CategoryMapper {
             }
             category = new Category(id, name, getCategoryAttributes(id));
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("getCIdCould not find any category with that name " + ex.getMessage());
+            throw new CommandException("Coulld not find any category with that ID");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -246,7 +246,7 @@ public class CategoryMapper {
             }
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find any category with that name" + ex.getMessage());
+            throw new CommandException("Could not fetch attributes");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }

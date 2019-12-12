@@ -92,7 +92,7 @@ public class ImageMapper {
             }
         } catch (IOException e) {
             throw new CommandException("Could not upload the chosen pictures. "
-                    + "Please make sure they are JPEG or PNG and try again." + e.getMessage() + " " + working_dir);
+                    + "Please make sure they are JPEG or PNG and try again.");
         }
         return images;
     }
@@ -204,7 +204,7 @@ public class ImageMapper {
             
 
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not fetch URLs to images" + ex.getMessage());
+            throw new CommandException("Could not fetch URLs to images");
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -271,7 +271,7 @@ public class ImageMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("img, Could not find a product with the given ID" + ex);
+            throw new CommandException("Could not update primary picture");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -298,7 +298,7 @@ public class ImageMapper {
                 pstmt.executeUpdate();
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the image to be deleted" + ex);
+            throw new CommandException("Could not find the image to be deleted");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
@@ -322,7 +322,7 @@ public class ImageMapper {
 
             pstmt.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find the product to be deleted" + ex.getMessage());
+            throw new CommandException("could not delete images");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

@@ -735,7 +735,7 @@ public class ProductMapper {
             DbUtils.closeQuietly(connection);
         }
     }
-
+    
     public void update_BulkEdit(Product product, List<String> bulkeditIDs) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
