@@ -68,7 +68,6 @@ public class JSONConverter {
      */
     public static void convertProductsToJSON(List<Product> products)
             throws CommandException {
-        workingDirSetup();
         try {
             String fileName = "catalog.json";
             File file = getFile(fileName);
@@ -99,7 +98,6 @@ public class JSONConverter {
      */
     public static void convertCategoriesToJSON(List<Category> categories)
             throws CommandException {
-        workingDirSetup();
         try {
             String fileName = "categories.json";
             File file = getFile(fileName);
@@ -173,9 +171,7 @@ public class JSONConverter {
      * @return File
      */
     private static File getFile(String fileName) {
-        if (StringUtils.isBlank(working_dir)) {
-            workingDirSetup();
-        }
+        workingDirSetup();
         File uploadFolder = new File(working_dir + File.separator + UPLOAD_DIR);
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();

@@ -32,7 +32,7 @@ public class AttributeMapper {
         ResultSet result = null;
 
         String selectSql = "SELECT id FROM attributes "
-                + "WHERE attribute_name = ?";
+                + "WHERE attribute_name = ?;";
         int id = 0;
         try {
             connection = PersistenceFacadeDB.getConnection();
@@ -46,10 +46,10 @@ public class AttributeMapper {
             }
 
             if (id == 0) {
-                throw new SQLException();
+                throw new SQLException("id = 0");
             }
         } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find category attribute");
+            throw new CommandException("Could not find category attribute" + ex.getMessage());
         } finally {
             DbUtils.closeQuietly(connection, pstmt, result);
         }
@@ -102,7 +102,7 @@ public class AttributeMapper {
         return attributeIds;
     }
 
-    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+    public void updateAttributeName(String oldAttr, String newAttr) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
@@ -130,6 +130,7 @@ public class AttributeMapper {
 
         String insertSql = "DELETE FROM attributes WHERE id = ?";
         try {
+            if(i <= 0) throw new CommandException("");
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
 

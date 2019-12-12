@@ -214,7 +214,7 @@ public class PersistenceFacadeDB implements IPersistenceFacade {
     @Override
     public void updateCategoryAttributename(String oldAttr, String newAttr)
             throws CommandException {
-        am.updateCategoryAttributename(oldAttr, newAttr);
+        am.updateAttributeName(oldAttr, newAttr);
     }
 
     @Override
