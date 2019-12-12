@@ -51,19 +51,19 @@ public class ProductMapperTest {
             stmt.execute("create table pimTest.images like pimTest_template.images;");
             stmt.execute("insert into pimTest.categories select * from pimTest_template.categories;");
             stmt.execute("insert into pimTest.products select * from pimTest_template.products;");
-            stmt.execute("insert into pimTest.category_attributes select * pimTest_template.category_attributes;");
-            stmt.execute("insert into pimTest.product_tags select * pimTest_template.product_tags;");
-            stmt.execute("insert into pimTest.attributes select * pimTest_template.attributes;");
-            stmt.execute("insert into pimTest.attribute_values select * pimTest_template.attribute_values;");
-            stmt.execute("insert into pimTest.tags select * pimTest_template.tags;");
-            stmt.execute("insert into pimTest.images select * pimTest_template.images;");
-            stmt.execute("USE pimtest;");
+            stmt.execute("insert into pimTest.category_attributes select * from pimTest_template.category_attributes;");
+            stmt.execute("insert into pimTest.product_tags select * from pimTest_template.product_tags;");
+            stmt.execute("insert into pimTest.attributes select * from pimTest_template.attributes;");
+            stmt.execute("insert into pimTest.attribute_values select * from pimTest_template.attribute_values;");
+            stmt.execute("insert into pimTest.tags select * from pimTest_template.tags;");
+            stmt.execute("insert into pimTest.images select * from pimTest_template.images;");
+            stmt.execute("USE pimTest;");
         } catch (SQLException ex) {
         }
 
     }
 
-    /*@Test
+    @Test
     public void testCreate() throws CommandException {
         c = new Category("Test Category", attrs);
         instance.createCategory(c);
@@ -604,6 +604,6 @@ public class ProductMapperTest {
 
     @Test
     public void testUpdate_BulkEdit() throws CommandException {
-    }*/
+    }
 
 }

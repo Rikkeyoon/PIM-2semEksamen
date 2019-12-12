@@ -94,7 +94,7 @@ public class AttributeMapper {
                 attributeIds.add(id);
             }
         } catch (SQLException ex) {
-            throw new CommandException("Could not create new category attributes" + ex + ex.getErrorCode());
+            throw new CommandException("Could not create new category attributes");
         } finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
@@ -102,7 +102,7 @@ public class AttributeMapper {
         return attributeIds;
     }
 
-    public void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
+    public void updateAttributeName(String oldAttr, String newAttr) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
@@ -160,7 +160,7 @@ public class AttributeMapper {
 
         } catch (SQLException ex) {
             if (ex.getErrorCode() != 1451) {
-                throw new CommandException("Could not delete attribute from attributes" + ex.getMessage());
+                throw new CommandException("Could not delete attribute from attributes");
             }
         } finally {
             DbUtils.closeQuietly(connection);
