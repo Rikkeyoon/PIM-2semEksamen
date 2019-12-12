@@ -53,11 +53,13 @@ public class AttributeMapperTest {
         }
     }
 
-    @Test
+    
     public void testGetAttributeId() throws Exception {
+
         int expected = 1;
         int result = instance.getAttributeId("Bike size");
         assertEquals(expected, result);
+
     }
 
     @Test(expected = CommandException.class)
@@ -73,7 +75,7 @@ public class AttributeMapperTest {
         attributeNames.add("3rd test attribute");
 
         instance.createAttributes(attributeNames);
-        
+
         assertNotNull(instance.getAttributeId("1st test attribute"));
         assertNotNull(instance.getAttributeId("2nd test attribute"));
         assertNotNull(instance.getAttributeId("3rd test attribute"));
@@ -93,8 +95,8 @@ public class AttributeMapperTest {
         int id = instance.getAttributeId("Bike size");
         assertEquals(1, id);
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testCreateAttributes_ListWithNull() throws Exception {
         List<String> attributeNames = new ArrayList<>();
         attributeNames.add(null);
@@ -107,23 +109,23 @@ public class AttributeMapperTest {
         String expected = "5th test attribute";
         attributeNames.add("4th test attribute");
         instance.createAttributes(attributeNames);
-        
+
         instance.updateAttributeName("4th test attribute", expected);
-        
+
         assertNotNull(instance.getAttributeId(expected));
     }
-    
-    @Test (expected = CommandException.class)
+
+
     public void testUpdateAttributeName_DuplicateName() throws Exception {
         instance.updateAttributeName("ThisNameDoesntExist", "New name");
     }
 
     @Test
     public void testDeleteAttribute_int() throws Exception {
-        
+
     }
-    
-    @Test (expected = CommandException.class)
+
+    @Test(expected = CommandException.class)
     public void testDeleteAttribute_int_UnknownId() throws Exception {
         instance.deleteAttribute(0);
     }
