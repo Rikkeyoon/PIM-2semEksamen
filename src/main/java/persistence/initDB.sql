@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS attributes;
 
 CREATE TABLE categories (
     id INT auto_increment,
-    category_name VARCHAR(45) NOT NULL,
+    category_name VARCHAR(45) NOT NULL unique,
     PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -115,6 +115,7 @@ INSERT INTO products VALUES (22,2248, "Viking Birka", "Viking", "Continental bed
 INSERT INTO products VALUES (23,2302, "Jensen Prestige", "Jensen", "Continental bed with elevation, 5 zoned mattress with a softline top mattress", 5,"Nordic Becompany","Continental Bed",100);
 INSERT INTO products VALUES (24,2412, "Carpe Diem Harmano", "Carpe Diem", "Carpe Diem Harmano delivers the best from Carpe Diem.", 5,"Carpe Diem me Hombre","Continental Seng",100);
 INSERT INTO products VALUES (25,2583, "Tempur Fusion", "Tempur", "TEMPUR® Fusion Box makes the choice easy. You get both the pressure relieving advantages and the spring mattresses mobility.", 5,"Royal Bed Import","Spring Mattress",100);
+INSERT INTO products VALUES (26, 2345, "Dunlopillo HARMONI continental", "Dunlopillo", "The exclusive feeling. Completed bed with extra comfort and a natural latex core of 18 cm that gives you luxurious support and comfort when sleeping.", 5,"Dunlopillo beds","Box Mattress", 90);
 
 CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
 SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_id, 
@@ -286,16 +287,19 @@ INSERT INTO attribute_values VALUES (20, 22, "180cm");
 INSERT INTO attribute_values VALUES (20, 23, "160cm");
 INSERT INTO attribute_values VALUES (20, 24, "170cm");
 INSERT INTO attribute_values VALUES (20, 25, "140cm");
+INSERT INTO attribute_values VALUES (20, 26, "200cm");
 INSERT INTO attribute_values VALUES (21, 21, "200cm");
 INSERT INTO attribute_values VALUES (21, 22, "200cm");
 INSERT INTO attribute_values VALUES (21, 23, "200cm");
 INSERT INTO attribute_values VALUES (21, 24, "200cm");
 INSERT INTO attribute_values VALUES (21, 25, "200cm");
+INSERT INTO attribute_values VALUES (21, 26, "210cm");
 INSERT INTO attribute_values VALUES (22, 21, "Sandcoloured");
 INSERT INTO attribute_values VALUES (22, 22, "Silver");
 INSERT INTO attribute_values VALUES (22, 23, "Silver");
 INSERT INTO attribute_values VALUES (22, 24, "Black");
 INSERT INTO attribute_values VALUES (22, 25, "Silver");
+INSERT INTO attribute_values VALUES (22, 26, "Warm Grey");
 INSERT INTO attribute_values VALUES (6, 16, "Yes");
 INSERT INTO attribute_values VALUES (6, 17, "Yes");
 INSERT INTO attribute_values VALUES (6, 18, "Yes");
@@ -501,13 +505,16 @@ INSERT INTO product_tags VALUES(27,22);
 INSERT INTO product_tags VALUES(27,23);
 INSERT INTO product_tags VALUES(27,24);
 INSERT INTO product_tags VALUES(27,25);
+INSERT INTO product_tags VALUES(27,26);
 INSERT INTO product_tags VALUES(28,21);
 INSERT INTO product_tags VALUES(28,22);
 INSERT INTO product_tags VALUES(28,23);
 INSERT INTO product_tags VALUES(28,24);
 INSERT INTO product_tags VALUES(28,25);
+INSERT INTO product_tags VALUES(28,26);
 INSERT INTO product_tags VALUES(29,21);
 INSERT INTO product_tags VALUES(29,22);
 INSERT INTO product_tags VALUES(29,23);
 INSERT INTO product_tags VALUES(29,24);
 INSERT INTO product_tags VALUES(29,25);
+INSERT INTO product_tags VALUES(29,26);
