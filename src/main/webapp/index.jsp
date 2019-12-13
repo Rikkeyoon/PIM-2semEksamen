@@ -16,14 +16,17 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" charset="utf-8"></script>
     </head>
     <body>
-        <img alt="" src="https://res.cloudinary.com/dmk5yii3m/image/upload/v1575766331/LogoMakr_19Hf5O_exndwi.png" width="800">
+        <div class="navbar">
+            <img alt="" src="https://res.cloudinary.com/dmk5yii3m/image/upload/v1575766331/LogoMakr_19Hf5O_exndwi.png" width="800">
+        </div>
+        <br><br>
+        
         <form name="get_product_catalog" action="FrontController" method = "POST">
             <input type="hidden" name="cmd" value="get_view">
             <input type="hidden" name="view" value="productcatalog">
-            <input type="submit" value="Product Catalog" />
+            <input type="submit" class="viewcatalogbtn" value="Go to the Product Catalog" />
         </form>
-        <br><br>
-
+        
         <!-- Exception handling -->
         <c:if test="${error != null}">
             <div class="form-alert">${error}</div>
