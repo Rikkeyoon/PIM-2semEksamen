@@ -717,6 +717,12 @@ public class ProductMapper {
         return products;
     }
 
+    /**
+     * updates a product with a new status
+     * @param id
+     * @param status
+     * @throws CommandException
+     */
     public void updateProductStatus(int id, int status) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -736,6 +742,12 @@ public class ProductMapper {
         }
     }
     
+    /**
+     *  updates multiple products
+     * @param product
+     * @param bulkeditIDs
+     * @throws CommandException
+     */
     public void update_BulkEdit(Product product, List<String> bulkeditIDs) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;

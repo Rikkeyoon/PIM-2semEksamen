@@ -132,7 +132,7 @@ public class AttributeMapper {
 
     /**
      * Deletes an attribute with matching id
-     * @param i
+     * @param id
      * @throws CommandException
      */
     public void deleteAttribute(int id) throws CommandException {
@@ -141,11 +141,11 @@ public class AttributeMapper {
 
         String insertSql = "DELETE FROM attributes WHERE id = ?";
         try {
-            if(i <= 0) throw new CommandException("");
+            if(id <= 0) throw new CommandException("");
             connection = PersistenceFacadeDB.getConnection();
             pstmt = connection.prepareStatement(insertSql);
 
-            pstmt.setInt(1, i);
+            pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
 

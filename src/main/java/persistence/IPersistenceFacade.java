@@ -187,26 +187,78 @@ public interface IPersistenceFacade {
      */
     public int getProductStorageId(Product p) throws CommandException;
 
+    /**
+     * Updates category attribute name
+     * @param oldAttr
+     * @param newAttr
+     * @throws CommandException
+     */
     public void updateCategoryAttributename(String oldAttr, String newAttr)
             throws CommandException;
 
+    /**
+     *  Removes an attribute from a category
+     * @param removeAttr
+     * @throws CommandException
+     */
     public void deleteAttributeFromCategory(List<String> removeAttr)
             throws CommandException;
 
+    /**
+     *  Creates products attribute values
+     * @param product
+     * @throws CommandException
+     */
     public void createProductAttributes(Product product) throws CommandException;
 
+    /**
+     *  updates attributes for a product
+     * @param product
+     * @throws CommandException
+     */
     public void updateProductAttributes(Product product) throws CommandException;
 
+    /**
+     * Delete tags from a product
+     * @param id
+     * @throws CommandException
+     */
     public void deleteTagsForProduct(int id) throws CommandException;
 
+    /**
+     *  deletes all unused tags
+     * @throws CommandException
+     */
     public void deleteUnusedTags() throws CommandException;
 
+    /**
+     *  updates the primary picture for a product
+     * @param productId
+     * @param imageURL
+     * @throws CommandException
+     */
     public void updatePrimaryPicture(int productId, String imageURL) throws CommandException;
 
+    /**
+     * returns a list of image objects for a product
+     * @param id
+     * @return
+     * @throws CommandException
+     */
     public List<Image> getPicturesForProduct(int id) throws CommandException;
 
+    /**
+     * Deletes all images for a product
+     * @param id
+     * @throws CommandException
+     */
     public void deleteAllImages(int id)throws CommandException;
 
+    /**
+     * deletes attributes for a product
+     * @param id
+     * @throws CommandException
+     */
     public void deleteProductAttributes(int id)throws CommandException;
     /**
      * Method to get products by an item number or part of the item number
@@ -235,7 +287,12 @@ public interface IPersistenceFacade {
      */
     public List<Product> getProductsBySupplier(String supplier) throws CommandException;
 
-
+    /**
+     *  updates multiple products
+     * @param p
+     * @param bulkeditIDs
+     * @throws CommandException
+     */
     public void updateProduct_BulkEdit(Product p, List<String> bulkeditIDs) throws CommandException ;
 
     /**
@@ -245,12 +302,35 @@ public interface IPersistenceFacade {
      */
     public void deleteCategory(int id) throws CommandException;
     
+    /**
+     * Returns a list with attributes for a category
+     * @param id
+     * @return
+     * @throws CommandException
+     */
     public List<String> getCategoryAttributes(int id) throws CommandException;
     
+    /**
+     *  deletes an attribute with matching name
+     * @param name
+     * @throws CommandException
+     */
     public void deleteAttribute(String name) throws CommandException;
     
+    /**
+     *  creates empty attributes
+     * @param id
+     * @param attributes
+     * @throws CommandException
+     */
     public void createEmptyAttribute(int id, List<String> attributes) throws CommandException;
     
+    /**
+     * update a product with matching id with a new status
+     * @param id
+     * @param status
+     * @throws CommandException
+     */
     public void updateProductStatus(int id, int status) throws CommandException;
 
 }

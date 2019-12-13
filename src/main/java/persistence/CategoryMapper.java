@@ -162,6 +162,12 @@ public class CategoryMapper {
         return category;
     }
     
+    /**
+     *  returns a list of categories that matches the name search
+     * @param categoryname
+     * @return
+     * @throws CommandException
+     */
     public List<Category> getCategoriesFromSearch(String categoryname) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -191,6 +197,12 @@ public class CategoryMapper {
         return categories;
     }
 
+    /**
+     * Returns a single category that matches the ID
+     * @param categoryid
+     * @return
+     * @throws CommandException
+     */
     public Category getCategory(int categoryid) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -223,6 +235,12 @@ public class CategoryMapper {
         return category;
     }
 
+    /**
+     * returns a list of attribute names from a category with matching ID
+     * @param id
+     * @return
+     * @throws CommandException
+     */
     public List<String> getCategoryAttributes(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -253,6 +271,11 @@ public class CategoryMapper {
         return attributes;
     }
 
+    /**
+     *  Deletes an attribute from a category
+     * @param i
+     * @throws CommandException
+     */
     public void deleteCategoryAttribute(int i) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -274,6 +297,11 @@ public class CategoryMapper {
         }
     }
 
+    /**
+     *  Deletes a category with matching id
+     * @param id
+     * @throws CommandException
+     */
     public void deleteCategory(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
