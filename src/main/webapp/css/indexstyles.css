@@ -3,7 +3,47 @@
     Author     : carol
 */
 
-body{
+.navbar {
     background-color: #2a2a72;
     color: white;
+    size: 500px;
+}
+
+
+.viewcatalogbtn {
+    color: #fff;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    text-align: center;
+    font-size: 28px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.viewcatalogbtn{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.viewcatalogbtn:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    right: -20px;
+    transition: 0.5s;
+}
+
+.viewcatalogbtn:hover{
+    padding-right: 24px;
+    padding-left:8px;
+}
+
+.viewcatalogbtn:hover:after {
+    opacity: 1;
+    right: 10px;
 }
