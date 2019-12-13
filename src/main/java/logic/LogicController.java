@@ -17,7 +17,7 @@ import persistence.PersistenceFacadeDB;
  * The purpose of LogicController is to create Java Objects and to delegate
  * tasks to the PersistenceFacade
  *
- * @author carol, Nina
+ * @author carol, Nina, Allan
  */
 public class LogicController {
 
@@ -428,10 +428,22 @@ public class LogicController {
         return pf.getProductsBySupplier(supplier);
     }
 
+    /**
+     * returns a category object that matches the name
+     * @param categoryName
+     * @return
+     * @throws CommandException
+     */
     public static Category getCategoryFromName(String categoryName) throws CommandException {
         return pf.getCategory(categoryName);
     }
 
+    /**
+     * Updates products with matching ids with the new product values.
+     * @param p
+     * @param bulkeditIDs
+     * @throws CommandException
+     */
     public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException {
         if (bulkeditIDs != null) {
             for (String s : bulkeditIDs) {
@@ -451,6 +463,11 @@ public class LogicController {
         }
     }
 
+    /**
+     *Deletes multiple products with matching IDs
+     * @param bulkDelete
+     * @throws CommandException
+     */
     public static void bulkDelete(String[] bulkDelete) throws CommandException {
 
         for (String stringID : bulkDelete) {
@@ -462,6 +479,11 @@ public class LogicController {
         }
     }
 
+    /**
+     * Deletes category with matching ID
+     * @param id
+     * @throws CommandException
+     */
     public static void deleteCategory(int id) throws CommandException {
         List<String> removeAttr = pf.getCategoryAttributes(id);
         pf.deleteCategory(id);

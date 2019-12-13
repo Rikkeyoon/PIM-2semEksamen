@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
  * The purpose of the Product class is to represent the product which follows
  * the business rules
  *
- * @author Nina, carol
+ * @author Nina, carol, Allan
  */
 @JsonIgnoreProperties(value = "tagsAsString")
 public class Product {

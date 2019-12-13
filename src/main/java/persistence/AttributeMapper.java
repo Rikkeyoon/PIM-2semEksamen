@@ -102,6 +102,12 @@ public class AttributeMapper {
         return attributeIds;
     }
 
+    /**
+     * updates and attribute to a new name
+     * @param oldAttr
+     * @param newAttr
+     * @throws CommandException
+     */
     public void updateAttributeName(String oldAttr, String newAttr) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -124,7 +130,12 @@ public class AttributeMapper {
         }
     }
 
-    public void deleteAttribute(int i) throws CommandException {
+    /**
+     * Deletes an attribute with matching id
+     * @param i
+     * @throws CommandException
+     */
+    public void deleteAttribute(int id) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;
 
@@ -146,6 +157,11 @@ public class AttributeMapper {
         }
     }
 
+    /**
+     * Deletes an attribute with matching name
+     * @param name
+     * @throws CommandException
+     */
     public void deleteAttribute(String name) throws CommandException {
         Connection connection = null;
         PreparedStatement pstmt = null;

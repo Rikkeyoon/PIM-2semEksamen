@@ -17,18 +17,34 @@ public class Image {
         this.primary = primary;
     }
 
+    /**
+     *
+     * @return url
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     *
+     * @param url
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /**
+     *
+     * @return primary
+     */
     public boolean isPrimary() {
         return primary;
     }
 
+    /**
+     *
+     * @param primary
+     */
     public void setPrimary(boolean primary) {
         this.primary = primary;
     }

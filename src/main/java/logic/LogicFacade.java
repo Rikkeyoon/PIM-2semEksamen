@@ -10,7 +10,7 @@ import javax.servlet.http.Part;
  * layer and the domainmodel/logic layer by being the first object beyond the
  * presentation layer to receive and coordinate a system operation
  *
- * @author carol
+ * @author carol, Allan
  */
 public class LogicFacade {
 
@@ -180,10 +180,21 @@ public class LogicFacade {
         return LogicController.uploadImages(parts, primaryImage);
     }
 
+    /**
+     * updates a attribute that matches with the name with a new name.
+     * @param oldAttr
+     * @param newAttr
+     * @throws CommandException
+     */
     public static void updateCategoryAttributename(String oldAttr, String newAttr) throws CommandException {
         LogicController.updateCategoryAttributename(oldAttr, newAttr);
     }
 
+    /**
+     *Deletes a attribute from a category
+     * @param removeAttr
+     * @throws CommandException
+     */
     public static void deleteAttributeFromCategory(List<String> removeAttr) throws CommandException {
         LogicController.deleteAttributeFromCategory(removeAttr);
     }
@@ -228,10 +239,22 @@ public class LogicFacade {
         LogicController.uploadJSON(parts);
     }
     
+    /**
+     *returns a category that matches the name
+     * @param categoryName
+     * @return
+     * @throws CommandException
+     */
     public static Category getCategoryFromName(String categoryName) throws CommandException{
         return LogicController.getCategoryFromName(categoryName);
     }
 
+    /**
+     *Edits multiple products
+     * @param p
+     * @param bulkeditIDs
+     * @throws CommandException
+     */
     public static void bulkEdit(Product p, List<String> bulkeditIDs) throws CommandException{
         LogicController.bulkEdit(p, bulkeditIDs);
     }
@@ -281,10 +304,20 @@ public class LogicFacade {
         return LogicController.getProductsBySupplier(supplier);
     }
 
+    /**
+     *  Deletes multiple products that matches the ids
+     * @param bulkDelete
+     * @throws CommandException
+     */
     public static void bulkDelete(String[] bulkDelete) throws CommandException{
         LogicController.bulkDelete(bulkDelete);
     }
     
+    /**
+     *Deletes an entire category
+     * @param id
+     * @throws CommandException
+     */
     public static void deleteCategory(int id) throws CommandException{
         LogicController.deleteCategory(id);
     }
