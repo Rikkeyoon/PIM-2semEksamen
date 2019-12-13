@@ -308,6 +308,8 @@ INSERT INTO attribute_values VALUES (6, 20, "Yes");
 
 
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/roedCykel.jpg", 1);
+INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576248953/red1_c3w6u8.jpg", 0);
+INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576248962/red2_vnpujw.jpg", 0);
 INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/groenCykel.jpg", 1);
 INSERT INTO images VALUES (3, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/blaaCykel.jpg", 1);
 INSERT INTO images VALUES (4, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/pinkCykel.jpg", 1);
