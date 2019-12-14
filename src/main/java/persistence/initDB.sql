@@ -1,7 +1,7 @@
 /**
- *
  * Author:  Rikke, Allan, carol, Nina
  * Created: 10. nov. 2019
+ * Run this as a localhost database.
  */
 CREATE SCHEMA IF NOT EXISTS pim;
 USE pim;
@@ -86,29 +86,29 @@ INSERT INTO categories(category_name)  VALUES ("Alcohol");
 INSERT INTO categories(category_name)  VALUES ("Computer");
 INSERT INTO categories(category_name)  VALUES ("Bed");
 
-INSERT INTO products VALUES (1,132, "Red Bicycle", "Winther", "A Bicycle that is red", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (2,207, "Green Bicycle", "Winther", "A Bicycle that is green", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (3,345, "Blue Bicycle", "Winther", "A Bicycle that is blue", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (4,426, "Pink Bicycle", "Winther", "A Bicycle that is pink", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
-INSERT INTO products VALUES (5,574, "Black Bicycle", "Winther", "A Bicycle that is black", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
+INSERT INTO products VALUES (1,132, "Red Bicycle", "Winther", "A Bicycle that is red. It has everything a kid needs when learning to ride a bike, a bikeseat, the wheels, and of course the training wheels.", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
+INSERT INTO products VALUES (2,207, "Green Bicycle", "Winther", "A Bicycle that is green. Perfect for the everyday cyclist who needs a modern bike, without all the unnecessary fuss. It is the best bike on the market, if you are a person living in the city.", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
+INSERT INTO products VALUES (3,345, "Blue Bicycle", "Winther", "A Bicycle that is blue. The prettiest bike in town, nothing compares to this bicycle, it has everything you need in a bike.", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
+INSERT INTO products VALUES (4,426, "Pink Bicycle", "Winther", "A Bicycle that is pink. It has everything a kid needs when learning to ride a bike, with this bike you will be fast as lightning. ", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
+INSERT INTO products VALUES (5,574, "Black Bicycle", "Winther", "A Bicycle that is black. No one will see you in the dark, it is a bicycle for blending in completely. It is fast, lightweight and easy to use.", 1,"Jupiter", "Bicycle, Bike, Transport, Sport",100);
 
-INSERT INTO products VALUES (6,666, "Samsung Galaxy S10", "Samsung", "Samsungs newest mobile phone with a powerful processor", 2,"Samsung Electronics", "Smartphone, Android",100);
-INSERT INTO products VALUES (7,796, "Apple iphone 11", "Apple", "Apples newest mobile phone with a fantastic camera.", 2,"Apple Corp", "Smartphone, IOS",100);
-INSERT INTO products VALUES (8,842, "Huawei P30", "Huawei", "Powerful and cheap phone with a lot of smart features", 2,"Huawei Util", "Smartphone, Android",100);
-INSERT INTO products VALUES (9,963, "Xiaomi redmi note 5", "Xiaomi", "Average performance phone from Xiaomi", 2,"Xiome Tech", "Smartphone, Android",100);
-INSERT INTO products VALUES (10,1073, "Sony Ericsson Xperia", "Sony Ericson", "Revolutionizing phone from Sony Erricson", 2,"Ericsson Manufacturing", "Smartphone, Android",100);
+INSERT INTO products VALUES (6,666, "Samsung Galaxy S10", "Samsung", "Samsungs newest mobile phone with a powerful processor. The Samsung Galaxy S10 is powered by a 3400mAh non-removable battery. The Samsung Galaxy S10 supports wireless charging.", 2,"Samsung Electronics", "Smartphone, Android",100);
+INSERT INTO products VALUES (7,796, "Apple iphone 11", "Apple", "Apples newest mobile phone with a fantastic camera. A transformative triple‑camera system that adds tons of capability without complexity. An unprecedented leap in battery life", 2,"Apple Corp", "Smartphone, IOS",100);
+INSERT INTO products VALUES (8,842, "Huawei P30", "Huawei", "Powerful and cheap phone with a lot of smart features. Huawei P30 smartphone has a OLED display. It weighs only 165 grams. It is backed by a 3650 mAh battery. ", 2,"Huawei Util", "Smartphone, Android",100);
+INSERT INTO products VALUES (9,963, "Xiaomi redmi note 5", "Xiaomi", "Average performance phone from Xiaomi. The phone runs on Android 7.1.2 Nougat with Xiaomi's custom MIUI 9 on top. It has a non-removable 4000mAh battery and supports quick charging.", 2,"Xiome Tech", "Smartphone, Android",100);
+INSERT INTO products VALUES (10,1073, "Sony Ericsson Xperia", "Sony Ericson", "Revolutionizing phone from Sony Erricson. Android 2.3 running smartphone with a slide out landscape QWERTY keyboard and a 1GHz Snapdragon processor under the hood.", 2,"Ericsson Manufacturing", "Smartphone, Android",100);
 
-INSERT INTO products VALUES (11,1124, "Tuborg Classic 6 pack", "Tuborg", "Classic great taste for every occasion", 3,"Tuborg Bryghus","Beer, Party",100);
-INSERT INTO products VALUES (12,1269, "Carlsberg 6 pack", "Carlsberg", "Probably the best beer in the world", 3,"Carlsberg Aps","Beer, Party",100);
-INSERT INTO products VALUES (13,1309, "Sierra Silver Tequila", "Sierra Silver", "Tequila is a Mexican brandy, produced by the juice from blue agave.", 3,"Navada Lakeview brewery","Tequila, Party",100);
-INSERT INTO products VALUES (14,1419, "Smirnoff Vodka 37,5%", "Smirnoff", "The classic vodka for every party, can be mixed with almost everything", 3,"Smirnoff AS","Vodka, Party",100);
+INSERT INTO products VALUES (11,1124, "Tuborg Classic 6 pack", "Tuborg", "Classic great taste for every occasion. It's brewed on lager malt, a slightly roasted, bright type of malt which results in the well-known mild, fresh taste and aroma of flowers and grain.", 3,"Tuborg Bryghus","Beer, Party",100);
+INSERT INTO products VALUES (12,1269, "Carlsberg 6 pack", "Carlsberg", "Probably the best beer in the world. At Carlsberg, the pursuit of better beer is in our DNA. Our perfectly balanced Danish Pilsner is wonderfully crisp and refreshing.", 3,"Carlsberg Aps","Beer, Party",100);
+INSERT INTO products VALUES (13,1309, "Sierra Silver Tequila", "Sierra Silver", "Tequila is a Mexican brandy, produced by the juice from blue agave. Sierra Tequila Silver is a rested, clear Tequila. Its full, fruity, fresh aroma that's dominated by a slight chilli note.", 3,"Navada Lakeview brewery","Tequila, Party",100);
+INSERT INTO products VALUES (14,1419, "Smirnoff Vodka 37,5%", "Smirnoff", "The classic vodka for every party, can be mixed with almost everything. Smirnoff (/ˈsmɪərnɒf/; Russian: [smʲɪrˈnof]) is a brand of vodka owned and produced by the British company Diageo.", 3,"Smirnoff AS","Vodka, Party",100);
 INSERT INTO products VALUES (15,1526, "Bornholmer Honningsyp", "Bornholm", "Honningsyp is a schnapps from Bornholm, after 2008 it experienced a renaissance due to sales in food- and specialityshops to tourists and Bornholmers.", 3,"Bornholmers","Bornholm, Love",100);
 
-INSERT INTO products VALUES (16,1694, "Huawei R5", "Huawei", "Powerful and stylish computer from Huawei", 4,"Huawei Util","Laptop, Windows",100);
-INSERT INTO products VALUES (17,1753, "Apple Pro", "Apple", "Appples flagship laptop has everything a laptop requires", 4,"Apple Corp","Laptop, MAC OSx",100);
-INSERT INTO products VALUES (18,1826, "Asus Zenbook", "Asus", "Powerful computer for work with many smart features from Asus", 4,"Asus Inc","Laptop, Windows",100);
-INSERT INTO products VALUES (19,1963, "Acer Chromebook", "Acer", "Acer's chromebook with a long battery life and secure anti virus", 4,"Acer Corp","Laptop, Windows",100);
-INSERT INTO products VALUES (20,2042, "Lenovo thinkpad L590", "Lenovo", "Lenovo's thinkpad serie delivers a reliable performance for a good price", 4,"IBM","Laptop, Windows",100);
+INSERT INTO products VALUES (16,1694, "Huawei R5", "Huawei", "Powerful and stylish computer from Huawei. Touch Screen: Ultra-slim bezel at only 5.2mm, 1920x1080 Full High Definition (FHD), 16:9 wide IPS LCD display.", 4,"Huawei Util","Laptop, Windows",100);
+INSERT INTO products VALUES (17,1753, "Apple Pro", "Apple", "Mac Pro is designed for pros who need the ultimate in CPU performance. Appples flagship laptop has everything a laptop requires. Backlit keyboard, Touch Bar, Touch ID, and Force Touch trackpad. ", 4,"Apple Corp","Laptop, MAC OSx",100);
+INSERT INTO products VALUES (18,1826, "Asus Zenbook", "Asus", "Powerful computer for work with many smart features from Asus. Like most Zenbooks, this is a delight for the eyes. Opening the lid provides more of that blue-and-gold motif. ", 4,"Asus Inc","Laptop, Windows",100);
+INSERT INTO products VALUES (19,1963, "Acer Chromebook", "Acer", "Acer's chromebook with a long battery life and secure anti virus. A Chromebook is a laptop or tablet running the Linux-based Chrome OS as its operating system.", 4,"Acer Corp","Laptop, Windows",100);
+INSERT INTO products VALUES (20,2042, "Lenovo thinkpad L590", "Lenovo", "Lenovo's thinkpad serie delivers a reliable performance for a good price. The Lenovo ThinkPad L Series offers well-equipped business laptops for those who operate on a budget.", 4,"IBM","Laptop, Windows",100);
 
 INSERT INTO products VALUES (21,2139, "Auping Royal", "Auping", "Fantastic bed from fra Auping with 5 motors in each bottom as well as a classy bed frame", 5,"Royal Bed Import","Motor Bed, Special Bed",100);
 INSERT INTO products VALUES (22,2248, "Viking Birka", "Viking", "Continental bed from Viking, with 7 zones and 2 pocketspings mattress", 5,"Nordic Bedcompany","Continental Bed",100);
@@ -116,6 +116,7 @@ INSERT INTO products VALUES (23,2302, "Jensen Prestige", "Jensen", "Continental 
 INSERT INTO products VALUES (24,2412, "Carpe Diem Harmano", "Carpe Diem", "Carpe Diem Harmano delivers the best from Carpe Diem.", 5,"Carpe Diem me Hombre","Continental Seng",100);
 INSERT INTO products VALUES (25,2583, "Tempur Fusion", "Tempur", "TEMPUR® Fusion Box makes the choice easy. You get both the pressure relieving advantages and the spring mattresses mobility.", 5,"Royal Bed Import","Spring Mattress",100);
 INSERT INTO products VALUES (26, 2345, "Dunlopillo HARMONI continental", "Dunlopillo", "The exclusive feeling. Completed bed with extra comfort and a natural latex core of 18 cm that gives you luxurious support and comfort when sleeping.", 5,"Dunlopillo beds","Box Mattress", 90);
+
 
 CREATE OR REPLACE VIEW products_with_categories_and_attributes AS
 SELECT p.id,p.item_number, p.name, p.brand, p.description, p.category_id, 
@@ -311,29 +312,72 @@ INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576248953/red1_c3w6u8.jpg", 0);
 INSERT INTO images VALUES (1, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576248962/red2_vnpujw.jpg", 0);
 INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/groenCykel.jpg", 1);
+INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576260771/green1_tsvajk.jpg", 0);
+INSERT INTO images VALUES (2, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576260772/green2_yassih.jpg", 0);
 INSERT INTO images VALUES (3, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/blaaCykel.jpg", 1);
+INSERT INTO images VALUES (3, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261146/blue1_ltd3fp.jpg", 0);
+INSERT INTO images VALUES (3, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261146/blue2_zgzy8w.jpg", 0);
 INSERT INTO images VALUES (4, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/pinkCykel.jpg", 1);
+INSERT INTO images VALUES (4, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261238/pink2_ssiux9.jpg", 0);
+INSERT INTO images VALUES (4, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261237/pink1_ukcwdv.jpg", 0);
 INSERT INTO images VALUES (5, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/sortCykel.jpg", 1);
+INSERT INTO images VALUES (5, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261351/sort1_wxxkbq.jpg", 0);
+INSERT INTO images VALUES (5, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261352/sort2_wzhy0q.jpg", 0);
 INSERT INTO images VALUES (6, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/samsungGalaxyS10.jpg", 1);
+INSERT INTO images VALUES (6, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261528/samsungGalaxyS102_pemcmz.png", 0);
+INSERT INTO images VALUES (6, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261528/samsungGalaxyS101_uwkm0r.png", 0);
+INSERT INTO images VALUES (6, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576261529/samsungGalaxyS103_nlqpab.png", 0);
 INSERT INTO images VALUES (7, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/appleIphone11.jpg", 1);
+INSERT INTO images VALUES (7, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576262133/iphone112_hxizny.png", 0);
+INSERT INTO images VALUES (7, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576262133/iphone113_mxcen9.png", 0);
+INSERT INTO images VALUES (7, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576262133/iphone111_r8l8v6.png", 0);
+INSERT INTO images VALUES (7, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576262134/iphone114_bm0wqn.png", 0);
 INSERT INTO images VALUES (8, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/huaweiP30.jpg", 1);
+INSERT INTO images VALUES (8, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263262/huaweiP301_uqnli6.png", 0);
+INSERT INTO images VALUES (8, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263263/huaweiP303_jznpsv.png", 0);
+INSERT INTO images VALUES (8, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263263/huaweiP302_h28758.png", 0);
 INSERT INTO images VALUES (9, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/xiaomiRedmiNote5.jpg", 1);
+INSERT INTO images VALUES (9, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263859/xiaomiRedmiNote51_edhhxi.png", 0);
+INSERT INTO images VALUES (9, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263859/xiaomiRedmiNote52_zxcwi1.png", 0);
+INSERT INTO images VALUES (9, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576263858/xiaomiRedmiNote5_rhy6h4.jpg", 0);
 INSERT INTO images VALUES (10, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/sonyEricssonXperia.jpg", 1);
+INSERT INTO images VALUES (10, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576264653/sonyEricssonXperia1_q3qsej.png", 0);
+INSERT INTO images VALUES (10, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576264654/sonyEricssonXperia2_pu4rto.png", 0);
 INSERT INTO images VALUES (11, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tuborgClassic6Pack.jpg", 1);
+INSERT INTO images VALUES (11, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576265110/tuborgClassic_pcvtdq.png", 0);
 INSERT INTO images VALUES (12, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carlsberg6Pack.jpg", 1);
+INSERT INTO images VALUES (12, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576265295/carlsberg6Pack1_c1dj2i.png", 0);
 INSERT INTO images VALUES (13, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/sierraSilverTequila.jpg", 1);
 INSERT INTO images VALUES (14, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/smirnoffVodka37_5.jpg", 1);
+INSERT INTO images VALUES (14, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576265969/smirnoffVodka37_5_1_aklcwy.png", 0);
 INSERT INTO images VALUES (15, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/bornholmerHonningSyp.jpg", 1);
+INSERT INTO images VALUES (15, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266202/bornholmerHonningSyp1_c3jns7.png", 0);
 INSERT INTO images VALUES (16, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/huaweiR5.jpg", 1);
+INSERT INTO images VALUES (16, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266524/huaweiR51_jag03z.png", 0);
+INSERT INTO images VALUES (16, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266524/huaweiR52_li3zvw.png", 0);
 INSERT INTO images VALUES (17, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/applePro.jpg", 1);
+INSERT INTO images VALUES (17, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266777/applePro1_m8lxyl.png", 0);
+INSERT INTO images VALUES (17, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266777/applePro3_gxcduc.png", 0);
+INSERT INTO images VALUES (17, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266778/applePro2_p7giwf.png", 0);
 INSERT INTO images VALUES (18, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/asusZenbook.jpg", 1);
+INSERT INTO images VALUES (18, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266991/asusZenbook1_tncftm.png", 0);
+INSERT INTO images VALUES (18, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576266991/asusZenbook2_alyjbk.png", 0);
 INSERT INTO images VALUES (19, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/acerChromebook.jpg", 1);
+INSERT INTO images VALUES (19, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576267481/acerChromebook1_xguavg.png", 0);
 INSERT INTO images VALUES (20, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/lenovoThinkpadL590.jpg", 1);
+INSERT INTO images VALUES (20, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576267712/lenovoThinkpadL5902_e3u5gg.png", 0);
+INSERT INTO images VALUES (20, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576267713/lenovoThinkpadL5901_tfzlvw.png", 0);
 INSERT INTO images VALUES (21, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/aupingRoyal.jpg", 1);
+INSERT INTO images VALUES (21, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268037/aupingRoyal2_gjmnmv.png", 0);
+INSERT INTO images VALUES (21, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268037/aupingRoyal1_ukvxl1.png", 0);
 INSERT INTO images VALUES (22, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/vikingBirka.jpg", 1);
+INSERT INTO images VALUES (22, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268173/vikingBirka1_aa5y9x.png", 0);
 INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/jensenPrestige.jpg", 1);
+INSERT INTO images VALUES (23, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268327/jensenPrestige1_et0baa.png", 0);
 INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331133/carpeDiemHarmano.jpg", 1);
+INSERT INTO images VALUES (24, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268922/carpeDiemHarmano1_ars64o.png", 0);
 INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1574331134/tempurFusion.jpg", 1);
+INSERT INTO images VALUES (25, "https://res.cloudinary.com/dmk5yii3m/image/upload/v1576268944/tempurFusion1_vzefv1.png", 0);
 
 INSERT INTO tags VALUES(1, "Red");
 INSERT INTO tags VALUES(2, "Green");
