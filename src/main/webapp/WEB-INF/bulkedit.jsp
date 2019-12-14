@@ -56,11 +56,11 @@
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
                                         <th>Description</th>
-                                        <th onclick="sortAlphabeticalTable(5)">Category
+                                        <th onclick="sortAlphabeticalTable(5)">Supplier
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>
-                                        <th onclick="sortAlphabeticalTable(6)">Supplier
+                                        <th onclick="sortAlphabeticalTable(6)">SEO-text
                                             <i class="glyphicon glyphicon-triangle-bottom" 
                                                style="cursor: pointer; font-size: 14px;"></i>
                                         </th>

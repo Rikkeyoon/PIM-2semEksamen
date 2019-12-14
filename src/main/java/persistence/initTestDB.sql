@@ -76,6 +76,7 @@ CREATE TABLE attribute_values(
 CREATE TABLE category_attributes (
 	category_id INT NOT NULL,
     attribute_id INT NOT NULL,
+    PRIMARY KEY(category_id, attribute_id),
     FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE,
     FOREIGN KEY(attribute_id) REFERENCES attributes(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
