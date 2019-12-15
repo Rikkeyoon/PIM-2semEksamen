@@ -36,6 +36,9 @@
                             <br>
                             <input type="text" name="category_name" id="category_name" required>
                             <br><br>
+                            <c:if test="${error != null}">
+                                <div class="form-alert"><h4>${error}</h4></div>
+                                    </c:if>
                         </div>
                     </div>
 

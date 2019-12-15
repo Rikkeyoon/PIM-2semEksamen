@@ -62,10 +62,17 @@ public class ProductMapper {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
+            
 
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException ex) {
+            if(ex.getErrorCode() == 1062){
+                throw new CommandException("Item number already used! Change item number and try again!");
+            }else{
+                throw new CommandException("Could not create product. Try again!");
+            }
+        }catch (NullPointerException ex) {
             throw new CommandException("Could not create product. Try again!");
-        } finally {
+        }finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);
         }
@@ -403,8 +410,14 @@ public class ProductMapper {
             pstmt.setInt(9, product.getId());
 
             pstmt.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not find a product with the given ID");
+        } catch (SQLException ex) {
+            if(ex.getErrorCode() == 1062){
+                throw new CommandException("Item number already used! Change item number and try again!");
+            }else{
+                throw new CommandException("Could not create product. Try again!");
+            }
+        }catch (NullPointerException ex) {
+            throw new CommandException("Could not create product. Try again!");
         } finally {
             DbUtils.closeQuietly(pstmt);
             DbUtils.closeQuietly(connection);

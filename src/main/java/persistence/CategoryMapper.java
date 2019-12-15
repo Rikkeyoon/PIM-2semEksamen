@@ -43,9 +43,15 @@ public class CategoryMapper {
                 id = rs.getInt(1);
             }
             
-        } catch (SQLException | NullPointerException ex) {
-            throw new CommandException("Could not create new category");
-        } finally {
+        } catch (SQLException ex) {
+            if(ex.getErrorCode() == 1062){
+                throw new CommandException("There already exist a category with that name!");
+            }else{
+                throw new CommandException("Could not create new category!");
+            }
+        }catch (NullPointerException ex) {
+            throw new CommandException("Could not create new category!");
+        }finally {
             DbUtils.closeQuietly(connection);
             DbUtils.closeQuietly(pstmt);
         }
